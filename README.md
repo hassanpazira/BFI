@@ -1,5 +1,5 @@
 
-# BFI1  <img src="./Last_BFI.jpg" align="right" width="230px"/>
+# BFI4  <img src="./Last_BFI.jpg" align="right" width="230px"/>
 > Bayesian Federated Inference
 
 
