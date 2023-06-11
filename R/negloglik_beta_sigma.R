@@ -3,7 +3,7 @@ negloglik_beta_sigma <- function(beta_sig, y, X, Gamma, family){
   nl <- nrow(X)
   p <- ncol(X)
   beta <- beta_sig[1:p]
-  sigma2_e <- beta_sig[length(beta_sig)]
+  v <- beta_sig[length(beta_sig)] # v=log(sigma_e) or sigma2_e=exp(2*v)
   power <- c(0)
   if (family == "binomial") {
     for (j in 1:nl) {
@@ -15,7 +15,7 @@ negloglik_beta_sigma <- function(beta_sig, y, X, Gamma, family){
     for (j in 1:nl) {
       power <- power + (y[j] - as.numeric(X[j,] %*% beta))^2
     }
-    negloglik  <- power/sigma2_e + nl * log(sigma2_e) + sigma2_e * as.numeric(Gamma[(p+1), (p+1)]) +
+    negloglik  <- power/exp(2*v) + nl * log(exp(2*v)) + exp(2*v) * as.numeric(Gamma[(p+1), (p+1)]) +
       t(beta) %*% Gamma[-(p+1),-(p+1)] %*% beta
   }
   return(as.numeric(negloglik))

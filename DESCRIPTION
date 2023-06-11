@@ -1,13 +1,14 @@
 Package: BFI
 Type: Package
 Title: Bayesian Federated Inference
-Version: 0.1.0
+Version: 0.1.2
 Date: 2023-04-24
 Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", role = c("aut", "cre")),
-             person(given = "Marianne", family = "Pazira", role = "aut"))
+             person(given = "Marianne A.", family = "Jonker", role = "aut"),
+             person(given = "Anthony C.C.", family = "Coolen", role = "aut"))
 Author: Hassan Pazira [aut, cre],
-  Marianne Jonker [aut]
+  Marianne Jonker [aut],
+  Anthony Coolen [aut]
 Maintainer: Hassan Pazira <hassan.pazira@radboudumc.nl>
 Description: Bayesian Federated Inference method combines data from different (medical) centers without sharing them. In this version of the package, the user can fit models specifying Gaussian and Binomial (Logistic) families. 
 Encoding: UTF-8
-LazyData: true

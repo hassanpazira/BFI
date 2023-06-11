@@ -1,7 +1,6 @@
 ## This file created by Hassan Pazira at 16-12-2022
-estimators_maker <- function(response, X, family=c("binomial","gaussian"), Gamma){
+estimators_maker <- function(y, X, family=c("binomial","gaussian"), Gamma){
   # Gamma is the 'inverse' covariance matrix (could be matrix or list of matrices)!
-  y <- response
   family <- match.arg(family)
   if (!family %in% c("binomial", "gaussian")) {
     stop("Distributions that can be used are 'binomial' and 'gaussian' in this version of the package!")
@@ -75,12 +74,14 @@ estimators_maker <- function(response, X, family=c("binomial","gaussian"), Gamma
     names(theta_hat) <- colnames(X)
   }
   if (family == "gaussian") {
-    initial_beta_sig  <- c(rep(0, p), 0.5)
+    initial_beta_sig  <- rep(0, p+1)
     theta_hat <- try(optim(initial_beta_sig, fn=negloglik_beta_sigma, gr=NULL, y=y, X=X, Gamma=Gamma,
                            family=family, lower=rep(-Inf,p), upper=rep(Inf,p), method="L-BFGS-B")$par, TRUE)
     if(class(theta_hat)[1] == "try-error") {
       warning("try-error in theta_hat !!!")
     }
+    # Now, theta_hat returns sigma_e
+    theta_hat[length(theta_hat)] <- exp(2 * theta_hat[length(theta_hat)]) # Now, theta_hat returns sigma2_e
     names(theta_hat) <- c(colnames(X), "sigma2_e")
   }
 
