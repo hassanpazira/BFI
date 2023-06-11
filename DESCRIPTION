@@ -1,11 +1,13 @@
 Package: BFI
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Bayesian Federated Inference
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Date: 2023-04-24
+Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", role = c("aut", "cre")),
+             person(given = "Marianne", family = "Pazira", role = "aut"))
+Author: Hassan Pazira [aut, cre],
+  Marianne Jonker [aut]
+Maintainer: Hassan Pazira <hassan.pazira@radboudumc.nl>
+Description: Bayesian Federated Inference method combines data from different (medical) centers without sharing them. In this version of the package, the user can fit models specifying Gaussian and Binomial (Logistic) families. 
 Encoding: UTF-8
 LazyData: true

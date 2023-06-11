@@ -1,5 +1,5 @@
 ## This file created by Hassan Pazira at 16-12-2022
-BFI <- function(theta_hats=NULL, A_hats, Gamma, L=NULL) {
+bfi <- function(theta_hats=NULL, A_hats, Gamma, L=NULL) {
   if (!is.null(theta_hats) & !is.list(theta_hats)) {
     stop("The input for 'theta_hats' should be a list.")
   }
@@ -24,9 +24,9 @@ BFI <- function(theta_hats=NULL, A_hats, Gamma, L=NULL) {
     }
     A_fed <- Reduce("+", A_hats) + Gamma[[L+1]] - Reduce("+", Gamma[1:L])
   }
-  sd_fed <- sqrt(diag(ginv(as.matrix(A_fed))))
+  sd_fed <- sqrt(diag(solve(as.matrix(A_fed))))
   if (!is.null(theta_hats)) {
-    theta_hat_fed <- ginv(as.matrix(A_fed)) %*% Reduce("+", Map("%*%", A_hats , theta_hats))
+    theta_hat_fed <- solve(as.matrix(A_fed)) %*% Reduce("+", Map("%*%", A_hats , theta_hats))
   } else theta_hat_fed <- theta_hats
   output <- list(theta_hat=theta_hat_fed, A_hat=A_fed, sd=sd_fed)
   return(output)

@@ -1,5 +1,5 @@
 ## This file created by Hassan Pazira at 16-12-2022
-Estimators_maker <- function(response, X, family=c("binomial","gaussian"), Gamma){
+estimators_maker <- function(response, X, family=c("binomial","gaussian"), Gamma){
   # Gamma is the 'inverse' covariance matrix (could be matrix or list of matrices)!
   y <- response
   family <- match.arg(family)
@@ -87,7 +87,7 @@ Estimators_maker <- function(response, X, family=c("binomial","gaussian"), Gamma
   ## A_hat: curvature matrix estimator
   A_hat  <- A_l_maker(y=y, X=X, Gamma=Gamma, family=family, theta_hat=theta_hat)
   ## sd of A_hat
-  sd_A <- sqrt(diag(ginv(as.matrix(A_hat))))
+  sd_A <- sqrt(diag(solve(as.matrix(A_hat))))
 
   output <- list(theta_hat=theta_hat, A_hat=A_hat, sd=sd_A, Gamma=Gamma)
   return(output)
