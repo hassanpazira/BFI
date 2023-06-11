@@ -2,11 +2,10 @@
 \alias{bfi}
 \title{Bayesian Federated Inference}
 \description{
-\code{bfi} function is used to estimate the parameteres in the GLM and Survival models by BFI method.
+\code{bfi} function is used (in central server) to estimate the parameters of the GLM and Survival models by BFI method using the aggregated results form the local centers.
 }
 \usage{
 bfi(theta_hats=NULL, A_hats, Gamma, L=NULL)
-
 }
 \arguments{
 }
@@ -24,70 +23,71 @@ Jonker M.A., Pazira H. and Coolen A.C.C. (2023) <https://doi.org/10.48550/arXiv.
 \author{Hassan Pazira\cr
 Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}}
 \seealso{
-\code{\link{Estimators_maker}}.
+\code{\link{estimators_maker}}.
 }
 \examples{
 set.seed(1123)
 
-#---------------------------------
-# y ~ Binomial (for L=2 locations)
-#---------------------------------
+#-------------
+# y ~ Binomial
+#-------------
 
-L <- 2
+L <- 2    # L is number of locations
 
 ###----------------
 ### Local center 1:
 ###----------------
-n1  <- 30
-p   <- 4    # p (number of coefficients) is the same for all L locations !
-X1  <- matrix(rnorm(n1 * p), n1, p)
-#beta_true <- c(1, 2, 0, 0, 0)
-eta1 <- 1 + 2 * X1[,1]  ## with an intercept b0=1, b1=2, b2=b3=...=bp=0
-mu1  <- binomial()$linkinv(eta1)
-y1  <- rbinom(n1, 1, mu1)
-lambda <- 0.01
+n1         <- 30
+p          <- 4    # p (number of coefficients) is the same for all L locations.
+X1         <- matrix(rnorm(n1 * p), n1, p)
+#true_beta <- c(1, 2, 0, 0, 0)
+eta1       <- 1 + 2 * X1[,1]  ## with an intercept b0=1, b1=2, b2=b3=...=bp=0
+mu1        <- binomial()$linkinv(eta1)
+y1         <- rbinom(n1, 1, mu1)
+lambda     <- 0.01
 # we assume the same (inverse) covariance matrix for all locations.
-Gamma.     <- diag(rep(lambda, p+1), p+1)    #for dependent covariates use runif(p, 0.1, 1)
+Gamma      <- diag(rep(lambda, p+1), p+1) # for dependent covariates: runif(p, 0.1, 1)
 fit1       <- estimators_maker(y1, X1, family="binomial", Gamma)
-theta_hat1 <- fit1$theta_hat # beta estimates
+theta_hat1 <- fit1$theta_hat # beta (intercept and coefficient) estimates
 A_hat1     <- fit1$A_hat
 
 ###----------------
 ### Local center 2:
 ###----------------
-n2   <- 50
-p    <- 4    # p is the same for all L locations !
-X2   <- matrix(rnorm(n2 * p), n2, p)
-eta2 <- 1 + 2 * X2[,1]  ## with an intercept b0=1, b1=2,b2=b3=...=bp=0
-mu2  <- binomial()$linkinv(eta2)
-y2   <- rbinom(n2, 1, mu2)
+n2         <- 50
+p          <- 4    # p is the same for all L locations !
+X2         <- matrix(rnorm(n2 * p), n2, p)
+eta2       <- 1 + 2 * X2[,1]  ## with an intercept b0=1, b1=2,b2=b3=...=bp=0
+mu2        <- binomial()$linkinv(eta2)
+y2         <- rbinom(n2, 1, mu2)
 fit2       <- estimators_maker(y2, X2, family="binomial", Gamma)
-theta_hat2 <- fit2$theta_hat # beta estimates
+theta_hat2 <- fit2$theta_hat # intercept and coefficient estimates
 A_hat2     <- fit2$A_hat
 
 ###--------------
 ### Combined data
 ###--------------
-y <- c(y1, y2)
-X <- rbind(X1, X2)
-fit_comb <- estimators_maker(y, X, family="binomial", Gamma)
+y              <- c(y1, y2)
+X              <- rbind(X1, X2)
+fit_comb       <- estimators_maker(y, X, family="binomial", Gamma)
 theta_hat_comb <- fit_comb$theta_hat # beta estimates of combined data
 
-###----------------------------
+###-----------------------------
 ### Bayesian Federated Inference
-###----------------------------
+###-----------------------------
 
-# A for bfi
 A_hats <- list(A_hat1, A_hat2)
-A_bfi <- bfi(A_hats=A_hats, Gamma=Gamma)$A_hat
-
-# SD for bfi
-sd_bfi <- bfi(A_hats=A_hats, Gamma=Gamma)$sd
-
-# beta estimates of Federated Inference
 theta_hats <- list(theta_hat1, theta_hat2)
-theta_hat_bfi <- bfi(theta_hats, A_hats, Gamma)$theta_hat
 
-### Differences
-t(theta_hat_bfi)-theta_hat_comb
+# theta (intercept and coefficient) estimates by BFI
+(theta_hat_bfi <- bfi(theta_hats, A_hats, Gamma)$theta_hat)
+
+# Curvature matrix estimate by BFI
+A_bfi  <- bfi(A_hats=A_hats, Gamma=Gamma)$A_hat # or bfi(theta_hats, A_hats=A_hats, Gamma=Gamma)$A_hat
+
+# SD of the BFI estimates
+sd_bfi <- bfi(A_hats=A_hats, Gamma=Gamma)$sd # or bfi(theta_hats, A_hats=A_hats, Gamma=Gamma)$sd
+
+### Difference between BFI estimates and estimates with combined data
+theta_hat_bfi-theta_hat_comb
 }
