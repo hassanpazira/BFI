@@ -1,0 +1,9 @@
+url: https://hassanpazira.github.io/BFI/
+template:
+  bootstrap: 5
+navbar:
+  type: default
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/hassanpazira/BFI
+

@@ -1,1 +1,10 @@
 exportPattern("^[[:alpha:]]+")
+
+export(model.maker, negloglik.beta.sigma, A.l.maker, inv.prior.cov, bfi,
+       summary.bfi, MAP.estimation)
+
+importFrom("stats", "as.formula", "printCoefmat", "gaussian", "is.empty.model")
+importFrom("stats", "model.matrix", "model.response", "optim", "qnorm", "rnorm","sd")
+importFrom("devtools", "install_github")
+
+S3method(summary, bfi)

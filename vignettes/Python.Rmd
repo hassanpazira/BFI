@@ -1,0 +1,127 @@
+---
+title: "BFI in Python"
+# author: 
+# - Hassan Pazira
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  #rmarkdown::html_vignette
+  knitr:::html_vignette:
+    toc: yes
+# output:
+#   pdf_document:
+#     fig_caption: yes
+#     toc: yes
+#     toc_depth: 3
+description: |
+  How to use the BFI package in Python environments.
+vignette: >
+  %\VignetteIndexEntry{BFI in Python}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+require(knitr)
+opts_chunk$set(
+  collapse = F # T for red
+)
+```
+
+
+## Overview
+
+The R package `BFI` (**B**ayesian **F**ederated **I**nference) 
+
+
+## Python Instalation
+
+The steps to install the latest version of Python on 'MacOS' and 'Ubuntu':
+
+### For MacOS
+
+```{r setup, message=FALSE}
+# install BFI from GitHub
+devtools::install_github("hassanpazira/BFI")
+# load BFI
+library(BFI)
+
+# load `trauma` data
+data("trauma")
+# attach the data
+attach(trauma)
+```
+
+### For Ubuntu
+
+```{r}
+?trauma
+```
+
+## Installing PIP
+
+PIP (a Python package manager) helps us to install and use various packages/modules in Python programming.
+
+Install/Upgrade the latest version of PIP by running the following command:
+
+### On MacOS
+
+```{r}
+colnames(trauma)
+```
+
+### On Ubuntu
+
+```{r}
+colnames(trauma)
+```
+
+## Instalation of required moduls through PIP
+
+
+### Installing the 'pandas' module
+
+
+### Installing the 'numpy' module
+
+
+### Installing the 'rpy2' module
+
+
+## Python script
+
+Now move on to work with 'rpy2' inside a Python script!
+First type the following command in the terminal window to go to the Python Environment:
+
+### Importing required packages and subpackages
+
+
+### Installation of R packages from CRAN and GitHub:
+
+### Importing the required functions
+
+
+### Installing required R packages from CRAN
+
+
+### Installing the 'BFI' package from GitHub
+
+
+## Examples
+
+### Data Simulation for center 1
+
+
+### Data Simulation for center 2
+
+
+### MAP estimates at center 1
+
+### MAP estimates at center 2
+
+### BFI at central center
+
+
+
+
+## References
+
