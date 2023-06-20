@@ -1,14 +1,40 @@
 Package: BFI
 Type: Package
 Title: Bayesian Federated Inference
-Version: 0.1.2
-Date: 2023-04-24
-Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", role = c("aut", "cre")),
-             person(given = "Marianne A.", family = "Jonker", role = "aut"),
-             person(given = "Anthony C.C.", family = "Coolen", role = "aut"))
-Author: Hassan Pazira [aut, cre],
-  Marianne Jonker [aut],
-  Anthony Coolen [aut]
+Version: 1.1.1
+Date/Publication: 2023-07-16
+Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", 
+    role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4266-6877")),
+    person(given = "Marianne A.", family = "Jonker", role = "aut",
+    comment = c(ORCID = "0000-0003-0134-8482")),
+    person(given = "Emanuele", family = "Massa", role = "ctb",
+    comment = c(ORCID = "0000-0001-5715-2572")),
+    person(given = "Anthony C.C.", family = "Coolen", role = "ctb", 
+    comment = c(ORCID = "0000-0002-6976-5875")))
+Author: Hassan Pazira [aut, cre] (<https://orcid.org/0000-0002-4266-6877>),
+  Marianne A. Jonker [aut] (<https://orcid.org/0000-0003-0134-8482>),
+  Emanuele Massa [ctb] (<https://orcid.org/0000-0001-5715-2572>),
+  Anthony C.C. Coolen [ctb] (<https://orcid.org/0000-0002-6976-5875>)
 Maintainer: Hassan Pazira <hassan.pazira@radboudumc.nl>
-Description: Bayesian Federated Inference method combines data from different (medical) centers without sharing them. In this version of the package, the user can fit models specifying Gaussian and Binomial (Logistic) families. 
+Description: Bayesian Federated Inference (`BFI') method combines inference results 
+    obtained from local data sets in the separate centers. In this version of the package, 
+    the `BFI' methodology is programmed for linear and logistic regression models. 
+License: MIT + file LICENSE
+URL: https://hassanpazira.github.io/BFI/
 Encoding: UTF-8
+Suggests: 
+    knitr,
+    rmarkdown,
+    roxygen2,
+    spelling,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
+LazyData: true
+Imports: 
+    devtools,
+    stats
+Config/testthat/edition: 3
+RoxygenNote: 7.3.0
+Language: en-US

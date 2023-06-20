@@ -1,0 +1,97 @@
+---
+title: "An Introduction to BFI"
+author: 
+- Hassan Pazira
+- Marianne Jonker
+date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  #rmarkdown::html_vignette
+  knitr:::html_vignette:
+    toc: yes
+    #toc_depth: 3
+    #theme: bootstrap
+# output:
+#   html_document:
+#     fig_caption: yes
+#     toc: yes
+#     toc_depth: 3
+#     theme: lumen
+description: |
+  How to use the BFI package.
+vignette: >
+  %\VignetteIndexEntry{An Introduction to BFI}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+require(knitr)
+opts_chunk$set(
+  collapse = F # T for red
+)
+```
+
+
+## Overview
+
+The R package `BFI` (**B**ayesian **F**ederated **I**nference) provides several functions to carry out the Bayesian Federated Inference method for two kinds of models (`GLM` and `Survival`) with multicenteral data without combining/sharing them. In this tutorial we focus on `GLM` only, so that this version of the package is available for two commonly used families: `"binomial"` and `"gaussian"`.
+The mostly using functions include `bfi()`, `MAP.estimation()`, and `inv.prior.cov()`.
+In the following, we will see how the `BFI` package can be applied to real datasets included in the package.
+
+
+## How to use it?
+
+Before we go on, we first install and load the `BFI` package using the `devtools` package:
+
+```{r , message=FALSE}
+# First install and load the package 'devtools'
+if(!require(devtools)) {install.packages("devtools")}
+library(devtools)
+
+# Now install BFI from GitHub
+#devtools::install_github("hassanpazira/BFI", force = TRUE)
+
+# load BFI
+library(BFI)
+```
+
+By the following code we can see there two available datasets in the package: `trauma` and `Nurses`.
+```{r}
+data(package = "BFI")
+```
+
+The `trauma` data can be utilized for the `"binomial"` family and `Nurses` data can be used for `"gaussian"`. To avoid repetition, we only use the `trauma` data set.
+Load and inspect the `trauma` data as follows:
+```{r}
+# Load 'trauma' in the R workspace
+data("trauma")
+
+# Get the number of rows and columns
+dim(trauma)
+
+# To get an idea of the dataset, print the first 7 rows
+head(trauma, 7)
+```
+
+This data set consists of data of 371 trauma patients from three hospitals (peripheral hospital without a neuro-surgical unit, status=1, peripheral hospital with a neuro-surgical unit, status=2, and academic medical center, status=3).
+
+As we can see it has 6 columns:
+```{r}
+(col_name <- colnames(trauma))
+```
+The covariates `sex` (dichotomous), `age` (continuous), `ISS` (Injury Severity Score, continuous), and `GCS` (Glasgow Coma Scale, continuous) are the predictors, and `mortality` is the response variable. `hospital` is a categorical variable which indicates the hospitals involved in the study.
+For more information about this dataset use 
+```{r}
+# Get some info about the dataset from the help file
+?trauma
+```
+
+```{r}
+```
+
+
+
+
+
+## References
+
