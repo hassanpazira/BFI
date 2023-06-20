@@ -1,7 +1,7 @@
 Package: BFI
 Type: Package
 Title: Bayesian Federated Inference
-Version: 0.1.2
+Version: 0.2.2
 Date: 2023-04-24
 Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", role = c("aut", "cre")),
              person(given = "Marianne A.", family = "Jonker", role = "aut"),

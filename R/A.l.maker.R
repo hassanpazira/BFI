@@ -1,5 +1,5 @@
 ## This file created by Hassan Pazira at 16-12-2022
-A_l_maker <- function(y, X, Gamma, family, theta_hat){
+A.l.maker <- function(y, X, Gamma, family, theta_hat){
   nl <- nrow(X)
   p <- ncol(X)
   if (family == "binomial") {

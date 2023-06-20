@@ -1,5 +1,5 @@
 ## This file created by Hassan Pazira at 16-12-2022
-negloglik_beta_sigma <- function(beta_sig, y, X, Gamma, family){
+negloglik.beta.sigma <- function(beta_sig, y, X, Gamma, family){
   nl <- nrow(X)
   p <- ncol(X)
   beta <- beta_sig[1:p]

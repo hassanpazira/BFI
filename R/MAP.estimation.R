@@ -1,32 +1,37 @@
 ## This file created by Hassan Pazira at 16-12-2022
-estimators_maker <- function(y, X, family=c("binomial","gaussian"), Gamma){
+## Updated at 22-06-2023
+MAP.estimation <- function(y, X, family=c("binomial","gaussian"), Gamma){
   # Gamma is the 'inverse' covariance matrix (could be matrix or list of matrices)!
   family <- match.arg(family)
   if (!family %in% c("binomial", "gaussian")) {
     stop("Distributions that can be used are 'binomial' and 'gaussian' in this version of the package!")
   }
-  if (is.data.frame(X)) X <- as.matrix(X)
-  n <- nrow(X)
+  if (is.matrix(X)) warning("Note that, if in 'X' there is a 'categorical' covariate with more than 2 levels,","\n",
+                            "then 'X' must be a 'data.frame' instead of a 'matrix'! ")
+  if (is.null(colnames(X))) {
+    colnames(X) <- paste0("X",1:ncol(X))
+  }
+  design_matrix <- paste(colnames(X), collapse=" + ")
+  formula <- as.formula(paste("y", design_matrix, sep=" ~ "))
+  y_X_vars <- model.maker(formula, as.data.frame(X))
+  X <- y_X_vars$X
+  y <- y_X_vars$y
+  if (NROW(y) != NROW(X)) stop("NROW(y) != NROW(X)")
+  n <- NROW(X)
   if (any(as.numeric(X[,1])!=rep(1,n))) {
-    if (is.null(colnames(X))) {
-      colnames(X) <- paste0("X",1:ncol(X))
-    }
     X <- cbind(rep(1, n), X)
     colnames(X)[1] <- c("Intercept")
-  } else {
-    if (is.null(colnames(X))) {
-      colnames(X) <- c("Intercept", paste0("X",1:ncol(X)))
-    }
   }
-  p <- ncol(X)   # number of predictors with intercept!
+  #nvars <- ncol(X)-1   # number of predictors (without intercept)!
+  p <- ncol(X)         # number of regression parameters/coefficients (predictors with intercept)!
   if (dim(Gamma)[1]!=dim(Gamma)[2]) stop("'Gamma' should be a square matrix" )
   if (family=="binomial") {
-    if (dim(Gamma)[1] != p) stop("'Gamma' in this family should have the 'p' dimension:
-                                 where 'p' is number of coefficients with intercept!" )
+    if (dim(Gamma)[1] != p) stop(paste("'Gamma' in this family should have the p=",p," dimensions:","\n",
+                                 "where 'p' is number of coefficients (with intercept)!" ))
   }
   if (family=="gaussian") {
-    if (dim(Gamma)[1] != (p+1)) stop(paste("'Gamma' should have the 'p+1' dimension:",
-                                           "where 'p' is number of coefficients with intercept,",
+    if (dim(Gamma)[1] != (p+1)) stop(paste("'Gamma' should have the p+1=",p+1," dimensions:","\n",
+                                           "where p=",p,"is number of coefficients with intercept,",
                                            "and '1' is for error variance!"))
   }
   if (family=="binomial") {
@@ -66,19 +71,19 @@ estimators_maker <- function(y, X, family=c("binomial","gaussian"), Gamma){
   ## Optimizations for beta's (and sigma2_e), where theta_hat: b0, b1, ..., bp (and sigma2_e)
   if (family == "binomial") {
     initial_beta_sig  <- c(rep(0, p))
-    theta_hat <- try(optim(initial_beta_sig, fn=negloglik_beta_sigma, gr=NULL, y=y, X=X, Gamma=Gamma,
+    theta_hat <- try(optim(initial_beta_sig, fn=negloglik.beta.sigma, gr=NULL, y=y, X=X, Gamma=Gamma,
                            family=family, lower=rep(-Inf,p), upper=rep(Inf,p), method="L-BFGS-B")$par, TRUE)
     if(class(theta_hat)[1] == "try-error") {
-      warning("try-error in theta_hat !!!")
+      stop("try-error in theta_hat !!!")
     }
     names(theta_hat) <- colnames(X)
   }
   if (family == "gaussian") {
     initial_beta_sig  <- rep(0, p+1)
-    theta_hat <- try(optim(initial_beta_sig, fn=negloglik_beta_sigma, gr=NULL, y=y, X=X, Gamma=Gamma,
+    theta_hat <- try(optim(initial_beta_sig, fn=negloglik.beta.sigma, gr=NULL, y=y, X=X, Gamma=Gamma,
                            family=family, lower=rep(-Inf,p), upper=rep(Inf,p), method="L-BFGS-B")$par, TRUE)
     if(class(theta_hat)[1] == "try-error") {
-      warning("try-error in theta_hat !!!")
+      stop("try-error in theta_hat !!!")
     }
     # Now, theta_hat returns sigma_e
     theta_hat[length(theta_hat)] <- exp(2 * theta_hat[length(theta_hat)]) # Now, theta_hat returns sigma2_e
@@ -86,7 +91,7 @@ estimators_maker <- function(y, X, family=c("binomial","gaussian"), Gamma){
   }
 
   ## A_hat: curvature matrix estimator
-  A_hat  <- A_l_maker(y=y, X=X, Gamma=Gamma, family=family, theta_hat=theta_hat)
+  A_hat  <- A.l.maker(y=y, X=X, Gamma=Gamma, family=family, theta_hat=theta_hat)
   ## sd of A_hat
   sd_A <- sqrt(diag(solve(as.matrix(A_hat))))
 
