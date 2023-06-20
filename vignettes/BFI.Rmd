@@ -1,0 +1,69 @@
+---
+title: "An Introduction to BFI Package"
+author: "Hassan Pazira  and  Marianne Jonker"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  #rmarkdown::html_vignette
+  knitr:::html_vignette:
+    toc: yes
+# output:
+#   pdf_document:
+#     fig_caption: yes
+#     toc: yes
+#     toc_depth: 3
+description: |
+  How to use the BFI package.
+vignette: >
+  %\VignetteIndexEntry{An Introduction to BFI Package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+require(knitr)
+opts_chunk$set(
+  collapse = F # T for red
+)
+```
+
+
+## Introduction
+
+The R package `BFI` (**B**ayesian **F**ederated **I**nference) provides several functions to carry out the Bayesian Federated Inference method for two kinds of models (`GLM` and `Survival`) with multicentral data without combining/sharing them. In this tutorial we focus on `GLM` only, so that this version of the package is available for two commonly used families: `"binomial"` and `"gaussian"`.
+The mostly using functions include `bfi()`, `MAP.estimation()`, and `inv.prior.cov()`.
+In the following, we see how the `BFI` package can be applied to real data sets included in the package. `trauma` data for the `"binomial"` family and `Nurses` data for `"gaussian"`.
+
+## How to use it?
+
+Before we go on, we attach the package, and load/attach the `trauma` data set first:
+
+```{r setup, message=FALSE}
+# install BFI from GitHub
+devtools::install_github("hassanpazira/BFI")
+# load BFI
+library(BFI)
+
+# load `trauma` data
+data("trauma")
+# attach the data
+attach(trauma)
+```
+
+This data set consists of data of 371 trauma patients from three hospitals (peripheral hospital without a neuro-surgical unit, status=1, peripheral hospital with a neuro-surgical unit, status=2, and academic medical centre, status=3). For more information about this data set use 
+```{r}
+?trauma
+```
+It has 6 columns:
+```{r}
+colnames(trauma)
+```
+The covariates `sex` (dichotomous), `age` (continuous), `ISS` (Injury Severity Score, continuous), and `GCS` (Glasgow Coma Scale, continuous) are the predictors, and `mortality` is the response variable. `hospital` is a categorical variable which indicates the hospitals involved in the study.
+
+
+
+
+
+
+
+## References
+
