@@ -1,0 +1,502 @@
+---
+title: "Calling BFI from Python"
+author:
+- Hassan Pazira
+date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  #rmarkdown::html_vignette
+  knitr:::html_vignette:
+    toc: yes
+# output:
+#   pdf_document:
+#     fig_caption: yes
+#     toc: yes
+#     toc_depth: 3
+description: |
+  How to use the BFI package in Python environments.
+vignette: >
+  %\VignetteIndexEntry{Calling BFI from Python}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+require(knitr)
+opts_chunk$set(
+  collapse = F # T for red
+)
+```
+
+
+## Introduction
+
+`BFI` is an R package that performs Bayesian Federated Inference (BFI) for linear, logistic, and Cox regression models. Since there is no Python package for carrying out the BFI method so far, this vignette describes the usage of the R package `BFI` in the Python environment.
+
+To move to the Python environment, we need to prepare our operating system. 
+Although, we explain in the following how to prepare it in different systems ('*MacOS*', '*Ubuntu*' and '*Windows*'), we recommend that to use '*Google Colab*' to write and execute (the following) Python codes which can be done in any system through a browser without any preparations.
+
+
+## Google Colab
+
+First go to *Google Colab* from https://colab.google or https://colab.research.google.com, and then click on *New Notebook*. Now, skip the two following sections and jump to the third section [Python script](#Python).
+
+## Python Installation
+
+The steps to install the latest version of Python on 'MacOS', 'Ubuntu' and 'Windows' are as follows:
+
+### On MacOS
+Open a terminal window (cmd + space and search ‘Terminal’) and install the package manager 'Homebrew' by executing the following command:
+```{r, eval=FALSE}
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Install the latest version of Python (Python 3) with the following command:
+```{r, eval=FALSE}
+brew install python@3
+```
+
+Verify the installation by checking the Python version:
+```{r, eval=FALSE}
+python3 --version
+```
+
+It’s assumed that R is also installed and configured on your system. If not, the following can do it:
+```{r, eval=FALSE}
+# Install XCode command-line tools
+xcode-select --install
+
+# Install R
+brew install --cask r
+```
+
+
+### On Ubuntu
+Update package repositories and get latest package information by running the following command in a terminal window:
+```{r, eval=FALSE}
+sudo apt-get update -y
+```
+
+Verify if Python is indeed installed on your system by the following command:
+```{r, eval=FALSE}
+python3 --version
+```
+
+If you already have Python (Python 3) installed on your system, you only need to upgrade it to the latest version as follows:
+```{r, eval=FALSE}
+sudo apt-get upgrade python3
+```
+
+In case you did not have Python installed in the first place, the latest version of Python can be installed using the following command:
+```{r, eval=FALSE}
+sudo apt-get install python3
+```
+
+Verify the installation by checking the Python version:
+```{r, eval=FALSE}
+python3 --version
+```
+
+If you don't have R installed and configured, just run the following:
+```{r, eval=FALSE}
+# Install R
+sudo apt-get install r-base
+```
+
+
+### On Windows
+
+By default, Python is usually not installed on Windows. However, you can check if it exists on the system by running one line of command on the command prompt. Go to **Start** and enter `cmd` in the search bar, and then click **Command Prompt**. Enter the command `python --version` or `python3 --version` in the command prompt.
+
+To download Python, go to the official Python download website for Windows: https://www.python.org.
+Find a stable Python 3 release, and download the executable file for your system from the appropriate link. 
+
+After the installer is downloaded, open/run the Python installer to install Python.
+Select the **Add Python 3.x to PATH** checkbox, which enables users to launch Python from the command line, and then select **Install Now**.
+
+
+Once the installation is complete, you can verify whether the Python installation is successful through the command line. Enter the command `python --version` or `python3 --version` in the command prompt.
+
+It’s assumed that R is also installed on your system. If you don't have R installed, just visit CRAN downloads (https://cran.r-project.org) and get the last version.
+
+## Installation of required modules
+
+Here the required modules are installed through PIP.
+PIP (a Python package manager) helps us to install and use various packages/modules in Python programming.
+
+Install the latest version of PIP and required modules by running the following commands on different systems.
+
+### On MacOS
+
+Install/Upgrade the latest version of PIP by running 
+```{r, eval=FALSE}
+# Installing PIP
+python3 -m pip install --user --upgrade pip
+```
+
+Install required modules by running the following commands
+
+```{r, eval=FALSE}
+# Installing the 'pandas' module
+pip3 install pandas
+
+# Installing the 'numpy' module
+pip3 install numpy
+
+# Installing the 'rpy2' module
+pip3 install rpy2
+```
+
+
+### On Ubuntu
+
+To install PIP use the code
+```{r, eval=FALSE}
+# Installing PIP
+sudo apt-get install python3-pip
+```
+
+Verify you have successfully installed PIP by running
+```{r, eval=FALSE}
+pip3 -V
+```
+
+Now, install required modules by typing the following commands
+```{r, eval=FALSE}
+# Installing the 'pandas' module
+sudo pip3 install pandas
+
+# Installing the 'numpy' module
+sudo pip3 install numpy
+
+# Installing the 'rpy2' module
+sudo pip3 install rpy2
+```
+
+If the lines above for installation of the modules did not install them, use the following: 
+```{r, eval=FALSE}
+# Installing the 'pandas' module
+sudo apt-get install python3-pandas
+
+# Installing the 'numpy' module
+sudo apt-get install python3-numpy
+
+# Installing the 'rpy2' module
+sudo apt-get install python3-rpy2
+```
+
+Finally, use the show command to verify whether the module is now part of your Python packages:
+```{r, eval=FALSE}
+pip3 show pandas
+pip3 show numpy
+pip3 show rpy2
+```
+
+
+### On Windows
+
+Usually, PIP is automatically installed if you are using Python downloaded from https://www.python.org. If you have followed the previous steps provided in this vignette, then you have PIP installed on your system.
+To check if PIP is already installed on Windows, you should open the command line again, type `pip -V`, and press `Enter`. 
+
+If PIP is not installed: First download [get-pip.py](https://bootstrap.pypa.io/get-pip.py) to a folder on your computer. Then, open a command prompt and navigate to the folder containing the get-pip.py installer.
+Finally, run the following command:
+```{r, eval=FALSE}
+python get-pip.py
+```
+
+PIP should now be installed successfully. If we receive a 'file not found' error, double check the directory path to the file. You can use the `dir` command to view the entire contents of a directory. 
+More information can be found here: https://pip.pypa.io/en/stable/installation.
+
+
+Now, install required modules by running the following commands:
+
+```{r, eval=FALSE}
+# Installing the 'pandas' module
+pip3 install pandas
+
+# Installing the 'numpy' module
+pip3 install numpy
+
+# Installing the 'rpy2' module
+pip3 install rpy2
+```
+
+
+Now, you can start coding in Python using Python’s command-line interpreter or IDLE application.
+Go to `Start` and enter `python` in the search bar. You can see Python 3.x and IDLE which can be used for coding.
+Open one of them and follow the following steps.
+
+
+## Python script {#Python}
+
+It is assumed here that the required packages has been properly installed, which is the case in *Google Colab*. 
+Now move on to work with the `rpy2` package inside a Python script!
+If you are not in the Python script, first go to the Python Environment by typing the following command in the terminal window (you should skip this line if you are already in *Google Colab*):
+```{r, eval=FALSE}
+python3
+```
+
+As of now, all the following codes should be run in the Python environment. If you want to copy all codes at once go to [the last section](#allcodes).
+
+### Importing `Python` modules and functions
+
+Use the following codes to import required Python modules:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# import 'pandas' package
+import pandas as pd
+
+# import 'numpy' package
+import numpy as np                
+
+# import 'rpy2' package
+import rpy2                  
+```
+
+and using the following codes imports the required functions such as `importr()` and `data()`:
+```{python, eval=FALSE, python.reticulate = FALSE}
+from rpy2.robjects.packages import importr, data
+from rpy2.robjects.vectors import StrVector
+from rpy2.robjects import numpy2ri, pandas2ri
+# activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects
+numpy2ri.activate()   
+pandas2ri.activate()
+```
+
+### Installing `R` packages from CRAN and GitHub:
+
+First load the packages preinstalled with R using `importr()` as follows:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# import R's "utils" package
+utils = importr('utils')
+
+# import R's "base" package
+base = importr('base')
+```
+
+
+Then install the R packages `stats` and `devtools` from CRAN by typing
+```{python, eval=FALSE, python.reticulate = FALSE}
+utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
+package_names = ('stats', 'devtools')
+utils.install_packages(StrVector(package_names))
+```
+
+Now load the installed packages using
+```{python, eval=FALSE, python.reticulate = FALSE}
+stats = importr('stats')
+devtools = importr('devtools')
+```
+
+### Installing the `BFI` package from GitHub
+
+The `BFI` package can be installed and loaded using the following lines:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Installing the 'BFI' package
+devtools.install_github("hassanpazira/BFI", force = True)
+
+# Loading the package
+BFI = importr('BFI')
+```
+
+
+## Examples
+
+Now we generate two datasets independently from Gaussian distribution, and then apply main functions in the `BFI` package to these datasets:
+
+### Data Simulation for two local centers
+
+First generate 30 samples randomly from Gaussian distribution with 3 covariates:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# model parameters: 'theta' and 'p' are assumed to be the same for both centers:
+theta = np.array([1, 2, 3, 4, 0.75])   # intercept is theta[0], sigma2 is theta[4]
+p = 3     # number of regression parameters without intercept
+
+# Center 1:
+n1 = 30   # sample size of center 1
+X1 = np.random.normal(size=(n1, p)) 
+X1.shape   # dimension of X1
+X1 = pd.DataFrame(X1, columns=['X1', 'X2', 'X3'])
+mu1 = theta[0] + np.dot(X1, np.delete(theta, [0, 4]))  # for gaussian: \eta = \mu 
+X1 = pandas2ri.py2rpy(X1)   # == base.as_data_frame(X1)
+y1 = np.random.normal(loc=mu1, scale=np.sqrt(theta[4]))
+```
+
+Then generate randomly 50 samples from Gaussian distribution with 3 covariates:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Center 2:
+n2 = 50   # sample size of center 2
+X2 = np.random.normal(size=(n2, p))
+X2 = pd.DataFrame(X2, columns=['X1', 'X2', 'X3'])
+mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
+X2 = pandas2ri.py2rpy(X2)
+y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
+```
+
+
+### MAP estimates at the local centers
+
+The following compute the Maximum A Posterior (MAP) estimators of the parameters for center 1:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Creating an inverse covariance matrix for a Gaussian prior for center 1
+Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
+fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
+print(fit1)
+theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
+A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
+summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
+```
+
+Obtaining the MAP estimators of the parameters for center 2 using the following:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Creating an inverse covariance matrix for Gaussian prior for center 2
+Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
+# MAP estimates
+fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
+theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
+A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
+summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
+```
+
+### BFI at central center
+
+
+```{python, eval=FALSE, python.reticulate = FALSE}
+theta_hats = base.list(theta_hat1, theta_hat2)
+A_hats = base.list(A_hat1, A_hat2)
+Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
+Lambda2 = pd.DataFrame(Lambda2, index=fit2.rx2("names"), columns=fit2.rx2("names"))
+Lambdas = base.list(Lambda1, Lambda2)
+fit_bfi = BFI.bfi(theta_hats, A_hats, Lambdas)
+print(fit_bfi)
+summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
+```
+
+
+### Datasets included in the `BFI` package
+
+To find a list of all datasets included in the package run:
+```{python, eval=FALSE, python.reticulate = FALSE}
+print(utils.data(package = "BFI"))
+```
+
+In order to use the datasets available from  the `BFI` package, use the following codes:
+```{python, eval=FALSE, python.reticulate = FALSE}
+Nurses = data(BFI).fetch('Nurses')['Nurses']  # is equivalent to BFI::Nurses in R
+print("Dimension of the 'Nurses' data: \n", base.dim(Nurses))
+print("Colnames of the 'Nurses' data: \n", base.colnames(Nurses))
+
+trauma = data(BFI).fetch('trauma')['trauma']  # is equivalent to BFI::trauma in R
+print("Dimension of the 'trauma' data: \n", base.dim(trauma))
+print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
+```
+
+
+At the end, use the following to deactivate automatic conversion:
+```{python, eval=FALSE, python.reticulate = FALSE}
+numpy2ri.deactivate()
+pandas2ri.deactivate()
+```
+
+
+## All codes together {#allcodes}
+
+If you need all the codes at once to copy and paste them for example into *Google Colab*, here are the codes:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# import 'pandas' package
+import pandas as pd
+
+# import 'numpy' package
+import numpy as np                
+
+# import 'rpy2' package
+import rpy2                  
+
+from rpy2.robjects.packages import importr, data
+from rpy2.robjects.vectors import StrVector
+from rpy2.robjects import numpy2ri, pandas2ri
+# activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects
+numpy2ri.activate()   
+pandas2ri.activate()
+
+# import R's "utils" package
+utils = importr('utils')
+
+# import R's "base" package
+base = importr('base')
+
+utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
+package_names = ('stats', 'devtools')
+utils.install_packages(StrVector(package_names))
+
+# loading the installed packages
+stats = importr('stats')
+devtools = importr('devtools')
+
+# Installing the 'BFI' package
+devtools.install_github("hassanpazira/BFI", force = True)
+
+# Loading the package
+BFI = importr('BFI')
+
+# Examples
+
+# model parameters: 'theta' and 'p' are assumed to be the same for both centers:
+theta = np.array([1, 2, 3, 4, 0.75])   # intercept is theta[0], sigma2 is theta[4]
+p = 3     # number of regression parameters without intercept
+
+# Data Simulation for center 1
+n1 = 30   # sample size of center 1
+X1 = np.random.normal(size=(n1, p)) 
+X1.shape   # dimension of X1
+X1 = pd.DataFrame(X1, columns=['X1', 'X2', 'X3'])
+mu1 = theta[0] + np.dot(X1, np.delete(theta, [0, 4]))  # for gaussian: \eta = \mu 
+X1 = pandas2ri.py2rpy(X1)   # == base.as_data_frame(X1)
+y1 = np.random.normal(loc=mu1, scale=np.sqrt(theta[4]))
+
+# Data Simulation for center 2
+n2 = 50   # sample size of center 2
+X2 = np.random.normal(size=(n2, p))
+X2 = pd.DataFrame(X2, columns=['X1', 'X2', 'X3'])
+mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
+X2 = pandas2ri.py2rpy(X2)
+y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
+
+# MAP estimates at center 1
+# Creating an inverse covariance matrix for a Gaussian prior for center 1
+Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
+fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
+print(fit1)
+theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
+A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
+summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
+
+# MAP estimates at center 2
+# Creating an inverse covariance matrix for Gaussian prior for center 2
+Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
+# MAP estimates
+fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
+theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
+A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
+summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
+
+# BFI at central center
+theta_hats = base.list(theta_hat1, theta_hat2)
+A_hats = base.list(A_hat1, A_hat2)
+Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
+Lambda2 = pd.DataFrame(Lambda2, index=fit2.rx2("names"), columns=fit2.rx2("names"))
+Lambdas = base.list(Lambda1, Lambda2)
+fit_bfi = BFI.bfi(theta_hats, A_hats, Lambdas)
+print(fit_bfi)
+summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
+
+# To find a list of all datasets included in the package:
+print(utils.data(package = "BFI"))
+
+Nurses = data(BFI).fetch('Nurses')['Nurses']
+print("Dimension of the 'Nurses' data: \n", base.dim(Nurses))
+print("Colnames of the 'Nurses' data: \n", base.colnames(Nurses))
+
+trauma = data(BFI).fetch('trauma')['trauma']
+print("Dimension of the 'trauma' data: \n", base.dim(trauma))
+print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
+```
+

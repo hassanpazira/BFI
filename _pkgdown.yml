@@ -1,0 +1,28 @@
+url: https://hassanpazira.github.io/BFI/
+
+template:
+  bootstrap: 5
+  bootswatch: flatly # spacelab
+
+development:
+  mode: auto
+  version_label: default
+
+navbar:
+  type: default
+  left:
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    href: articles/index.html
+    desc: "Several articles/vignettes that describe the usage of BFI"
+    menu:
+    - text: An Introduction to BFI
+      href: articles/BFI.html
+    - text: Calling BFI from Python
+      href: articles/Python.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/hassanpazira/BFI

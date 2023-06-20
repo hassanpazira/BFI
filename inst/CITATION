@@ -1,0 +1,12 @@
+bibentry(
+  bibtype  = "Article",
+  title    = "{BFI}: Bayesian Federated Inference",
+  author   = "Hassan Pazira, Marianne A. Jonker, Anthony C.C. Coolen",
+  journal  = "Journal of Statistical Software",
+  year     = 2023,
+  volume   = 0,
+  number   = 0,
+  pages    = 0,
+  url      = "https://hassanpazira.github.io/BFI/",
+  doi      = ""
+)
