@@ -216,7 +216,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">eta</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">*</span> <span class="va">X</span><span class="op">$</span><span class="va">X1</span> <span class="op">+</span> <span class="va">theta</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">*</span> <span class="va">X</span><span class="op">$</span><span class="va">X2</span> <span class="op">+</span> <span class="va">theta</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span> <span class="op">*</span> <span class="va">X</span><span class="op">$</span><span class="va">X3</span></span></span>
 <span class="r-in"><span><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span></span>
 <span class="r-in"><span><span class="va">mu</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">y</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">mu</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="fl">1.5</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="va">mu</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># MAP estimations for theta and curvature matrix</span></span></span>
@@ -224,18 +224,164 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># MAP estimates with 'intercept'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="va">gaussian</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = gaussian, Lambda):</span> The algorithm did not converge.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1.042937    2.203651    2.096518    2.246278    0.809585 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)         X1          X2         X3     sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  37.1560235 -7.9590941 -11.8078545 -6.0776557 -0.2085074</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1           -7.9590941 47.7031392   5.1423546 -8.3298758 -0.4406139</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2          -11.8078545  5.1423546  50.1852355 15.1609962 -0.4192149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3           -6.0776557 -8.3298758  15.1609962 37.9835562 -0.4491286</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2       -0.2085074 -0.4406139  -0.4192149 -0.4491286 63.2381610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.1742944   0.1532036   0.1564478   0.1799868   0.1257679 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)  X1  X2  X3 sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)         0.1 0.0 0.0 0.0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                  0.0 0.1 0.0 0.0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                  0.0 0.0 0.1 0.0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                  0.0 0.0 0.0 0.1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2              0.0 0.0 0.0 0.0      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.82057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.0429  0.1743  0.7013   1.3845</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1            2.2037  0.1532  1.9034   2.5039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2            2.0965  0.1564  1.7899   2.4031</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            2.2463  0.1800  1.8935   2.5990</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  0.8096 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -26.82 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      X1       X2      X3  sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     37.1560 -7.9591 -11.8079 -6.0777 -0.2085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1              -7.9591 47.7031   5.1424 -8.3299 -0.4406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2             -11.8079  5.1424  50.1852 15.1610 -0.4192</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3              -6.0777 -8.3299  15.1610 37.9836 -0.4491</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2085 -0.4406  -0.4192 -0.4491 63.2382</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># MAP estimates without 'intercept'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="va">gaussian</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = gaussian, Lambda, intercept = FALSE):</span> The algorithm did not converge.</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3   sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2.021352 1.907099 2.108853 1.709153 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                X1         X2         X3     sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1     22.6484688  2.4358104 -3.9456630 -0.4043558</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2      2.4358104 23.8241784  7.1814014 -0.3815576</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3     -3.9456630  7.1814014 18.0445347 -0.4218786</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.4043558 -0.3815576 -0.4218786 66.8364064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3    sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2181290 0.2223364 0.2590651 0.1223389 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         X1  X2  X3 sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1     0.1 0.0 0.0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2     0.0 0.1 0.0      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3     0.0 0.0 0.1      0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 0.0 0.0 0.0      1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 50.71516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit1' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1   2.0214  0.2181  1.5938   2.4489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2   1.9071  0.2223  1.4713   2.3429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3   2.1089  0.2591  1.6011   2.6166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.709 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -50.72 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             X1      X2      X3  sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1     22.6485  2.4358 -3.9457 -0.4044</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2      2.4358 23.8242  7.1814 -0.3816</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3     -3.9457  7.1814 18.0445 -0.4219</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.4044 -0.3816 -0.4219 66.8364</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
