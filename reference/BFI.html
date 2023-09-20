@@ -95,7 +95,7 @@ If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensi
 
 
 <dt>A_hat</dt>
-<dd><p>minus the curvature matrix obtained by the <code>'BFI'</code> method for the combined model. If <code>stratified = TRUE</code>, the dimension of the matrix is always greater than when <code>stratified = FALSE</code>. When <code>stratified = TRUE</code>, to be able to show the result on one (combined) matrix, there exist a few <code>NA</code>'s in the matrix, and so the matrix is not invertible anymore;</p></dd>
+<dd><p>minus the curvature (or Hessian) matrix obtained by the <code>'BFI'</code> method for the combined model. If <code>stratified = TRUE</code>, the dimension of the matrix is always greater than when <code>stratified = FALSE</code>. When <code>stratified = TRUE</code>, to be able to show the result on one (combined) matrix, there exist a few <code>NA</code>'s in the matrix, and so the matrix is not invertible anymore;</p></dd>
 
 
 <dt>sd</dt>
@@ -201,20 +201,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.5084  0.5453 -0.5603   1.5772</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.2594  0.6113  0.0614   2.4575</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.2844  1.1658  0.9994   5.5694</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           1.8679  1.0273 -0.1456   3.8814</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9841  0.4568  0.0888   1.8794</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.2821  0.5566  0.1911   2.3730</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.2288  1.1699 -0.0641   4.5218</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.5234  1.5847 -0.5826   5.6293</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      6.0205 -2.5189  0.9810  1.2647</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.5189  3.9295 -0.7864 -0.6035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.9810 -0.7864  0.9910  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.2647 -0.6035  0.0000  1.2747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      6.4964 -2.4979  0.9249  0.6390</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.4979  5.7518 -0.6713 -1.1205</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.9249 -0.6713  0.9349  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.6390 -1.1205  0.0000  0.6490</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
