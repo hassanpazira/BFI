@@ -111,6 +111,7 @@ The inference results gathered from different (\(L\)) centers are combined, and 
 The models in the different centers should be defined in exactly the same way; among others, exactly the same covariates should be included in the models. The parameter vectors should be defined exactly the same, so that the estimates <code>theta_hat</code>'s and <code>A_hat</code>'s (the output of the <code>MAP.estimation</code> function) are defined in the same way (e.g., the covariates need to be included in the models in the same order).</p>
 <p>Note that the order of the estimates with respect to the centers in the lists <code>theta_hats</code>, <code>A_hats</code> and <code>Lambda</code> must be the same, so that in every list the element at the \(\ell^{\th}\) position is all from the center \(\ell\). This should also be the case for the vector <code>center_spec</code>.</p>
 <p>The last matrix of the list in the argument <code>Lambda</code> is built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code> when <code>stratified = TRUE</code>.</p>
+<p>If <code>intercept = FALSE</code> for the locations, for the <code>binomial</code> family the stratified analysis is not possible anymore.</p>
 <p>Details related to <code>center_spec</code> may be added!!!....</p>
     </div>
     <div class="section level2">
@@ -201,20 +202,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.1456  0.6297 -0.0885   2.3797</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.9177  0.6110  0.7201   3.1152</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.6486  1.1170  0.4594   4.8378</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.0959  1.7056 -0.2469   6.4387</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.3034  0.6779 -0.0253   2.6321</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.8372  0.6415  0.5798   3.0945</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.2210  1.1983 -0.1276   4.5696</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.1441  1.2551 -0.3157   4.6040</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.8455 -3.4903  1.5658  0.4595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.4903  6.1847 -1.8683 -0.6690</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.5658 -1.8683  1.5758  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.4595 -0.6690  0.0000  0.4695</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.0135 -3.9345  1.0576  0.8039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.9345  5.9011 -1.3515 -0.7265</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.0576 -1.3515  1.0676  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.8039 -0.7265  0.0000  0.8139</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
