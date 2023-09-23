@@ -190,19 +190,40 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda):</span> unused arguments (A_hats, Lambda)</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "function"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in object[[i]]:</span> object of type 'closure' is not subsettable</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘binomial’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘Logit’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.7464  0.7832  0.2114   3.2814</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            2.1829  1.0160  0.1916   4.1742</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.1102  1.5291 -0.8867   5.1071</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.5483  1.4230 -0.2408   5.3374</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.1955 -3.3555  1.2473  0.8747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.3555  4.5234 -1.7338 -0.8866</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.2473 -1.7338  1.2573  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.8747 -0.8866  0.0000  0.8847</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Error</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> unused arguments (A_hats, Lambda, stratified = TRUE)</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> In stratified analysis, 'strat_par' should not be 'NULL'. Select the stratification parameter(s).</span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> unused arguments (A_hats, Lambda, stratified = TRUE, strat_par = 1)</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> The last matrix in 'Lambda' should not have the same dim. as the other local matrices.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
