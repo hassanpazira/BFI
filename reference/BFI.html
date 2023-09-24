@@ -190,91 +190,19 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.08884968  3.36685161  5.67892459  7.17688969 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4 4</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda):</span> The vectors and matrices in the elements of the lists should be named.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "function"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘binomial’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘Logit’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.8595  0.4869 -0.0948   1.8137</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.5560  0.6018  0.3765   2.7356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.7681  1.3465  0.1290   5.4072</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.2118  1.7968 -0.3099   6.7335</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.8119 -2.8138  0.8116  0.4430</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.8138  5.6212 -1.0285 -0.7786</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.8116 -1.0285  0.8216  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.4430 -0.7786  0.0000  0.4530</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in object[[i]]:</span> object of type 'closure' is not subsettable</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Error</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.08884968  3.36685161  5.67892459  7.17688969 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4 4</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> In stratified analysis, 'strat_par' should not be 'NULL'. Select the stratification parameter(s).</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> The vectors and matrices in the elements of the lists should be named.</span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.08884968  3.36685161  5.67892459  7.17688969 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.384709    1.146470    4.550241    2.982646 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4 4</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> The last matrix in 'Lambda' should not have the same dim. as the other local matrices.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> The vectors and matrices in the elements of the lists should be named.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
