@@ -190,6 +190,31 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.01 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.01 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 0.01</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda):</span> HHHHHHHHHHHHHHHHHHHH111</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "function"</span>
@@ -200,8 +225,58 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Error</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.01 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.01 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 0.01</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> HHHHHHHHHHHHHHHHHHHH111</span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.01 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.01 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       [,1]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15,] 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16,] 0.01</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> HHHHHHHHHHHHHHHHHHHH111</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
