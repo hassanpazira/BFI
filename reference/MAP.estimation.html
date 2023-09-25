@@ -230,19 +230,19 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="op">(</span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.277229    2.050171    1.990414    1.921776    1.131087 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1.009974    1.962801    1.856341    1.788319    1.376826 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)         X1         X2         X3     sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  26.6231690 -5.2908411  1.6299117 -3.0839210 -0.2557212</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1           -5.2908411 31.4748291  0.4859357 -4.9745711 -0.4101340</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2            1.6299117  0.4859357 22.4068978 -5.5071510 -0.3979522</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3           -3.0839210 -4.9745711 -5.5071510 40.9714967 -0.3841794</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2       -0.2557212 -0.4101340 -0.3979522 -0.3841794 64.5242555</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  21.8892437  1.3603659  3.4122244  3.8378246 -0.2013328</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1            1.3603659 19.6054881 -2.0666851  5.8395828 -0.3931291</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2            3.4122244 -2.0666851 26.0918153 -1.5235709 -0.3704431</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            3.8378246  5.8395828 -1.5235709 23.2553978 -0.3583773</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2       -0.2013328 -0.3931291 -0.3704431 -0.3583773 65.5071703</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.1988694   0.1836478   0.2151282   0.1614088   0.1245148 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.2197028   0.2356433   0.1992493   0.2187950   0.1235704 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)  X1  X2  X3 sigma2</span>
@@ -265,7 +265,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 37.30644</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 43.49869</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
@@ -294,41 +294,41 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.2772  0.1989  0.8875   1.6670</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1            2.0502  0.1836  1.6902   2.4101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2            1.9904  0.2151  1.5688   2.4121</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3            1.9218  0.1614  1.6054   2.2381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.0100  0.2197  0.5794   1.4406</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1            1.9628  0.2356  1.5009   2.4247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2            1.8563  0.1992  1.4658   2.2469</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            1.7883  0.2188  1.3595   2.2171</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.131 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -37.31 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.377 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -43.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      X1      X2      X3  sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     26.6232 -5.2908  1.6299 -3.0839 -0.2557</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1              -5.2908 31.4748  0.4859 -4.9746 -0.4101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2               1.6299  0.4859 22.4069 -5.5072 -0.3980</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3              -3.0839 -4.9746 -5.5072 40.9715 -0.3842</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2557 -0.4101 -0.3980 -0.3842 64.5243</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     21.8892  1.3604  3.4122  3.8378 -0.2013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1               1.3604 19.6055 -2.0667  5.8396 -0.3931</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2               3.4122 -2.0667 26.0918 -1.5236 -0.3704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3               3.8378  5.8396 -1.5236 23.2554 -0.3584</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2013 -0.3931 -0.3704 -0.3584 65.5072</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># MAP estimates without 'intercept'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="va">gaussian</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3   sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.808021 2.046998 1.798423 2.527039 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.992615 1.995488 1.951369 2.241354 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                X1         X2         X3     sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1     14.1431763  0.2175018 -2.2265868 -0.3614239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2      0.2175018 10.0844273 -2.4649662 -0.4089956</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3     -2.2265868 -2.4649662 18.3938251 -0.3597453</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.3614239 -0.4089956 -0.3597453 70.1063170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1     12.0818945 -1.2695300  3.5871578 -0.3985335</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2     -1.2695300 16.0663366 -0.9359041 -0.3990924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      3.5871578 -0.9359041 14.3239728 -0.3903195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.3985335 -0.3990924 -0.3903195 68.9654101</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3    sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2685051 0.3202463 0.2393644 0.1194667 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2999469 0.2507344 0.2748443 0.1204436 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1  X2  X3 sigma2</span>
@@ -350,7 +350,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 63.93395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 59.87114</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
@@ -377,21 +377,21 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1   1.8080  0.2685  1.2818   2.3343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2   2.0470  0.3202  1.4193   2.6747</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3   1.7984  0.2394  1.3293   2.2676</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1   1.9926  0.2999  1.4047   2.5805</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2   1.9955  0.2507  1.5041   2.4869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3   1.9514  0.2748  1.4127   2.4901</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  2.527 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -63.93 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  2.241 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -59.87 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             X1      X2      X3  sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1     14.1432  0.2175 -2.2266 -0.3614</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2      0.2175 10.0844 -2.4650 -0.4090</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3     -2.2266 -2.4650 18.3938 -0.3597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.3614 -0.4090 -0.3597 70.1063</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1     12.0819 -1.2695  3.5872 -0.3985</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2     -1.2695 16.0663 -0.9359 -0.3991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      3.5872 -0.9359 14.3240 -0.3903</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.3985 -0.3991 -0.3903 68.9654</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
