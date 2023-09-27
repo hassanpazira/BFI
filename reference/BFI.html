@@ -105,15 +105,15 @@ If only the first \(L\) matrices are equal, this argument <code>Lambda</code> ca
 
 <p><code>bfi</code> returns a list containing the following components:</p>
 <dl><dt>theta_hat</dt>
-<dd><p>the vector of estimates obtained by combining the inference results from the \(L\) centers with the <code>'BFI'</code> methodology. If an intercept was fitted in the every centers and <code>stratified = FALSE</code>, there is only one general ``intercept'' in this vector, while if <code>stratified = TRUE</code>, there are \(L\) different local intercepts in the model;</p></dd>
+<dd><p>the vector of estimates obtained by combining the inference results from the \(L\) centers with the <code>'BFI'</code> methodology. If an intercept was fitted in every center and <code>stratified = FALSE</code>, there is only one general ``intercept'' in this vector, while if <code>stratified = TRUE</code>, there are \(L\) different local intercepts in the model;</p></dd>
 
 
 <dt>A_hat</dt>
-<dd><p>minus the curvature (or Hessian) matrix obtained by the <code>'BFI'</code> method for the combined model. If <code>stratified = TRUE</code>, the dimension of the matrix is always greater than when <code>stratified = FALSE</code>. When <code>stratified = TRUE</code>, to be able to show the result on one (combined) matrix, there exist a few <code>NA</code>'s in the matrix, and so the matrix is not invertible anymore;</p></dd>
+<dd><p>minus the curvature (or Hessian) matrix obtained by the <code>'BFI'</code> method for the combined model. If <code>stratified = TRUE</code>, the dimension of the matrix is always greater than when <code>stratified = FALSE</code>. When <code>stratified = TRUE</code>, some elements at the off-diagonal matrix can not be determined and are therefore <code>NA</code>;</p></dd>
 
 
 <dt>sd</dt>
-<dd><p>the vector of standard deviation of the estimates in <code>theta_hat</code> obtained from the matrix in <code>A_hat</code>, i.e., the vector equals <code>sqrt(diag(solve(A_hat)))</code>.</p></dd>
+<dd><p>the vector of standard deviation of the estimates in <code>theta_hat</code> obtained from the matrix in <code>A_hat</code>, i.e., the vector equals <code>sqrt(diag(solve(A_hat)))</code> which equals the square root of the elements at the diagonal of the inverse of the <code>A_hat</code> matrix. .</p></dd>
 
 
 </dl></div>
@@ -122,11 +122,11 @@ If only the first \(L\) matrices are equal, this argument <code>Lambda</code> ca
     <p><code>bfi</code> function implements the BFI approach described in the paper Jonker et. al. (2023) given in the references.
 The inference results gathered from different (\(L\)) centers are combined, and the BFI estimates of the model parameters and curvature matrix evaluated at that point are returned.</p>
 <p>The inference result from each center must be obtained using the <code>MAP.estimation</code> function separately, and then all of these results (coming from different centers) should be compiled into a list to be used as an input of <code>bfi()</code>.
-The models in the different centers should be defined in exactly the same way; among others, exactly the same covariates should be included in the models. The parameter vectors should be defined exactly the same, so that the estimates <code>theta_hat</code>'s and <code>A_hat</code>'s (the output of the <code>MAP.estimation</code> function) are defined in the same way (e.g., the covariates need to be included in the models in the same order).</p>
-<p>Note that the order of the estimates with respect to the centers in the lists <code>theta_hats</code>, <code>A_hats</code> and <code>Lambda</code> must be the same, so that in every list the element at the \(\ell^{\th}\) position is all from the center \(\ell\). This should also be the case for the vector <code>center_spec</code>.</p>
-<p>The last matrix of the list in the argument <code>Lambda</code> is built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code> when <code>stratified = TRUE</code>.</p>
-<p>If <code>intercept = FALSE</code> for the locations, for the <code>binomial</code> family the stratified analysis is not possible anymore.</p>
-<p>Details related to <code>center_spec</code> may be added!!!....</p>
+The models in the different centers should be defined in exactly the same way; among others, exactly the same covariates should be included in the models. The parameter vectors should be defined exactly the same, so that the L vectors and matrices in the input lists <code>theta_hat</code>'s and <code>A_hat</code>'s are defined in the same way (e.g., the covariates need to be included in the models in the same order).</p>
+<p>Note that the order of the elements in the lists <code>theta_hats</code>, <code>A_hats</code> and <code>Lambda</code>, must be the same with respect to the centers, so that in every list the element at the \(\ell^{\th}\) position is from the center \(\ell\). This should also be the case for the vector <code>center_spec</code>.</p>
+<p>If <code>stratified = FALSE</code>, both <code>strat_par</code> and <code>center_spec</code> must be <code>NULL</code>(the defaults), while if <code>stratified = TRUE</code> only one of the two must be <code>NULL</code>.</p>
+<p>If <code>stratified = TRUE</code>, the last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
+<p>If <code>intercept = FALSE</code> for the locations, the stratified analysis is not possible anymore for the <code>binomial</code> family.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -216,28 +216,29 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.6537  0.5114 -0.3486   1.6560</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.4650  0.6535  0.1843   2.7458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.3597  3.1320 -0.7790  11.4984</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.1617  1.1868  0.8356   5.4878</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.1655  0.5233 -0.8602   1.1912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.5731  0.5978  0.4014   2.7447</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.8304  1.4661  0.9569   6.7038</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.6062  1.3043  1.0497   6.1626</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.1544 -1.6843  0.0950  0.9786</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -1.6843  3.2005 -0.0667 -0.8000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.0950 -0.0667  0.1050  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.9786 -0.8000  0.0000  0.9886</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.7419 -3.2868  0.7873  1.2887</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.2868  7.1321 -1.1254 -1.8791</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.7873 -1.1254  0.7973  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.2887 -1.8791  0.0000  1.2987</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
-<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Error</span></span></span>
+<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># An error appears:</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> In stratified analysis, 'strat_par' should not be 'NULL'. Select the stratification parameter(s).</span>
-<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> The last matrix in 'Lambda' should not have the same dim. as the other local matrices.</span>
+<span class="r-in"><span><span class="co"># when stratified = TTRUE, both 'strat_par' and 'center_spec' can't be NULL.</span></span></span>
+<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1):</span> The last matrix in 'Lambda' should not have the same dim. as the other local matrices.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
