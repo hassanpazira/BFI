@@ -124,9 +124,9 @@ The inference results gathered from different (\(L\)) centers are combined, and 
 <p>The inference result from each center must be obtained using the <code>MAP.estimation</code> function separately, and then all of these results (coming from different centers) should be compiled into a list to be used as an input of <code>bfi()</code>.
 The models in the different centers should be defined in exactly the same way; among others, exactly the same covariates should be included in the models. The parameter vectors should be defined exactly the same, so that the L vectors and matrices in the input lists <code>theta_hat</code>'s and <code>A_hat</code>'s are defined in the same way (e.g., the covariates need to be included in the models in the same order).</p>
 <p>Note that the order of the elements in the lists <code>theta_hats</code>, <code>A_hats</code> and <code>Lambda</code>, must be the same with respect to the centers, so that in every list the element at the \(\ell^{\th}\) position is from the center \(\ell\). This should also be the case for the vector <code>center_spec</code>.</p>
-<p>If <code>stratified = FALSE</code>, both <code>strat_par</code> and <code>center_spec</code> must be <code>NULL</code>(the defaults), while if <code>stratified = TRUE</code> only one of the two must be <code>NULL</code>.</p>
-<p>If <code>stratified = TRUE</code>, the last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
 <p>If <code>intercept = FALSE</code> for the locations, the stratified analysis is not possible anymore for the <code>binomial</code> family.</p>
+<p>If <code>stratified = FALSE</code>, both <code>strat_par</code> and <code>center_spec</code> must be <code>NULL</code> (the defaults), while if <code>stratified = TRUE</code> only one of the two must be <code>NULL</code>.</p>
+<p>If <code>stratified = TRUE</code>, the last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -216,20 +216,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.1655  0.5233 -0.8602   1.1912</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.5731  0.5978  0.4014   2.7447</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.8304  1.4661  0.9569   6.7038</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.6062  1.3043  1.0497   6.1626</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   2.3390  1.0253  0.3295   4.3485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            3.3737  1.1236  1.1715   5.5759</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.5907  1.5145  0.6222   6.5592</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           4.1557  1.6440  0.9335   7.3780</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.7419 -3.2868  0.7873  1.2887</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.2868  7.1321 -1.1254 -1.8791</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.7873 -1.1254  0.7973  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.2887 -1.8791  0.0000  1.2987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      3.6440 -3.5823  0.7312  0.7243</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.5823  4.8170 -0.9716 -1.1188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.7312 -0.9716  0.7412  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.7243 -1.1188  0.0000  0.7343</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
