@@ -71,28 +71,30 @@ bfi command</p>
 
 
 <dt>A_hats</dt>
-<dd><p>a list of \(L\) curvature matrices for \(L\) centers. These matrices must have equal dimensions. See ‘Details’.</p></dd>
+<dd><p>a list of \(L\) (minus) curvature matrices for \(L\) centers. These matrices must have equal dimensions. See ‘Details’.</p></dd>
 
 
 <dt>Lambda</dt>
-<dd><p>a list of \(L+1\) matrices. Each matrix used as the prior of the inverse variance-covariance matrix of Gaussian distribution. The first \(L\) matrices are for \(L\) local centers and the last one is the chosen variance-covariance matrix for the Gaussian prior of the (fictive) combined data set.
-If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensions. While, if <code>stratified = TRUE</code>, the first \(L\) matrices must have equal dimensions and the last matrix should have different (greater) dimention than the others. If <code>stratified = FALSE</code> and all the \(L+1\) matrices are equal, it is sufficient to give a (list of one) matrix only. If <code>stratified = TRUE</code> and all the first \(L\) matrices are equal, this argument can be a list of two matrices, so that the fist matrix represents the chosen variance-covariance matrix for local centers and the second one is the chosen matrix for the combined data set. See ‘Details’.</p></dd>
+<dd><p>a list of \(L+1\) matrices. The \(k^{\th}\) matrix is the chosen inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution in center \(k\), where \(k=1,2,\ldots,L\). The last matrix is the chosen variance-covariance matrix for the Gaussian prior of the (fictive) combined data set.
+If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensions. While, if <code>stratified = TRUE</code>, the first \(L\) matrices must have equal dimensions and the last matrix should have a different (greater) dimention than the others.
+If <code>stratified = FALSE</code> and all the \(L+1\) matrices are equal, it is sufficient to give a (list of) one matrix only.
+If only the first \(L\) matrices are equal, this argument <code>Lambda</code> can be a list of two matrices, so that the fist matrix represents the chosen variance-covariance matrix for local centers and the second one is the chosen matrix for the combined data set, this true for any case of the argument <code>stratified</code>. See ‘Details’.</p></dd>
 
 
 <dt>stratified</dt>
-<dd><p>logical flag for performing the stratified analysis. If <code>stratified = TRUE</code>, the parameter(s) selected in the <code>strat_par</code> argument are allowed to be different across centers. Default is <code>stratified = FALSE</code>. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>logical flag for performing the stratified analysis. If <code>stratified = TRUE</code>, the parameter(s) selected in the <code>strat_par</code> argument are allowed to be different across centers, except when the argument <code>center_spec</code> is <code>NULL</code>. Default is <code>stratified = FALSE</code>. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt>strat_par</dt>
-<dd><p>a one- or two-element integer vector for indicating the stratification parameter(s). The values \(1\) and/or \(2\) are/is used to indicate that the ``intercept'' and/or ``sigma2'' are allowed to vary, respectively. This argument is used only when <code>stratified = TRUE</code>. Default is <code>strat_par = NULL</code>, but if <code>stratified = TRUE</code>, <code>strat_par</code> can not be <code>NULL</code>. For the <code>binomial</code> family the length of the vector should be one which refers to ``intercept'', and the value of this element should be \(1\). For <code>gaussian</code> this vector can be \(1\) for indicating the ``intercept'' only, \(2\) for indicating the ``sigma2'' only, and c(\(1\), \(2\)) for both ``intercept'' and ``sigma2''. See ‘Examples’.</p></dd>
+<dd><p>a one- or two-element integer vector for indicating the stratification parameter(s). The values \(1\) and/or \(2\) are/is used to indicate that the ``intercept'' and/or ``sigma2'' are allowed to vary, respectively. This argument is used only when <code>stratified = TRUE</code> and <code>center_spec = NULL</code>. Default is <code>strat_par = NULL</code>, but if <code>stratified = TRUE</code>, <code>strat_par</code> can not be <code>NULL</code> unless there is a center specific variable. For the <code>binomial</code> family the length of the vector should be at most one which refers to ``intercept'', and the value of this element should be \(1\). For <code>gaussian</code> family this vector can be \(1\) for indicating the ``intercept'' only, \(2\) for indicating the ``sigma2'' only, and c(\(1\), \(2\)) for both ``intercept'' and ``sigma2''. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt>center_spec</dt>
-<dd><p>a vector of \(L\) elements for representing the center specific variable. This argument is used only when <code>stratified = TRUE</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_spec</code> must be folllowed as it is in the vectors of the argument <code>theta_hats</code>. If <code>center_spec = NULL</code> (the default), the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>a vector of \(L\) elements for representing the center specific variable. This argument is used only when <code>stratified = TRUE</code> and <code>strat_par = NULL</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_spec</code> must be the same as in the list of the argument <code>theta_hats</code>. If <code>center_spec = NULL</code> (the default), the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt>type</dt>
-<dd><p>a description of the method used to measure the complexity of the fitted models. This argument is used only when <code>center_spec</code> is not <code>NULL</code>. .</p></dd>
+<dd><p>a description of the used data type in the <code>center_spec</code> argument. Type for 'categorical' (<code>type = "cat"</code>) or 'continuous' (<code>type = "con"</code>) data. Can be also abbreviated. This argument is used only when <code>center_spec</code> is not <code>NULL</code>.</p></dd>
 
 
 </dl></div>
@@ -187,7 +189,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda</span>     <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.01</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family<span class="op">=</span><span class="va">binomial</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span> <span class="co"># intercept and coefficient estimates</span></span></span>
-<span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># curvature matrix</span></span></span>
+<span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># minus curvature matrix</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># MAP estimates at center 2</span></span></span>
@@ -202,33 +204,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2.889311    1.559288    4.263813    3.242205 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.6094919   2.5318275   6.0709865   2.5454990 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          x1         x21         x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.78683817 -0.80767858  0.04156349  0.03217068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          -0.80767858  1.16461122 -0.08073119 -0.02066499</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0.04156349 -0.08073119  0.05156349  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0.03217068 -0.02066499  0.00000000  0.04217068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          x1         x21        x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  3.36475798 -1.10844662  0.06010238  0.6895597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          -1.10844662  1.42452017 -0.04342386 -0.3807969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0.06010238 -0.04342386  0.07010238  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0.68955969 -0.38079688  0.00000000  0.6995597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.01 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.01 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.01</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
@@ -241,81 +216,27 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.8647  0.6394 -0.3886   2.1180</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.5321  0.7839 -0.0042   3.0684</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.9880  3.0870 -0.0623  12.0383</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           1.9479  1.2919 -0.5841   4.4800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.3770  0.6359  0.1307   2.6234</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.4847  0.5359  0.4343   2.5351</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           0.6398  0.8860 -1.0968   2.3764</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           1.9516  1.3512 -0.6968   4.6000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.1416 -1.9161  0.1017  0.7217</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -1.9161  2.5791 -0.1242 -0.4015</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.1017 -0.1242  0.1117  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.7217 -0.4015  0.0000  0.7317</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.7969 -2.6137  2.3900  0.7236</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.6137  4.8720 -1.0018 -0.6895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              2.3900 -1.0018  2.4000  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.7236 -0.6895  0.0000  0.7336</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># Error</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2.889311    1.559288    4.263813    3.242205 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.6094919   2.5318275   6.0709865   2.5454990 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          x1         x21         x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.78683817 -0.80767858  0.04156349  0.03217068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          -0.80767858  1.16461122 -0.08073119 -0.02066499</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0.04156349 -0.08073119  0.05156349  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0.03217068 -0.02066499  0.00000000  0.04217068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          x1         x21        x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  3.36475798 -1.10844662  0.06010238  0.6895597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          -1.10844662  1.42452017 -0.04342386 -0.3807969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0.06010238 -0.04342386  0.07010238  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0.68955969 -0.38079688  0.00000000  0.6995597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.01 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.01 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.01</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> In stratified analysis, 'strat_par' should not be 'NULL'. Select the stratification parameter(s).</span>
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    2.889311    1.559288    4.263813    3.242205 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1         x21         x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.6094919   2.5318275   6.0709865   2.5454990 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[1]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          x1         x21         x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  0.78683817 -0.80767858  0.04156349  0.03217068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          -0.80767858  1.16461122 -0.08073119 -0.02066499</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0.04156349 -0.08073119  0.05156349  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0.03217068 -0.02066499  0.00000000  0.04217068</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [[2]]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          x1         x21        x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  3.36475798 -1.10844662  0.06010238  0.6895597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          -1.10844662  1.42452017 -0.04342386 -0.3807969</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0.06010238 -0.04342386  0.07010238  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0.68955969 -0.38079688  0.00000000  0.6995597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.01 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.01 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.01</span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1L):</span> The last matrix in 'Lambda' should not have the same dim. as the other local matrices.</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
