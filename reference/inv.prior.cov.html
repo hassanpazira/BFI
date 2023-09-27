@@ -24,6 +24,12 @@
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/Python.html">BFI in Python</a>
+  </div>
+</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -89,7 +95,7 @@
 <p>When <code>stratified = TRUE</code>, the length of the vector <code>lambda</code> depends on the covariate matrix <code>X</code>, <code>family</code>, and whether an ``intercept'' is included in the model. For example, if the design matrix <code>X</code> has <code>p</code> columns with continuous or dichotomous covariates, <code>family = gaussian</code>, and <code>intercept = TRUE</code>, then <code>lambda</code> should have \(p+2\) elements. In this case, if in <code>X</code> there is a categorical covariate with \(q&gt;2\) categories, then the length of <code>lambda</code> increases with \(q-2\). All values of lambda should be non-negative as they represent the inverse of the variance of the Gaussian prior.
 Note that, if all values in the vector <code>lambda</code> equal, one value is enough to be given as entry.
 If <code>lambda</code> is a scalar, the function <code>inv.prior.cov</code> sets each value at the diagonal equal to <code>lambda</code>. In the linear regression model the last parameter is assumed to be the inverse of the variance of the prior distribution for the measurement error. If <code>lambda</code> is two dimensional, the first value is used for the prior of the regression parameters and the second for the inverse of the variance of the prior distribution for the measurement error.</p>
-<p>If <code>stratified = TRUE</code> and <code>strat_par = </code>\(1\), <code>lambda</code> could be a vector of \(L+p+1\) elements where \(p\) is the number of regression parameters except the intercept (the first $L$ elements are used for the $L$ different ``intercept''s for the locatoins, while the \((L+1)^{\th}\) to \((L+p)^{\th}\) elements are used for regression parameters excluding intercept and the last value is used for ``sigma2''). If <code>stratified = TRUE</code> and <code>strat_par = </code>\(2\), <code>lambda</code> could be a vector of \(1+p+L\) elements where the first element is used for the ``intercept''s of the locatoins, while the \((L+1)^{\th}\) and \((L+2)^{\th}\) elements are used for regression parameters (excluding intercept) and ``sigma2'', respectively). But if <code>stratified = TRUE</code> and <code>strat_par = </code>c(\(1\), \(2\)), <code>lambda</code> could be a vector of \(2L+1\) elements.</p>
+<p>If <code>stratified = TRUE</code> and <code>strat_par = </code>\(1\), <code>lambda</code> could be a vector of \(L+p+1\) elements where \(p\) is the number of regression parameters except the intercept (the first \(L\) elements are used for the \(L\) different ``intercept''s for the locatoins, while the \((L+1)^{\th}\) to \((L+p)^{\th}\) elements are used for regression parameters excluding intercept and the last value is used for ``sigma2''). If <code>stratified = TRUE</code> and <code>strat_par = </code>\(2\), <code>lambda</code> could be a vector of \(1+p+L\) elements where the first element is used for the ``intercept''s of the locatoins, while the \((L+1)^{\th}\) and \((L+2)^{\th}\) elements are used for regression parameters (excluding intercept) and ``sigma2'', respectively). But if <code>stratified = TRUE</code> and <code>strat_par = </code>c(\(1\), \(2\)), <code>lambda</code> could be a vector of \(2L+1\) elements.</p>
 <p>If <code>intercept = FALSE</code>, for the <code>binomial</code> family the stratified analysis is not possible therefore <code>stratified</code> can not be <code>TRUE</code>.</p>
 <p>The output of <code>inv.prior.cov()</code> can be used in the main functions <code><a href="MAP.estimation.html">MAP.estimation()</a></code> and <code><a href="BFI.html">bfi()</a></code>.</p>
     </div>
