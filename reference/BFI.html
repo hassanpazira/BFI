@@ -26,12 +26,6 @@ bfi command"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
 <li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Python.html">BFI in Python</a>
-  </div>
-</li>
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -61,7 +55,7 @@ bfi command</p>
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bfi</span><span class="op">(</span>theta_hats <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    strat_par <span class="op">=</span> <span class="cn">NULL</span>, center_spec <span class="op">=</span> <span class="cn">NULL</span>, type <span class="op">=</span> <span class="st">"cat"</span><span class="op">)</span></span></code></pre></div>
+<span>    strat_par <span class="op">=</span> <span class="cn">NULL</span>, center_spec <span class="op">=</span> <span class="cn">NULL</span>, type<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cat"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -216,20 +210,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9264  0.5359 -0.1240   1.9767</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            2.1113  0.6146  0.9068   3.3159</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.9532  1.2152  0.5716   5.3349</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.9409  1.0762  0.8316   5.0503</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.3556  0.4949 -0.6145   1.3256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.1953  0.6037  0.0122   2.3785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.5706  2.7344  0.2113  10.9298</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           5.9555  2.7105  0.6431  11.2680</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      6.8522 -4.9359  1.2131  1.6130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -4.9359  7.7621 -1.6783 -1.9665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.2131 -1.6783  1.2231  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.6130 -1.9665  0.0000  1.6230</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.3776 -0.6681  0.1361  0.1460</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -0.6681  3.2971 -0.1668 -0.2307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.1361 -0.1668  0.1461  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1460 -0.2307  0.0000  0.1560</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
