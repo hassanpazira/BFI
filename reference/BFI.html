@@ -210,29 +210,28 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.3556  0.4949 -0.6145   1.3256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.1953  0.6037  0.0122   2.3785</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.5706  2.7344  0.2113  10.9298</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           5.9555  2.7105  0.6431  11.2680</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.0890  0.7658 -0.4120   2.5899</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.7799  0.9340 -0.0507   3.6105</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.3596  3.1154 -0.7465  11.4657</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.7393  1.2271  0.3341   5.1444</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.3776 -0.6681  0.1361  0.1460</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -0.6681  3.2971 -0.1668 -0.2307</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.1361 -0.1668  0.1461  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1460 -0.2307  0.0000  0.1560</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.0127 -2.5601  0.0970  0.9509</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.5601  2.8993 -0.0847 -0.8910</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.0970 -0.0847  0.1070  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.9509 -0.8910  0.0000  0.9609</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
-<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># An error appears:</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE):</span> In stratified analysis, 'strat_par' should not be 'NULL'. Select the stratification parameter(s).</span>
-<span class="r-in"><span><span class="co"># when stratified = TTRUE, both 'strat_par' and 'center_spec' can't be NULL.</span></span></span>
-<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1):</span> The last matrix in 'Lambda' should not have the same dim. as the other local matrices.</span>
+<span class="r-in"><span><span class="co"># By running the following line an error appears because when</span></span></span>
+<span class="r-in"><span><span class="co"># stratified = TRUE, both 'strat_par' and 'center_spec' can not be NULL</span></span></span>
+<span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified = TRUE)</span></span></span>
+<span class="r-in"><span><span class="co">#bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
