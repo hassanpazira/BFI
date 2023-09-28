@@ -58,7 +58,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="va">gaussian</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>              stratified <span class="op">=</span> <span class="cn">FALSE</span>, strat_par <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
+<span>              stratified <span class="op">=</span> <span class="cn">FALSE</span>, strat_par <span class="op">=</span> <span class="cn">NULL</span>, L <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -86,6 +86,10 @@
 
 <dt>strat_par</dt>
 <dd><p>a one- or two-element integer vector for indicating the stratification parameter(s). The values \(1\) and/or \(2\) are/is used to indicate that the ``intercept'' and/or ``sigma2'' are allowed to vary, respectively. This argument is used only when <code>stratified = TRUE</code>. Default is <code>strat_par = NULL</code>, but if <code>stratified = TRUE</code>, <code>strat_par</code> can not be <code>NULL</code>. For the <code>binomial</code> family the length of the vector should be one which refers to ``intercept'', and the value of this element should be \(1\). For <code>gaussian</code> this vector can be \(1\) for indicating the ``intercept'' only, \(2\) for indicating the ``sigma2'' only, and c(\(1\), \(2\)) for both ``intercept'' and ``sigma2''. See ‘Examples’.</p></dd>
+
+
+<dt>L</dt>
+<dd><p>the number of centers. This argument is used only when <code>stratified = TRUE</code>. Default is <code>L = 2</code>. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 </dl></div>
