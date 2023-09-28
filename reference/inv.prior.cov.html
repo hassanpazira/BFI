@@ -138,6 +138,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># The (inverse) variance value (lambda=0.05) is assumed to be</span></span></span>
 <span class="r-in"><span><span class="co"># the same for Gaussian prior of all parameters (for non-stratified)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-------------------------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Inverse Covariance Matrix for the Gaussian prior</span></span></span>
+<span class="r-in"><span><span class="co">#-------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Binomial with intercept</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span> <span class="co"># returns a 5-by-5 matrix</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22  x31</span>
@@ -165,7 +168,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> x31                0.00 0.00 0.00 0.00 0.05   0.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.00 0.00 0.00 0.00 0.00   0.05</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Stratified analysis for y ~ Binomial</span></span></span>
+<span class="r-in"><span><span class="co"># Stratified analysis for y ~ Binomial when there are 3 centers</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">1</span><span class="op">)</span>, family<span class="op">=</span><span class="va">binomial</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span>, L <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3 x1 x21 x22</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1              0.2              0.0              0.0  0   0   0</span>
