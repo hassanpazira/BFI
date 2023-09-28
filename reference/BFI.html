@@ -206,7 +206,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
-<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -216,28 +216,28 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9904  0.6107 -0.2065   2.1874</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.6320  0.7476  0.1668   3.0973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.3514  1.0396  0.3137   4.3890</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           5.8190  3.1864 -0.4262  12.0643</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.4106  0.5385  0.3551   2.4661</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.8904  0.6024  0.7098   3.0710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.6298  1.1108  0.4527   4.8070</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.1168  1.1817 -0.1993   4.4330</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.7234 -2.1988  1.5689  0.0939</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.1988  3.0799 -1.2131 -0.0983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.5689 -1.2131  1.5789  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.0939 -0.0983  0.0000  0.1039</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      6.5954 -4.5531  1.5393  1.1144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -4.5531  7.2554 -1.9935 -1.3091</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.5393 -1.9935  1.5493  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.1144 -1.3091  0.0000  1.1244</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># By running the following line an error appears because when</span></span></span>
 <span class="r-in"><span><span class="co"># stratified = TRUE, both 'strat_par' and 'center_spec' can not be NULL</span></span></span>
-<span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified = TRUE)</span></span></span>
-<span class="r-in"><span><span class="co">#bfi(theta_hats, A_hats, Lambda, stratified = TRUE, strat_par = 1)</span></span></span>
+<span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified=TRUE)</span></span></span>
+<span class="r-in"><span><span class="co">#bfi(theta_hats, A_hats, Lambda, stratified=TRUE, strat_par=1)</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

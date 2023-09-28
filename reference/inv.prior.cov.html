@@ -136,7 +136,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">X</span><span class="op">$</span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The (inverse) variance value (lambda=0.05) is assumed to be</span></span></span>
-<span class="r-in"><span><span class="co"># the same for Gaussian prior of all parameters</span></span></span>
+<span class="r-in"><span><span class="co"># the same for Gaussian prior of all parameters (for non-stratified)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Binomial with intercept</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span> <span class="co"># returns a 5-by-5 matrix</span></span></span>
@@ -165,6 +165,24 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> x31                0.00 0.00 0.00 0.00 0.05   0.00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.00 0.00 0.00 0.00 0.00   0.05</span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stratified analysis for y ~ Binomial</span></span></span>
+<span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">1</span><span class="op">)</span>, family<span class="op">=</span><span class="va">binomial</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span>, L <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3 x1 x21 x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1              0.2              0.0              0.0  0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2              0.0              0.2              0.0  0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3              0.0              0.0              0.2  0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                            0.0              0.0              0.0  1   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                           0.0              0.0              0.0  0   1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                           0.0              0.0              0.0  0   0   1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x31                           0.0              0.0              0.0  0   0   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  x31</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3   0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x31                1</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
