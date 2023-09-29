@@ -148,7 +148,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># y ~ Binomial</span></span></span>
 <span class="r-in"><span><span class="co">#-------------</span></span></span>
 <span class="r-in"><span><span class="co"># model assumption:</span></span></span>
-<span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>  <span class="co"># regression coefficients (beta[1] = 1 is the intercept)</span></span></span>
+<span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>  <span class="co"># regression coefficients (beta[1] is the intercept)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Data Simulation for local center 1</span></span></span>
@@ -216,20 +216,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.8618  0.8811 -0.8651   2.5888</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            4.0497  1.5995  0.9148   7.1846</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.1880  1.8443  1.5732   8.8027</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           7.5738  2.8570  1.9741  13.1734</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.7137  0.4984 -0.2632   1.6906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.9947  0.8042  0.4186   3.5709</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.4660  1.2656  0.9855   5.9465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           5.8346  3.0581 -0.1593  11.8284</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      3.1932 -2.6152  0.9102  0.7130</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.6152  3.8165 -0.9684 -1.2937</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.9102 -0.9684  0.9202  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.7130 -1.2937  0.0000  0.7230</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.3301 -1.5617  0.9571  0.1008</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -1.5617  2.4322 -0.8483 -0.0665</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.9571 -0.8483  0.9671  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1008 -0.0665  0.0000  0.1108</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
