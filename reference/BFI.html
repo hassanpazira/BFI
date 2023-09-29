@@ -76,13 +76,11 @@ bfi command</p>
 
 <dt>Lambda</dt>
 <dd><p>a list of \(L+1\) matrices. The \(k^{\th}\) matrix is the chosen inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution in center \(k\), where \(k=1,2,\ldots,L\). The last matrix is the chosen variance-covariance matrix for the Gaussian prior of the (fictive) combined data set.
-If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensions. While, if <code>stratified = TRUE</code>, the first \(L\) matrices must have equal dimensions and the last matrix should have a different (greater) dimention than the others.
-If <code>stratified = FALSE</code> and all the \(L+1\) matrices are equal, it is sufficient to give a (list of) one matrix only.
-If only the first \(L\) matrices are equal, this argument <code>Lambda</code> can be a list of two matrices, so that the fist matrix represents the chosen variance-covariance matrix for local centers and the second one is the chosen matrix for the combined data set, this true for any case of the argument <code>stratified</code>. See ‘Details’.</p></dd>
+If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensions. While, if <code>stratified = TRUE</code>, the first \(L\) matrices must have equal dimensions and the last matrix should have a different (greater) dimention than the others. See ‘Details’.</p></dd>
 
 
 <dt>stratified</dt>
-<dd><p>logical flag for performing the stratified analysis. If <code>stratified = TRUE</code>, the parameter(s) selected in the <code>strat_par</code> argument are allowed to be different across centers, except when the argument <code>center_spec</code> is <code>NULL</code>. Default is <code>stratified = FALSE</code>. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>logical flag for performing the stratified analysis. If <code>stratified = TRUE</code>, the parameter(s) selected in the <code>strat_par</code> argument are allowed to be different across centers, except when the argument <code>center_spec</code> is not <code>NULL</code>. Default is <code>stratified = FALSE</code>. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt>strat_par</dt>
@@ -90,7 +88,7 @@ If only the first \(L\) matrices are equal, this argument <code>Lambda</code> ca
 
 
 <dt>center_spec</dt>
-<dd><p>a vector of \(L\) elements for representing the center specific variable. This argument is used only when <code>stratified = TRUE</code> and <code>strat_par = NULL</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_spec</code> must be the same as in the list of the argument <code>theta_hats</code>. If <code>center_spec = NULL</code> (the default), the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>a vector of \(L\) elements for representing the center specific variable. This argument is used only when <code>stratified = TRUE</code> and <code>strat_par = NULL</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_spec</code> must be the same as in the list of the argument <code>theta_hats</code>. If <code>center_spec = NULL</code> (the default) and <code>stratified = TRUE</code>, the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt>type</dt>
@@ -105,7 +103,7 @@ If only the first \(L\) matrices are equal, this argument <code>Lambda</code> ca
 
 <p><code>bfi</code> returns a list containing the following components:</p>
 <dl><dt>theta_hat</dt>
-<dd><p>the vector of estimates obtained by combining the inference results from the \(L\) centers with the <code>'BFI'</code> methodology. If an intercept was fitted in every center and <code>stratified = FALSE</code>, there is only one general ``intercept'' in this vector, while if <code>stratified = TRUE</code>, there are \(L\) different local intercepts in the model;</p></dd>
+<dd><p>the vector of estimates obtained by combining the inference results from the \(L\) centers with the <code>'BFI'</code> methodology. If an intercept was fitted in every center and <code>stratified = FALSE</code>, there is only one general ``intercept'' in this vector, while if <code>stratified = TRUE</code> and <code>strat_par = 1</code>, there are \(L\) different intercepts in the model, for each center one;</p></dd>
 
 
 <dt>A_hat</dt>
@@ -113,7 +111,7 @@ If only the first \(L\) matrices are equal, this argument <code>Lambda</code> ca
 
 
 <dt>sd</dt>
-<dd><p>the vector of standard deviation of the estimates in <code>theta_hat</code> obtained from the matrix in <code>A_hat</code>, i.e., the vector equals <code>sqrt(diag(solve(A_hat)))</code> which equals the square root of the elements at the diagonal of the inverse of the <code>A_hat</code> matrix. .</p></dd>
+<dd><p>the vector of standard deviation of the estimates in <code>theta_hat</code> obtained from the matrix in <code>A_hat</code>, i.e., the vector equals <code>sqrt(diag(solve(A_hat)))</code> which equals the square root of the elements at the diagonal of the inverse of the <code>A_hat</code> matrix.</p></dd>
 
 
 </dl></div>
@@ -126,7 +124,9 @@ The models in the different centers should be defined in exactly the same way; a
 <p>Note that the order of the elements in the lists <code>theta_hats</code>, <code>A_hats</code> and <code>Lambda</code>, must be the same with respect to the centers, so that in every list the element at the \(\ell^{\th}\) position is from the center \(\ell\). This should also be the case for the vector <code>center_spec</code>.</p>
 <p>If <code>intercept = FALSE</code> for the locations, the stratified analysis is not possible anymore for the <code>binomial</code> family.</p>
 <p>If <code>stratified = FALSE</code>, both <code>strat_par</code> and <code>center_spec</code> must be <code>NULL</code> (the defaults), while if <code>stratified = TRUE</code> only one of the two must be <code>NULL</code>.</p>
-<p>If <code>stratified = TRUE</code>, the last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
+<p>If <code>stratified = FALSE</code> and all the \(L+1\) matrices are equal, it is sufficient to give a (list of) one matrix only.
+In both cases of the <code>stratified</code> argument (<code>TRUE</code> or <code>FALSE</code>), if only the first \(L\) matrices are equal, the argument <code>Lambda</code> can be a list of two matrices, so that the fist matrix represents the chosen variance-covariance matrix for local centers and the second one is the chosen matrix for the combined data set.
+The last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -216,20 +216,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.6151  0.7508  0.1435   3.0867</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            3.0656  1.0559  0.9961   5.1350</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           6.7333  2.8935  1.0623  12.4044</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           6.9927  2.8826  1.3429  12.6425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.8618  0.8811 -0.8651   2.5888</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            4.0497  1.5995  0.9148   7.1846</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.1880  1.8443  1.5732   8.8027</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           7.5738  2.8570  1.9741  13.1734</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.4231 -2.6068  0.1241  0.1297</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.6068  2.6269 -0.1742 -0.1988</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.1241 -0.1742  0.1341  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1297 -0.1988  0.0000  0.1397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      3.1932 -2.6152  0.9102  0.7130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.6152  3.8165 -0.9684 -1.2937</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.9102 -0.9684  0.9202  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.7130 -1.2937  0.0000  0.7230</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
