@@ -205,13 +205,13 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.4247  0.3807  0.6786   2.1709</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.7371  0.2175  1.3110   2.1633</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.8522  0.5059  1.8607   3.8438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x23           3.3802  0.4674  2.4641   4.2963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.8531  0.1875  0.4855   1.2207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.6900  0.1193  1.4563   1.9238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.2380  0.3145  2.6216   3.8545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23           4.4716  0.3381  3.8090   5.1342</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.357 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -56.03 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  0.7101 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -30.42 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
 <span class="r-in"><span><span class="va">sumfit</span> <span class="op">&lt;-</span> <span class="fu">summary</span><span class="op">(</span><span class="va">fit</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -224,36 +224,36 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.4247  0.3807  0.6786   2.1709</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.7371  0.2175  1.3110   2.1633</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.8522  0.5059  1.8607   3.8438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x23           3.3802  0.4674  2.4641   4.2963</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.8531  0.1875  0.4855   1.2207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.6900  0.1193  1.4563   1.9238</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.2380  0.3145  2.6216   3.8545</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23           4.4716  0.3381  3.8090   5.1342</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.357 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -56.03 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  0.7101 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -30.42 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x22     x23  sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     29.5771  3.8228  9.5801 13.2647 -0.2855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1               3.8228 22.6982  3.7381  0.7783 -0.3476</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              9.5801  3.7381  9.6801  0.0000 -0.5695</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x23             13.2647  0.7783  0.0000 13.3647 -0.6773</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2855 -0.3476 -0.5695 -0.6773 82.7148</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     56.4261  1.9487 15.4897 12.6734 -0.1716</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1               1.9487 71.2856 -0.6528  3.4298 -0.3379</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22             15.4897 -0.6528 15.5897  0.0000 -0.6479</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23             12.6734  3.4298  0.0000 12.7734 -0.8946</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.1716 -0.3379 -0.6479 -0.8946 81.4188</span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">estimate</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.424732 1.737147 2.852225 3.380185</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8531033 1.6900248 3.2380445 4.4716322</span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">logLikPost</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -56.02886</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -30.42469</span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">dispersion</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.356986 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.7101498 </span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">CI</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 2.5 %   97.5 %</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.6785777 2.170887</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1          1.3109527 2.163342</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22         1.8606905 3.843760</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x23         2.4640939 4.296277</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                2.5 %   97.5 %</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.485515 1.220692</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1          1.456289 1.923761</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22         2.621571 3.854518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23         3.809018 5.134247</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sumfit</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "summary.bfi"</span>
 <span class="r-in"><span></span></span>
