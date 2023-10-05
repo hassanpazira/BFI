@@ -72,7 +72,7 @@ Pazira</h4>
                         <h4 data-toc-skip class="author">Marianne
 Jonker</h4>
             
-            <h4 data-toc-skip class="date">October 03, 2023</h4>
+            <h4 data-toc-skip class="date">2023-10-05</h4>
       
       
       <div class="d-none name"><code>BFI.Rmd</code></div>
@@ -93,23 +93,19 @@ available for two commonly used families: <code>"binomial"</code> and
 <code>"gaussian"</code>. The mostly using functions include
 <code><a href="../reference/BFI.html">bfi()</a></code>, <code><a href="../reference/MAP.estimation.html">MAP.estimation()</a></code>, and
 <code><a href="../reference/inv.prior.cov.html">inv.prior.cov()</a></code>. In the following, we will see how the
-<code>BFI</code> package can be applied to real data sets included in
-the package. <code>trauma</code> data can be utilized for the
-<code>"binomial"</code> family and <code>Nurses</code> data can be used
-for <code>"gaussian"</code>. To avoid repetition, we only use the
-<code>trauma</code> data set.</p>
+<code>BFI</code> package can be applied to real datasets included in the
+package.</p>
 </div>
 <div class="section level2">
 <h2 id="how-to-use-it">How to use it?<a class="anchor" aria-label="anchor" href="#how-to-use-it"></a>
 </h2>
-<p>Before we go on, we first install and load the package, and then load
-the <code>trauma</code> data:</p>
+<p>Before we go on, we first install and load the package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># install BFI from GitHub</span></span>
 <span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hassanpazira/BFI"</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## <span style="color: #00BBBB;">──</span> <span style="color: #00BBBB;">R CMD build</span> <span style="color: #00BBBB;">─────────────────────────────────────────────────────────────────</span></span></span>
-<span><span class="co">## * checking for file ‘/tmp/Rtmp5VeNiK/remotes197e2f11465a/hassanpazira-BFI-fd249e7/DESCRIPTION’ ... OK</span></span>
+<span><span class="co">## * checking for file ‘/tmp/Rtmpt605Vw/remotes1a265bf11bc6/hassanpazira-BFI-fefc11e/DESCRIPTION’ ... OK</span></span>
 <span><span class="co">## * preparing ‘BFI’:</span></span>
 <span><span class="co">## * checking DESCRIPTION meta-information ... OK</span></span>
 <span><span class="co">## * checking for LF line-endings in source and make files and shell scripts</span></span>
@@ -117,29 +113,52 @@ the <code>trauma</code> data:</p>
 <span><span class="co">## * building ‘BFI_1.0.0.tar.gz’</span></span></code></pre>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># load BFI</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># load `trauma` data</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span></code></pre></div>
+<p>By the following code we can see there two available datasets in the
+package: <code>trauma</code> and <code>Nurses</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"BFI"</span><span class="op">)</span></span></code></pre></div>
+<p>The <code>trauma</code> data can be utilized for the
+<code>"binomial"</code> family and <code>Nurses</code> data can be used
+for <code>"gaussian"</code>. To avoid repetition, we only use the
+<code>trauma</code> data set. Load and inspect the <code>trauma</code>
+data as follows:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Load 'trauma' in the R workspace</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"trauma"</span><span class="op">)</span></span>
-<span><span class="co"># attach the data</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/attach.html" class="external-link">attach</a></span><span class="op">(</span><span class="va">trauma</span><span class="op">)</span></span></code></pre></div>
+<span></span>
+<span><span class="co"># Get the number of rows and columns</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">trauma</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## [1] 371   6</span></span></code></pre>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># To get an idea of the dataset, print the first 7 rows</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">trauma</span>, <span class="fl">7</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##   sex age hospital ISS GCS mortality</span></span>
+<span><span class="co">## 1   1  20        3  24  15         0</span></span>
+<span><span class="co">## 2   0  38        3  34  13         0</span></span>
+<span><span class="co">## 3   0  37        3  50  15         0</span></span>
+<span><span class="co">## 4   0  17        3  43   4         1</span></span>
+<span><span class="co">## 5   0  49        3  29  15         0</span></span>
+<span><span class="co">## 6   0  30        3  22  15         0</span></span>
+<span><span class="co">## 7   1  84        2  66   3         1</span></span></code></pre>
 <p>This data set consists of data of 371 trauma patients from three
 hospitals (peripheral hospital without a neuro-surgical unit, status=1,
 peripheral hospital with a neuro-surgical unit, status=2, and academic
-medical center, status=3). For more information about this data set
-use</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="op">?</span><span class="va">trauma</span></span></code></pre></div>
-<p>It has 6 columns:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">trauma</span><span class="op">)</span></span></code></pre></div>
+medical center, status=3).</p>
+<p>As we can see it has 6 columns:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="op">(</span><span class="va">col_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">trauma</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "sex"       "age"       "hospital"  "ISS"       "GCS"       "mortality"</span></span></code></pre>
 <p>The covariates <code>sex</code> (dichotomous), <code>age</code>
 (continuous), <code>ISS</code> (Injury Severity Score, continuous), and
 <code>GCS</code> (Glasgow Coma Scale, continuous) are the predictors,
 and <code>mortality</code> is the response variable.
 <code>hospital</code> is a categorical variable which indicates the
-hospitals involved in the study.</p>
+hospitals involved in the study. For more information about this dataset
+use 2023-10-05</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Get some info about the dataset from the help file</span></span>
+<span><span class="op">?</span><span class="va">trauma</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
