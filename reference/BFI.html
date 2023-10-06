@@ -105,7 +105,7 @@ If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensi
 
 
 <dt>sd</dt>
-<dd><p>the vector of standard deviation of the estimates in <code>theta_hat</code> obtained from the matrix in <code>A_hat</code>, i.e., the vector equals <code>sqrt(diag(solve(A_hat)))</code> which equals the square root of the elements at the diagonal of the inverse of the <code>A_hat</code> matrix.</p></dd>
+<dd><p>the vector of standard deviation of the estimates in <code>theta_hat</code> obtained from the matrix in <code>A_hat</code>, i.e., the vector equals <code>sqrt(diag(solve(A_hat)))</code> which equals the square root of the elements at the diagonal of the inverse of the <code>A_hat</code> matrix. If <code>stratified = TRUE</code>, then <code>sd = NULL</code> as the matrix <code>A_hat</code> is non-invertible due to <code>NA</code>'s.</p></dd>
 
 
 </dl></div>
@@ -116,7 +116,7 @@ The inference results gathered from different (\(L\)) centers are combined, and 
 <p>The inference result from each center must be obtained using the <code>MAP.estimation</code> function separately, and then all of these results (coming from different centers) should be compiled into a list to be used as an input of <code>bfi()</code>.
 The models in the different centers should be defined in exactly the same way; among others, exactly the same covariates should be included in the models. The parameter vectors should be defined exactly the same, so that the L vectors and matrices in the input lists <code>theta_hat</code>'s and <code>A_hat</code>'s are defined in the same way (e.g., the covariates need to be included in the models in the same order).</p>
 <p>Note that the order of the elements in the lists <code>theta_hats</code>, <code>A_hats</code> and <code>Lambda</code>, must be the same with respect to the centers, so that in every list the element at the \(\ell^{\th}\) position is from the center \(\ell\). This should also be the case for the vector <code>center_spec</code>.</p>
-<p>If <code>intercept = FALSE</code> for the locations, the stratified analysis is not possible anymore for the <code>binomial</code> family.</p>
+<p>If for the locations <code>intercept = FALSE</code>, the stratified analysis is not possible anymore for the <code>binomial</code> family.</p>
 <p>If <code>stratified = FALSE</code>, both <code>strat_par</code> and <code>center_spec</code> must be <code>NULL</code> (the defaults), while if <code>stratified = TRUE</code> only one of the two must be <code>NULL</code>.</p>
 <p>If <code>stratified = FALSE</code> and all the \(L+1\) matrices are equal, it is sufficient to give a (list of) one matrix only.
 In both cases of the <code>stratified</code> argument (<code>TRUE</code> or <code>FALSE</code>), if only the first \(L\) matrices are equal, the argument <code>Lambda</code> can be a list of two matrices, so that the fist matrix represents the chosen variance-covariance matrix for local centers and the second one is the chosen matrix for the combined data set.
@@ -210,28 +210,67 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.2107  0.4671 -0.7049   1.1262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.2775  0.4838  0.3292   2.2258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.0191  0.8311  0.3902   3.6480</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           5.8021  2.9210  0.0771  11.5271</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.5925  0.5597 -0.5044   1.6895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.8863  0.7166  0.4818   3.2908</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.6660  1.4453  0.8333   6.4987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           6.2384  2.9620  0.4330  12.0439</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1    x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      7.2852 -2.9724  2.221  0.1102</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.9724  5.7812 -1.559 -0.0820</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              2.2210 -1.5590  2.231  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1102 -0.0820  0.000  0.1202</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.3718 -1.8658  0.7708  0.1089</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -1.8658  3.4189 -0.9751 -0.0839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.7708 -0.9751  0.7808  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1089 -0.0839  0.0000  0.1189</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># By running the following line an error appears because when</span></span></span>
-<span class="r-in"><span><span class="co"># stratified = TRUE, both 'strat_par' and 'center_spec' can not be NULL</span></span></span>
+<span class="r-in"><span><span class="co"># stratified = TRUE, both 'strat_par' and 'center_spec' can not be NULL:</span></span></span>
 <span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified=TRUE)</span></span></span>
-<span class="r-in"><span><span class="co">#bfi(theta_hats, A_hats, Lambda, stratified=TRUE, strat_par=1)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># By running the following line an error appears because when stratified = TRUE,</span></span></span>
+<span class="r-in"><span><span class="co"># last matrix in 'Lambda' should not have the same dim. as the other local matrices:</span></span></span>
+<span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified=TRUE, strat_par=1)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span></span>
+<span class="r-in"><span><span class="va">newLambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">binomial</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1 (Intercept)_loc2               x1              x21 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1.4993664        0.3130408        1.2769171        2.2742219 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              x22 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1.6220529 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2          x1         x21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       1.34943229               NA -0.46604671  0.04079635</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA       3.21232299 -1.39973971  0.73003307</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                    -0.46604671      -1.39973971  3.70886521 -0.97513991</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                    0.04079635       0.73003307 -0.97513991  1.07082942</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                    0.04867806       0.06021268 -0.08391412  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1  0.04867806</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2  0.06021268</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1               -0.08391412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21               0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22               0.40889075</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "binomial"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $stratified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span><span class="co"># summary() does not work for the stratified analysis!</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
