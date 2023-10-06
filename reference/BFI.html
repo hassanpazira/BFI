@@ -210,20 +210,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.2538  0.7631 -0.2419   2.7495</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            2.7004  1.0373  0.6674   4.7334</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           3.9750  1.4561  1.1212   6.8289</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           7.1470  3.0335  1.2015  13.0924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.5469  0.6491  0.2748   2.8191</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.9106  0.7207  0.4980   3.3232</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           6.2384  2.9034  0.5477  11.9290</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.0869  1.2511 -0.3653   4.5390</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      3.4832 -2.2508  0.9146  0.1218</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -2.2508  2.8889 -1.0849 -0.1925</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.9146 -1.0849  0.9246  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.1218 -0.1925  0.0000  0.1318</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      4.3421 -3.0425  0.1370  1.1024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.0425  4.8991 -0.2973 -1.4015</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.1370 -0.2973  0.1470  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.1024 -1.4015  0.0000  1.1124</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
@@ -241,23 +241,23 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1 (Intercept)_loc2               x1              x21 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1.5424979        0.7689247        1.1894410        1.9851727 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         2.237292         1.140045         1.422800         1.719138 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1.6025915 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         1.461534 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2         x1         x21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       0.82361491               NA -0.3842632  0.08829324</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA       2.84958516 -1.8665105  0.82630438</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                    -0.38426319      -1.86651045  3.1788543 -1.08491852</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                    0.08829324       0.82630438 -1.0849185  1.21459762</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                    0.04424473       0.07755383 -0.1924705  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       1.25264709               NA -1.3494063  0.06970515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA       3.27944261 -1.6930788  0.06728924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                    -1.34940627      -1.69307882  5.1890910 -0.29726983</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                    0.06970515       0.06728924 -0.2972698  0.43699439</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                    0.03343384       1.06899948 -1.4015466  0.00000000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                          x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1  0.04424473</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2  0.07755383</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1               -0.19247054</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1  0.03343384</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2  1.06899948</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1               -1.40154662</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> x21               0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22               0.42179856</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22               1.40243333</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
