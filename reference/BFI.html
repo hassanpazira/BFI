@@ -138,17 +138,17 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#----------------#</span></span></span>
-<span class="r-in"><span><span class="co">#  y ~ Binomial  #</span></span></span>
-<span class="r-in"><span><span class="co">#----------------#</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">###############################</span></span></span>
+<span class="r-in"><span><span class="co">##  Example 1: y ~ Binomial  ##</span></span></span>
+<span class="r-in"><span><span class="co">###############################</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#------------------</span></span></span>
-<span class="r-in"><span><span class="co"># model assumption:</span></span></span>
+<span class="r-in"><span><span class="co"># Model Assumption:</span></span></span>
 <span class="r-in"><span><span class="co">#------------------</span></span></span>
 <span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>  <span class="co"># regression coefficients (beta[1] is the intercept)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Data Simulation for local center 1</span></span></span>
+<span class="r-in"><span><span class="co"># Data Simulation for Local Center 1</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
 <span class="r-in"><span><span class="va">n1</span> <span class="op">&lt;-</span> <span class="fl">30</span>                                           <span class="co"># sample size of center 1</span></span></span>
 <span class="r-in"><span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span><span class="op">)</span>,                     <span class="co"># continuous variable</span></span></span>
@@ -164,7 +164,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">y1</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n1</span>, <span class="fl">1</span>, <span class="va">mu1</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Data Simulation for local center 2</span></span></span>
+<span class="r-in"><span><span class="co"># Data Simulation for Local Center 2</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
 <span class="r-in"><span><span class="va">n2</span> <span class="op">&lt;-</span> <span class="fl">50</span>                                           <span class="co"># sample size of center 2</span></span></span>
 <span class="r-in"><span><span class="va">X2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span><span class="op">)</span>,                     <span class="co"># continuous variable</span></span></span>
@@ -180,7 +180,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">y2</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n2</span>, <span class="fl">1</span>, <span class="va">mu2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># MAP estimates at center 1</span></span></span>
+<span class="r-in"><span><span class="co"># MAP Estimates at Center 1</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># assume the same inverse covariance matrix (Lambda) for both centers:</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span>     <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.01</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span></span></span>
@@ -189,14 +189,14 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># minus the curvature matrix</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># MAP estimates at center 2</span></span></span>
+<span class="r-in"><span><span class="co"># MAP Estimates at Center 2</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family<span class="op">=</span><span class="va">binomial</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
 <span class="r-in"><span><span class="va">A_hat2</span>     <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#----------------------</span></span></span>
-<span class="r-in"><span><span class="co"># BFI at central center</span></span></span>
+<span class="r-in"><span><span class="co"># BFI at Central Center</span></span></span>
 <span class="r-in"><span><span class="co">#----------------------</span></span></span>
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
@@ -213,23 +213,23 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.5723  0.5258 -0.4583   1.6029</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.4904  0.5435  0.4253   2.5556</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.8152  1.0886  0.6816   4.9488</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.9139  1.2022  0.5576   5.2702</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.7715  0.5042 -0.2168   1.7597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.4790  0.5967  0.3096   2.6485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21           5.8156  2.8708  0.1888  11.4423</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           1.6062  0.8957 -0.1493   3.3617</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      6.0677 -3.0324  1.3191  0.9064</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -3.0324  5.6161 -1.3524 -0.7564</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.3191 -1.3524  1.3291  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              0.9064 -0.7564  0.0000  0.9164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      5.9939 -1.3314  0.1164  1.7865</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -1.3314  3.1612 -0.0953 -0.5262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21              0.1164 -0.0953  0.1264  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.7865 -0.5262  0.0000  1.7965</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
-<span class="r-in"><span><span class="co"># stratified analysis</span></span></span>
+<span class="r-in"><span><span class="co"># Stratified Analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># By running the following line an error appears because when stratified = TRUE,</span></span></span>
 <span class="r-in"><span><span class="co"># both 'strat_par' and 'center_spec' can not be NULL:</span></span></span>
@@ -244,23 +244,23 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1 (Intercept)_loc2               x1              x21 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        0.2215709        1.0824959        1.2312290        1.7152773 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        0.5892642        0.9605767        1.2244280        1.7103906 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>              x22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        1.7286328 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        1.3135316 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2         x1         x21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       1.81438793               NA -0.3038243  0.06853806</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA        4.4433504 -2.7285744  1.25056940</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                    -0.30382429       -2.7285744  5.9061190 -1.35241706</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                    0.06853806        1.2505694 -1.3524171  1.61910745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                    0.08550607        0.8208984 -0.7564274  0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                          x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1  0.08550607</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2  0.82089840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1               -0.75642745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21               0.00000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22               1.20640447</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2          x1         x21</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       1.76165421               NA -0.42045059  0.06284353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA       4.42224783 -0.91099012  0.05357274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1                    -0.42045059      -0.91099012  3.45121239 -0.09533304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21                    0.06284353       0.05357274 -0.09533304  0.41641627</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22                    0.88057787       0.90590837 -0.52620533  0.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         x22</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1  0.8805779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2  0.9059084</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1               -0.5262053</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x21               0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22               2.0864862</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -274,6 +274,208 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="co"># summary() does not work for the stratified analysis!</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">###############################</span></span></span>
+<span class="r-in"><span><span class="co">##  Example 2: y ~ Gaussian  ##</span></span></span>
+<span class="r-in"><span><span class="co">###############################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Model Assumptions:</span></span></span>
+<span class="r-in"><span><span class="co">#-------------------</span></span></span>
+<span class="r-in"><span><span class="va">p</span>     <span class="op">&lt;-</span> <span class="fl">3</span>                     <span class="co"># number of coefficients without intercept</span></span></span>
+<span class="r-in"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">p</span><span class="op">)</span>, <span class="fl">1.5</span><span class="op">)</span>  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Data Simulation for Local Center 1</span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
+<span class="r-in"><span><span class="va">n1</span>   <span class="op">&lt;-</span> <span class="fl">30</span>                                       <span class="co"># sample size of center 1</span></span></span>
+<span class="r-in"><span><span class="va">X1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n1</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous variables</span></span></span>
+<span class="r-in"><span><span class="co"># linear predictor:</span></span></span>
+<span class="r-in"><span><span class="va">eta1</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span></span>
+<span class="r-in"><span><span class="va">mu1</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">mu1</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Data Simulation for Local Center 2</span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
+<span class="r-in"><span><span class="va">n2</span>   <span class="op">&lt;-</span> <span class="fl">50</span>                                       <span class="co"># sample size of center 2</span></span></span>
+<span class="r-in"><span><span class="va">X2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n2</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous variables</span></span></span>
+<span class="r-in"><span><span class="co"># linear predictor:</span></span></span>
+<span class="r-in"><span><span class="va">eta2</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># inverse of the link function:</span></span></span>
+<span class="r-in"><span><span class="va">mu2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span>, <span class="va">mu2</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#---------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Inverse Covariance Matrix</span></span></span>
+<span class="r-in"><span><span class="co">#---------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Creating the inverse covariance matrix for the Gaussian prior distribution:</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">gaussian</span><span class="op">)</span> <span class="co"># the same for both centers</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#--------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># MAP Estimates at Center 1</span></span></span>
+<span class="r-in"><span><span class="co">#--------------------------</span></span></span>
+<span class="r-in"><span><span class="va">fit1</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family<span class="op">=</span><span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span> <span class="co"># intercept and coefficient estimates</span></span></span>
+<span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># minus the curvature matrix</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#--------------------------</span></span></span>
+<span class="r-in"><span><span class="co"># MAP Estimates at Center 2</span></span></span>
+<span class="r-in"><span><span class="co">#--------------------------</span></span></span>
+<span class="r-in"><span><span class="va">fit2</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family<span class="op">=</span><span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
+<span class="r-in"><span><span class="va">A_hat2</span>     <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#----------------------</span></span></span>
+<span class="r-in"><span><span class="co"># BFI at Central Center</span></span></span>
+<span class="r-in"><span><span class="co">#----------------------</span></span></span>
+<span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.1505  0.1510  0.8544   1.4465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1            1.0610  0.1310  0.8043   1.3178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2            0.1936  0.1590 -0.1180   0.5052</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            0.0474  0.1412 -0.2294   0.3241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.722 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      X1      X2      X3   sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     47.1028 -4.5822 -8.7721 -9.5843  -0.2201</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1              -4.5822 58.8561 -0.4787  2.7840  -0.2032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2              -8.7721 -0.4787 42.3241  9.2604  -0.0314</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3              -9.5843  2.7840  9.2604 54.0479   8.9392</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2201 -0.2032 -0.0314  8.9392 160.6606</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#--------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Stratified Analysis</span></span></span>
+<span class="r-in"><span><span class="co">#--------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span></span>
+<span class="r-in"><span><span class="va">newLambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># 'newLambda1' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
+<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda1</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1 (Intercept)_loc2               X1               X2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.14859302       1.14536899       1.05996717       0.19248237 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               X3           sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.04697729       1.71908919 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2         X1          X2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       15.1770026               NA -3.9535286 -1.23990068</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA       32.0757474 -0.6286522 -7.53215391</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                     -3.9535286       -0.6286522 58.9061133 -0.47865515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                     -1.2399007       -7.5321539 -0.4786552 42.37413492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                      2.0225854      -11.6068663  2.7840075  9.26042231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                 -0.1061626       -0.1139278 -0.2032016 -0.03136128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                          X3       sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   2.022585  -0.10616260</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2 -11.606866  -0.11392782</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                 2.784007  -0.20320155</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                 9.260422  -0.03136128</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                54.097924   8.93918520</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             8.939185 160.91064051</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $stratified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stratified analysis when 'sigma2' varies across two centers:</span></span></span>
+<span class="r-in"><span><span class="va">newLambda2</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># 'newLambda2' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
+<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda2</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3 sigma2_loc1 sigma2_loc2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.15418199  1.05904500  0.18753603  0.07731384  1.98182451  1.55282432 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          X1           X2          X3  sigma2_loc1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  47.1527501 -4.58218073 -8.772054593 -9.58428088 -0.106162601</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1           -4.5821807 58.90611331 -0.478655152  2.78400748 -0.090097036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2           -8.7720546 -0.47865515 42.374134921  9.26042231 -0.008572022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3           -9.5842809  2.78400748  9.260422310 54.09792392 -0.036158326</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1  -0.1061626 -0.09009704 -0.008572022 -0.03615833 60.648017457</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2  -0.1139278 -0.11310452 -0.022789259  8.97534353           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              sigma2_loc2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  -0.11392782</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1           -0.11310452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2           -0.02278926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            8.97534353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2 100.56262305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $stratified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:</span></span></span>
+<span class="r-in"><span><span class="va">newLambda3</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># 'newLambda3' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
+<span class="r-in"><span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda3</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1 (Intercept)_loc2               X1               X2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       1.14496999       1.15453999       1.05660439       0.18674221 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               X3      sigma2_loc1      sigma2_loc2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0.07786113       1.98180497       1.55277295 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2         X1           X2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1       15.1770026               NA -3.9535286   2.02258544</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2               NA       32.0757474 -0.6286522 -11.60686632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                     -3.9535286       -0.6286522 59.0061133  -0.47865515</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                     -1.2399007       -7.5321539 -0.4786552  42.47413492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                      2.0225854      -11.6068663  2.7840075   9.26042231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1            -0.1061626               NA -1.2399007  -0.09009704</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2                    NA       -0.1139278 -7.5321539  -0.11310452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                            X3  sigma2_loc1  sigma2_loc2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1 -0.008572022 -0.106162601           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2 -0.022789259           NA  -0.11392782</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                2.784007482 -0.090097036  -0.11310452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                9.260422310 -0.008572022  -0.02278926</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3               54.197923919 -0.036158326   8.97534353</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1      -0.036158326 60.648017457           NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2       8.975343528           NA 100.56262305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $stratified</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

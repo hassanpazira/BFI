@@ -150,7 +150,7 @@
 <span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">p</span><span class="op">)</span>, <span class="fl">1.5</span><span class="op">)</span>  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
 <span></span>
 <span><span class="co">#-----------------------------------</span></span>
-<span><span class="co"># Data Simulation for local center 1</span></span>
+<span><span class="co"># Data simulation for local center 1</span></span>
 <span><span class="co">#-----------------------------------</span></span>
 <span><span class="va">n1</span>   <span class="op">&lt;-</span> <span class="fl">30</span>                                       <span class="co"># sample size of center 1</span></span>
 <span><span class="va">X1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n1</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous variables</span></span>
@@ -161,7 +161,7 @@
 <span><span class="va">y1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">mu1</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#-----------------------------------</span></span>
-<span><span class="co"># Data Simulation for local center 2</span></span>
+<span><span class="co"># Data simulation for local center 2</span></span>
 <span><span class="co">#-----------------------------------</span></span>
 <span><span class="va">n2</span>   <span class="op">&lt;-</span> <span class="fl">50</span>                                       <span class="co"># sample size of center 2</span></span>
 <span><span class="va">X2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n2</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous variables</span></span>
@@ -172,7 +172,7 @@
 <span><span class="va">y2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span>, <span class="va">mu2</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#---------------------------</span></span>
-<span><span class="co"># Inverse Covariance Mmatrix</span></span>
+<span><span class="co"># Inverse Covariance Matrix</span></span>
 <span><span class="co">#---------------------------</span></span>
 <span><span class="co"># Creating the inverse covariance matrix for the Gaussian prior distribution:</span></span>
 <span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">gaussian</span><span class="op">)</span> <span class="co"># the same for both centers</span></span>
@@ -200,7 +200,7 @@
 <span><span class="fu"><a href="reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">#--------------------</span></span>
-<span><span class="co"># stratified analysis</span></span>
+<span><span class="co"># Stratified analysis</span></span>
 <span><span class="co">#--------------------</span></span>
 <span><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span>
 <span><span class="va">newLambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
