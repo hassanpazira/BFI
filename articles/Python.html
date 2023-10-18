@@ -70,7 +70,7 @@
                         <h4 data-toc-skip class="author">Hassan
 Pazira</h4>
             
-            <h4 data-toc-skip class="date">2023-10-17</h4>
+            <h4 data-toc-skip class="date">2023-10-18</h4>
       
       
       <div class="d-none name"><code>Python.Rmd</code></div>
@@ -178,10 +178,11 @@ version.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="installation-of-required-modules-through-pip">Installation of required modules through PIP<a class="anchor" aria-label="anchor" href="#installation-of-required-modules-through-pip"></a>
+<h2 id="installation-of-required-modules">Installation of required modules<a class="anchor" aria-label="anchor" href="#installation-of-required-modules"></a>
 </h2>
-<p>PIP (a Python package manager) helps us to install and use various
-packages/modules in Python programming.</p>
+<p>Here the required modules are installed through PIP. PIP (a Python
+package manager) helps us to install and use various packages/modules in
+Python programming.</p>
 <p>Install the latest version of PIP and required modules by running the
 following commands on different systems.</p>
 <div class="section level3">
@@ -282,7 +283,7 @@ this line if you are already in <em>Google Colab</em>):</p>
 <p>As of now, all the following codes should be run in the Python
 environment. If you want to copy all codes at once go to <a href="#allcodes">the last section</a>.</p>
 <div class="section level3">
-<h3 id="importing-required-packages-and-functions">Importing required packages and functions<a class="anchor" aria-label="anchor" href="#importing-required-packages-and-functions"></a>
+<h3 id="importing-python-modules-and-functions">Importing <code>Python</code> modules and functions<a class="anchor" aria-label="anchor" href="#importing-python-modules-and-functions"></a>
 </h3>
 <p>Use the following codes to import required Python modules:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># import 'pandas' package</span></span>
@@ -303,7 +304,7 @@ environment. If you want to copy all codes at once go to <a href="#allcodes">the
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>pandas2ri.activate()</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="installation-of-r-packages-from-cran-and-github">Installation of <code>R</code> packages from CRAN and GitHub:<a class="anchor" aria-label="anchor" href="#installation-of-r-packages-from-cran-and-github"></a>
+<h3 id="installing-r-packages-from-cran-and-github">Installing <code>R</code> packages from CRAN and GitHub:<a class="anchor" aria-label="anchor" href="#installing-r-packages-from-cran-and-github"></a>
 </h3>
 <p>First load the packages preinstalled with R using
 <code>importr()</code> as follows:</p>
@@ -340,9 +341,9 @@ following lines:</p>
 distribution, and then apply main functions in the <code>BFI</code>
 package to these datasets:</p>
 <div class="section level3">
-<h3 id="data-simulation-for-center-1">Data Simulation for center 1<a class="anchor" aria-label="anchor" href="#data-simulation-for-center-1"></a>
+<h3 id="data-simulation-for-two-local-centers">Data Simulation for two local centers<a class="anchor" aria-label="anchor" href="#data-simulation-for-two-local-centers"></a>
 </h3>
-<p>Randomly generate 30 samples from Gaussian distribution with 3
+<p>First generate 30 samples randomly from Gaussian distribution with 3
 covariates:</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># model parameters: 'theta' and 'p' are assumed to be the same for both centers:</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">0.75</span>])   <span class="co"># intercept is theta[0], sigma2 is theta[4]</span></span>
@@ -356,11 +357,7 @@ covariates:</p>
 <span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>mu1 <span class="op">=</span> theta[<span class="dv">0</span>] <span class="op">+</span> np.dot(X1, np.delete(theta, [<span class="dv">0</span>, <span class="dv">4</span>]))  <span class="co"># for gaussian: \eta = \mu </span></span>
 <span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>X1 <span class="op">=</span> pandas2ri.py2rpy(X1)   <span class="co"># == base.as_data_frame(X1)</span></span>
 <span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>y1 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu1, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="data-simulation-for-center-2">Data Simulation for center 2<a class="anchor" aria-label="anchor" href="#data-simulation-for-center-2"></a>
-</h3>
-<p>Generate randomly 50 samples from Gaussian distribution with 3
+<p>Then generate randomly 50 samples from Gaussian distribution with 3
 covariates:</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Center 2:</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>n2 <span class="op">=</span> <span class="dv">50</span>   <span class="co"># sample size of center 2</span></span>
@@ -371,7 +368,7 @@ covariates:</p>
 <span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>y2 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu2, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="map-estimates-at-center-1">MAP estimates at center 1<a class="anchor" aria-label="anchor" href="#map-estimates-at-center-1"></a>
+<h3 id="map-estimates-at-the-local-centers">MAP estimates at the local centers<a class="anchor" aria-label="anchor" href="#map-estimates-at-the-local-centers"></a>
 </h3>
 <p>The following compute the Maximum A Posterior (MAP) estimators of the
 parameters for center 1:</p>
@@ -382,10 +379,6 @@ parameters for center 1:</p>
 <span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>theta_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"theta_hat"</span>) <span class="co"># MAP estimates of the intercept and coefficients</span></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>A_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"A_hat"</span>)         <span class="co"># minus the curvature matrix</span></span>
 <span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>summary_1 <span class="op">=</span> BFI.summary_bfi(fit1, cur_mat <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="map-estimates-at-center-2">MAP estimates at center 2<a class="anchor" aria-label="anchor" href="#map-estimates-at-center-2"></a>
-</h3>
 <p>Obtaining the MAP estimators of the parameters for center 2 using the
 following:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating an inverse covariance matrix for Gaussian prior for center 2</span></span>
