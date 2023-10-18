@@ -51,8 +51,8 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="va">gaussian</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>              stratified <span class="op">=</span> <span class="cn">FALSE</span>, strat_par <span class="op">=</span> <span class="cn">NULL</span>, center_spec <span class="op">=</span> <span class="cn">NULL</span>, L <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fl">1</span>, L <span class="op">=</span> <span class="fl">2</span>, family <span class="op">=</span> <span class="va">gaussian</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>              stratified <span class="op">=</span> <span class="cn">FALSE</span>, strat_par <span class="op">=</span> <span class="cn">NULL</span>, center_spec <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -64,6 +64,9 @@
 <dt>lambda</dt>
 <dd><p>the vector used as the diagonal of the (inverse covariance) matrix that will be created by <code>inv.prior.cov()</code>. The length of the vector depends on the number of columns of <code>X</code>, type of the covariates (continuous/dichotomous or categorical), <code>family</code>, whether an <code>intercept</code> is included in the model, and whether <code>stratified</code> analysis is desired. When <code>stratified = FALSE</code>, <code>lambda</code> could be a single positive number (if all values in the vector are equal), a vector of two elements (the first is used for regression parameters including ``intercept'' and the second for the ``sigma2''), or a vector of length equal to the number of model parameters. However, the length of <code>lambda</code> is different when <code>stratified = TRUE</code>, see ‘Details’ for more information. Default is <code>lambda = 1</code>.</p></dd>
 
+
+<dt>L</dt>
+<dd><p>the number of centers. This argument is used only when <code>stratified = TRUE</code>. Default is <code>L = 2</code>. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt>family</dt>
@@ -82,8 +85,9 @@
 <dd><p>a one- or two-element integer vector for indicating the stratification parameter(s). The values \(1\) and/or \(2\) are/is used to indicate that the ``intercept'' and/or ``sigma2'' are allowed to vary, respectively. This argument is used only when <code>stratified = TRUE</code>. Default is <code>strat_par = NULL</code>, but if <code>stratified = TRUE</code>, <code>strat_par</code> can not be <code>NULL</code>. For the <code>binomial</code> family the length of the vector should be one which refers to ``intercept'', and the value of this element should be \(1\). For <code>gaussian</code> this vector can be \(1\) for indicating the ``intercept'' only, \(2\) for indicating the ``sigma2'' only, and c(\(1\), \(2\)) for both ``intercept'' and ``sigma2''. See ‘Examples’.</p></dd>
 
 
-<dt>L</dt>
-<dd><p>the number of centers. This argument is used only when <code>stratified = TRUE</code>. Default is <code>L = 2</code>. See ‘Details’ and ‘Examples’.</p></dd>
+<dt>center_spec</dt>
+<dd><p>a vector of \(L\) elements for representing the center specific variable. This argument is used only when <code>stratified = TRUE</code> and <code>strat_par = NULL</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_spec</code> must be the same as in the list of the argument <code>theta_hats</code> in the function <code><a href="BFI.html">bfi()</a></code>.
+The used data type in the argument <code>center_spec</code> must be categorical. Default is <code>center_spec = NULL</code>. See also ‘Details’ and ‘Examples’.</p></dd>
 
 
 </dl></div>
@@ -95,6 +99,7 @@ Note that, if all values in the vector <code>lambda</code> equal, one value is e
 If <code>lambda</code> is a scalar, the function <code>inv.prior.cov</code> sets each value at the diagonal equal to <code>lambda</code>. In the linear regression model the last parameter is assumed to be the inverse of the variance of the prior distribution for the measurement error. If <code>lambda</code> is two dimensional, the first value is used for the prior of the regression parameters and the second for the inverse of the variance of the prior distribution for the measurement error.</p>
 <p>If <code>stratified = TRUE</code> the length of the vector <code>lambda</code> should be equal to the number of parameters in the combined model.</p>
 <p>If <code>intercept = FALSE</code>, for the <code>binomial</code> family the stratified analysis is not possible therefore <code>stratified</code> can not be <code>TRUE</code>.</p>
+<p>If <code>stratified = FALSE</code>, both <code>strat_par</code> and <code>center_spec</code> must be <code>NULL</code> (the defaults), while if <code>stratified = TRUE</code> only one of the two must be <code>NULL</code>.</p>
 <p>The output of <code>inv.prior.cov()</code> can be used in the main functions <code><a href="MAP.estimation.html">MAP.estimation()</a></code> and <code><a href="BFI.html">bfi()</a></code>.</p>
     </div>
     <div class="section level2">
