@@ -134,6 +134,11 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">X</span><span class="op">$</span><span class="va">x2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span><span class="op">$</span><span class="va">x3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">X</span><span class="op">$</span><span class="va">x3</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#---------------------</span></span></span>
+<span class="r-in"><span><span class="co"># Load the BFI package</span></span></span>
+<span class="r-in"><span><span class="co">#---------------------</span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI">BFI</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># The (inverse) variance value (lambda=0.05) is assumed to be</span></span></span>
 <span class="r-in"><span><span class="co"># the same for Gaussian prior of all parameters (for non-stratified)</span></span></span>
 <span class="r-in"><span></span></span>
@@ -142,95 +147,35 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">#-------------------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Binomial with 'intercept'</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">binomial</span><span class="op">)</span> <span class="co"># returns a 5-by-5 matrix</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22  x31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.05 0.00 0.00 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.05 0.00 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.05 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.05 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                0.00 0.00 0.00 0.00 0.05</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = 0.05, family = binomial):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Binomial without 'intercept'</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="st">"binomial"</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="co"># a 4-by-4 matrix</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       x1  x21  x22  x31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1  0.05 0.00 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21 0.00 0.05 0.00 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22 0.00 0.00 0.05 0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31 0.00 0.00 0.00 0.05</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = 0.05, family = "binomial", intercept = FALSE):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Gaussian with 'intercept'</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">gaussian</span><span class="op">)</span> <span class="co"># returns a 6-by-6 matrix</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   x1  x21  x22  x31 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.05 0.00 0.00 0.00 0.00   0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.00 0.05 0.00 0.00 0.00   0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.00 0.00 0.05 0.00 0.00   0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0.00 0.00 0.00 0.05 0.00   0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                0.00 0.00 0.00 0.00 0.05   0.00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.00 0.00 0.00 0.00 0.00   0.05</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = 0.05, family = gaussian):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Stratified analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Binomial when 'intercept' varies across 3 centers:</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.2</span>, <span class="fl">1</span><span class="op">)</span>, family<span class="op">=</span><span class="va">binomial</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span>, L <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3 x1 x21 x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1              0.2              0.0              0.0  0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2              0.0              0.2              0.0  0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3              0.0              0.0              0.2  0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                            0.0              0.0              0.0  1   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                           0.0              0.0              0.0  0   1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                           0.0              0.0              0.0  0   0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                           0.0              0.0              0.0  0   0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  x31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(0.2, 1), family = binomial, stratified = TRUE,     strat_par = 1, L = 3):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Gaussian when 'intercept' and 'sigma2' vary across 2 centers; y ~ Gaussian</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2 x1 x21 x22 x31 sigma2_loc1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1                1                0  0   0   0   0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2                0                1  0   0   0   0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                              0                0  2   0   0   0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                             0                0  0   2   0   0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                             0                0  0   0   2   0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                             0                0  0   0   0   2           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1                     0                0  0   0   0   0           3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2                     0                0  0   0   0   0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  sigma2_loc2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                         0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                        0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1                0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2                3</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(1, 2, 3), family = gaussian, stratified = TRUE,     strat_par = c(1, 2)):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Gaussian when 'sigma2' varies across 2 centers (with 'intercept')</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept) x1 x21 x22 x31 sigma2_loc1 sigma2_loc2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)           1  0   0   0   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                    0  2   0   0   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                   0  0   2   0   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                   0  0   0   2   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                   0  0   0   0   2           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1           0  0   0   0   0           3           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2           0  0   0   0   0           0           3</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(1, 2, 3), family = gaussian, stratified = TRUE,     strat_par = 2):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># y ~ Gaussian when 'sigma2' varies across 2 centers (without 'intercept')</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2</span>, <span class="fl">3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>              strat_par <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             x1 x21 x22 x31 sigma2_loc1 sigma2_loc2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1           2   0   0   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21          0   2   0   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22          0   0   2   0           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31          0   0   0   2           0           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1  0   0   0   0           3           0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2  0   0   0   0           0           3</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(2, 3), family = gaussian, intercept = FALSE,     stratified = TRUE, strat_par = 2):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Center specific covariate</span></span></span>
@@ -238,65 +183,16 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># center specific covariate has K=2 categories across 4 centers; y ~ Binomial</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>, family<span class="op">=</span><span class="va">binomial</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>              center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Iran"</span>,<span class="st">"Netherlands"</span>,<span class="st">"Netherlands"</span>,<span class="st">"Iran"</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         (Intercept)_Iran (Intercept)_Netherlands  x1 x21 x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Iran                     0.1                     0.0 0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Netherlands              0.0                     0.1 0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                                   0.0                     0.0 1.1 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                                  0.0                     0.0 0.0 1.1 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                                  0.0                     0.0 0.0 0.0 1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                                  0.0                     0.0 0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         x31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Iran        0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Netherlands 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                      0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                     1.1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(0.1:2), family = binomial, stratified = TRUE,     center_spec = c("Iran", "Netherlands", "Netherlands", "Iran"),     L = 4):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># center specific covariate has K=3 categories across 5 centers; y ~ Gaussian</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>              center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Medium"</span>,<span class="st">"Big"</span>,<span class="st">"Small"</span>,<span class="st">"Big"</span>,<span class="st">"Small"</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    (Intercept)_Big (Intercept)_Medium (Intercept)_Small  x1 x21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Big                0.5                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Medium             0.0                0.5               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Small              0.0                0.0               0.5 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                             0.0                0.0               0.0 1.5 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                            0.0                0.0               0.0 0.0 1.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                            0.0                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                            0.0                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                         0.0                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    x22 x31 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Big    0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Medium 0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Small  0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                1.5 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                0.0 1.5    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.0 0.0    2.5</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(0.5:3), family = gaussian, stratified = TRUE,     center_spec = c("Medium", "Big", "Small", "Big", "Small"),     L = 5):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># center specific covariate has K=4 categories across 5 centers; y ~ Gaussian</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fl">1</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               (Intercept)_1 (Intercept)_2 (Intercept)_3 (Intercept)_4 x1 x21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1             1             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_2             0             1             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3             0             0             1             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_4             0             0             0             1  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                        0             0             0             0  1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                       0             0             0             0  0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                       0             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                       0             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                    0             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               x22 x31 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_2   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_4   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21             0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22             1   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31             0   1      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          0   0      1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = 1, family = gaussian, stratified = TRUE,     center_spec = c(3, 1:4), L = 5):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

@@ -146,39 +146,39 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># to see all vignettes from the BFI package in an HTML browser.</span></span></code></pre></div>
 <p>or use <code><a href="articles/BFI.html">vignette("BFI")</a></code> to see the <code>BFI</code> vignette in the Help tab of RStudio.</p>
 <p>Now, we generate two independent (local) data sets from Gaussian distribution, and then apply the package to see how it works. First apply the function <code><a href="reference/MAP.estimation.html">MAP.estimation()</a></code> to each local data, and then apply the <code><a href="reference/BFI.html">bfi()</a></code> function to the aggregated results.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the BFI package</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BFI)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co"># y ~ Gaussian</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># model assumptions:</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>p     <span class="ot">&lt;-</span> <span class="dv">3</span>                     <span class="co"># number of coefficients without intercept</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">2</span>, p), <span class="fl">1.5</span>)  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Data simulation for local center 1</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="dv">30</span>                                       <span class="co"># sample size of center 1</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>X1   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n1 <span class="sc">*</span> p), n1, p)) <span class="co"># continuous variables</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>eta1 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X1) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>mu1  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta1)</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>y1   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n1, mu1, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Data simulation for local center 2</span></span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="dv">50</span>                                       <span class="co"># sample size of center 2</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>X2   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n2 <span class="sc">*</span> p), n2, p)) <span class="co"># continuous variables</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>eta2 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X2) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># inverse of the link function:</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>mu2  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta2)</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>y2   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n2, mu2, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># y ~ Gaussian</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># model assumptions:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>p     <span class="ot">&lt;-</span> <span class="dv">3</span>                     <span class="co"># number of coefficients without intercept</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">2</span>, p), <span class="fl">1.5</span>)  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Data simulation for local center 1</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="dv">30</span>                                       <span class="co"># sample size of center 1</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X1   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n1 <span class="sc">*</span> p), n1, p)) <span class="co"># continuous variables</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>eta1 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X1) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>mu1  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta1)</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>y1   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n1, mu1, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Data simulation for local center 2</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="dv">50</span>                                       <span class="co"># sample size of center 2</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>X2   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n2 <span class="sc">*</span> p), n2, p)) <span class="co"># continuous variables</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>eta2 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X2) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># inverse of the link function:</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>mu2  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta2)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>y2   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n2, mu2, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the BFI package</span></span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------</span></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BFI)</span>
 <span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------------</span></span>
 <span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Inverse Covariance Matrix</span></span>
