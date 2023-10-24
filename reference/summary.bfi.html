@@ -187,29 +187,75 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># MAP estimations</span></span></span>
 <span class="r-in"><span><span class="co">#----------------</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.5</span><span class="op">)</span>, family <span class="op">=</span> <span class="va">gaussian</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(0.1, 0.5), family = gaussian):</span> could not find function "inv.prior.cov"</span>
 <span class="r-in"><span><span class="va">fit</span>    <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = gaussian, Lambda):</span> could not find function "MAP.estimation"</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Summary of MAP estimates</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
 <span class="r-in"><span><span class="fu">summary</span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ x1 + x2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9908  0.2442  0.5122   1.4694</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.8511  0.1949  1.4692   2.2331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.8412  0.3312  2.1921   3.4903</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23           4.4510  0.4322  3.6039   5.2980</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  0.9078 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -40.27 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
 <span class="r-in"><span><span class="va">sumfit</span> <span class="op">&lt;-</span> <span class="fu">summary</span><span class="op">(</span><span class="va">fit</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ x1 + x2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9908  0.2442  0.5122   1.4694</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1            1.8511  0.1949  1.4692   2.2331</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22           2.8412  0.3312  2.1921   3.4903</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23           4.4510  0.4322  3.6039   5.2980</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  0.9078 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  log Lik Post:  -40.27 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x22     x23  sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     44.1637 -0.7429 19.8286  7.7111 -0.1981</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -0.7429 26.4892 -1.2873 -0.3725 -0.3686</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22             19.8286 -1.2873 19.9286  0.0000 -0.5689</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23              7.7111 -0.3725  0.0000  7.8111 -0.8902</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.1981 -0.3686 -0.5689 -0.8902 81.8168</span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">estimate</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'sumfit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9907911 1.8511405 2.8411959 4.4509661</span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">logLikPost</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'sumfit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -40.26734</span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">dispersion</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'sumfit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.9077777 </span>
 <span class="r-in"><span><span class="va">sumfit</span><span class="op">$</span><span class="va">CI</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'sumfit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 2.5 %   97.5 %</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 0.5122027 1.469379</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x1          1.4692217 2.233059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x22         2.1920546 3.490337</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> x23         3.6039079 5.298024</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">sumfit</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'sumfit' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "summary.bfi"</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
