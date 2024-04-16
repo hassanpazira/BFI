@@ -5,18 +5,14 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="Bayesian Federated Inference (BFI) method combines inference results 
-    obtained from local data sets in the separate centers. In this version of the package, 
-    the BFI methodology is programmed for linear and logistic regression models. ">
+<meta name="description" content="Bayesian Federated Inference (BFI) method combines inference results obtained from local data sets in the separate centers. In this version of the package, the BFI methodology is programmed for linear and logistic regression models.">
 <title>Bayesian Federated Inference • BFI</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Bayesian Federated Inference">
-<meta property="og:description" content="Bayesian Federated Inference (BFI) method combines inference results 
-    obtained from local data sets in the separate centers. In this version of the package, 
-    the BFI methodology is programmed for linear and logistic regression models. ">
+<meta property="og:description" content="Bayesian Federated Inference (BFI) method combines inference results obtained from local data sets in the separate centers. In this version of the package, the BFI methodology is programmed for linear and logistic regression models.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -26,7 +22,7 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary" data-bs-theme="default"><div class="container">
     
     <a class="navbar-brand me-2" href="index.html">BFI</a>
 
@@ -155,88 +151,88 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># to see all vignettes from the BFI package in an HTML browser.</span></span></code></pre></div>
 <p>or use <code><a href="articles/BFI.html">vignette("BFI")</a></code> to see the <code>BFI</code> vignette in the Help tab of RStudio.</p>
 <p>Now, we generate two independent (local) data sets from Gaussian distribution, and then apply the package to see how it works. First apply the function <code><a href="reference/MAP.estimation.html">MAP.estimation()</a></code> to each local data, and then apply the <code><a href="reference/BFI.html">bfi()</a></code> function to the aggregated results.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># y ~ Gaussian</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#-------------</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># model assumptions:</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>p     <span class="ot">&lt;-</span> <span class="dv">3</span>                     <span class="co"># number of coefficients without intercept</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">2</span>, p), <span class="fl">1.5</span>)  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Data simulation for local center 1</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="dv">30</span>                                       <span class="co"># sample size of center 1</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>X1   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n1 <span class="sc">*</span> p), n1, p)) <span class="co"># continuous variables</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>eta1 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X1) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>mu1  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta1)</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>y1   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n1, mu1, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Data simulation for local center 2</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="dv">50</span>                                       <span class="co"># sample size of center 2</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>X2   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n2 <span class="sc">*</span> p), n2, p)) <span class="co"># continuous variables</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>eta2 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X2) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># inverse of the link function:</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>mu2  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta2)</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>y2   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n2, mu2, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------</span></span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the BFI package</span></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------</span></span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(BFI)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------------</span></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Inverse Covariance Matrix</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="co">#---------------------------</span></span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Creating the inverse covariance matrix for the Gaussian prior distribution:</span></span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>Lambda <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fl">0.05</span>, <span class="at">family=</span>gaussian) <span class="co"># the same for both centers</span></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="co"># MAP estimates at center 1</span></span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>fit1       <span class="ot">&lt;-</span> <span class="fu">MAP.estimation</span>(y1, X1, <span class="at">family=</span>gaussian, Lambda)</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>theta_hat1 <span class="ot">&lt;-</span> fit1<span class="sc">$</span>theta_hat <span class="co"># intercept and coefficient estimates</span></span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>A_hat1     <span class="ot">&lt;-</span> fit1<span class="sc">$</span>A_hat     <span class="co"># minus the curvature matrix</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a><span class="co"># MAP estimates at center 2</span></span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>fit2       <span class="ot">&lt;-</span> <span class="fu">MAP.estimation</span>(y2, X2, <span class="at">family=</span>gaussian, Lambda)</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>theta_hat2 <span class="ot">&lt;-</span> fit2<span class="sc">$</span>theta_hat</span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>A_hat2     <span class="ot">&lt;-</span> fit2<span class="sc">$</span>A_hat</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="co">#----------------------</span></span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a><span class="co"># BFI at central center</span></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a><span class="co">#----------------------</span></span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>A_hats     <span class="ot">&lt;-</span> <span class="fu">list</span>(A_hat1, A_hat2)</span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>theta_hats <span class="ot">&lt;-</span> <span class="fu">list</span>(theta_hat1, theta_hat2)</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>bfi        <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, Lambda)</span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bfi, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a><span class="co">#--------------------</span></span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a><span class="co"># Stratified analysis</span></span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a><span class="co">#--------------------</span></span>
-<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span>
-<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>newLambda1 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="dv">1</span>)</span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="co"># 'newLambda1' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a>bfi1 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda1), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">1</span>)</span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bfi1, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Stratified analysis when 'sigma2' varies across two centers:</span></span>
-<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>newLambda2 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="dv">2</span>)</span>
-<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a><span class="co"># 'newLambda2' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
-<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>bfi2 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda2), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">2</span>)</span>
-<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bfi2, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a><span class="co"># Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:</span></span>
-<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>newLambda3 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a><span class="co"># 'newLambda3' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
-<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>bfi3 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda3), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(bfi3, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">#-------------</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co"># y ~ Gaussian</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co">#-------------</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co"># model assumptions:</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>p     <span class="ot">&lt;-</span> <span class="dv">3</span>                     <span class="co"># number of coefficients without intercept</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">2</span>, p), <span class="fl">1.5</span>)  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a><span class="co"># Data simulation for local center 1</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="dv">30</span>                                       <span class="co"># sample size of center 1</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>X1   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n1 <span class="sc">*</span> p), n1, p)) <span class="co"># continuous variables</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>eta1 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X1) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>mu1  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta1)</span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>y1   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n1, mu1, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="co"># Data simulation for local center 2</span></span>
+<span id="cb8-21"><a href="#cb8-21" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
+<span id="cb8-22"><a href="#cb8-22" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="dv">50</span>                                       <span class="co"># sample size of center 2</span></span>
+<span id="cb8-23"><a href="#cb8-23" tabindex="-1"></a>X2   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n2 <span class="sc">*</span> p), n2, p)) <span class="co"># continuous variables</span></span>
+<span id="cb8-24"><a href="#cb8-24" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
+<span id="cb8-25"><a href="#cb8-25" tabindex="-1"></a>eta2 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X2) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb8-26"><a href="#cb8-26" tabindex="-1"></a><span class="co"># inverse of the link function:</span></span>
+<span id="cb8-27"><a href="#cb8-27" tabindex="-1"></a>mu2  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta2)</span>
+<span id="cb8-28"><a href="#cb8-28" tabindex="-1"></a>y2   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n2, mu2, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
+<span id="cb8-29"><a href="#cb8-29" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" tabindex="-1"></a><span class="co">#---------------------</span></span>
+<span id="cb8-31"><a href="#cb8-31" tabindex="-1"></a><span class="co"># Load the BFI package</span></span>
+<span id="cb8-32"><a href="#cb8-32" tabindex="-1"></a><span class="co">#---------------------</span></span>
+<span id="cb8-33"><a href="#cb8-33" tabindex="-1"></a><span class="fu">library</span>(BFI)</span>
+<span id="cb8-34"><a href="#cb8-34" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" tabindex="-1"></a><span class="co">#---------------------------</span></span>
+<span id="cb8-36"><a href="#cb8-36" tabindex="-1"></a><span class="co"># Inverse Covariance Matrix</span></span>
+<span id="cb8-37"><a href="#cb8-37" tabindex="-1"></a><span class="co">#---------------------------</span></span>
+<span id="cb8-38"><a href="#cb8-38" tabindex="-1"></a><span class="co"># Creating the inverse covariance matrix for the Gaussian prior distribution:</span></span>
+<span id="cb8-39"><a href="#cb8-39" tabindex="-1"></a>Lambda <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fl">0.05</span>, <span class="at">family=</span>gaussian) <span class="co"># the same for both centers</span></span>
+<span id="cb8-40"><a href="#cb8-40" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" tabindex="-1"></a><span class="co">#--------------------------</span></span>
+<span id="cb8-42"><a href="#cb8-42" tabindex="-1"></a><span class="co"># MAP estimates at center 1</span></span>
+<span id="cb8-43"><a href="#cb8-43" tabindex="-1"></a><span class="co">#--------------------------</span></span>
+<span id="cb8-44"><a href="#cb8-44" tabindex="-1"></a>fit1       <span class="ot">&lt;-</span> <span class="fu">MAP.estimation</span>(y1, X1, <span class="at">family=</span>gaussian, Lambda)</span>
+<span id="cb8-45"><a href="#cb8-45" tabindex="-1"></a>theta_hat1 <span class="ot">&lt;-</span> fit1<span class="sc">$</span>theta_hat <span class="co"># intercept and coefficient estimates</span></span>
+<span id="cb8-46"><a href="#cb8-46" tabindex="-1"></a>A_hat1     <span class="ot">&lt;-</span> fit1<span class="sc">$</span>A_hat     <span class="co"># minus the curvature matrix</span></span>
+<span id="cb8-47"><a href="#cb8-47" tabindex="-1"></a></span>
+<span id="cb8-48"><a href="#cb8-48" tabindex="-1"></a><span class="co">#--------------------------</span></span>
+<span id="cb8-49"><a href="#cb8-49" tabindex="-1"></a><span class="co"># MAP estimates at center 2</span></span>
+<span id="cb8-50"><a href="#cb8-50" tabindex="-1"></a><span class="co">#--------------------------</span></span>
+<span id="cb8-51"><a href="#cb8-51" tabindex="-1"></a>fit2       <span class="ot">&lt;-</span> <span class="fu">MAP.estimation</span>(y2, X2, <span class="at">family=</span>gaussian, Lambda)</span>
+<span id="cb8-52"><a href="#cb8-52" tabindex="-1"></a>theta_hat2 <span class="ot">&lt;-</span> fit2<span class="sc">$</span>theta_hat</span>
+<span id="cb8-53"><a href="#cb8-53" tabindex="-1"></a>A_hat2     <span class="ot">&lt;-</span> fit2<span class="sc">$</span>A_hat</span>
+<span id="cb8-54"><a href="#cb8-54" tabindex="-1"></a></span>
+<span id="cb8-55"><a href="#cb8-55" tabindex="-1"></a><span class="co">#----------------------</span></span>
+<span id="cb8-56"><a href="#cb8-56" tabindex="-1"></a><span class="co"># BFI at central center</span></span>
+<span id="cb8-57"><a href="#cb8-57" tabindex="-1"></a><span class="co">#----------------------</span></span>
+<span id="cb8-58"><a href="#cb8-58" tabindex="-1"></a>A_hats     <span class="ot">&lt;-</span> <span class="fu">list</span>(A_hat1, A_hat2)</span>
+<span id="cb8-59"><a href="#cb8-59" tabindex="-1"></a>theta_hats <span class="ot">&lt;-</span> <span class="fu">list</span>(theta_hat1, theta_hat2)</span>
+<span id="cb8-60"><a href="#cb8-60" tabindex="-1"></a>bfi        <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, Lambda)</span>
+<span id="cb8-61"><a href="#cb8-61" tabindex="-1"></a><span class="fu">summary</span>(bfi, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-62"><a href="#cb8-62" tabindex="-1"></a></span>
+<span id="cb8-63"><a href="#cb8-63" tabindex="-1"></a><span class="co">#--------------------</span></span>
+<span id="cb8-64"><a href="#cb8-64" tabindex="-1"></a><span class="co"># Stratified analysis</span></span>
+<span id="cb8-65"><a href="#cb8-65" tabindex="-1"></a><span class="co">#--------------------</span></span>
+<span id="cb8-66"><a href="#cb8-66" tabindex="-1"></a><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span>
+<span id="cb8-67"><a href="#cb8-67" tabindex="-1"></a>newLambda1 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="dv">1</span>)</span>
+<span id="cb8-68"><a href="#cb8-68" tabindex="-1"></a><span class="co"># 'newLambda1' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
+<span id="cb8-69"><a href="#cb8-69" tabindex="-1"></a>bfi1 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda1), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">1</span>)</span>
+<span id="cb8-70"><a href="#cb8-70" tabindex="-1"></a><span class="fu">summary</span>(bfi1, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-71"><a href="#cb8-71" tabindex="-1"></a></span>
+<span id="cb8-72"><a href="#cb8-72" tabindex="-1"></a><span class="co"># Stratified analysis when 'sigma2' varies across two centers:</span></span>
+<span id="cb8-73"><a href="#cb8-73" tabindex="-1"></a>newLambda2 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="dv">2</span>)</span>
+<span id="cb8-74"><a href="#cb8-74" tabindex="-1"></a><span class="co"># 'newLambda2' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
+<span id="cb8-75"><a href="#cb8-75" tabindex="-1"></a>bfi2 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda2), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">2</span>)</span>
+<span id="cb8-76"><a href="#cb8-76" tabindex="-1"></a><span class="fu">summary</span>(bfi2, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
+<span id="cb8-77"><a href="#cb8-77" tabindex="-1"></a></span>
+<span id="cb8-78"><a href="#cb8-78" tabindex="-1"></a><span class="co"># Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:</span></span>
+<span id="cb8-79"><a href="#cb8-79" tabindex="-1"></a>newLambda3 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb8-80"><a href="#cb8-80" tabindex="-1"></a><span class="co"># 'newLambda3' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
+<span id="cb8-81"><a href="#cb8-81" tabindex="-1"></a>bfi3 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda3), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
+<span id="cb8-82"><a href="#cb8-82" tabindex="-1"></a><span class="fu">summary</span>(bfi3, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -298,7 +294,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 
 <div class="pkgdown-footer-right">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.8.</p>
 </div>
 
     </footer>
