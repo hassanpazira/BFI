@@ -1,4 +1,14 @@
-# BFI v1.1.1 (Latest)
+# BFI v2.0.1 (Latest)
+* This is a bugfix release to resolve a minor bug in the `optim` function entries related to the `gaussian` family.
+
+# BFI v2.0.0
+* The package now supports survival data analysis, adding comprehensive tools for time-to-event modeling alongside existing GLM functionalities.
+* The documentation and examples have been updated.
+
+# BFI v1.1.4
+* The package has been updated to address a few NOTEs identified during the CRAN submission.
+
+# BFI v1.1.1
 * The package was prepared for submission to CRAN with minor modifications.
 
 # BFI v1.1.0

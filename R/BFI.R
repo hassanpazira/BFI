@@ -1,20 +1,55 @@
-## This file created by Hassan Pazira at 16-12-2022
-## Updated at 29-09-2023
+## This file created by Hassan Pazira
 
 #' @export
 
-bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par = NULL, center_spec = NULL) {
+bfi <- function(theta_hats = NULL, A_hats, Lambda,
+                family = c("gaussian", "binomial", "survival"),
+                stratified = FALSE, strat_par = NULL, center_spec = NULL,
+                basehaz = c("weibul","exp","gomp","poly","pwexp"),
+                theta_A_polys = NULL, q_ls, center_zero_sample = FALSE,
+                which_cent_zeros, zero_sample_covs, refer_cats, zero_cats,
+                lev_no_ref_zeros) {
+  family <- match.arg(family)
+  basehaz <- match.arg(basehaz)
   if (!is.null(theta_hats) & !is.list(theta_hats)) {
     stop("The input for 'theta_hats' should be a list.")
   }
-  if (!is.list(A_hats)) {
-    stop("The input for 'theta_hats' should be a list.")
+  if (family == "survival" & basehaz == "poly" & is.null(theta_A_polys)) {
+    stop("When family='survival' and basehaz='poly', 'theta_A_polys' cannot be NULL.")
   }
-  if (!is.null(theta_hats) & (length(theta_hats) != length(A_hats))) {
-    stop("Length of inputs are not equal.")
+  if (missing(A_hats) & family != "survival") {
+    stop("Argument 'A_hats' cannot be missing.")
   }
-  if (is.null(theta_hats)) {
-    stop("argument 'theta_hats' is missing, with no default.")
+  if (family == "survival" & basehaz != "poly" & missing(A_hats) &
+      !is.null(theta_A_polys)) {
+    stop("'basehaz' should be 'poly'.")
+  }
+  if (family == "survival" & basehaz != "poly" & missing(A_hats)) {
+    stop("Argument 'A_hats' cannot be missing.")
+  }
+  if (!is.null(theta_A_polys) & !is.list(theta_A_polys)) {
+    stop("The input for 'theta_A_polys' should be a list with L elements.")
+  }
+  if (family == "survival" & basehaz == "poly" & missing(q_ls)) {
+    stop("When family='survival' and basehaz='poly', 'q_ls' cannot be missing.")
+  }
+  if (!is.null(theta_A_polys) & length(theta_A_polys)<2) {
+    stop("Length of 'theta_A_polys' should be equal to L (which is > 1).")
+  }
+  if (stratified == TRUE & !is.null(theta_A_polys)) {
+    stop("If 'theta_A_polys' is not NULL, 'stratified' cannot be TRUE.")
+  }
+  if (is.null(theta_A_polys)) {
+    if (!is.list(A_hats)) {
+      stop("The input for 'A_hats' should be a list.")
+    }
+  }
+  if (!is.null(theta_hats)) {
+    if ((length(theta_hats) != length(A_hats)))
+      stop("Length of inputs are not equal.")
+  }
+  if (is.null(theta_hats) & is.null(theta_A_polys)) {
+    stop("Argument 'theta_hats' is missing, with no default.")
   }
   if (stratified == TRUE & is.null(strat_par) & is.null(center_spec)) {
     stop("Since 'stratified = TRUE', only one of 'strat_par' or 'center_spec'
@@ -28,49 +63,39 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par
     stop("Since 'stratified = FALSE', both 'strat_par' and 'center_spec'
          sould be NULL.")
   }
-  L <- length(A_hats)
-  if (L == 1) stop("The number of locations should be > 1.")
   if (is.data.frame(Lambda)) {
     Lambda <- as.matrix(Lambda)
   }
-  if (is.list(Lambda)) {
-    col_nam_Lambda <- colnames(Lambda[[1]])
+  if (!(family == "survival" & basehaz == "poly")) {
+    L <- length(A_hats)
+    for (l in seq_len(L)) {
+      if (l == 1) equal_names_theta <- equal_names_A_hat <- list()
+      if (is.null(names(theta_hats[[l]]))) stop("Names of 'theta_hat's cannot be NULL.")
+      equal_names_theta[[l]] <- names(theta_hats[[l]])
+      if (is.null(colnames(A_hats[[l]]))) stop("Colnames of 'A_hat's cannot be NULL.")
+      equal_names_A_hat[[l]] <- colnames(A_hats[[l]])
+    }
+    if (!all(equal_names_theta[[1]] == unlist(equal_names_theta)))
+      stop("Names of 'theta_hat's (or their order) are not the same across centers")
+    if (!all(equal_names_A_hat[[1]] == unlist(equal_names_A_hat)))
+      stop("Colnames of 'A_hat's (or their order) are not the same across centers")
   } else {
-    col_nam_Lambda <- colnames(Lambda)
+    L <- length(theta_A_polys)
+    for (l in seq_len(L)) {
+      if (l == 1) equal_names_theta <- equal_names_A_hat <- list()
+      if (is.null(rownames(theta_A_polys[[l]][,,1])))
+        stop("Names of 'theta_hat's in 'theta_A_polys' cannot be NULL.")
+      equal_names_theta[[l]] <- rownames(theta_A_polys[[l]][,,1])
+      if (is.null(rownames(theta_A_polys[[l]][,,2])))
+        stop("Colnames of 'A_hat's in 'theta_A_polys' cannot be NULL.")
+      equal_names_A_hat[[l]] <- rownames(theta_A_polys[[l]][,,2])
+    }
+    if (!all(equal_names_theta[[1]] == unlist(equal_names_theta)))
+      stop("Names of 'theta_hat's (or their order) are not the same across centers")
+    if (!all(equal_names_A_hat[[1]] == unlist(equal_names_A_hat)))
+      stop("Colnames of 'A_hat's (or their order) are not the same across centers")
   }
-  if (is.null(names(theta_hats[[1]])) & is.null(colnames(A_hats[[1]])) &
-      is.null(col_nam_Lambda)) {
-    stop("The elements of the input lists or at least Lambda should be named.")
-  } else {
-    if (!is.null(names(theta_hats[[1]]))) {
-      col_nam <- names(theta_hats[[1]])
-    } else {
-      if (!is.null(colnames(A_hats[[1]]))) {
-        col_nam <- colnames(A_hats[[1]])
-      } else {
-        col_nam <- col_nam_Lambda
-      }
-    }
-    if (is.null(names(theta_hats[[1]]))) {
-      for (i in seq_len(L)) {
-        names(theta_hats[[i]]) <- col_nam
-      }
-    }
-    if (is.null(colnames(A_hats[[1]]))) {
-      for (i in seq_len(L)) {
-        colnames(A_hats[[i]]) <- rownames(A_hats[[i]]) <- col_nam
-      }
-    }
-    if (is.null(col_nam_Lambda)) {
-      if (is.list(Lambda)) {
-        for (i in seq_len(length(Lambda))) {
-          colnames(Lambda[[i]]) <- rownames(Lambda[[i]]) <- col_nam
-        }
-      } else {
-        rownames(Lambda) <- colnames(Lambda) <- col_nam
-      }
-    }
-  }
+  if (L == 1) stop("The number of locations should be > 1.")
   if (is.matrix(Lambda) | (is.list(Lambda) & length(Lambda) == 1)) {
     # all locations and combined data have the same Lambda
     Lambda_all <- list()
@@ -89,19 +114,13 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par
         Lambda_all[[(L + 1)]] <- Lambda[[2]]
       } else {
         if (length(Lambda) != (L + 1)) {
-          stop("Lambda should contain 'L+1' lists; 1:L for local datastes and
-               last one for combined.")
+          stop("Lambda should contain 'L+1' lists; 1:L for local datastes and last one for combined.")
         }
         Lambda_all <- Lambda
       }
     } else {
       stop("Lambda should be a list.")
     }
-  }
-  if (names(theta_hats[[1]])[length(theta_hats[[1]])] == "sigma2") {
-    family <- c("gaussian")
-  } else {
-    family <- c("binomial")
   }
   if (stratified == TRUE & !is.null(strat_par)) {
     if ((!1 %in% strat_par) & (!2 %in% strat_par)) {
@@ -142,6 +161,155 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par
       }
     }
   }
+  if (family == "survival" & basehaz == "poly") {
+    if (length(q_ls) != 1) {
+      if (length(q_ls) != L) stop("Length of 'q_ls' should be ", sQuote(L),".")
+    }
+    q_max <- max(q_ls)
+    omega_len <- q_max + 1
+    p <- dim(theta_A_polys[[1]])[[1]] -
+      length(grep("omega",rownames(theta_A_polys[[1]])))
+    theta_len <- p + omega_len  # for the zero-patients case, 'p' can differ!
+    colnames_X <- rownames(theta_A_polys[[1]])[1:p]
+    for (i in seq_len(L)) {
+      if (ncol(Lambda_all[[i]]) < theta_len)
+        stop("Dimension of Lambda should be at least ", sQuote(theta_len),".")
+    }
+    theta_hats <- A_hats <- list()
+    for (l in seq_len(L)) {
+      theta_hats[[l]] <- theta_A_polys[[l]][1:theta_len, omega_len, 1]
+      A_hats[[l]] <- theta_A_polys[[l]][1:theta_len, 1:theta_len, omega_len+1]
+      colnames(A_hats[[l]]) <- rownames(A_hats[[l]])
+      if (any(diag(solve(as.matrix(A_hats[[l]]))) < 0)) {
+        stop("In the center,", sQuote(l),", some diagonal elements of the inverse",
+             "curvature matrix are negative!")
+      }
+      # Zero-patient category
+      if (center_zero_sample == TRUE) {
+        if (missing(which_cent_zeros))
+          stop("If there is a categorical covariate with zero sample in at least",
+               "one of the centers, 'which_cent_zeros' should not be missing.")
+        if (missing(zero_sample_covs))
+          stop("If there is a categorical covariate with zero sample in only one of",
+               "the categories, 'zero_sample_covs' should not be missing.")
+        if (!is.numeric(which_cent_zeros)) stop("'which_cent_zeros' should be numeric.")
+        if (!is.list(lev_no_ref_zeros)) stop("'lev_no_ref_zeros' should be a list.")
+        if (length(which_cent_zeros) != length(zero_sample_covs) |
+            length(which_cent_zeros) != length(refer_cats) |
+            length(which_cent_zeros) != length(zero_cats) |
+            length(which_cent_zeros) != length(lev_no_ref_zeros) )
+          stop("Length of 'which_cent_zeros', 'zero_sample_covs', 'refer_cats',",
+               "'zero_cats' and 'lev_no_ref_zeros' should be equal.")
+        if (missing(refer_cats)) stop("The reference category is missed.")
+        if (length(zero_sample_covs) != length(refer_cats))
+          stop("'zero_sample_covs' and 'refer_cats' must have the same length.")
+        if (!is.character(zero_cats)) stop("'zero_cats' should be character.")
+        if (!is.character(refer_cats)) stop("'refer_cats' should be character.")
+        if (!is.character(zero_sample_covs)) stop("'zero_sample_covs' should be character.")
+        if (missing(zero_cats)) stop("The category with zero sample is missed.")
+        if (any(zero_cats == refer_cats))
+          stop("The category with no patient cannot be used as the reference.")
+        if (max(which_cent_zeros) > L | min(which_cent_zeros) < 1)
+          stop("'which_cent_zeros' should be from 1 to L.")
+        for (wc in 1:length(which_cent_zeros)) {
+          wich_cent <- which_cent_zeros[wc]
+          # For each center: only one covariate and one 'zero_cats'!
+          lev_zero_cov <- sort(as.character(c(lev_no_ref_zeros[[wc]][-1], zero_cats[wc])))
+          names_after_dammy <- paste(zero_sample_covs[wc],lev_zero_cov, sep="")
+          which_cat_zero <- which(lev_zero_cov %in% zero_cats[wc])
+          names_cat_zero <- names_after_dammy[which_cat_zero]
+          if (length(names_cat_zero) != length(zero_cats[wc]))
+            stop("length(names_cat_zero) != length(zero_cats[wc])")
+          # Positions to add the new elements
+          for (wi in seq_len(length(zero_cats[wc]))) {
+            # This 'for' loop will be updated for more than one 'zero_cats'!
+            if (wi == 1) which_element <- NULL
+            if (which_cat_zero == 1) {
+              which_element[wi] <- which(colnames_X == names_after_dammy[2])
+            } else {
+              if (length(lev_zero_cov) > 2) {
+                if (length(names_after_dammy) == which_cat_zero) {
+                  which_element[wi] <- which(colnames_X ==
+                                               names_after_dammy[which_cat_zero-1]) - 1
+                } else {
+                  which_element[wi] <- which(colnames_X ==
+                                               names_after_dammy[which_cat_zero + 1])
+                }
+              } else {
+                which_element[wi] <- which(colnames_X == names_after_dammy[1]) + 1
+              }
+            }
+          }
+          names_initial_vec_beta <- colnames_X
+          # Add the new elements to the vector
+          for (i in seq_len(length(which_element))) { # or seq_along(names_cat_zero)
+            names_initial_vec_beta <- append(names_initial_vec_beta, names_cat_zero[i],
+                                             after = which_element[i] - 1)
+          }
+          initial_vec_beta <- rep(0, (p + length(names_cat_zero)))
+          names(initial_vec_beta) <- names_initial_vec_beta
+          initial_vec_beta[-which_element] <- theta_hats[[wich_cent]][1:p]
+          initial_vec_beta <- c(initial_vec_beta,
+                                theta_hats[[wich_cent]][(p+1):length(theta_hats[[wich_cent]])])
+          theta_hats[[wich_cent]] <- initial_vec_beta
+
+          # A_hats[[wich_cent]]
+          # create a new 'Gamma_dot' for all parameters!
+          Gamma <- Lambda_all[[wich_cent]][c(1:p),c(1:p)]
+          Gamma_new <- Gamma
+          if (ncol(Gamma_new) < which_element[1] &
+              abs(ncol(Gamma_new) - which_element[1])==1) {
+            for (ii in seq_len(length(which_element))) {
+              Gamma_new <- rbind(Gamma_new,
+                                 c(Gamma_new[ncol(Gamma_new),1],
+                                   Gamma_new[ncol(Gamma_new),-ncol(Gamma_new)]))
+            }
+            # Add the columns at the specified position to A_hats[[wich_cent]]
+            for (jj in seq_len(length(which_element))) {
+              Gamma_new <- cbind(Gamma_new,
+                                 c(Gamma_new[nrow(Gamma_new),],
+                                   Gamma_new[nrow(Gamma_new)-1, ncol(Gamma_new)]))
+            }
+          } else {
+            for (ii in seq_len(length(which_element))) {
+              Gamma_new <- rbind(Gamma_new[1:(which_element[ii] - 1), ],
+                                 c(Gamma_new[which_element[ii]+1,1:which_element[ii]],
+                                   Gamma_new[which_element[ii]+1,which_element[ii]],
+                                   Gamma_new[which_element[ii]+1,
+                                             (which_element[ii]+2):ncol(Gamma_new)]),
+                                 Gamma_new[which_element[ii]:nrow(Gamma_new), ])
+            }
+            # Add the columns at the specified position to A_hats[[wich_cent]]
+            for (jj in seq_len(length(which_element))) {
+              Gamma_new <- cbind(Gamma_new[, 1:(which_element[jj] - 1)],
+                                 c(Gamma[,which_element[jj]],
+                                   Gamma[ncol(Gamma),which_element[jj]]),
+                                 Gamma_new[, which_element[jj]:ncol(Gamma_new)])
+            }
+          }
+          Gamma_dot_new <- b.diag(Gamma_new, Lambda_all[[wich_cent]][-c(1:p),-c(1:p)])
+
+          # Add the rows at the specified position to A_hats[[wich_cent]]
+          new_M_with_rows <- A_hats[[wich_cent]]
+          for (ii in seq_len(length(which_element))) {
+            new_M_with_rows <- rbind(new_M_with_rows[1:(which_element[ii] - 1), ],
+                                     Gamma_dot_new[which_element[ii],-which_element[ii]],
+                                     new_M_with_rows[which_element[ii]:nrow(new_M_with_rows), ])
+          }
+          # Add the columns at the specified position to A_hats[[wich_cent]]
+          new_M_with_columns <- new_M_with_rows
+          for (jj in seq_len(length(which_element))) {
+            new_M_with_columns <- cbind(new_M_with_columns[, 1:(which_element[jj] - 1)],
+                                        Gamma_dot_new[,which_element[jj]],
+                                        new_M_with_columns[, which_element[jj]:ncol(new_M_with_columns)])
+            colnames(new_M_with_columns)[which_element[jj]] <- names_cat_zero[jj]
+          }
+          A_hats[[wich_cent]] <- new_M_with_columns
+          Lambda_all[[wich_cent]] <- Gamma_dot_new
+        }
+      }
+    }
+  }
   for (i in seq_len(L)) {
     if (i == 1) {
       n_pars <- ncol(A_hats[[i]])
@@ -152,13 +320,13 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par
   if (all(n_pars == n_pars[1])) {
     n_par <- n_pars[1]
   } else {
-    stop("All matrix in A_hats should have the same columns.
+    stop("All matrices in A_hats should have the same columns.
          Number of parameters in locations must be equal.")
   }
   last_Lam_dim <- dim(Lambda_all[[L + 1]])[1]
   if (stratified == FALSE) {
     if (last_Lam_dim != dim(Lambda_all[[1]])[1]) {
-      stop("The last matrix in 'Lambda' should have the same dim. as the other
+      stop("The last matrix in 'Lambda' should have equal dim. as the other
            local matrices.")
     }
     A_bfi <- Reduce("+", A_hats) + Lambda_all[[L + 1]] -
@@ -171,7 +339,6 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par
     } else {
       theta_hat_bfi <- theta_hats
     }
-    # output <- list(theta_hat=theta_hat_bfi, A_hat=A_bfi, sd=sd_bfi)
   } else {
     if (last_Lam_dim == dim(Lambda_all[[1]])[1]) {
       if (all(colnames(Lambda_all[[1]]) == colnames(Lambda_all[[L + 1]]))) {
@@ -474,7 +641,7 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda, stratified = FALSE, strat_par
     }
   }
   output <- list(theta_hat = theta_hat_bfi, A_hat = A_bfi, sd = sd_bfi,
-                 family = family, stratified = stratified)
+                 family = family, basehaz = basehaz, stratified = stratified)
   class(output) <- "bfi"
   return(output)
 }
