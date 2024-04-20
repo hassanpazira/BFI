@@ -1,5 +1,6 @@
-## R CMD check results
+This update includes a change of maintainer.  
+Previous maintainer: Hassan Pazira <hassan.pazira@radboudumc.nl>  
+New maintainer: Marianne A. Jonker <Marianne.Jonker@radboudumc.nl>
 
-0 errors | 0 warnings | 1 note
+Please update the CRAN records accordingly.
 
-* This is a new release.

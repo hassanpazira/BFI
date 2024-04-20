@@ -1,24 +1,19 @@
 Package: BFI
 Type: Package
 Title: Bayesian Federated Inference
-Version: 1.1.1
-Date/Publication: 2023-07-16
+Version: 3.1.0
+Date/Publication: 2024-04-27
 Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4266-6877")),
-    person(given = "Marianne A.", family = "Jonker", role = "aut",
-    comment = c(ORCID = "0000-0003-0134-8482")),
-    person(given = "Emanuele", family = "Massa", role = "ctb",
+    person(given = "Emanuele", family = "Massa", role = "aut",
     comment = c(ORCID = "0000-0001-5715-2572")),
-    person(given = "Anthony C.C.", family = "Coolen", role = "ctb", 
-    comment = c(ORCID = "0000-0002-6976-5875")))
+    person(given = "Marianne A.", family = "Jonker", role = "aut",
+    comment = c(ORCID = "0000-0003-0134-8482")))
 Author: Hassan Pazira [aut, cre] (<https://orcid.org/0000-0002-4266-6877>),
-  Marianne A. Jonker [aut] (<https://orcid.org/0000-0003-0134-8482>),
-  Emanuele Massa [ctb] (<https://orcid.org/0000-0001-5715-2572>),
-  Anthony C.C. Coolen [ctb] (<https://orcid.org/0000-0002-6976-5875>)
+  Emanuele Massa [aut] (<https://orcid.org/0000-0001-5715-2572>),
+  Marianne A. Jonker [aut] (<https://orcid.org/0000-0003-0134-8482>)
 Maintainer: Hassan Pazira <hassan.pazira@radboudumc.nl>
-Description: Bayesian Federated Inference (`BFI') method combines inference results 
-    obtained from local data sets in the separate centers. In this version of the package, 
-    the `BFI' methodology is programmed for linear and logistic regression models. 
+Description: The Bayesian Federated Inference ('BFI') method combines inference results obtained from local data sets in the separate centers. In this version of the package, the 'BFI' methodology is programmed for linear, logistic and survival regression models. For GLMs, see Jonker, Pazira and Coolen (2024) <doi:10.1002/sim.10072>; for survival models, see Pazira, Massa, Weijers, Coolen and Jonker (2025) <doi:10.48550/arXiv.2404.17464>; and for heterogeneous populations, see Jonker, Pazira and Coolen (2025) <doi:10.1017/rsm.2025.6>.
 License: MIT + file LICENSE
 URL: https://hassanpazira.github.io/BFI/
 Encoding: UTF-8
@@ -26,15 +21,15 @@ Suggests:
     knitr,
     rmarkdown,
     roxygen2,
+    devtools,
     spelling,
     testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Depends: 
-    R (>= 2.10)
+    R (>= 3.5.0)
 LazyData: true
 Imports: 
-    devtools,
     stats
 Config/testthat/edition: 3
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.2
 Language: en-US

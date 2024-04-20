@@ -1,0 +1,337 @@
+---
+title: "Using BFI in SAS"
+author:
+- Hassan Pazira
+date: "2024-12-02"
+# date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  #rmarkdown::html_vignette
+  knitr:::html_vignette:
+    toc: yes
+# output:
+#   pdf_document:
+#     fig_caption: yes
+#     toc: yes
+#     toc_depth: 3
+description: |
+  How to use the BFI package in SAS environments.
+vignette: >
+  %\VignetteIndexEntry{Using BFI in SAS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+require(knitr)
+opts_chunk$set(
+  collapse = F # T for red
+)
+```
+
+### Introduction
+
+The `BFI` package is a powerful tool in **R** designed to execute the **Bayesian Federated Inference** (**BFI**) methodology. It supports a wide range of regression models, including *linear*, *logistic*, and *survival* regression. While **SAS** offers robust statistical capabilities, it currently lacks a dedicated package for implementing the *BFI* method. Consequently, this vignette aims to bridge that gap by illustrating how to utilize the R package `BFI` within the SAS environment. 
+By seamlessly integrating R's `BFI` package with the analytical prowess of SAS, users gain access to a comprehensive suite of statistical techniques, enhancing their ability to perform sophisticated data analyses, particularly when working with small data sets.
+
+In this guide, we'll explore how you can leverage SAS to effectively utilize the `BFI` package for your data analysis needs.
+
+To utilize R within SAS, it's assumed that you have access to a SAS server. This access allows you to establish a connection to a SAS session by providing the necessary connection parameters, such as the SAS server hostname, port number, and authentication credentials.
+
+More information about configuring the SAS system to call functions in the R language is documented in the [SAS Online Help](https://support.sas.com/documentation/cdl/en/imlug/67502/HTML/default/viewer.htm#imlug_r_toc.htm).
+
+### Accessing SAS Services
+
+To access SAS services, you typically need to connect to a SAS server. Here's how you can do this using **SAS Studio**, a web-based interface for SAS:
+
+Open a web browser and navigate to the URL provided by your SAS administrator for accessing *SAS Studio*. Enter your credentials to log in. Once logged in, you can access SAS services such as analysis and reporting through the SAS Studio interface.
+
+### Install R and Configuring It with SAS
+
+SAS requires two configuration options to communicate with R. First the RLANG option must be set when SAS is started. This may be set either in a custom configuration file or on the SAS command line. Second, SAS needs an *R_HOME* environment variable pointing it to the correct, available version of R.
+
+#### The RLANG System Option
+
+The *RLANG system option* determines whether you have permission to call R from the SAS system. You can check the value of the RLANG option by submitting the following SAS statements:
+
+```{sas, eval=FALSE}
+proc options option=RLANG;
+run;
+```
+
+The result is one of the following statements in the SAS log:
+
+-   ***NORLANG: Do not support access to R language interfaces***
+
+If the *SAS log* contains this statement, it means that R integration is disabled, and you do not have permission to call R from the SAS system :( You may need to consult with your SAS administrator or IT department to enable it.
+
+-   ***RLANG: Support access to R language interfaces***
+
+If the *SAS log* contains this statement, it means that R integration is enabled, and you can call R from the SAS system :)
+
+#### Install R
+
+Download and install R from the official R website (<https://www.r-project.org/>). Follow the installation instructions provided for your operating system.
+
+#### Install SAS/IML Interface to R
+
+The **SAS/IML Interface to R** allows you to call R functions from within `PROC IML` (Interactive Matrix Language). Check if the interface is installed by running the following code within SAS:
+
+```{sas, eval=FALSE}
+proc options option=R_HOME;
+run;
+```
+
+If the path to your R installation directory is displayed, the *SAS/IML Interface to R* is installed. If not, you may need to install or reinstall it.
+
+### Using `PROC IML` and `Rsubmit`
+
+You can use **R** inside **SAS** through the use of the `PROC IML` procedure. `PROC IML` allows you to execute R code within a **SAS** session, enabling integration between **SAS** and **R** for data analysis and statistical modeling.
+
+#### Installing R packages from CRAN and GitHub in SAS:
+
+To install an R package from **CRAN** and **GitHub**, you can use the `base` and `stats` packages for CRAN, and the `remotes` package for GitHub, respectively. It can be done in R or in SAS. Here's how you can do it within SAS:
+
+```{sas, eval=FALSE}
+proc iml;
+
+  rsubmit;
+
+    /* First install and load 'base', 'stats' and 'BFI'from CRAN */
+    install.packages("base")
+    install.packages("stats")
+    install.packages("BFI")  /* To install BFI from CRAN */
+    library(base)
+    library(stats)
+    library(BFI)
+  
+    /* To install BFI from GitHub (if nessecary) */
+    /* install.packages("remotes") */
+    /* library(remotes) */
+    /* remotes::install_github("hassanpazira/BFI", force = TRUE) */
+
+  endrsubmit;
+
+quit;
+```
+
+Now that you have the `BFI` package installed and configured, let's explore its functionality through the following example.
+
+### Example
+
+Now we generate two data sets independently from *Gaussian* distribution, and then apply main functions in the `BFI` package to these data sets:
+
+#### Simulate data for two local centers
+
+First generate 30 samples randomly from Gaussian distribution N(0, 1) with p=3 covariates:
+
+```{sas, eval=FALSE}
+proc iml;
+
+    /****************************************************************/
+    /* Center 1: Data simulation for local center 1 with 30 samples */
+    /****************************************************************/
+
+    p     = 3;   /* Number of variables */
+    n1    = 30;  /* Number of samples for center 1 */
+    theta = {1, 2, 2, 2, 1.5}; /* Define theta values directly */
+
+    X1  = j(n1, p); /* Initialize matrix X1 */
+    mu1 = j(n1, 1); /* Initialize vector mu1 */
+    y1  = j(n1, 1); /* Initialize vector y1 */
+
+    /* Generate data for center 1 */
+    call randseed(1123);
+    X1  = randfun(n1 || p, "Normal", 0, 1);
+    mu1 = theta[1] + X1 * theta[2:4];
+    y1  = randfun(n1 || 1, "Normal", mu1, sqrt(theta[5]));
+
+    /* Create dataset for center 1 */
+    create y1 var {"y1"};
+    append;
+    close y1;
+
+    create X1 from X1[colname={"X1_1" "X1_2" "X1_3"}];
+    append from X1;
+    close X1;
+
+    /* Transfer SAS data to the R session */
+    call ExportMatrixToR(X1, "X1");
+    call ExportMatrixToR(y1, "y1");
+
+quit;
+```
+
+Now generate 50 samples randomly from N(0, 1) with 3 covariates:
+
+```{sas, eval=FALSE}
+proc iml;
+
+    /****************************************************************/
+    /* Center 2: Data simulation for local center 2 with 50 samples */
+    /****************************************************************/
+    p     = 3;   /* Number of variables */
+    n2    = 50;   /* Number of samples for center 2 */
+    theta = {1, 2, 2, 2, 1.5}; /* Define theta values directly */
+  
+    X2  = j(n2, p);
+    mu2 = j(n2, 1);
+    y2  = j(n2, 1);
+
+    /* Generate data for center 2 */
+    call randseed(1123);
+    X2  = randfun(n2 || p, "Normal", 0, 1);
+    mu2 = theta[1] + X2 * theta[2:4];
+    y2  = randfun(n2 || 1, "Normal", mu2, sqrt(theta[5]));
+
+    /* Create dataset for center 1 */
+    create y2 var {"y2"};
+    append;
+    close y2;
+
+    create X2 from X2[colname={"X2_1" "X2_2" "X2_3"}];
+    append from X2;
+    close X2;
+
+    /* Transfer SAS data to the R session */
+    call ExportMatrixToR(X2, "X2");
+    call ExportMatrixToR(y2, "y2");
+
+quit;
+```
+
+We have transferred SAS data to the R session and are currently initiating an analysis using the BFI method in R. All communications with R are facilitated through SAS's `PROC IML`. It's important to note that capitalization matters in R, and character variables are automatically converted into factors.
+
+#### MAP estimates at the local centers
+
+The following compute the Maximum A Posterior (MAP) estimators of the parameters for center 1:
+
+```{sas, eval=FALSE}
+proc iml;
+  
+  rsubmit;
+
+    #---------------------------
+    # Inverse Covariance Matrix
+    #---------------------------
+    # Creating the inverse covariance matrix for the Gaussian prior distribution:
+    Lambda <- inv.prior.cov(X1, lambda=0.05, family='gaussian')
+
+    #--------------------------
+    # MAP estimates at center 1
+    #--------------------------
+    fit1       <- MAP.estimation(y1, X1, family='gaussian', Lambda)
+    theta_hat1 <- fit1$theta_hat # intercept and coefficient estimates
+    A_hat1     <- fit1$A_hat     # minus the curvature matrix
+    summary(fit1, cur_mat=TRUE)
+
+  endrsubmit;
+
+quit;
+```
+
+Obtaining the MAP estimators of the parameters for center 2 using the following:
+
+```{sas, eval=FALSE}
+proc iml;
+
+  rsubmit;
+    
+    # Creating the inverse covariance matrix for the Gaussian prior distribution:
+    Lambda <- inv.prior.cov(X2, lambda=0.05, family='gaussian')
+
+    #--------------------------
+    # MAP estimates at center 2
+    #--------------------------
+    fit2       <- MAP.estimation(y2, X2, family='gaussian', Lambda)
+    theta_hat2 <- fit2$theta_hat
+    A_hat2     <- fit2$A_hat
+    summary(fit2, cur_mat=TRUE)
+
+  endrsubmit;
+
+quit;
+```
+
+#### BFI at central center
+
+Now, you can utilize the primary function `bfi()` to acquire the BFI estimates:
+
+```{sas, eval=FALSE}
+proc iml;
+
+  rsubmit;
+  
+    # Creating the inverse covariance matrix for central server:
+    Lambda <- inv.prior.cov(X1, lambda=0.05, family='gaussian') # the same as other centers
+  
+    #----------------------
+    # BFI at central center
+    #----------------------
+    A_hats     <- list(A_hat1, A_hat2)
+    theta_hats <- list(theta_hat1, theta_hat2)
+    bfi        <- bfi(theta_hats, A_hats, Lambda)
+    summary(bfi, cur_mat=TRUE)
+
+  endrsubmit;
+
+  /* Transfer the outputs from R to SAS */
+  call ImportMatrixFromR(bfi, "bfi");
+  
+quit;
+```
+
+### Data sets included in the `BFI` package
+
+To find and use the data sets available in the `BFI` package, use the following codes:
+
+```{sas, eval=FALSE}
+proc iml;
+
+  rsubmit;
+  
+    # To find a list of all data sets included in the package
+    print(data(package = "BFI"))  
+  
+    # To use the 'Nurses' data
+    BFI::Nurses
+    cat("Dimension of the 'Nurses' data: \n", dim(Nurses))
+    cat("Colnames of the 'Nurses' data: \n", colnames(Nurses))
+
+    # To use the 'trauma' data
+    BFI::trauma
+    cat("Dimension of the 'trauma' data: \n", dim(trauma))
+    cat("Colnames of the 'trauma' data: \n", colnames(trauma))
+
+  endrsubmit;
+
+quit;
+```
+
+### Importing the data from R
+
+R objects and data may be brought back into SAS as well, for any manipulation you might want to do in SAS. Here, we just grab the *bfi* object and the *Nurses* data from R and print the data in SAS.
+
+```{sas, eval=FALSE}
+proc iml;
+  submit / R;  * 'rsubmit' is equivalent to 'submit / R' ;
+
+   # Export 'bfi' object
+   ExportDataSetToSAS(bfi)
+
+   # Export dataset 'Nurses'
+   ExportDataSetToSAS(Nurses)
+   
+  endsubmit;
+run;
+  
+proc print data=Nurses;
+run;
+```
+
+### BFI as a SAS Package
+
+In the near future, we will be releasing the SAS/IML package for BFI, which can be installed by the `PACKAGE INSTALL` statement in the SAS environment.
+
+### Contact
+
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: [hassan.pazira\@radboudumc.nl](mailto:hassan.pazira@radboudumc.nl){.email}.

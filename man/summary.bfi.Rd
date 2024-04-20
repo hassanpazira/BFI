@@ -4,11 +4,13 @@
 
 \title{Summarizing BFI Fits}
 
-\description{Summary method for an object with class 'bfi' created by the \code{MAP.estimation} function.}
+\description{Summary method for an object with class 'bfi' created by the \code{MAP.estimation} and \code{bfi} functions.}
 
 \usage{
-\method{summary}{bfi}(object, cur_mat = FALSE,
-        digits = max(3, getOption("digits") - 3), ...)
+\method{summary}{bfi}(object,
+        cur_mat = FALSE,
+        digits = max(3, getOption("digits") - 3),
+        ...)
 }
 
 \arguments{
@@ -22,7 +24,7 @@
 }
 
 \details{
-\code{summary.bfi()} gives information about the MAP estimates of parameters of the model. It can be used for the \code{bfi} objects built by the \code{MAP.estimation} function.
+\code{summary.bfi()} gives information about the MAP estimates of parameters of the model. It can be used for the \code{bfi} objects built by the \code{MAP.estimation} and \code{bfi} functions.
 
 The output of the summary method shows the details of the model, i.e. formula, family and link function used to specify the generalized linear model, followed by information about the estimates, standard deviations and credible intervals.
 Information about the log-likelihood posterior and convergence status are also provided.
@@ -34,11 +36,11 @@ By default, \code{summary.bfi} function does not return (minus) the curvature ma
 
 \code{summary.bfi} returns an object of class \code{summary.bfi}, a list with the following components:
 
-\item{theta_hat}{the component from \code{object}. The last element of this vector is the estimate of the dispersion parameter (sigma2) if \code{family = gaussian}. See the \code{\link{MAP.estimation}} function.}
+\item{theta_hat}{the component from \code{object}. The last element of this vector is the estimate of the dispersion parameter (sigma2) if \code{family = "gaussian"}. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
 
-\item{A_hat}{the component from \code{object}. See the \code{\link{MAP.estimation}} function.}
+\item{A_hat}{the component from \code{object}. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
 
-\item{sd}{the component from \code{object}. If \code{family = gaussian}, the last element of this vector is the square root of the estimated dispersion. See the \code{\link{MAP.estimation}} function.}
+\item{sd}{the component from \code{object}. If \code{family = "gaussian"}, the last element of this vector is the square root of the estimated dispersion. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
 
 \item{Lambda}{the component from \code{object}. See the \code{\link{MAP.estimation}} function.}
 
@@ -56,12 +58,13 @@ By default, \code{summary.bfi} function does not return (minus) the curvature ma
 
 \item{control}{the component from \code{object}. See the \code{\link{MAP.estimation}} function.}
 
+\item{stratified}{the component from \code{object}. See the \code{\link{bfi}} function.}
 
 \item{estimate}{the estimated regression coefficients, i.e., without the estimate \code{sigma2}.}
 
 \item{logLikPost}{the value of the log-likelihood posterior density evaluated at estimates (\code{theta_hat}).}
 
-\item{link}{the link function. By default the \code{gaussian} family with \code{identity} link function and the \code{binomial} family with \code{logit} link function are used.}
+\item{link}{the link function only for GLMs, not for the survival family. By default the \code{gaussian} family with \code{identity} link function and the \code{binomial} family with \code{logit} link function are used.}
 
 \item{dispersion}{the estimated variance of the random error, i.e., \code{sigma2}. The \code{dispersion} is taken as \code{1} for the \code{binomial} family.}
 
@@ -99,8 +102,8 @@ y      <- rnorm(n, mu, sd = sqrt(theta[5]))
 #----------------
 # MAP estimations
 #----------------
-Lambda <- inv.prior.cov(X, lambda = c(0.1, 0.5), family = gaussian)
-fit    <- MAP.estimation(y, X, family = gaussian, Lambda)
+Lambda <- inv.prior.cov(X, lambda = c(0.1, 0.5), family = "gaussian")
+fit    <- MAP.estimation(y, X, family = "gaussian", Lambda)
 class(fit)
 
 #-------------------------
@@ -115,5 +118,7 @@ sumfit$CI
 class(sumfit)
 
 }
-\keyword{Bayesian}
-\keyword{Federated}
+\keyword{regression}
+\keyword{models}
+\keyword{survival}
+

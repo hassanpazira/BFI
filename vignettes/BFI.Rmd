@@ -1,9 +1,10 @@
 ---
-title: "An Introduction to BFI"
+title: "An Introduction to BFI in R"
 author: 
 - Hassan Pazira
 - Marianne Jonker
-date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
+date: "2025-03-22"
+# date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
 output:
   #rmarkdown::html_vignette
   knitr:::html_vignette:
@@ -17,9 +18,9 @@ output:
 #     toc_depth: 3
 #     theme: lumen
 description: |
-  How to use the BFI package.
+  How to use the BFI package in R.
 vignette: >
-  %\VignetteIndexEntry{An Introduction to BFI}
+  %\VignetteIndexEntry{An Introduction to BFI in R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -34,64 +35,191 @@ opts_chunk$set(
 
 ## Overview
 
-The R package `BFI` (**B**ayesian **F**ederated **I**nference) provides several functions to carry out the Bayesian Federated Inference method for two kinds of models (`GLM` and `Survival`) with multicenteral data without combining/sharing them. In this tutorial we focus on `GLM` only, so that this version of the package is available for two commonly used families: `"binomial"` and `"gaussian"`.
-The mostly using functions include `bfi()`, `MAP.estimation()`, and `inv.prior.cov()`.
-In the following, we will see how the `BFI` package can be applied to real datasets included in the package.
+The R package `BFI` (**B**ayesian **F**ederated **I**nference) provides several functions to perform Bayesian Federated Inference for two types of models (`GLM` and `Survival`) using multicenter data without the need to combine or share them. This tutorial focuses on `GLM` models. Two commonly used families for `GLM` models, `"binomial"` and `"gaussian"`, are available for this version of the package.
+The most commonly used functions include `bfi()`, `MAP.estimation()`, and `inv.prior.cov()`.
+In the following, we will see how the `BFI` package can be applied to real data sets included in the package.
 
 
 ## How to use it?
 
-Before we go on, we first install and load the `BFI` package using the `devtools` package:
+Before we go on, we first install and load the `BFI` package:
 
-```{r , message=FALSE}
-# First install and load the package 'devtools'
-if(!require(devtools)) {install.packages("devtools")}
-library(devtools)
-
-# Now install BFI from GitHub
-#devtools::install_github("hassanpazira/BFI", force = TRUE)
-
-# load BFI
-library(BFI)
+```{r , include = FALSE}
+# First set a CRAN mirror
+options(repos = c(CRAN = "https://cran.rstudio.com/"))
 ```
 
-By the following code we can see there two available datasets in the package: `trauma` and `Nurses`.
+```{r , message=FALSE, results='hide'}
+# Install and load the BFI package from CRAN:
+install.packages("BFI")
+library(BFI)
+```
+By using the following code, we can see that there are two available data sets in the package: `trauma` and `Nurses`.
 ```{r}
 data(package = "BFI")
 ```
 
-The `trauma` data can be utilized for the `"binomial"` family and `Nurses` data can be used for `"gaussian"`. To avoid repetition, we only use the `trauma` data set.
-Load and inspect the `trauma` data as follows:
+The `trauma` data set can be utilized for the `"binomial"` family and `Nurses` data set can be used for `"gaussian"` family. To avoid repetition, we will only use the `trauma` data set.
+By loading the package, the data sets included will be loaded and can be inspected as follows:
 ```{r}
-# Load 'trauma' in the R workspace
-data("trauma")
-
 # Get the number of rows and columns
 dim(trauma)
 
-# To get an idea of the dataset, print the first 7 rows
+# To get an idea of the data set, print the first 7 rows
 head(trauma, 7)
 ```
 
-This data set consists of data of 371 trauma patients from three hospitals (peripheral hospital without a neuro-surgical unit, status=1, peripheral hospital with a neuro-surgical unit, status=2, and academic medical center, status=3).
+This data set consists of data of 371 trauma patients from three hospitals (peripheral hospital without a neuro-surgical unit, `'status=1'`, peripheral hospital with a neuro-surgical unit, `status=2`, and academic medical center, `status=3`).
 
-As we can see it has 6 columns:
+As we can see, the data set has six columns. The covariates `sex` (dichotomous), `age` (continuous), `ISS` (Injury Severity Score, continuous), and `GCS` (Glasgow Coma Scale, continuous), which serve as the predictors. `mortality` is the response variable, while `hospital` is a categorical variable which indicates the hospitals involved in the study.
+For more information about this data set use 
 ```{r}
-(col_name <- colnames(trauma))
-```
-The covariates `sex` (dichotomous), `age` (continuous), `ISS` (Injury Severity Score, continuous), and `GCS` (Glasgow Coma Scale, continuous) are the predictors, and `mortality` is the response variable. `hospital` is a categorical variable which indicates the hospitals involved in the study.
-For more information about this dataset use 
-```{r}
-# Get some info about the dataset from the help file
+# Get some info about the data set from the help file
 ?trauma
 ```
 
+We will analyze the data with a `logistic` regression model. 
+First we standardize the covariates. This is not necessary for the analysis, but is done for the interpretability of the accuracy of the estimates.
 ```{r}
+trauma$age <- scale(trauma$age)
+trauma$ISS <- scale(trauma$ISS) 
+trauma$GCS <- scale(trauma$GCS) 
+trauma$hospital <- as.factor(trauma$hospital)
+```
+
+By using the following code we can see there are three hospitals involved in the study:
+```{r}
+length(levels(trauma$hospital))
+```
+
+### MAP estimations
+
+Therefore, the `MAP.estimation` function should be applied to these 3 local data sets separately to obtain the MAP estimations. Note that, in practice, we do not have access to the combined data, and each center should perform the analysis independently and send the output to the central server, as follows:
+```{r}
+# Center 1:
+# X1 <- data.frame(sex=trauma$sex[trauma$hospital==1],
+#                  age=trauma$age[trauma$hospital==1],
+#                  ISS=trauma$ISS[trauma$hospital==1],
+#                  GCS=trauma$GCS[trauma$hospital==1])
+X1 <- subset(trauma, hospital == 1, select = c(sex, age, ISS, GCS))
+Lambda1 <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
+fit1 <- MAP.estimation(y=trauma$mortality[trauma$hospital==1], X=X1, family="binomial", Lambda=Lambda1)
+summary(fit1)
+
+# Center 2:
+# X2 <- data.frame(sex=trauma$sex[trauma$hospital==2],
+#                  age=trauma$age[trauma$hospital==2],
+#                  ISS=trauma$ISS[trauma$hospital==2],
+#                  GCS=trauma$GCS[trauma$hospital==2])
+X2 <- subset(trauma, hospital == 2, select = c(sex, age, ISS, GCS))
+Lambda2 <- inv.prior.cov(X2, lambda=0.01, L=3, family="binomial")
+fit2 <- MAP.estimation(y=trauma$mortality[trauma$hospital==2], X=X2, family="binomial", Lambda=Lambda2)
+summary(fit2)
+
+# Center 3:
+# X3 <- data.frame(sex=trauma$sex[trauma$hospital==3],
+#                  age=trauma$age[trauma$hospital==3],
+#                  ISS=trauma$ISS[trauma$hospital==3],
+#                  GCS=trauma$GCS[trauma$hospital==3])
+X3 <- subset(trauma, hospital == 3, select = c(sex, age, ISS, GCS))
+Lambda3 <- inv.prior.cov(X3, lambda=0.01, L=3, family="binomial")
+fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3)
+summary(fit3)
+```
+It can be seen that all algorithms have converged (`Convergence: 0`). If `Convergence: 1` occurs, you can increase the number of iteration in the optimization process of `optim()` by adding `control = list(maxit=500)` to the function `MAP.estimation`, as shown below:
+```{r}
+# Example for Center 3:
+fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3, control = list(maxit=500))
+```
+
+To see more information about the data set, such as the number of observations and parameters, we can use the output of the `MAP.estimation` function as follows:
+```{r}
+# number of samples in center 1
+fit1$n
+# number of parameters in center 1
+fit1$np
+
+# number of samples in center 2
+fit2$n
+
+# number of samples in center 3
+fit3$n
+```
+Additionally, before conducting the analysis, we can use the `n.par` function to retrieve this information.
+
+The outputs `fit1`,`fit2`, and `fit3` from the local centers should be sent to the central server for further analysis.
+To send these lists from R to the central server (which also uses R), you can save them in a format that R can easily read, such as an RDS file.
+
+```{r, eval = FALSE}
+# Save fit1 as an RDS file
+saveRDS(fit1, file="fit1.rds")
+
+# Save fit2 as an RDS file
+saveRDS(fit2, file="fit2.rds")
+
+# Save fit3 as an RDS file
+saveRDS(fit3, file="fit3.rds")
 ```
 
 
+### BFI estimations
 
 
+Now, the received files can be loaded in R using the following lines:
+
+```{r, eval = FALSE}
+# Load the RDS files
+fit1 <- readRDS("fit1.rds") # use the relative path to the file
+fit2 <- readRDS("fit2.rds") # use the relative path to the file
+fit3 <- readRDS("fit3.rds") # use the relative path to the file
+```
+
+
+On the central server, the `bfi()` function can be used to obtain the BFI estimations:
+```{r}
+theta_hats <- list(fit1$theta_hat, fit2$theta_hat, fit3$theta_hat)
+A_hats     <- list(fit1$A_hat, fit2$A_hat, fit3$A_hat)
+Lambda_com <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
+Lambdas    <- list(Lambda1, Lambda2, Lambda3, Lambda_com)
+BFI_fits   <- bfi(theta_hats, A_hats, Lambdas, family="binomial")
+summary(BFI_fits, cur_mat=TRUE)
+```
+
+### Comparison
+
+To compare the performance of the BFI methodology, we can combine the data sets and obtain the MAP estimations based on the combined data:
+
+```{r}
+# MAP estimates of the combined data:
+X_combined  <- data.frame(sex=trauma$sex,
+                          age=trauma$age,
+                          ISS=trauma$ISS,
+                          GCS=trauma$GCS)
+Lambda   <- inv.prior.cov(X=X_combined, lambda=0.01, L=3, family="binomial")
+fit_comb  <- MAP.estimation(y=trauma$mortality, X=X_combined, family="binomial", Lambda=Lambda) 
+summary(fit_comb, cur_mat=TRUE)
+```
+
+Now, we can see the difference between the BFI and combined estimates:
+```{r}
+# Squared Errors:
+(fit_comb$theta_hat - BFI_fits$theta_hat)^2
+```
+which are close to zero, as expected!
+
+For more details see the following references.
 
 ## References
+Jonker M.A., Pazira H. and Coolen A.C.C. (2024). Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets, Statistics in Medicine, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
 
+Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2025b). Bayesian Federated Inference for Survival Models, Journal of Applied Statistics (Accepted). <https://arxiv.org/abs/2404.17464>
+
+Jonker M.A., Pazira H. and Coolen A.C.C. (2025a). Bayesian Federated Inference for regression models based on non-shared medical center data, Research Synthesis Methods, 1-41. <https://doi.org/10.1017/rsm.2025.6>
+
+<!-- van den Heuvel Z.D., Pazira H. and Jonker M.A. (2025c). Bayesian Federated Causal Inference from observational data, arXiv. <https://arxiv.org/abs/???> -->
+
+
+
+## Contact
+
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: hassan.pazira@radboudumc.nl or Marianne.Jonker@radboudumc.nl.

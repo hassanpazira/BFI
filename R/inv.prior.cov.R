@@ -1,63 +1,112 @@
-## This file created by Hassan Pazira at 20-06-2023
-## Updated at 29-09-2023
+## This file created by Hassan Pazira
 
 #' @export
 
-inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
-                          intercept = TRUE, stratified = FALSE,
-                          strat_par = NULL, center_spec = NULL) {
+inv.prior.cov <- function(X, lambda = 1, L = 2L,
+                          family = c("gaussian", "binomial", "survival"),
+                          treatment = NULL, treat_round = NULL, intercept = TRUE,
+                          stratified = FALSE, strat_par = NULL, center_spec = NULL,
+                          basehaz = c("weibul", "exp", "gomp", "poly", "pwexp", "unspecified"),
+                          max_order = 2, n_intervals = 4) {
+  family <- match.arg(family)
   if (any(lambda <= 0)) stop("'lambda' element(s) should be positive (> 0)")
-  if (is.character(family)) family <- get(family, mode = "function",
-                                          envir = parent.frame())
-  if (is.function(family)) family <- do.call(family, args = list(),
-                                             envir = parent.frame())
-  if (is.null(family$family)) stop("'family' not recognized")
-  if (!family$family %in% c("binomial", "gaussian")) {
-    stop("Distributions that can be used are 'binomial' and 'gaussian' in
-         this version of the package!")
-  }
+  if (is.null(family)) stop("'family' not recognized")
   if (is.matrix(X)) {
     warning(
-      "Note that, if in 'X' there is a 'categorical' covariate with more than", "\n",
-      "2 levels, then 'X' must be a 'data.frame' instead of a 'matrix'! "
+      "If in 'X' there is a 'categorical' covariate with more than 2 levels,",
+      " then 'X' must be a 'data.frame' instead of a 'matrix'! "
     )
   }
-  if (all(as.numeric(X[, 1]) == rep(1, NROW(X)))) {
-    X <- X[, -1, drop = FALSE]
+  if ((!is.null(treatment)) & is.null(treat_round)) {
+    stop("Which round? treat_round = 'first' or treat_round = 'second'?")
+  }
+  if ((is.null(treatment)) & !is.null(treat_round)) {
+    stop("Both 'treatment' and 'treat_round' must be either both NULL or both not NULL.")
+  }
+  if ((!is.null(treatment))) { # & is.null(gamma_bfi) & is.null(RCT_propens)
+    if (length(treatment) > 1)
+      stop("Only one covariate for treatment.")
+    if (treat_round=="first") {
+      family <- c("binomial")
+    }
+    if (!is.character(treatment)) stop("Covariate '", treatment,"' should be a character.")
   }
   if (is.null(colnames(X))) {
-    colnames(X) <- paste0("X", seq_len(ncol(X)))
-  } else {
-    if (any(c("Intercept", "(Intercept)") %in% colnames(X))) {
-      stop("'intercept' should be the first column of 'X'.")
+    # colnames(X) <- paste0("X", seq_len(ncol(X)))
+    if (length(X[,-1])==nrow(X)) stop()
+    else stop("Colnames of X cannot be NULL.")
+  }
+  if (family %in% c("binomial", "gaussian")) {
+    if (all(as.numeric(X[, 1]) == rep(1, NROW(X)))) {
+      X <- X[, -1, drop = FALSE]
+    }
+    if (any(c("Intercept", "(Intercept)") %in% colnames(X)))
+      stop("'Intercept' should be the first column of 'X'.")
+  }
+  #X <- X[,sort(colnames(X))]
+  if ((!is.null(treatment)) ) { #& is.null(gamma_bfi) & is.null(RCT_propens)
+    if (!treatment %in% colnames(X)) stop("Treatment should be included in X as a covariate.")
+    if (nlevels(factor(X[, treatment])) != 2)
+      stop("Covariate '", treatment,"' must have only two categories, e.g., 0 and 1.")
+    X_treat_old <- X
+    wich_treat <- which(colnames(X) == treatment)
+    Z_only_treat <- as.matrix(as.numeric(X_treat_old[, wich_treat]))
+    if (treat_round=="second") {
+      X <- X[, wich_treat, drop = FALSE]
+    } else {
+      X <- X[, -wich_treat, drop = FALSE]
     }
   }
-  y <- rnorm(NROW(X)) # a fake response
   design_matrix <- paste(colnames(X), collapse = " + ")
-  formula <- as.formula(paste("y", design_matrix, sep = " ~ "))
-  X <- model.maker(formula, as.data.frame(X))$X
-  if (family$family == "gaussian") {
+  formula <- as.formula(paste(" ", design_matrix, sep = " ~ "))
+  X <- model.maker(formula, as.data.frame(X), family)$X
+  if ((!is.null(treatment)) ) {
+    if (treat_round=="second") {
+      if (intercept == TRUE) {
+        colnames(X) <- c("(Intercept)", treatment)
+      } else {
+        colnames(X) <- c(treatment)
+      }
+    }
+  }
+  if (family == "gaussian") {
     name_Lambda <- c(colnames(X), "sigma2")
   }
-  if (family$family == "binomial") {
+  if (family == "binomial") {
     name_Lambda <- colnames(X)
+  }
+  if (family == "survival") {
+    basehaz <- match.arg(basehaz)
+    if (basehaz == "unspecified") {
+      name_Lambda <- colnames(X)[-1]
+    }
+    if (basehaz == "exp") {
+      name_Lambda <- c(colnames(X), paste("omega",c(1), sep="_"))[-1]
+    }
+    if (basehaz %in% c("gomp", "weibul")) {
+      name_Lambda <- c(colnames(X), paste("omega",c(1:2), sep="_"))[-1]
+    }
+    if (basehaz=="pwexp") {
+      name_Lambda <- c(colnames(X), paste("omega",c(1:(n_intervals)), sep="_"))[-1]
+    }
+    if (basehaz == "poly") {
+      name_Lambda <- c(colnames(X), paste("omega",c(0:(max_order)), sep="_"))[-1]
+    }
   }
   X <- X[, -1, drop = FALSE] # without 'intercept'
   np <- NCOL(X) # without intercept
   if (stratified == TRUE & is.null(strat_par) & is.null(center_spec)) {
-    stop("Since 'stratified = TRUE', only one of 'strat_par' or
-         'center_spec' could be NULL.")
+    stop("Since 'stratified = TRUE', only one of 'strat_par' or 'center_spec' can be NULL.")
   }
   if (stratified == TRUE & !is.null(strat_par) & !is.null(center_spec)) {
-    stop("Since 'stratified = TRUE', only one of 'strat_par' or
-         'center_spec' could be non-NULL.")
+    stop("Since 'stratified = TRUE', only one of 'strat_par' or 'center_spec' could be non-NULL.")
   }
   if (stratified == FALSE & (!is.null(strat_par) | !is.null(center_spec))) {
-    stop("Since 'stratified = FALSE', both 'strat_par' and
-         'center_spec' sould be NULL.")
+    stop("Since 'stratified = FALSE', both 'strat_par' and 'center_spec' should be NULL.")
   }
+  strat_par <- sort(strat_par)
   if (stratified == FALSE) {
-    if (family$family == "gaussian") {
+    if (family == "gaussian") {
       if (intercept == TRUE) {
         p <- np + 2 # intercept and error variance
       } else {
@@ -75,7 +124,8 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           lambda1 <- lambda2 <- lambda[1]
         } else {
           if (length(lambda) != p) {
-            stop("'lambda' should be a vector of ", sQuote(p), " elements")
+            stop("'lambda' could be a vector of ", sQuote(1),", ",
+                 sQuote(2)," or ", sQuote(p), " elements.")
           } else {
             lambda1 <- lambda[seq_len(p - 1)]
             lambda2 <- lambda[p]
@@ -94,7 +144,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
         rownames(Lambda) <- colnames(Lambda) <- name_Lambda[-1]
       }
     }
-    if (family$family == "binomial") {
+    if (family == "binomial") {
       if (intercept == TRUE) {
         p <- np + 1 # only intercept (and of course no error variance)
       } else {
@@ -108,7 +158,8 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           lambda1 <- lambda[1]
         } else {
           if (length(lambda) != p) {
-            stop("'lambda' should be a vector of ", sQuote(p), " elements")
+            stop("'lambda' could be a vector of ", sQuote(1),
+                 " or ", sQuote(p), " elements.")
           } else {
             lambda1 <- lambda
           }
@@ -126,15 +177,59 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
         rownames(Lambda) <- colnames(Lambda) <- name_Lambda[-1]
       }
     }
+    if (family == "survival") {
+      intercept <- FALSE  # In 'survival' there is no intercept !
+      if (basehaz == "unspecified") {
+        p <- np
+      }
+      if (basehaz == "exp") {
+        p <- np + 1
+      }
+      if (basehaz %in% c("gomp", "weibul")) {
+        p <- np + 2
+      }
+      if (basehaz=="pwexp") {
+        p <- np + n_intervals
+      }
+      if (basehaz == "poly") {
+        p <- np + (max_order + 1)
+      }
+      if (length(lambda) == 1) {
+        lambda1 <- lambda2 <- lambda
+      }
+      if (length(lambda) == 2) {
+        lambda1 <- lambda[1]
+        lambda2 <- lambda[2]
+      }
+      if (length(lambda) > 2) {
+        if (all(lambda == lambda[1])) {
+          lambda1 <- lambda2 <- lambda[1]
+        } else {
+          if (length(lambda) != p) {
+            stop("'lambda' could be a vector of ", sQuote(1),", ",
+                 sQuote(2)," or ", sQuote(p), " elements.")
+          } else {
+            lambda1 <- lambda[seq_len(np)]
+            lambda2 <- lambda[(np+1):p]
+          }
+        }
+      }
+      if (length(lambda1) == 1) {
+        lambda1 <- rep(lambda1, np)
+        lambda2 <- rep(lambda2, p - np)
+      }
+      Lambda <- diag(c(lambda1, lambda2), length(c(lambda1, lambda2)))
+      rownames(Lambda) <- colnames(Lambda) <- name_Lambda
+    }
   } else {
     if (is.null(center_spec)) {
-      if ((!1 %in% strat_par) & (!2 %in% strat_par)) {
-        stop("'strat_par' should contain '1' and/or '2'.")
-      }
-      if (family$family == "gaussian") {
+      if (any(duplicated(strat_par))) stop("There shouldn't be any duplicates in 'strat_par'.")
+      if (family == "gaussian") {
+        if (!all(strat_par %in% c(1, 2))) {
+          stop("'strat_par' should contain '1' and/or '2'.")
+        }
         if (!is.numeric(strat_par)) {
-          stop("'strat_par' should be one of the integers: 1 or 2,
-               or a vector of both.")
+          stop("'strat_par' should be one of the integers: 1 or 2, or a vector of both.")
         }
         if (length(strat_par) > 2) {
           stop("For the 'gaussian' family the number of 'strat_par' parameters
@@ -257,8 +352,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           lambda1 <- rep(lambda, p)
           lambda2 <- lambda3 <- NULL
         }
-        Lambda <- diag(c(lambda1, lambda2, lambda3),
-                       length(c(lambda1, lambda2, lambda3)))
+        Lambda <- diag(c(lambda1, lambda2, lambda3), length(c(lambda1, lambda2, lambda3)))
         if (intercept == TRUE) {
           if (length(strat_par) == 1) {
             if (1 %in% strat_par) {
@@ -290,7 +384,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           )
         }
       }
-      if (family$family == "binomial") {
+      if (family == "binomial") {
         if (intercept == FALSE) {
           stop("Since 'intercept = FALSE', for the 'binomial' family
                the stratified analysis is not possible!")
@@ -340,6 +434,60 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
         rownames(Lambda) <- colnames(Lambda) <-
           c(paste0(name_Lambda[1], rep("_loc", L), seq_len(L)), name_Lambda[-1])
       }
+      if (family == "survival") {
+        if (!is.numeric(strat_par)) {
+          stop("'strat_par' should contain integers.")
+        }
+        intercept <- FALSE  # In 'survival' there is no intercept !
+        if (basehaz == "unspecified") {
+          stop("For the 'unspecified' baseline hazard, 'strat_par' can not be used.")
+        }
+        if (basehaz == "exp") {
+          if (length(strat_par) > 1 | !all(strat_par %in% 1)) {
+            stop("For the 'exp' baseline hazard, 'strat_par' should contain only the integer 1.")
+          }
+          n_omega <- 1
+          p <- np + L
+        }
+        if (basehaz %in% c("gomp", "weibul")) {
+          if (length(strat_par) > 2 | !all(strat_par %in% c(1, 2))) {
+            stop("For 'gomp' and 'weibul', 'strat_par' can take the values 1, 2, or 1:2.")
+          }
+          n_omega <- 2
+          # p <- np + ifelse(length(strat_par) == 1, L + 1, 2 * L)
+          p <- np + length(strat_par) * L + (2 - length(strat_par))
+        }
+        if (basehaz=="pwexp") {
+          if (length(strat_par) > n_intervals | !all(strat_par %in% seq_len(n_intervals))) {
+            stop("For 'pwexp', 'strat_par' can be any combination of the values 1 to 'n_intervals'.")
+          }
+          n_omega <- n_intervals
+          p <- np + length(strat_par) * L + (n_intervals - length(strat_par))
+        }
+        if (basehaz == "poly") {
+          if (length(strat_par) > (max_order + 1) | !all(strat_par %in% seq_len(max_order + 1))) {
+            stop("For 'poly', 'strat_par' can be any combination of the values 1 to 'n_intervals'.")
+          }
+          n_omega <- (max_order + 1)
+          p <- np + length(strat_par) * L + ((max_order + 1) - length(strat_par))
+        }
+        if (length(lambda) != p) {
+          stop("When 'stratified == TRUE' and 'strat_par != NULL', ",
+               "'lambda' should be a vector of ", sQuote(p),
+               " elements; length(beta's) + length(strat_par) * L + length(rest of omega's).")
+        }
+        Lambda <- diag(lambda, length(lambda))
+        omegas_names <- NULL
+        for (i in seq_len(n_omega)) {
+          if (i %in% strat_par) {
+            omegas_name <- paste0(name_Lambda[np+i], rep("_loc", L), seq_len(L))
+          } else {
+            omegas_name <- name_Lambda[np+i]
+          }
+          omegas_names <- c(omegas_names, omegas_name)
+        }
+        rownames(Lambda) <- colnames(Lambda) <- c(name_Lambda[1:np], omegas_names)
+      }
     } else {
       if (length(center_spec) != L) {
         stop(
@@ -383,7 +531,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
       #                                   (last_Lam_dim - K + 1):last_Lam_dim)
       #   new_noncore[, 2] <- noncore[,1] + K
       # }
-      if (family$family == "gaussian") {
+      if (family == "gaussian") {
         if (intercept == FALSE) {
           if (length(strat_par) > 1 | 1 %in% strat_par) {
             stop(
@@ -455,7 +603,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           )
         }
       }
-      if (family$family == "binomial") {
+      if (family == "binomial") {
         if (intercept == FALSE) {
           stop(
             "'intercept = FALSE' for centers, while in the current version of the",
