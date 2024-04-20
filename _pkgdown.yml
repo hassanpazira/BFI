@@ -21,6 +21,8 @@ navbar:
       href: articles/BFI.html
     - text: Calling BFI from Python
       href: articles/Python.html
+    - text: Using BFI in SAS
+      href: articles/SAS.html
   - text: News
     href: news/index.html
   right:
