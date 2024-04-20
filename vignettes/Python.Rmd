@@ -2,7 +2,8 @@
 title: "Calling BFI from Python"
 author:
 - Hassan Pazira
-date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
+date: "2024-10-12"
+# date: "`r Sys.Date()`" # "`r format(Sys.time(), '%B %d, %Y')`"
 output:
   #rmarkdown::html_vignette
   knitr:::html_vignette:
@@ -30,21 +31,21 @@ opts_chunk$set(
 
 ## Introduction
 
-`BFI` is an R package that performs Bayesian Federated Inference (BFI) for linear, logistic, and Cox regression models. Since there is no Python package for carrying out the BFI method so far, this vignette describes the usage of the R package `BFI` in the Python environment.
+`BFI` is an **R** package that performs **Bayesian Federated Inference** (**BFI**) for *linear*, *logistic*, and *survival* regression models. Since there is no **Python** package for carrying out the *BFI* method so far, this vignette describes the usage of the R package `BFI` in the Python environment.
 
 To move to the Python environment, we need to prepare our operating system. 
-Although, we explain in the following how to prepare it in different systems ('*MacOS*', '*Ubuntu*' and '*Windows*'), we recommend that to use '*Google Colab*' to write and execute (the following) Python codes which can be done in any system through a browser without any preparations.
+Although, we explain in the following how to prepare it in different systems ('*macOS*', '*Ubuntu*' and '*Windows*'), we recommend using '*Google Colab*' to write and execute (the following) Python code, as it can be done in any system through a browser without any preparations.
 
 
 ## Google Colab
 
-First go to *Google Colab* from https://colab.google or https://colab.research.google.com, and then click on *New Notebook*. Now, skip the two following sections and jump to the third section [Python script](#Python).
+First go to *Google Colab* from https://colab.google or https://colab.research.google.com, and then click on *New Notebook*. Now, skip the next two sections and proceed to the [Python Script](#Python) section.
 
 ## Python Installation
 
-The steps to install the latest version of Python on 'MacOS', 'Ubuntu' and 'Windows' are as follows:
+The steps to install the latest version of Python on 'macOS', 'Ubuntu' and 'Windows' are as follows:
 
-### On MacOS
+### On macOS
 Open a terminal window (cmd + space and search ‘Terminal’) and install the package manager 'Homebrew' by executing the following command:
 ```{r, eval=FALSE}
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
@@ -118,14 +119,14 @@ Once the installation is complete, you can verify whether the Python installatio
 
 It’s assumed that R is also installed on your system. If you don't have R installed, just visit CRAN downloads (https://cran.r-project.org) and get the last version.
 
-## Installation of required modules
+## Installation of Required Modules
 
 Here the required modules are installed through PIP.
 PIP (a Python package manager) helps us to install and use various packages/modules in Python programming.
 
 Install the latest version of PIP and required modules by running the following commands on different systems.
 
-### On MacOS
+### On macOS
 
 Install/Upgrade the latest version of PIP by running 
 ```{r, eval=FALSE}
@@ -141,6 +142,9 @@ pip3 install pandas
 
 # Installing the 'numpy' module
 pip3 install numpy
+
+# Installing the 'pickle' module
+pip3 install pickle
 
 # Installing the 'rpy2' module
 pip3 install rpy2
@@ -168,6 +172,9 @@ sudo pip3 install pandas
 # Installing the 'numpy' module
 sudo pip3 install numpy
 
+# Installing the 'pickle' module
+sudo pip3 install pickle
+
 # Installing the 'rpy2' module
 sudo pip3 install rpy2
 ```
@@ -180,6 +187,9 @@ sudo apt-get install python3-pandas
 # Installing the 'numpy' module
 sudo apt-get install python3-numpy
 
+# Installing the 'pickle' module
+sudo apt-get install python3-pickle
+
 # Installing the 'rpy2' module
 sudo apt-get install python3-rpy2
 ```
@@ -188,6 +198,7 @@ Finally, use the show command to verify whether the module is now part of your P
 ```{r, eval=FALSE}
 pip3 show pandas
 pip3 show numpy
+pip3 show pickle
 pip3 show rpy2
 ```
 
@@ -216,6 +227,9 @@ pip3 install pandas
 # Installing the 'numpy' module
 pip3 install numpy
 
+# Installing the 'pickle' module
+pip3 install pickle
+
 # Installing the 'rpy2' module
 pip3 install rpy2
 ```
@@ -226,7 +240,7 @@ Go to `Start` and enter `python` in the search bar. You can see Python 3.x and I
 Open one of them and follow the following steps.
 
 
-## Python script {#Python}
+## Python Script {#Python}
 
 It is assumed here that the required packages has been properly installed, which is the case in *Google Colab*. 
 Now move on to work with the `rpy2` package inside a Python script!
@@ -235,11 +249,11 @@ If you are not in the Python script, first go to the Python Environment by typin
 python3
 ```
 
-As of now, all the following codes should be run in the Python environment. If you want to copy all codes at once go to [the last section](#allcodes).
+As of now, all the following code should be run in the Python environment. If you want to copy all code at once go to [the last section](#allcodes).
 
 ### Importing `Python` modules and functions
 
-Use the following codes to import required Python modules:
+Use the following code to import required Python modules:
 ```{python, eval=FALSE, python.reticulate = FALSE}
 # import 'pandas' package
 import pandas as pd
@@ -247,11 +261,14 @@ import pandas as pd
 # import 'numpy' package
 import numpy as np                
 
+# import 'pickle' package
+import pickle
+
 # import 'rpy2' package
 import rpy2                  
 ```
 
-and using the following codes imports the required functions such as `importr()` and `data()`:
+and using the following code imports the required functions such as `importr()` and `data()`:
 ```{python, eval=FALSE, python.reticulate = FALSE}
 from rpy2.robjects.packages import importr, data
 from rpy2.robjects.vectors import StrVector
@@ -261,7 +278,7 @@ numpy2ri.activate()
 pandas2ri.activate()
 ```
 
-### Installing `R` packages from CRAN and GitHub:
+### Installing `R` packages from CRAN and GitHub
 
 First load the packages preinstalled with R using `importr()` as follows:
 ```{python, eval=FALSE, python.reticulate = FALSE}
@@ -273,23 +290,27 @@ base = importr('base')
 ```
 
 
-Then install the R packages `stats` and `devtools` from CRAN by typing
+Then install the R packages `stats` and `BFI` from CRAN by typing
 ```{python, eval=FALSE, python.reticulate = FALSE}
 utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
-package_names = ('stats', 'devtools')
+package_names = ('stats', 'BFI')
 utils.install_packages(StrVector(package_names))
 ```
 
 Now load the installed packages using
 ```{python, eval=FALSE, python.reticulate = FALSE}
 stats = importr('stats')
-devtools = importr('devtools')
+BFI = importr('BFI')
 ```
 
-### Installing the `BFI` package from GitHub
+#### Installing the `BFI` package from GitHub (if necessary)
 
-The `BFI` package can be installed and loaded using the following lines:
+If you want to install the `BFI` package from GitHub (instead of CRAN), it can be installed and loaded using the following lines:
 ```{python, eval=FALSE, python.reticulate = FALSE}
+utils.chooseCRANmirror(ind=1)
+utils.install_packages('devtools')
+devtools = importr('devtools')
+
 # Installing the 'BFI' package
 devtools.install_github("hassanpazira/BFI", force = True)
 
@@ -298,11 +319,11 @@ BFI = importr('BFI')
 ```
 
 
-## Examples
+## Applying BFI method to the simulated data
 
 Now we generate two datasets independently from Gaussian distribution, and then apply main functions in the `BFI` package to these datasets:
 
-### Data Simulation for two local centers
+### Data Simulation for two Local Centers
 
 First generate 30 samples randomly from Gaussian distribution with 3 covariates:
 ```{python, eval=FALSE, python.reticulate = FALSE}
@@ -332,7 +353,7 @@ y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
 ```
 
 
-### MAP estimates at the local centers
+### MAP Estimates at the Local Centers
 
 The following compute the Maximum A Posterior (MAP) estimators of the parameters for center 1:
 ```{python, eval=FALSE, python.reticulate = FALSE}
@@ -356,10 +377,83 @@ A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_ha
 summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
 ```
 
-### BFI at central center
 
+### Sending the Required Files to Central Server
+
+The required outputs for using the central server are `fit1` for center 1 and `fit2` for center 2.
+To send these outputs to the central server, you can save the list to a file in a common format (such as RDS, JSON, or CSV). This will allow the central server to open the file in either R or Python environments.
+
+#### Central server with R
+If the central server is using R, follow the instructions below. If it is using Python, go to the next subsection: [Central server with Python](#server_python).
+We will show how to do this for `fit1` at center 1. The process is the same for center 2.
+Since `fit1` is an R object and the central server is using R, you can save it as an RDS file, which is a file format native to R for single R objects.
 
 ```{python, eval=FALSE, python.reticulate = FALSE}
+import rpy2.robjects as ro
+
+# Save fit1 as an RDS file
+ro.r('saveRDS(fit1, file="fit1.rds")')
+```
+
+This file, `fit1.rds` should be sent to the central server, where it can be loaded as follows:
+
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Load the saved RDS file
+fit1 <- readRDS("fit1.rds") # use the relative path to the file
+```
+
+Now, the variable `fit1` is a list in R containing all information needed for further analysis: 
+```{python, eval=FALSE, python.reticulate = FALSE}
+theta_hat1 <- fit1$theta_hat
+A_hat1 <- fit1$A_hat
+```
+
+To see how to proceed and use `bfi()` in R, see, for example, [here](https://hassanpazira.github.io/BFI/reference/BFI.html).
+
+
+#### Central server with Python {#server_python}
+If the central server is using Python, follow the instructions below. 
+We will show how to do this for `fit1` at center 1. The process is the same for center 2.
+Since `fit1` needs to be shared with the central server which is using Python, you can serialize it using the `pickle` module, which is a common way to save Python objects.
+At the center 1, use the following to create `fit1.pkl`:
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Save fit1 as a pickle file
+with open('fit1.pkl', 'wb') as f:
+    pickle.dump(fit1, f)
+```
+
+Now, the file `fit1.pkl` should be sent to the central server, where it can be loaded as follows:
+
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Load the pickle file
+with open('fit1.pkl', 'rb') as f:  # use the relative path to the file
+    fit1 = pickle.load(f)
+```
+
+The variable `fit1` contains all information needed for further analysis in the central server. 
+To see how to proceed and obtain the BFI estimates on the central server, follow the next section.
+
+
+### BFI at Central Server (using Python)
+
+On the central server, first load the files saved to a proper address:
+
+```{python, eval=FALSE, python.reticulate = FALSE}
+# Load the file form center 1
+with open('fit1.pkl', 'rb') as f: # use the relative path to the file
+    fit1 = pickle.load(f)
+
+# Load the file form center 2, using the relative path to the file
+with open('fit2.pkl', 'rb') as f:
+    fit2 = pickle.load(f)
+```
+
+Now, The main function `bfi()` can be used to obtain the BFI estimates: 
+```{python, eval=FALSE, python.reticulate = FALSE}
+theta_hat1 = fit1.rx2("theta_hat")
+A_hat1 = fit1.rx2("A_hat")
+theta_hat2 = fit2.rx2("theta_hat")
+A_hat2 = fit2.rx2("A_hat")
 theta_hats = base.list(theta_hat1, theta_hat2)
 A_hats = base.list(A_hat1, A_hat2)
 Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
@@ -371,14 +465,14 @@ summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
 ```
 
 
-### Datasets included in the `BFI` package
+## Datasets included in the `BFI` package
 
 To find a list of all datasets included in the package run:
 ```{python, eval=FALSE, python.reticulate = FALSE}
 print(utils.data(package = "BFI"))
 ```
 
-In order to use the datasets available from  the `BFI` package, use the following codes:
+In order to use the datasets available from  the `BFI` package, use the following code:
 ```{python, eval=FALSE, python.reticulate = FALSE}
 Nurses = data(BFI).fetch('Nurses')['Nurses']  # is equivalent to BFI::Nurses in R
 print("Dimension of the 'Nurses' data: \n", base.dim(Nurses))
@@ -397,15 +491,18 @@ pandas2ri.deactivate()
 ```
 
 
-## All codes together {#allcodes}
+## All code together {#allcodes}
 
-If you need all the codes at once to copy and paste them for example into *Google Colab*, here are the codes:
+If you need all the code at once to copy and paste them for example into *Google Colab*, here's the complete code:
 ```{python, eval=FALSE, python.reticulate = FALSE}
 # import 'pandas' package
 import pandas as pd
 
 # import 'numpy' package
 import numpy as np                
+
+# import 'pickle' package
+import pickle
 
 # import 'rpy2' package
 import rpy2                  
@@ -424,20 +521,14 @@ utils = importr('utils')
 base = importr('base')
 
 utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
-package_names = ('stats', 'devtools')
+package_names = ('stats', 'BFI')
 utils.install_packages(StrVector(package_names))
 
 # loading the installed packages
 stats = importr('stats')
-devtools = importr('devtools')
-
-# Installing the 'BFI' package
-devtools.install_github("hassanpazira/BFI", force = True)
-
-# Loading the package
 BFI = importr('BFI')
 
-# Examples
+## Examples
 
 # model parameters: 'theta' and 'p' are assumed to be the same for both centers:
 theta = np.array([1, 2, 3, 4, 0.75])   # intercept is theta[0], sigma2 is theta[4]
@@ -460,7 +551,7 @@ mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
 X2 = pandas2ri.py2rpy(X2)
 y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
 
-# MAP estimates at center 1
+## MAP estimates at center 1
 # Creating an inverse covariance matrix for a Gaussian prior for center 1
 Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
 fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
@@ -468,8 +559,11 @@ print(fit1)
 theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
 A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
 summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
+# Save fit1 as a pickle file for sending to the central server
+with open('fit1.pkl', 'wb') as f:
+    pickle.dump(fit1, f)
 
-# MAP estimates at center 2
+## MAP estimates at center 2
 # Creating an inverse covariance matrix for Gaussian prior for center 2
 Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
 # MAP estimates
@@ -477,8 +571,21 @@ fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
 theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
 A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
 summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
+# Save fit2 as a pickle file for sending to the central server
+with open('fit2.pkl', 'wb') as f:
+    pickle.dump(fit2, f)
 
-# BFI at central center
+## BFI at central server
+# Load the pickle file using the relative path to the file
+with open('fit1.pkl', 'rb') as f:  # use the relative path to the file
+    fit1 = pickle.load(f)
+theta_hat1 = fit1.rx2("theta_hat")
+A_hat1 = fit1.rx2("A_hat")
+# Load the pickle file using the relative path to the file
+with open('fit2.pkl', 'rb') as f:
+    fit2 = pickle.load(f)
+theta_hat2 = fit2.rx2("theta_hat")
+A_hat2 = fit2.rx2("A_hat")
 theta_hats = base.list(theta_hat1, theta_hat2)
 A_hats = base.list(A_hat1, A_hat2)
 Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
@@ -499,4 +606,9 @@ trauma = data(BFI).fetch('trauma')['trauma']
 print("Dimension of the 'trauma' data: \n", base.dim(trauma))
 print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
 ```
+
+
+## Contact
+
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: hassan.pazira@radboudumc.nl.
 
