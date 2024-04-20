@@ -1,52 +1,67 @@
-## This file created by Hassan Pazira at 20-06-2023
-## Updated at 29-09-2023
+## This file created by Hassan Pazira
 
 #' @export
 
-inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
+inv.prior.cov <- function(X, lambda = 1, L = 2L,
+                          family = c("gaussian", "binomial", "survival"),
                           intercept = TRUE, stratified = FALSE,
-                          strat_par = NULL, center_spec = NULL) {
+                          strat_par = NULL, center_spec = NULL,
+                          basehaz = c("weibul", "exp", "gomp", "poly", "pwexp"),
+                          max_order = 2, n_intervals = 4) {
+  family <- match.arg(family)
   if (any(lambda <= 0)) stop("'lambda' element(s) should be positive (> 0)")
-  if (is.character(family)) family <- get(family, mode = "function",
-                                          envir = parent.frame())
-  if (is.function(family)) family <- do.call(family, args = list(),
-                                             envir = parent.frame())
-  if (is.null(family$family)) stop("'family' not recognized")
-  if (!family$family %in% c("binomial", "gaussian")) {
-    stop("Distributions that can be used are 'binomial' and 'gaussian' in
-         this version of the package!")
-  }
+  if (is.null(family)) stop("'family' not recognized")
   if (is.matrix(X)) {
     warning(
-      "Note that, if in 'X' there is a 'categorical' covariate with more than", "\n",
-      "2 levels, then 'X' must be a 'data.frame' instead of a 'matrix'! "
+      "If in 'X' there is a 'categorical' covariate with more than 2 levels,",
+      " then 'X' must be a 'data.frame' instead of a 'matrix'! "
     )
+  }
+  if (family %in% c("binomial", "gaussian")) {
   }
   if (all(as.numeric(X[, 1]) == rep(1, NROW(X)))) {
     X <- X[, -1, drop = FALSE]
   }
   if (is.null(colnames(X))) {
-    colnames(X) <- paste0("X", seq_len(ncol(X)))
+    # colnames(X) <- paste0("X", seq_len(ncol(X)))
+    stop("Colnames of X cannot be NULL.")
   } else {
     if (any(c("Intercept", "(Intercept)") %in% colnames(X))) {
       stop("'intercept' should be the first column of 'X'.")
     }
   }
-  y <- rnorm(NROW(X)) # a fake response
+  #X <- X[,sort(colnames(X))]
   design_matrix <- paste(colnames(X), collapse = " + ")
-  formula <- as.formula(paste("y", design_matrix, sep = " ~ "))
-  X <- model.maker(formula, as.data.frame(X))$X
-  if (family$family == "gaussian") {
+  formula <- as.formula(paste(" ", design_matrix, sep = " ~ "))
+  X <- model.maker(formula, as.data.frame(X), family)$X
+  if (family == "gaussian") {
     name_Lambda <- c(colnames(X), "sigma2")
   }
-  if (family$family == "binomial") {
+  if (family == "binomial") {
     name_Lambda <- colnames(X)
+  }
+  if (family == "survival") {
+    basehaz <- match.arg(basehaz)
+    if (basehaz == "exp") {
+      name_Lambda <- c(colnames(X), paste("omega",c(1), sep="_"))[-1]
+    }
+    if (basehaz %in% c("gomp", "weibul")) {
+      name_Lambda <- c(colnames(X), paste("omega",c(1:2), sep="_"))[-1]
+    }
+    if (basehaz=="pwexp") {
+      name_Lambda <- c(colnames(X), paste("omega",c(1:(n_intervals)), sep="_"))[-1]
+    }
+    if (basehaz == "poly") {
+      name_Lambda <- c(colnames(X), paste("omega",c(0:(max_order)), sep="_"))[-1]
+    }
   }
   X <- X[, -1, drop = FALSE] # without 'intercept'
   np <- NCOL(X) # without intercept
   if (stratified == TRUE & is.null(strat_par) & is.null(center_spec)) {
-    stop("Since 'stratified = TRUE', only one of 'strat_par' or
-         'center_spec' could be NULL.")
+    stop("Since 'stratified = TRUE', only one of 'strat_par' or 'center_spec' can be NULL.")
+  }
+  if (stratified == TRUE & family == "survival") {
+    stop("Since family = 'survival', 'stratified' cannot be TRUE.")
   }
   if (stratified == TRUE & !is.null(strat_par) & !is.null(center_spec)) {
     stop("Since 'stratified = TRUE', only one of 'strat_par' or
@@ -57,7 +72,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
          'center_spec' sould be NULL.")
   }
   if (stratified == FALSE) {
-    if (family$family == "gaussian") {
+    if (family == "gaussian") {
       if (intercept == TRUE) {
         p <- np + 2 # intercept and error variance
       } else {
@@ -75,7 +90,8 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           lambda1 <- lambda2 <- lambda[1]
         } else {
           if (length(lambda) != p) {
-            stop("'lambda' should be a vector of ", sQuote(p), " elements")
+            stop("'lambda' could be a vector of ", sQuote(1),", ",
+                 sQuote(2)," or ", sQuote(p), " elements.")
           } else {
             lambda1 <- lambda[seq_len(p - 1)]
             lambda2 <- lambda[p]
@@ -94,7 +110,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
         rownames(Lambda) <- colnames(Lambda) <- name_Lambda[-1]
       }
     }
-    if (family$family == "binomial") {
+    if (family == "binomial") {
       if (intercept == TRUE) {
         p <- np + 1 # only intercept (and of course no error variance)
       } else {
@@ -108,7 +124,8 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           lambda1 <- lambda[1]
         } else {
           if (length(lambda) != p) {
-            stop("'lambda' should be a vector of ", sQuote(p), " elements")
+            stop("'lambda' could be a vector of ", sQuote(1),", ",
+                 sQuote(2)," or ", sQuote(p), " elements.")
           } else {
             lambda1 <- lambda
           }
@@ -126,12 +143,55 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
         rownames(Lambda) <- colnames(Lambda) <- name_Lambda[-1]
       }
     }
+    if (family == "survival") {
+      intercept <- FALSE  # In 'survival' there is no intercept !
+      if (basehaz == "exp") {
+        p <- np + 1
+      }
+      if (basehaz %in% c("gomp", "weibul")) {
+        p <- np + 2
+      }
+      if (basehaz=="pwexp") {
+        p <- np + n_intervals
+      }
+      if (basehaz == "poly") {
+        p <- np + (max_order + 1)
+      }
+      if (length(lambda) == 1) {
+        lambda1 <- lambda2 <- lambda
+      }
+      if (length(lambda) == 2) {
+        lambda1 <- lambda[1]
+        lambda2 <- lambda[2]
+      }
+      if (length(lambda) > 2) {
+        if (all(lambda == lambda[1])) {
+          lambda1 <- lambda2 <- lambda[1]
+        } else {
+          if (length(lambda) != p) {
+            stop("'lambda' could be a vector of ", sQuote(1),", ",
+                 sQuote(2)," or ", sQuote(p), " elements.")
+          } else {
+            lambda1 <- lambda[seq_len(np)]
+            lambda2 <- lambda[(np+1):p]
+          }
+        }
+      }
+      if (length(lambda1) == 1) {
+        lambda1 <- rep(lambda1, np)
+        lambda2 <- rep(lambda2, p - np)
+      }
+      Lambda <- diag(c(lambda1, lambda2), length(c(lambda1, lambda2)))
+      rownames(Lambda) <- colnames(Lambda) <- name_Lambda
+    }
   } else {
+    if (family == "survival")
+      stop("'stratified' is available for the 'gaussian' and 'binomial' families.")
     if (is.null(center_spec)) {
       if ((!1 %in% strat_par) & (!2 %in% strat_par)) {
         stop("'strat_par' should contain '1' and/or '2'.")
       }
-      if (family$family == "gaussian") {
+      if (family == "gaussian") {
         if (!is.numeric(strat_par)) {
           stop("'strat_par' should be one of the integers: 1 or 2,
                or a vector of both.")
@@ -290,7 +350,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           )
         }
       }
-      if (family$family == "binomial") {
+      if (family == "binomial") {
         if (intercept == FALSE) {
           stop("Since 'intercept = FALSE', for the 'binomial' family
                the stratified analysis is not possible!")
@@ -383,7 +443,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
       #                                   (last_Lam_dim - K + 1):last_Lam_dim)
       #   new_noncore[, 2] <- noncore[,1] + K
       # }
-      if (family$family == "gaussian") {
+      if (family == "gaussian") {
         if (intercept == FALSE) {
           if (length(strat_par) > 1 | 1 %in% strat_par) {
             stop(
@@ -455,7 +515,7 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L, family = gaussian,
           )
         }
       }
-      if (family$family == "binomial") {
+      if (family == "binomial") {
         if (intercept == FALSE) {
           stop(
             "'intercept = FALSE' for centers, while in the current version of the",
