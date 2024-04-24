@@ -40,11 +40,12 @@
 <li class="nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
-<li class="nav-item dropdown">
+<li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
     <a class="dropdown-item" href="../articles/BFI.html">An Introduction to BFI</a>
     <a class="dropdown-item" href="../articles/Python.html">Calling BFI from Python</a>
+    <a class="dropdown-item" href="../articles/SAS.html">Using BFI in SAS</a>
   </div>
 </li>
 <li class="nav-item">
@@ -261,8 +262,8 @@ with p=3 covariates:</p>
     append from X1;
     close X1;
 
-    call ExportDataSetToR(X1, "X1");
-    call ExportDataSetToR(y1, "y1");
+    call ExportMatrixToR(X1, "X1");
+    call ExportMatrixToR(y1, "y1");
 
 quit;</code></pre>
 <p>Now generate 50 samples randomly from N(0, 1) with 3 covariates:</p>
@@ -294,8 +295,8 @@ quit;</code></pre>
     append from X2;
     close X2;
 
-    call ExportDataSetToR(X2, "X2");
-    call ExportDataSetToR(y2, "y2");
+    call ExportMatrixToR(X2, "X2");
+    call ExportMatrixToR(y2, "y2");
 
 quit;</code></pre>
 <p>We have transferred SAS data to the R session and are currently
@@ -311,16 +312,8 @@ variables are automatically converted into factors.</p>
 parameters for center 1:</p>
 <pre class="sas"><code>proc iml;
   
-  /* To pass datasets to the R session:*/
-  call ExportDataSetToR("y1", "X1", "y2", "X2");
-  
   rsubmit;
-    
-    names(y1)
-    names(X1)
-    names(y2)
-    names(X2)
-  
+
     #---------------------------
     # Inverse Covariance Matrix
     #---------------------------
@@ -342,16 +335,8 @@ quit;</code></pre>
 following:</p>
 <pre class="sas"><code>proc iml;
 
-  /* To pass datasets to the R session:*/
-  call ExportDataSetToR("y1", "X1", "y2", "X2");
-  
   rsubmit;
     
-    names(y1)
-    names(X1)
-    names(y2)
-    names(X2)
-  
     # Creating the inverse covariance matrix for the Gaussian prior distribution:
     Lambda &lt;- inv.prior.cov(X2, lambda=0.05, family=gaussian)
 
@@ -389,6 +374,8 @@ acquire the BFI estimates:</p>
 
   endrsubmit;
 
+  call ImportMatrixFromR(bfi, "bfi");
+  
 quit;</code></pre>
 </div>
 </div>
@@ -423,13 +410,13 @@ quit;</code></pre>
 </h2>
 <p>R objects and data may be brought back into SAS as well, for any
 manipulation you might want to do in SAS. Here, we just grab the
-<em>fit</em> object and the <em>Nurses</em> data from R and print the
+<em>bfi</em> object and the <em>Nurses</em> data from R and print the
 data in SAS.</p>
 <pre class="sas"><code>proc iml;
   submit / R;  * 'rsubmit' is equivalent to 'submit / R' ;
 
-   # Export 'fit' object
-   ExportDataSetToSAS(fit)
+   # Export 'bfi' object
+   ExportDataSetToSAS(bfi)
 
    # Export dataset 'Nurses'
    ExportDataSetToSAS(Nurses)
