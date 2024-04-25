@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">BFI</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,96 +91,89 @@ Pazira</h4>
 <h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
 <p>The <code>BFI</code> package is a powerful tool in <strong>R</strong>
-designed to execute the Bayesian Federated Inference (<em>BFI</em>)
-methodology, supporting a wide range of regression models including
-<em>linear</em>, <em>logistic</em>, and <em>Cox</em> regression. While
-<strong>SAS</strong> offers robust statistical capabilities, it
-currently lacks a dedicated package for implementing the <em>BFI</em>
-method. Consequently, this vignette serves to bridge that gap by
-illustrating how to utilize the <em>R</em> package <code>BFI</code>
-within the <em>SAS</em> environment. By seamlessly integrating
-<em>R</em>’s <code>BFI</code> package with the analytical prowess of
-<em>SAS</em>, users gain access to a comprehensive suite of statistical
-techniques, enhancing their ability to conduct sophisticated data
-analyses, particularly when working with small datasets.</p>
-<p>In this guide, we’ll explore how you can leverage <em>SAS</em> to
-effectively utilize the <code>BFI</code> package for your data analysis
-needs.</p>
-<p>To utilize <em>R</em> within <em>SAS</em>, it’s assumed that you have
-access to a <em>SAS</em> server. This access allows you to establish a
-connection to a <em>SAS</em> session by providing the necessary
-connection parameters, such as the <em>SAS</em> server hostname, port
-number, and authentication credentials.</p>
-<p>More information about configuring the <em>SAS</em> system to call
-functions in the <em>R</em> language is documented in the <a href="https://support.sas.com/documentation/cdl/en/imlug/67502/HTML/default/viewer.htm#imlug_r_toc.htm" class="external-link">SAS
+designed to execute the <strong>Bayesian Federated Inference</strong>
+(<strong>BFI</strong>) methodology, supporting a wide range of
+regression models including <em>linear</em>, <em>logistic</em>, and
+<em>Cox</em> regression. While <strong>SAS</strong> offers robust
+statistical capabilities, it currently lacks a dedicated package for
+implementing the <em>BFI</em> method. Consequently, this vignette serves
+to bridge that gap by illustrating how to utilize the R package
+<code>BFI</code> within the SAS environment. By seamlessly integrating
+R’s <code>BFI</code> package with the analytical prowess of SAS, users
+gain access to a comprehensive suite of statistical techniques,
+enhancing their ability to conduct sophisticated data analyses,
+particularly when working with small datasets.</p>
+<p>In this guide, we’ll explore how you can leverage SAS to effectively
+utilize the <code>BFI</code> package for your data analysis needs.</p>
+<p>To utilize R within SAS, it’s assumed that you have access to a SAS
+server. This access allows you to establish a connection to a SAS
+session by providing the necessary connection parameters, such as the
+SAS server hostname, port number, and authentication credentials.</p>
+<p>More information about configuring the SAS system to call functions
+in the R language is documented in the <a href="https://support.sas.com/documentation/cdl/en/imlug/67502/HTML/default/viewer.htm#imlug_r_toc.htm" class="external-link">SAS
 Online Help</a>.</p>
 </div>
 <div class="section level3">
 <h3 id="accessing-sas-services">Accessing SAS Services<a class="anchor" aria-label="anchor" href="#accessing-sas-services"></a>
 </h3>
-<p>To access <em>SAS</em> services, you typically need to connect to a
-<em>SAS</em> server. Here’s how you can do it using <strong>SAS
-Studio</strong>, which is a web-based interface for <em>SAS</em>:</p>
-<p>Open a web browser and navigate to the URL provided by your
-<em>SAS</em> administrator for accessing <em>SAS Studio</em>. Enter your
-credentials to log in to <em>SAS</em> Studio. Once logged in, you can
-access <em>SAS</em> services such as analysis and reporting through the
-<em>SAS</em> Studio interface.</p>
+<p>To access SAS services, you typically need to connect to a SAS
+server. Here’s how you can do it using <strong>SAS Studio</strong>,
+which is a web-based interface for SAS:</p>
+<p>Open a web browser and navigate to the URL provided by your SAS
+administrator for accessing <em>SAS Studio</em>. Enter your credentials
+to log in to SAS Studio. Once logged in, you can access SAS services
+such as analysis and reporting through the SAS Studio interface.</p>
 </div>
 <div class="section level3">
 <h3 id="install-r-and-configure-with-sas">Install R and Configure with SAS<a class="anchor" aria-label="anchor" href="#install-r-and-configure-with-sas"></a>
 </h3>
-<p><em>SAS</em> requires two configuration options in order to
-communicate with <em>R</em>. First the RLANG option must be set when SAS
-is started. This may be set either in a custom configuration file or on
-the SAS command line. Second, SAS needs an <em>R_HOME</em> environment
-variable to point it to the correct, available version of R.</p>
+<p>SAS requires two configuration options in order to communicate with
+R. First the RLANG option must be set when SAS is started. This may be
+set either in a custom configuration file or on the SAS command line.
+Second, SAS needs an <em>R_HOME</em> environment variable to point it to
+the correct, available version of R.</p>
 </div>
 <div class="section level3">
 <h3 id="the-rlang-system-option">The RLANG System Option<a class="anchor" aria-label="anchor" href="#the-rlang-system-option"></a>
 </h3>
 <p>The <em>RLANG system option</em> determines whether you have
-permission to call <em>R</em> from the <em>SAS</em> system. You can
-determine the value of the RLANG option by submitting the following
-<em>SAS</em> statements:</p>
+permission to call R from the SAS system. You can determine the value of
+the RLANG option by submitting the following SAS statements:</p>
 <pre class="sas"><code>proc options option=RLANG;
 run;</code></pre>
-<p>The result is one of the following statements in the <em>SAS</em>
-log:</p>
+<p>The result is one of the following statements in the SAS log:</p>
 <ul>
 <li><strong><em>NORLANG: Do not support access to R language
 interfaces</em></strong></li>
 </ul>
-<p>If the <em>SAS log</em> contains this statement, it means that
-<em>R</em> integration is disabled, and you do not have permission to
-call <em>R</em> from the <em>SAS</em> system :( You may need to consult
-with your SAS administrator or IT department to enable it.</p>
+<p>If the <em>SAS log</em> contains this statement, it means that R
+integration is disabled, and you do not have permission to call R from
+the SAS system :( You may need to consult with your SAS administrator or
+IT department to enable it.</p>
 <ul>
 <li><strong><em>RLANG: Support access to R language
 interfaces</em></strong></li>
 </ul>
-<p>If the <em>SAS log</em> contains this statement, it means that
-<em>R</em> integration is enabled, and you can call <em>R</em> from the
-<em>SAS</em> system :)</p>
+<p>If the <em>SAS log</em> contains this statement, it means that R
+integration is enabled, and you can call R from the SAS system :)</p>
 <div class="section level4">
 <h4 id="install-r">Install R<a class="anchor" aria-label="anchor" href="#install-r"></a>
 </h4>
-<p>Download and install <em>R</em> from the official <em>R</em> website
-(<a href="https://www.r-project.org/" class="external-link uri">https://www.r-project.org/</a>). Follow the installation
+<p>Download and install R from the official R website (<a href="https://www.r-project.org/" class="external-link uri">https://www.r-project.org/</a>). Follow the installation
 instructions provided for your operating system.</p>
 </div>
 <div class="section level4">
 <h4 id="install-sasiml-interface-to-r">Install SAS/IML Interface to R<a class="anchor" aria-label="anchor" href="#install-sasiml-interface-to-r"></a>
 </h4>
-<p>The <strong>SAS/IML Interface to R</strong> allows you to call
-<em>R</em> functions from within <code>PROC IML</code> (Interactive
-Matrix Language). Check if the interface is installed by running the
-following code within SAS:</p>
+<p>The <strong>SAS/IML Interface to R</strong> allows you to call R
+functions from within <code>PROC IML</code> (Interactive Matrix
+Language). Check if the interface is installed by running the following
+code within SAS:</p>
 <pre class="sas"><code>proc options option=R_HOME;
 run;</code></pre>
-<p>If the path to your <em>R</em> installation directory is displayed,
-the <em>SAS/IML Interface to R</em> is installed. If not, you may need
-to install or reinstall it.</p>
+<p>If the path to your R installation directory is displayed, the
+<em>SAS/IML Interface to R</em> is installed. If not, you may need to
+install or reinstall it.</p>
 </div>
 </div>
 <div class="section level3">
@@ -188,17 +181,16 @@ to install or reinstall it.</p>
 </h3>
 <p>You can use <strong>R</strong> inside <strong>SAS</strong> through
 the use of the <code>PROC IML</code> procedure. <code>PROC IML</code>
-allows you to execute <em>R</em> code within a <strong>SAS</strong>
-session, enabling integration between <strong>SAS</strong> and
-<strong>R</strong> for data analysis and statistical modeling.</p>
+allows you to execute R code within a <strong>SAS</strong> session,
+enabling integration between <strong>SAS</strong> and <strong>R</strong>
+for data analysis and statistical modeling.</p>
 <div class="section level4">
 <h4 id="installing-r-packages-from-cran-and-github-in-sas">Installing R packages from CRAN and GitHub in SAS:<a class="anchor" aria-label="anchor" href="#installing-r-packages-from-cran-and-github-in-sas"></a>
 </h4>
-<p>To install an <em>R</em> package from <strong>CRAN</strong> and
+<p>To install an R package from <strong>CRAN</strong> and
 <strong>GitHub</strong>, you can use the <code>base</code>,
 <code>stats</code> and <code>remotes</code> packages, respectively. It
-can be done in <em>R</em> or in <em>SAS</em>. Here’s how you can do it
-within SAS:</p>
+can be done in R or in SAS. Here’s how you can do it within SAS:</p>
 <pre class="sas"><code>proc iml;
 
   rsubmit;

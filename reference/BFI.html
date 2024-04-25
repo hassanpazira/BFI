@@ -12,7 +12,7 @@ bfi command"><!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs
     
     <a class="navbar-brand me-2" href="../index.html">BFI</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.3</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.1.4</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -129,7 +129,7 @@ The last matrix of the list in the argument <code>Lambda</code> can be built by 
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2023). <em>Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets</em>, <em>Statistics in Medicine</em>, 1-18. &lt;https://doi.org/10.1002/sim.10072&gt;</p>
+    <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024). <em>Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets</em>, <em>Statistics in Medicine</em>, 1-18. &lt;https://doi.org/10.1002/sim.10072&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -243,11 +243,15 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># By running the following line an error appears because when stratified = TRUE,</span></span></span>
 <span class="r-in"><span><span class="co"># both 'strat_par' and 'center_spec' can not be NULL:</span></span></span>
-<span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified=TRUE)</span></span></span>
+<span class="r-in"><span><span class="va">Just4check1</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">Just4check1</span><span class="op">)</span> <span class="co"># By default, both 'strat_par' and 'center_spec' are NULL!</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># By running the following line an error appears because when stratified = TRUE,</span></span></span>
 <span class="r-in"><span><span class="co"># last matrix in 'Lambda' should not have the same dim. as the other local matrices:</span></span></span>
-<span class="r-in"><span><span class="co"># bfi(theta_hats, A_hats, Lambda, stratified=TRUE, strat_par=1)</span></span></span>
+<span class="r-in"><span><span class="va">Just4check2</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">Just4check2</span><span class="op">)</span> <span class="co"># All matices in Lambda have the same dimension!</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span></span>
 <span class="r-in"><span><span class="va">newLam</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">binomial</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
