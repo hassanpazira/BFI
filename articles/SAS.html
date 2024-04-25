@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Hassan
 Pazira</h4>
             
-            <h4 data-toc-skip class="date">2024-04-24</h4>
+            <h4 data-toc-skip class="date">2024-04-25</h4>
       
       
       <div class="d-none name"><code>SAS.Rmd</code></div>
@@ -87,9 +87,9 @@ Pazira</h4>
 
     
     
-<div class="section level2">
-<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h2>
+<div class="section level3">
+<h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h3>
 <p>The <code>BFI</code> package is a powerful tool in <strong>R</strong>
 designed to execute the Bayesian Federated Inference (<em>BFI</em>)
 methodology, supporting a wide range of regression models including
@@ -115,9 +115,9 @@ number, and authentication credentials.</p>
 functions in the <em>R</em> language is documented in the <a href="https://support.sas.com/documentation/cdl/en/imlug/67502/HTML/default/viewer.htm#imlug_r_toc.htm" class="external-link">SAS
 Online Help</a>.</p>
 </div>
-<div class="section level2">
-<h2 id="accessing-sas-services">Accessing SAS Services<a class="anchor" aria-label="anchor" href="#accessing-sas-services"></a>
-</h2>
+<div class="section level3">
+<h3 id="accessing-sas-services">Accessing SAS Services<a class="anchor" aria-label="anchor" href="#accessing-sas-services"></a>
+</h3>
 <p>To access <em>SAS</em> services, you typically need to connect to a
 <em>SAS</em> server. Here’s how you can do it using <strong>SAS
 Studio</strong>, which is a web-based interface for <em>SAS</em>:</p>
@@ -127,14 +127,15 @@ credentials to log in to <em>SAS</em> Studio. Once logged in, you can
 access <em>SAS</em> services such as analysis and reporting through the
 <em>SAS</em> Studio interface.</p>
 </div>
-<div class="section level2">
-<h2 id="install-r-and-configure-with-sas">Install R and Configure with SAS<a class="anchor" aria-label="anchor" href="#install-r-and-configure-with-sas"></a>
-</h2>
+<div class="section level3">
+<h3 id="install-r-and-configure-with-sas">Install R and Configure with SAS<a class="anchor" aria-label="anchor" href="#install-r-and-configure-with-sas"></a>
+</h3>
 <p><em>SAS</em> requires two configuration options in order to
 communicate with <em>R</em>. First the RLANG option must be set when SAS
 is started. This may be set either in a custom configuration file or on
 the SAS command line. Second, SAS needs an <em>R_HOME</em> environment
 variable to point it to the correct, available version of R.</p>
+</div>
 <div class="section level3">
 <h3 id="the-rlang-system-option">The RLANG System Option<a class="anchor" aria-label="anchor" href="#the-rlang-system-option"></a>
 </h3>
@@ -147,30 +148,30 @@ run;</code></pre>
 <p>The result is one of the following statements in the <em>SAS</em>
 log:</p>
 <ul>
-<li><strong>NORLANG Do not support access to R language
-interfaces</strong></li>
+<li><strong><em>NORLANG: Do not support access to R language
+interfaces</em></strong></li>
 </ul>
 <p>If the <em>SAS log</em> contains this statement, it means that
 <em>R</em> integration is disabled, and you do not have permission to
 call <em>R</em> from the <em>SAS</em> system :( You may need to consult
 with your SAS administrator or IT department to enable it.</p>
 <ul>
-<li><strong>RLANG Support access to R language interfaces</strong></li>
+<li><strong><em>RLANG: Support access to R language
+interfaces</em></strong></li>
 </ul>
 <p>If the <em>SAS log</em> contains this statement, it means that
 <em>R</em> integration is enabled, and you can call <em>R</em> from the
 <em>SAS</em> system :)</p>
-</div>
-<div class="section level3">
-<h3 id="install-r">Install R<a class="anchor" aria-label="anchor" href="#install-r"></a>
-</h3>
+<div class="section level4">
+<h4 id="install-r">Install R<a class="anchor" aria-label="anchor" href="#install-r"></a>
+</h4>
 <p>Download and install <em>R</em> from the official <em>R</em> website
 (<a href="https://www.r-project.org/" class="external-link uri">https://www.r-project.org/</a>). Follow the installation
 instructions provided for your operating system.</p>
 </div>
-<div class="section level3">
-<h3 id="install-sasiml-interface-to-r">Install SAS/IML Interface to R<a class="anchor" aria-label="anchor" href="#install-sasiml-interface-to-r"></a>
-</h3>
+<div class="section level4">
+<h4 id="install-sasiml-interface-to-r">Install SAS/IML Interface to R<a class="anchor" aria-label="anchor" href="#install-sasiml-interface-to-r"></a>
+</h4>
 <p>The <strong>SAS/IML Interface to R</strong> allows you to call
 <em>R</em> functions from within <code>PROC IML</code> (Interactive
 Matrix Language). Check if the interface is installed by running the
@@ -182,17 +183,17 @@ the <em>SAS/IML Interface to R</em> is installed. If not, you may need
 to install or reinstall it.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="using-proc-iml-and-rsubmit">Using <code>PROC IML</code> and <code>Rsubmit</code><a class="anchor" aria-label="anchor" href="#using-proc-iml-and-rsubmit"></a>
-</h2>
+<div class="section level3">
+<h3 id="using-proc-iml-and-rsubmit">Using <code>PROC IML</code> and <code>Rsubmit</code><a class="anchor" aria-label="anchor" href="#using-proc-iml-and-rsubmit"></a>
+</h3>
 <p>You can use <strong>R</strong> inside <strong>SAS</strong> through
 the use of the <code>PROC IML</code> procedure. <code>PROC IML</code>
 allows you to execute <em>R</em> code within a <strong>SAS</strong>
 session, enabling integration between <strong>SAS</strong> and
 <strong>R</strong> for data analysis and statistical modeling.</p>
-<div class="section level3">
-<h3 id="installing-r-packages-from-cran-and-github-in-sas">Installing R packages from CRAN and GitHub in SAS:<a class="anchor" aria-label="anchor" href="#installing-r-packages-from-cran-and-github-in-sas"></a>
-</h3>
+<div class="section level4">
+<h4 id="installing-r-packages-from-cran-and-github-in-sas">Installing R packages from CRAN and GitHub in SAS:<a class="anchor" aria-label="anchor" href="#installing-r-packages-from-cran-and-github-in-sas"></a>
+</h4>
 <p>To install an <em>R</em> package from <strong>CRAN</strong> and
 <strong>GitHub</strong>, you can use the <code>base</code>,
 <code>stats</code> and <code>remotes</code> packages, respectively. It
@@ -222,15 +223,15 @@ configured, let’s explore its functionality through the following
 example.</p>
 </div>
 </div>
-<div class="section level2">
-<h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
-</h2>
+<div class="section level3">
+<h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
+</h3>
 <p>Now we generate two datasets independently from <em>Gaussian</em>
 distribution, and then apply main functions in the <code>BFI</code>
 package to these datasets:</p>
-<div class="section level3">
-<h3 id="simulate-data-for-two-local-centers">Simulate data for two local centers<a class="anchor" aria-label="anchor" href="#simulate-data-for-two-local-centers"></a>
-</h3>
+<div class="section level4">
+<h4 id="simulate-data-for-two-local-centers">Simulate data for two local centers<a class="anchor" aria-label="anchor" href="#simulate-data-for-two-local-centers"></a>
+</h4>
 <p>First generate 30 samples randomly from Gaussian distribution N(0, 1)
 with p=3 covariates:</p>
 <pre class="sas"><code>proc iml;
@@ -305,9 +306,9 @@ with R are facilitated through SAS’s <code>PROC IML</code>. It’s
 important to note that capitalization matters in R, and character
 variables are automatically converted into factors.</p>
 </div>
-<div class="section level3">
-<h3 id="map-estimates-at-the-local-centers">MAP estimates at the local centers<a class="anchor" aria-label="anchor" href="#map-estimates-at-the-local-centers"></a>
-</h3>
+<div class="section level4">
+<h4 id="map-estimates-at-the-local-centers">MAP estimates at the local centers<a class="anchor" aria-label="anchor" href="#map-estimates-at-the-local-centers"></a>
+</h4>
 <p>The following compute the Maximum A Posterior (MAP) estimators of the
 parameters for center 1:</p>
 <pre class="sas"><code>proc iml;
@@ -352,9 +353,9 @@ following:</p>
 
 quit;</code></pre>
 </div>
-<div class="section level3">
-<h3 id="bfi-at-central-center">BFI at central center<a class="anchor" aria-label="anchor" href="#bfi-at-central-center"></a>
-</h3>
+<div class="section level4">
+<h4 id="bfi-at-central-center">BFI at central center<a class="anchor" aria-label="anchor" href="#bfi-at-central-center"></a>
+</h4>
 <p>Now, you can utilize the primary function <code><a href="../reference/BFI.html">bfi()</a></code> to
 acquire the BFI estimates:</p>
 <pre class="sas"><code>proc iml;
@@ -379,9 +380,9 @@ acquire the BFI estimates:</p>
 quit;</code></pre>
 </div>
 </div>
-<div class="section level2">
-<h2 id="datasets-included-in-the-bfi-package">Datasets included in the <code>BFI</code> package<a class="anchor" aria-label="anchor" href="#datasets-included-in-the-bfi-package"></a>
-</h2>
+<div class="section level3">
+<h3 id="datasets-included-in-the-bfi-package">Datasets included in the <code>BFI</code> package<a class="anchor" aria-label="anchor" href="#datasets-included-in-the-bfi-package"></a>
+</h3>
 <p>In order to find and use the datasets available from the
 <code>BFI</code> package, use the following codes:</p>
 <pre class="sas"><code>proc iml;
@@ -405,9 +406,9 @@ quit;</code></pre>
 
 quit;</code></pre>
 </div>
-<div class="section level2">
-<h2 id="importing-the-data-from-r">Importing the data from R<a class="anchor" aria-label="anchor" href="#importing-the-data-from-r"></a>
-</h2>
+<div class="section level3">
+<h3 id="importing-the-data-from-r">Importing the data from R<a class="anchor" aria-label="anchor" href="#importing-the-data-from-r"></a>
+</h3>
 <p>R objects and data may be brought back into SAS as well, for any
 manipulation you might want to do in SAS. Here, we just grab the
 <em>bfi</em> object and the <em>Nurses</em> data from R and print the
@@ -427,9 +428,16 @@ run;
 proc print data=Nurses;
 run;</code></pre>
 </div>
-<div class="section level2">
-<h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
-</h2>
+<div class="section level3">
+<h3 id="bfi-as-a-sas-package">BFI as a SAS Package<a class="anchor" aria-label="anchor" href="#bfi-as-a-sas-package"></a>
+</h3>
+<p>In the near future, we will be releasing the SAS/IML package for BFI,
+which can be installed by the <code>PACKAGE INSTALL</code> statement in
+the SAS environment.</p>
+</div>
+<div class="section level3">
+<h3 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
+</h3>
 <p>If you find any errors, have any suggestions, or would like to
 request that something be added, please file an issue at <a href="https://github.com/hassanpazira/BFI/issues/" class="external-link">issue report</a> or
 send an email to: <a href="mailto:hassan.pazira@radboudumc.nl" class="email">hassan.pazira@radboudumc.nl</a>.</p>
