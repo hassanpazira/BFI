@@ -115,7 +115,7 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 </dl></div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p><code>bfi</code> function implements the BFI approach described in the paper Jonker et. al. (2023) given in the references.
+    <p><code>bfi</code> function implements the BFI approach described in the paper Jonker et. al. (2024) given in the references.
 The inference results gathered from different (\(L\)) centers are combined, and the BFI estimates of the model parameters and curvature matrix evaluated at that point are returned.</p>
 <p>The inference result from each center must be obtained using the <code>MAP.estimation</code> function separately, and then all of these results (coming from different centers) should be compiled into a list to be used as an input of <code>bfi()</code>.
 The models in the different centers should be defined in exactly the same way; among others, exactly the same covariates should be included in the models. The parameter vectors should be defined exactly the same, so that the \(L\) vectors and matrices in the input lists <code>theta_hat</code>'s and <code>A_hat</code>'s are defined in the same way (e.g., the covariates need to be included in the models in the same order).</p>
