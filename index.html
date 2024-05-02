@@ -128,7 +128,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span></code></pre></div>
 <p>Next, install <code>BFI</code> as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hassanpazira/BFI"</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hassanpazira/BFI"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The package can now be loaded into R and used by:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span></code></pre></div>
@@ -151,7 +151,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 </ul>
 <p>To access the R documentation for these functions, for example <code><a href="reference/BFI.html">bfi()</a></code>, enter the following command:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">bfi</span>, package <span class="op">=</span> <span class="st">"BFI"</span><span class="op">)</span>   </span>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">bfi</span>, package <span class="op">=</span> <span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># without loading the BFI package</span></span>
 <span><span class="co"># or, equivalently, after loading the BFI package </span></span>
 <span><span class="op">?</span><span class="va">bfi</span></span></code></pre></div>
 </div>
@@ -160,92 +160,92 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 </h2>
 <p>Let’s look at the following example to see how the <code>BFI</code> package can be used. For more examples and details look at the <code>BFI</code> vignette by typing</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hassanpazira/BFI"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># to see all vignettes from the BFI package in an HTML browser.</span></span></code></pre></div>
-<p>or use <code><a href="articles/BFI.html">vignette("BFI")</a></code> to see the <code>BFI</code> vignette in the Help tab of RStudio.</p>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># to see all vignettes from the BFI package in an HTML browser.</span></span></code></pre></div>
+<p>or use <code><a href="articles/BFI.html">vignette("BFI")</a></code>, <code><a href="articles/SAS.html">vignette("SAS")</a></code> or <code><a href="articles/Python.html">vignette("Python")</a></code> to see the <code>BFI</code>, <code>SAS</code> or <code>Python</code> vignettes separately in the Help tab of RStudio.</p>
 <p>Now, we generate two independent (local) data sets from Gaussian distribution, and then apply the package to see how it works. First apply the function <code><a href="reference/MAP.estimation.html">MAP.estimation()</a></code> to each local data, and then apply the <code><a href="reference/BFI.html">bfi()</a></code> function to the aggregated results.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co">#-------------</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="co"># y ~ Gaussian</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#-------------</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co"># model assumptions:</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>p     <span class="ot">&lt;-</span> <span class="dv">3</span>                     <span class="co"># number of coefficients without intercept</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>theta <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">rep</span>(<span class="dv">2</span>, p), <span class="fl">1.5</span>)  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co"># Data simulation for local center 1</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>n1   <span class="ot">&lt;-</span> <span class="dv">30</span>                                       <span class="co"># sample size of center 1</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>X1   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n1 <span class="sc">*</span> p), n1, p)) <span class="co"># continuous variables</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>eta1 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X1) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>mu1  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta1)</span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>y1   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n1, mu1, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a></span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a><span class="co"># Data simulation for local center 2</span></span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a><span class="co">#-----------------------------------</span></span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>n2   <span class="ot">&lt;-</span> <span class="dv">50</span>                                       <span class="co"># sample size of center 2</span></span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>X2   <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="fu">rnorm</span>(n2 <span class="sc">*</span> p), n2, p)) <span class="co"># continuous variables</span></span>
-<span id="cb9-24"><a href="#cb9-24" tabindex="-1"></a><span class="co"># linear predictor:</span></span>
-<span id="cb9-25"><a href="#cb9-25" tabindex="-1"></a>eta2 <span class="ot">&lt;-</span> theta[<span class="dv">1</span>] <span class="sc">+</span> <span class="fu">as.matrix</span>(X2) \<span class="sc">%*\%</span> theta[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>]</span>
-<span id="cb9-26"><a href="#cb9-26" tabindex="-1"></a><span class="co"># inverse of the link function:</span></span>
-<span id="cb9-27"><a href="#cb9-27" tabindex="-1"></a>mu2  <span class="ot">&lt;-</span> <span class="fu">gaussian</span>()<span class="sc">$</span><span class="fu">linkinv</span>(eta2)</span>
-<span id="cb9-28"><a href="#cb9-28" tabindex="-1"></a>y2   <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(n2, mu2, <span class="at">sd =</span> <span class="fu">sqrt</span>(theta[<span class="dv">5</span>]))</span>
-<span id="cb9-29"><a href="#cb9-29" tabindex="-1"></a></span>
-<span id="cb9-30"><a href="#cb9-30" tabindex="-1"></a><span class="co">#---------------------</span></span>
-<span id="cb9-31"><a href="#cb9-31" tabindex="-1"></a><span class="co"># Load the BFI package</span></span>
-<span id="cb9-32"><a href="#cb9-32" tabindex="-1"></a><span class="co">#---------------------</span></span>
-<span id="cb9-33"><a href="#cb9-33" tabindex="-1"></a><span class="fu">library</span>(BFI)</span>
-<span id="cb9-34"><a href="#cb9-34" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" tabindex="-1"></a><span class="co">#---------------------------</span></span>
-<span id="cb9-36"><a href="#cb9-36" tabindex="-1"></a><span class="co"># Inverse Covariance Matrix</span></span>
-<span id="cb9-37"><a href="#cb9-37" tabindex="-1"></a><span class="co">#---------------------------</span></span>
-<span id="cb9-38"><a href="#cb9-38" tabindex="-1"></a><span class="co"># Creating the inverse covariance matrix for the Gaussian prior distribution:</span></span>
-<span id="cb9-39"><a href="#cb9-39" tabindex="-1"></a>Lambda <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fl">0.05</span>, <span class="at">family=</span>gaussian) <span class="co"># the same for both centers</span></span>
-<span id="cb9-40"><a href="#cb9-40" tabindex="-1"></a></span>
-<span id="cb9-41"><a href="#cb9-41" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb9-42"><a href="#cb9-42" tabindex="-1"></a><span class="co"># MAP estimates at center 1</span></span>
-<span id="cb9-43"><a href="#cb9-43" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb9-44"><a href="#cb9-44" tabindex="-1"></a>fit1       <span class="ot">&lt;-</span> <span class="fu">MAP.estimation</span>(y1, X1, <span class="at">family=</span>gaussian, Lambda)</span>
-<span id="cb9-45"><a href="#cb9-45" tabindex="-1"></a>theta_hat1 <span class="ot">&lt;-</span> fit1<span class="sc">$</span>theta_hat <span class="co"># intercept and coefficient estimates</span></span>
-<span id="cb9-46"><a href="#cb9-46" tabindex="-1"></a>A_hat1     <span class="ot">&lt;-</span> fit1<span class="sc">$</span>A_hat     <span class="co"># minus the curvature matrix</span></span>
-<span id="cb9-47"><a href="#cb9-47" tabindex="-1"></a></span>
-<span id="cb9-48"><a href="#cb9-48" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb9-49"><a href="#cb9-49" tabindex="-1"></a><span class="co"># MAP estimates at center 2</span></span>
-<span id="cb9-50"><a href="#cb9-50" tabindex="-1"></a><span class="co">#--------------------------</span></span>
-<span id="cb9-51"><a href="#cb9-51" tabindex="-1"></a>fit2       <span class="ot">&lt;-</span> <span class="fu">MAP.estimation</span>(y2, X2, <span class="at">family=</span>gaussian, Lambda)</span>
-<span id="cb9-52"><a href="#cb9-52" tabindex="-1"></a>theta_hat2 <span class="ot">&lt;-</span> fit2<span class="sc">$</span>theta_hat</span>
-<span id="cb9-53"><a href="#cb9-53" tabindex="-1"></a>A_hat2     <span class="ot">&lt;-</span> fit2<span class="sc">$</span>A_hat</span>
-<span id="cb9-54"><a href="#cb9-54" tabindex="-1"></a></span>
-<span id="cb9-55"><a href="#cb9-55" tabindex="-1"></a><span class="co">#----------------------</span></span>
-<span id="cb9-56"><a href="#cb9-56" tabindex="-1"></a><span class="co"># BFI at central center</span></span>
-<span id="cb9-57"><a href="#cb9-57" tabindex="-1"></a><span class="co">#----------------------</span></span>
-<span id="cb9-58"><a href="#cb9-58" tabindex="-1"></a>A_hats     <span class="ot">&lt;-</span> <span class="fu">list</span>(A_hat1, A_hat2)</span>
-<span id="cb9-59"><a href="#cb9-59" tabindex="-1"></a>theta_hats <span class="ot">&lt;-</span> <span class="fu">list</span>(theta_hat1, theta_hat2)</span>
-<span id="cb9-60"><a href="#cb9-60" tabindex="-1"></a>bfi        <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, Lambda)</span>
-<span id="cb9-61"><a href="#cb9-61" tabindex="-1"></a><span class="fu">summary</span>(bfi, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb9-62"><a href="#cb9-62" tabindex="-1"></a></span>
-<span id="cb9-63"><a href="#cb9-63" tabindex="-1"></a><span class="co">#--------------------</span></span>
-<span id="cb9-64"><a href="#cb9-64" tabindex="-1"></a><span class="co"># Stratified analysis</span></span>
-<span id="cb9-65"><a href="#cb9-65" tabindex="-1"></a><span class="co">#--------------------</span></span>
-<span id="cb9-66"><a href="#cb9-66" tabindex="-1"></a><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span>
-<span id="cb9-67"><a href="#cb9-67" tabindex="-1"></a>newLambda1 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="dv">1</span>)</span>
-<span id="cb9-68"><a href="#cb9-68" tabindex="-1"></a><span class="co"># 'newLambda1' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
-<span id="cb9-69"><a href="#cb9-69" tabindex="-1"></a>bfi1 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda1), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">1</span>)</span>
-<span id="cb9-70"><a href="#cb9-70" tabindex="-1"></a><span class="fu">summary</span>(bfi1, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb9-71"><a href="#cb9-71" tabindex="-1"></a></span>
-<span id="cb9-72"><a href="#cb9-72" tabindex="-1"></a><span class="co"># Stratified analysis when 'sigma2' varies across two centers:</span></span>
-<span id="cb9-73"><a href="#cb9-73" tabindex="-1"></a>newLambda2 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="dv">2</span>)</span>
-<span id="cb9-74"><a href="#cb9-74" tabindex="-1"></a><span class="co"># 'newLambda2' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
-<span id="cb9-75"><a href="#cb9-75" tabindex="-1"></a>bfi2 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda2), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">2</span>)</span>
-<span id="cb9-76"><a href="#cb9-76" tabindex="-1"></a><span class="fu">summary</span>(bfi2, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span>
-<span id="cb9-77"><a href="#cb9-77" tabindex="-1"></a></span>
-<span id="cb9-78"><a href="#cb9-78" tabindex="-1"></a><span class="co"># Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:</span></span>
-<span id="cb9-79"><a href="#cb9-79" tabindex="-1"></a>newLambda3 <span class="ot">&lt;-</span> <span class="fu">inv.prior.cov</span>(X1, <span class="at">lambda=</span><span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span>), <span class="at">family=</span>gaussian, <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb9-80"><a href="#cb9-80" tabindex="-1"></a><span class="co"># 'newLambda3' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
-<span id="cb9-81"><a href="#cb9-81" tabindex="-1"></a>bfi3 <span class="ot">&lt;-</span> <span class="fu">bfi</span>(theta_hats, A_hats, <span class="fu">list</span>(Lambda, newLambda3), <span class="at">stratified=</span><span class="cn">TRUE</span>, <span class="at">strat_par=</span><span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>)</span>
-<span id="cb9-82"><a href="#cb9-82" tabindex="-1"></a><span class="fu">summary</span>(bfi3, <span class="at">cur_mat=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co">#-------------</span></span>
+<span><span class="co"># y ~ Gaussian</span></span>
+<span><span class="co">#-------------</span></span>
+<span><span class="co"># model assumptions:</span></span>
+<span><span class="va">p</span>     <span class="op">&lt;-</span> <span class="fl">3</span>                     <span class="co"># number of coefficients without intercept</span></span>
+<span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">p</span><span class="op">)</span>, <span class="fl">1.5</span><span class="op">)</span>  <span class="co"># regression coefficients (theta[1] is the intercept) and sigma2 = 1.5</span></span>
+<span></span>
+<span><span class="co">#-----------------------------------</span></span>
+<span><span class="co"># Data simulation for local center 1</span></span>
+<span><span class="co">#-----------------------------------</span></span>
+<span><span class="va">n1</span>   <span class="op">&lt;-</span> <span class="fl">30</span>                                       <span class="co"># sample size of center 1</span></span>
+<span><span class="va">X1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n1</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous variables</span></span>
+<span><span class="co"># linear predictor:</span></span>
+<span><span class="va">eta1</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
+<span><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span>
+<span><span class="va">mu1</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta1</span><span class="op">)</span></span>
+<span><span class="va">y1</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">mu1</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#-----------------------------------</span></span>
+<span><span class="co"># Data simulation for local center 2</span></span>
+<span><span class="co">#-----------------------------------</span></span>
+<span><span class="va">n2</span>   <span class="op">&lt;-</span> <span class="fl">50</span>                                       <span class="co"># sample size of center 2</span></span>
+<span><span class="va">X2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n2</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous variables</span></span>
+<span><span class="co"># linear predictor:</span></span>
+<span><span class="va">eta2</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/r/base/matmult.html" class="external-link">%*%</a></span> <span class="va">theta</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span></span>
+<span><span class="co"># inverse of the link function:</span></span>
+<span><span class="va">mu2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta2</span><span class="op">)</span></span>
+<span><span class="va">y2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span>, <span class="va">mu2</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#---------------------</span></span>
+<span><span class="co"># Load the BFI package</span></span>
+<span><span class="co">#---------------------</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#---------------------------</span></span>
+<span><span class="co"># Inverse Covariance Matrix</span></span>
+<span><span class="co">#---------------------------</span></span>
+<span><span class="co"># Creating the inverse covariance matrix for the Gaussian prior distribution:</span></span>
+<span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.05</span>, family<span class="op">=</span><span class="va">gaussian</span><span class="op">)</span> <span class="co"># the same for both centers</span></span>
+<span></span>
+<span><span class="co">#--------------------------</span></span>
+<span><span class="co"># MAP estimates at center 1</span></span>
+<span><span class="co">#--------------------------</span></span>
+<span><span class="va">fit1</span>       <span class="op">&lt;-</span> <span class="fu"><a href="reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family<span class="op">=</span><span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span></span>
+<span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span> <span class="co"># intercept and coefficient estimates</span></span>
+<span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># minus the curvature matrix</span></span>
+<span></span>
+<span><span class="co">#--------------------------</span></span>
+<span><span class="co"># MAP estimates at center 2</span></span>
+<span><span class="co">#--------------------------</span></span>
+<span><span class="va">fit2</span>       <span class="op">&lt;-</span> <span class="fu"><a href="reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family<span class="op">=</span><span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span></span>
+<span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span>
+<span><span class="va">A_hat2</span>     <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span>
+<span></span>
+<span><span class="co">#----------------------</span></span>
+<span><span class="co"># BFI at central center</span></span>
+<span><span class="co">#----------------------</span></span>
+<span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span>
+<span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span>
+<span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu"><a href="reference/BFI.html">bfi</a></span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">#--------------------</span></span>
+<span><span class="co"># Stratified analysis</span></span>
+<span><span class="co">#--------------------</span></span>
+<span><span class="co"># Stratified analysis when 'intercept' varies across two centers:</span></span>
+<span><span class="va">newLambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co"># 'newLambda1' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
+<span><span class="va">bfi1</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/BFI.html">bfi</a></span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda1</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi1</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Stratified analysis when 'sigma2' varies across two centers:</span></span>
+<span><span class="va">newLambda2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co"># 'newLambda2' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
+<span><span class="va">bfi2</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/BFI.html">bfi</a></span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda2</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi2</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:</span></span>
+<span><span class="va">newLambda3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="va">gaussian</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># 'newLambda3' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span>
+<span><span class="va">bfi3</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/BFI.html">bfi</a></span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLambda3</span><span class="op">)</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi3</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
@@ -260,8 +260,8 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <p>Here are some of technical papers of the package:</p>
 <ul>
 <li><p><a href="https://doi.org/10.1002/sim.10072" class="external-link">BFI for Generalized Linear Models (GLMs)</a></p></li>
-<li><p><a href="https://arxiv.org/abs/2402.02898" class="external-link">BFI for Heterogeneous Populations</a></p></li>
 <li><p><a href="https://arxiv.org/abs/2404.17464" class="external-link">BFI for Survival Models</a></p></li>
+<li><p><a href="https://arxiv.org/abs/2402.02898" class="external-link">BFI in Heterogeneous Populations</a></p></li>
 </ul>
 </div>
 <div class="section level2">
