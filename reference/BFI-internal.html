@@ -72,13 +72,16 @@
 <p><code>model.maker()</code> returns the outcome and design matrix, incorporating dummy variables when categorical covariates are present.</p>
 
 
-<p><code>optim.bfi()</code> returns .</p>
+<p><code>optim.bfi()</code> is a general-purpose optimization algorithm based on the ``L-BFGS-B'' method, and returns a vector of estimates for the coefficients and baseline hazard parameters.</p>
 
 
-<p><code>lambda.Taylor()</code> returns .</p>
+<p><code>ql.LRT()</code> returns an optimal order/degree of the exponentiated polynomial model, obtained by the likelihood ratio test, for the 'cox' family.</p>
 
 
-<p><code>i.basis()</code> returns .</p>
+<p><code>lambda.poly()</code> returns the baseline hazard function for the exponentiated polynomial form.</p>
+
+
+<p><code>i.basis()</code> creates the integral of the output of basis when <code>ibasis = TRUE</code>. This is also an indicator function between the \(k^{th}\) and \((k+1)^{th}\) time points when <code>ibasis = FALSE</code>.</p>
 
 
     </div>
