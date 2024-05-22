@@ -59,13 +59,9 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hazards.fun</span><span class="op">(</span><span class="va">time</span>,</span>
-<span>            z <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>            <span class="va">p</span>,</span>
-<span>            <span class="va">theta_hat</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hazards.fun</span><span class="op">(</span><span class="va">time</span>, z <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">p</span>, <span class="va">theta_hat</span>,</span>
 <span>            model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"poly"</span>, <span class="st">"exp"</span>, <span class="st">"weibul"</span>, <span class="st">"gomp"</span>, <span class="st">"pwexp"</span><span class="op">)</span>,</span>
-<span>            <span class="va">q_max</span>,</span>
-<span>            <span class="va">timax</span><span class="op">)</span></span></code></pre></div>
+<span>            <span class="va">q_max</span>, <span class="va">timax</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -153,8 +149,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">112358</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">101</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">101</span>, <span class="fl">10</span><span class="op">)</span> <span class="co">#!!!</span></span></span>
-<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">100</span><span class="op">)</span> <span class="co"># !!! "surv.simulate"</span></span></span>
-<span class="r-in"><span><span class="va">time_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="surv.simulate.html">surv.simulate</a></span><span class="op">(</span>Z<span class="op">=</span><span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span>, beta<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">10</span><span class="op">)</span>, a<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   cen_rate<span class="op">=</span><span class="fl">0</span>, gen_data_from<span class="op">=</span><span class="st">"exp"</span><span class="op">)</span><span class="op">$</span><span class="va">D</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">time_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="va">gaussian</span><span class="op">)</span> <span class="co"># !!! "cox"</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note that, if in 'X' there is a 'categorical' covariate with more than</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> 2 levels, then 'X' must be a 'data.frame' instead of a 'matrix'! </span>
@@ -165,42 +162,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit_weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span> <span class="co"># !!! "cox"weib</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note: if in 'X' there is a 'categorical' covariate with more than 2 levels, </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> then 'X' MUST be a 'data.frame' instead of a 'matrix'. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in model.frame.default(formula = formula, data = as.data.frame(X),     drop.unused.levels = TRUE):</span> invalid type (list) for variable 'y'</span>
 <span class="r-in"><span><span class="co"># reltive risk is 1:</span></span></span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">time_points</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_weib</span><span class="op">$</span><span class="va">theta_hat</span>, model<span class="op">=</span><span class="st">"weibul"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0000000 0.5059525 0.7842420 1.0134260 1.2155992 1.3998010 1.5708415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 1.7316599 1.8842162 2.0298985 2.1697347 2.3045127 2.4348527 2.5612541</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 2.6841263 2.8038101 2.9205932 3.0347211 3.1464052 3.2558297</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cbhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.00000000 0.04709746 0.14600503 0.28300950 0.45262458 0.65151444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.87734690 1.12836183 1.40316409 1.70060936 2.01973492 2.35971485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 2.71982948 3.09944372 3.49799121 3.91496236 4.34989516 4.80236798</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 5.27199383 5.75841570</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bsurvival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1.000000000 0.953994418 0.864153361 0.753512627 0.635956842 0.521255768</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.415884831 0.323562874 0.245817943 0.182572238 0.132690634 0.094447151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.065885988 0.045074269 0.030258105 0.019941299 0.012908166 0.008210282</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 0.005133365 0.003156108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.0000000 0.5059525 0.7842420 1.0134260 1.2155992 1.3998010 1.5708415</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 1.7316599 1.8842162 2.0298985 2.1697347 2.3045127 2.4348527 2.5612541</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 2.6841263 2.8038101 2.9205932 3.0347211 3.1464052 3.2558297</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.00000000 0.04709746 0.14600503 0.28300950 0.45262458 0.65151444</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.87734690 1.12836183 1.40316409 1.70060936 2.01973492 2.35971485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 2.71982948 3.09944372 3.49799121 3.91496236 4.34989516 4.80236798</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 5.27199383 5.75841570</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 1.000000000 0.953994418 0.864153361 0.753512627 0.635956842 0.521255768</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] 0.415884831 0.323562874 0.245817943 0.182572238 0.132690634 0.094447151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 0.065885988 0.045074269 0.030258105 0.019941299 0.012908166 0.008210282</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] 0.005133365 0.003156108</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_weib' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Gompertz baseline hazard</span></span></span>
@@ -208,26 +173,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit_gomp</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span> <span class="co"># !!! "cox"gomp</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note: if in 'X' there is a 'categorical' covariate with more than 2 levels, </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> then 'X' MUST be a 'data.frame' instead of a 'matrix'. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in model.frame.default(formula = formula, data = as.data.frame(X),     drop.unused.levels = TRUE):</span> invalid type (list) for variable 'y'</span>
 <span class="r-in"><span><span class="co"># different time points</span></span></span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">*</span><span class="fl">2</span><span class="op">)</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_gomp</span><span class="op">$</span><span class="va">theta_hat</span>, model<span class="op">=</span><span class="st">"gomp"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    5.219453   26.700691  136.590356  698.743166 3574.498426</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cbhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    2.572543   15.732672   83.054778  427.448504 2189.232931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bsurvival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  7.634117e-02  1.470237e-07  8.506837e-37 2.298654e-186  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    5.219453   26.700691  136.590356  698.743166 3574.498426</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]    2.572543   15.732672   83.054778  427.448504 2189.232931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  7.634117e-02  1.470237e-07  8.506837e-37 2.298654e-186  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_gomp' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###--------------------------</span></span></span>
 <span class="r-in"><span><span class="co">### Prediction for new sample</span></span></span>
@@ -240,9 +189,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit_poly</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span> <span class="co"># !!! "cox"poly</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note: if in 'X' there is a 'categorical' covariate with more than 2 levels, </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> then 'X' MUST be a 'data.frame' instead of a 'matrix'. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in model.frame.default(formula = formula, data = as.data.frame(X),     drop.unused.levels = TRUE):</span> invalid type (list) for variable 'y'</span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">newtime</span>, z<span class="op">=</span><span class="va">X</span><span class="op">[</span><span class="fl">101</span>,<span class="op">]</span>, theta_hat<span class="op">=</span><span class="va">fit_poly</span><span class="op">$</span><span class="va">theta_hat</span>,</span></span>
 <span class="r-in"><span>            model<span class="op">=</span><span class="st">"poly"</span>, q_max<span class="op">=</span><span class="va">fit_poly</span><span class="op">$</span><span class="va">q_l</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in hazards.fun(time = newtime, z = X[101, ], theta_hat = fit_poly$theta_hat,     model = "poly", q_max = fit_poly$q_l):</span> 'q_max' should not be missing or NULL for the 'poly' model.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_poly' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Piecewise Exponentiaa baseline hazard</span></span></span>
@@ -250,26 +200,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit_pw</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span>, family <span class="op">=</span> <span class="va">gaussian</span>, <span class="va">Lambda</span><span class="op">)</span> <span class="co"># !!! "cox"pw</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note: if in 'X' there is a 'categorical' covariate with more than 2 levels, </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> then 'X' MUST be a 'data.frame' instead of a 'matrix'. </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in model.frame.default(formula = formula, data = as.data.frame(X),     drop.unused.levels = TRUE):</span> invalid type (list) for variable 'y'</span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">newtime</span>, z<span class="op">=</span><span class="va">X</span><span class="op">[</span><span class="fl">101</span>,<span class="op">]</span>, theta_hat<span class="op">=</span><span class="va">fit_pw</span><span class="op">$</span><span class="va">theta_hat</span>,</span></span>
 <span class="r-in"><span>            model<span class="op">=</span><span class="st">"pwexp"</span>, timax<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cbhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.830293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bsurvival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.02170326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.198632</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.04081799</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_pw' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
