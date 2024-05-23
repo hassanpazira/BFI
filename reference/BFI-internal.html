@@ -69,7 +69,9 @@
 <p><code>negloglik.theta()</code> returns the negative log-likelihood of regression coefficients and error variance, which can be utilized for optimization purposes.</p>
 
 
-<p><code>model.maker()</code> returns the outcome and design matrix, incorporating dummy variables when categorical covariates are present.</p>
+<p><code>model.maker()</code> returns the outcome and design matrix, incorporating dummy variables when categorical covariates are present, e.g., by expanding factors to a set of dummy variables and expanding interactions similarly.</p>
+
+
 
 
 <p><code>optim.bfi()</code> is a general-purpose optimization algorithm based on the ``L-BFGS-B'' method, and returns a vector of estimates for the coefficients and baseline hazard parameters.</p>
