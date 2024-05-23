@@ -499,34 +499,126 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, model <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, model = "weibul"):</span> object 'theta_M_ql' not found</span>
-<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
+<span class="r-in"><span><span class="va">fit</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    1.341252    2.236396    2.070999    2.164007    1.054574 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="op">(</span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>, model <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1,]  0.1  0.0  0.0  0.0  0.0    0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [2,]  0.0  0.1  0.0  0.0  0.0    0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [3,]  0.0  0.0  0.1  0.0  0.0    0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [4,]  0.0  0.0  0.0  0.1  0.0    0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [5,]  0.0  0.0  0.0  0.0  0.1    0  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [6,]  0.0  0.0  0.0  0.0  0.0    1  0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [7,]  0.0  0.0  0.0  0.0  0.0    0  0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.3413  0.1983  0.9526   1.7299</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1            2.2364  0.2269  1.7916   2.6812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2            2.0710  0.1477  1.7816   2.3604</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3            2.1640  0.2153  1.7420   2.5860</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3 + X4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.055 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  -35.28 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      X1      X2      X3  sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     28.5475  1.9316 -7.7386  6.2804 -0.2685</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1               1.9316 20.4369 -2.2127  4.5673 -0.4470</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2              -7.7386 -2.2127 49.3206  3.1359 -0.4142</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3               6.2804  4.5673  3.1359 24.3657 -0.4326</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2685 -0.4470 -0.4142 -0.4326 64.2182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $q_l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_A_ploy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2]       [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA  0.4851055   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA  0.9583541   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA  1.3019468   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA  1.9133071   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA -2.3587058   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA  5.3263530   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA -1.2771656   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]       [,2]       [,3]        [,4]      [,5]        [,6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0669570  3.8208629  -5.720614  -0.2298401  7.293652   0.8408369</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8208629 83.3338563   3.249402  -6.1135026 15.827297  -0.7239436</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206135  3.2494023  71.789348  11.0855720 -2.668357 -24.8958176</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2298401 -6.1135026  11.085572  66.2835325 23.418800  -7.2188814</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2936521 15.8272967  -2.668357  23.4187999 72.935866  42.6320240</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8408369 -0.7239436 -24.895818  -7.2188814 42.632024  56.7467292</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2495988 -6.3916120 -41.273250 -17.2397380 47.746729  69.2381162</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249599</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239738</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746729</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238116</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342533</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $levs_no_ref_no_zer_poly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.742077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cox"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span><span class="va">fit</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># theta_hat for omega_{q_l} or omega_2</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851055  0.9583541  1.3019468  1.9133071 -2.3587058  5.3263530 -1.2771656 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co">#! 'cox'</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dimnames(x) &lt;- dn:</span> length of 'dimnames' [2] not equal to array extent</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># MAP estimates with ...</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span></span>
