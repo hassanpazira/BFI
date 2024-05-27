@@ -63,15 +63,15 @@
 <span>               <span class="va">Lambda</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>, initial <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>               model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"poly"</span>,<span class="st">"exp"</span>,<span class="st">"weibul"</span>,<span class="st">"gomp"</span>,<span class="st">"pwexp"</span><span class="op">)</span>,</span>
 <span>               alpha <span class="op">=</span> <span class="fl">0.1</span>, max_order <span class="op">=</span> <span class="fl">2</span>, n_intervals <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>               min_max_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"min"</span>,<span class="st">"max"</span><span class="op">)</span>,</span>
-<span>               center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">zero_sample_cov</span>,</span>
-<span>               <span class="va">refer_cat</span>, <span class="va">zero_cat</span>, control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>               <span class="va">min_max_times</span>, center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>               <span class="va">zero_sample_cov</span>, <span class="va">refer_cat</span>, <span class="va">zero_cat</span>,</span>
+<span>               control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>y</dt>
-<dd><p>response vector. If the “<code>binomial</code>” family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of “successes” and the second column is the number of “failures”. For the “<code>cox</code>” family, the response is a matrix where the first column is the survival time, named “time”, and the second column is the censoring indicator, named “status”, with \(0\) indicating censored and \(1\) indicating event time.</p></dd>
+<dd><p>response vector. If the “<code>binomial</code>” family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of “successes” and the second column is the number of “failures”. For the “<code>cox</code>” family, the response is a matrix where the first column is the survival time, named “time”, and the second column is the censoring indicator, named “status”, with 0 indicating censored and 1 indicating event time.</p></dd>
 
 
 <dt>X</dt>
@@ -92,43 +92,43 @@
 
 <dt>initial</dt>
 <dd><p>a vector specifying initial values for the parameters to be optimized over. The length of <code>initial</code> is equal to the number of model parameters and thus, is equal to the number of rows or columns of <code>Lambda</code>.
-Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the <code>cox</code> family with the <code>poly</code> model, where it is a vector with the first \(p\) elements as zeros (for coefficients) and \(-0.5\) for the remaining parameters.</p></dd>
+Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the <code>cox</code> family with the <code>poly</code> model, where it is a vector with the first \(p\) elements as zeros for coefficients (\(\bm \beta\)) and -0.5 for the remaining parameters (\(\bm \omega\)).</p></dd>
 
 
 <dt>model</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>a character string representing one of the included baseline hazard models.</p></dd>
 
 
 <dt>alpha</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>a significance level used in the chi-squared distribution (with one degree of freedom and 1-\(\alpha\) representing the upper quantile) to conduct a likelihood ratio test for obtaining the order of the exponentiated polynomial baseline hazard function. It is only used when <code>family = "cox"</code> and <code>model = "poly"</code>. Default is 0.1. See ‘Details’.</p></dd>
 
 
 <dt>max_order</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>an integer representing the maximum value of <code>q_l</code>, which is the order/degree minus 1 of the exponentiated polynomial baseline hazard model. This argument is only used when <code>family = "cox"</code> and <code>model = "poly"</code>. Default is 2.</p></dd>
 
 
 <dt>n_intervals</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>an integer representing the number of intervals in the piecewise exponential baseline hazard model. This argument is only used when <code>family = "cox"</code> and <code>model = "pwexp"</code>. Default is 4.</p></dd>
 
 
-<dt>min_max_time</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dt>min_max_times</dt>
+<dd><p>a scalar representing the minimum of the maximum event times observed in the centers. The value of this argument should be defined by the central server (which has access to the maximum event times of all the centers) and is only used when <code>family = "cox"</code> and <code>model = "pwexp"</code>.</p></dd>
 
 
 <dt>center_zero_sample</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>logical flag indicating whether the center has a categorical covariate with no observations/individuals in one of the categories. Default is <code>center_zero_sample = FALSE</code>.</p></dd>
 
 
 <dt>zero_sample_cov</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>either a character string or an integer representing the categorical covariate that has no samples/observations in one of its categories. This covariate should have at least two categories, one of which is the reference. It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
 <dt>refer_cat</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>a character string representing the reference category. The category with no observations (the argument <code>zero_cat</code>) cannot be used as the reference in the argument <code>refer_cat</code>. It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
 <dt>zero_cat</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model.</p></dd>
+<dd><p>a character string representing the category with no samples/observations. It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
 <dt>control</dt>
@@ -173,12 +173,24 @@ Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values 
 <dd><p>the number of coefficients;</p></dd>
 
 
+<dt>q_l</dt>
+<dd><p>the order/degree minus 1 of the exponentiated polynomial baseline hazard function determined for the current center by the likelihood ratio test. This output argument, <code>q_l</code>, is only shown when <code>family = "cox"</code> and <code>model = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+
+
+<dt>theta_A_ploy</dt>
+<dd><p>an array where the first component is a matrix with columns representing the MAP estimates of the parameters for different <code>q_l</code>'s. The other components are minus the curvature matrices for the determined <code>q_l</code> until the maximum <code>q_l</code>, i.e., <code>max_order</code>. Therefore, the first non-NA curvature matrix is equal to the output argument <code>A_hat</code>. This output argument, <code>theta_A_ploy</code>, is only shown when <code>family = "cox"</code> and <code>model = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+
+
+<dt>lev_no_ref_zer</dt>
+<dd><p>a vector containing the names of the levels of the categorical covariate that has no samples/observations in one of its categories. The name of the category with no samples and the name of the reference category are excluded from this vector. This argument is shown when <code>family = "cox"</code> and <code>model = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+
+
 <dt>value</dt>
 <dd><p>the value of minus the log-likelihood posterior density evaluated at <code>theta_hat</code>;</p></dd>
 
 
 <dt>family</dt>
-<dd><p>the <code><a href="https://rdrr.io/r/stats/family.html" class="external-link">family</a></code> object used.;</p></dd>
+<dd><p>the <code>family</code> object used.;</p></dd>
 
 
 <dt>intercept</dt>
@@ -210,8 +222,14 @@ to the algorithm used to fit the model. The values returned are:</p><dl><dt>0</d
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>MAP.estimation</code> function finds the Maximum A Posteriori (MAP) estimates of the model parameters by maximizing the log-posterior density with respect to the parameters, i.e., the estimates equal the values for which the log-posterior density is maximal (the posterior mode).
 In other words, <code>MAP.estimation()</code> optimizes the log-posterior density with respect to the parameter vector to obtain its MAP estimates.
-In addition to the model parameters, i.e., coefficients (\({\beta}\)'s) and variance error (\(\sigma^2_e\)), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.</p>
+In addition to the model parameters (i.e., coefficients (\(\bm \beta\)) and variance error (\(\sigma^2_e\)) for <code>gussian</code> or the parameters of the baseline hazard (\(\bm \omega\)) for <code>cox</code>), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.</p>
 <p>The <code>MAP.estimation</code> function returns an object of class `<code>bfi</code>`. Therefore, <code><a href="summary.bfi.html">summary()</a></code> can be used for the object returned by <code>MAP.estimation()</code>.</p>
+<p>For the case where <code>family = "cox"</code> and <code>model = "poly"</code>, we assume that in all centers the \(q_\ell\)'s are equal.
+However, the order of the estimated polynomials may vary across the centers so that each center can have different number of parameters, say \(q_\ell\)+1.
+<!-- %Thus, in each location, the vector parameter is a (\eqn{ p+q_\ell} +1)-dimensional vector \eqn{\bm \theta_\ell^\top=(\bm \beta^\top, \bm \omega_\ell^\top)=(\beta_1, \ldots,\beta_p, \omega_{0}, \omega_{1}, \ldots, \omega_{q_\ell})}. -->
+After obtaining the estimates within the local centers (by using <code>MAP.estimation()</code>) and having all estimates in the central server, we choose the order of the polynomial approximation for the combined data to be the maximum of the orders of the local polynomial functions, i.e., \(\max \{q_1, \ldots, q_L \}\), to approximate the global baseline hazard (exponentiated polynomial) function more accurately. This is because the higher-order polynomial approximation can capture more complex features and details in the combined data. Using the higher-order approximation ensures that we account for the higher-order moments and features present in the data while maintaining accuracy.
+As a result, all potential cases are stored in the <code>theta_A_ploy</code> argument to be used in <code><a href="BFI.html">bfi()</a></code> by the central server.
+For further information on the <code>cox</code> family, refer to the 'References' section.</p>
 <p>To solve unconstrained and bound-constrained optimization problems, the <code>MAP.estimation</code> function utilizes an optimization algorithm called Limited-memory Broyden-Fletcher-Goldfarb-Shanno with Bound Constraints (L-BFGS-B), Byrd et. al. (1995).
 The L-BFGS-B algorithm is a limited-memory “quasi-Newton” method that iteratively updates the parameter estimates by approximating the inverse Hessian matrix using gradient information from the history of previous iterations. This approach allows the algorithm to approximate the curvature of the posterior distribution and efficiently search for the optimal solution, which makes it computationally efficient for problems with a large number of variables.</p>
 <p>By default, the algorithm uses a relative change in the objective function as the convergence criterion. When the change in the objective function between iterations falls below a certain threshold (`<code>factr</code>`) the algorithm is considered to have converged.
@@ -649,7 +667,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $levs_no_ref_no_zer_poly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lev_no_ref_zer</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
@@ -702,35 +720,33 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
 <span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                       model <span class="op">=</span> <span class="st">"pwexp"</span>, n_intervals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  no. obser. in the intervals in the center :  73 18 9 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = b.diag(Lambda,     0.1), model = "pwexp", n_intervals = 3):</span> argument "min_max_times" is missing, with no default</span>
 <span class="r-in"><span><span class="va">fit</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3378248  0.6412767  0.8112017  1.2210116 -0.4395803  1.5210912  2.0806011 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3         X4   omega_1     omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      59.0141624  1.5237191  -8.221420 -0.7684943  7.471477  -0.5432178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       1.5237191 75.7850338   2.055835 -2.3450368 17.271477  -0.5076256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -8.2214204  2.0558345  66.732362 11.1794098 10.841197 -10.2074028</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.7684943 -2.3450368  11.179410 66.2573413 32.189897  -6.1739814</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.4714768 17.2714775  10.841197 32.1898973 53.143897   0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.5432178 -0.5076256 -10.207403 -6.1739814  0.000000  14.4788921</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  0.3801304 -0.9050094  -3.252998 -2.5279576  0.000000   0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3          X4   omega_1     omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            omega_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       0.3801304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2      -0.9050094</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -3.2529981</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -2.5279576</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  2.8920832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3        X4   omega_1   omega_2   omega_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1345772 0.1241519 0.1393598 0.1614251 0.1861669 0.2919131 0.6309423 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1273862 0.1216111 0.1425261 0.1615245 0.2214507 0.3106619 0.1918733 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          X1  X2  X3  X4 omega_1 omega_2 omega_3</span>
@@ -754,8 +770,68 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $q_l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_A_ploy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2]       [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA  0.4851061   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA  0.9583508   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA  1.3019409   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA  1.9132980   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA -2.3586851   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA  5.3263103   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA -1.2771524   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]       [,2]       [,3]        [,4]      [,5]        [,6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lev_no_ref_zer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 25.61028</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.742077</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cox"</span>
