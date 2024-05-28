@@ -60,7 +60,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">hazards.fun</span><span class="op">(</span><span class="va">time</span>, z <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">p</span>, <span class="va">theta_hat</span>,</span>
-<span>            model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"poly"</span>, <span class="st">"exp"</span>, <span class="st">"weibul"</span>, <span class="st">"gomp"</span>, <span class="st">"pwexp"</span><span class="op">)</span>,</span>
+<span>            basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"poly"</span>, <span class="st">"exp"</span>, <span class="st">"weibul"</span>, <span class="st">"gomp"</span>, <span class="st">"pwexp"</span><span class="op">)</span>,</span>
 <span>            <span class="va">q_max</span>, <span class="va">timax</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -82,16 +82,16 @@
 <dd><p>a vector contains the values of the estimated parameters. The first \(p\) values represent the coefficient parameters (\(\bm \beta\)), while the remaining values pertain to the parameters of the baseline hazard function  (\(\bm \omega\)).</p></dd>
 
 
-<dt>model</dt>
-<dd><p>a character string representing one of the models for the baseline hazard function; <code>exponentiated polynomial</code> (<code>"poly"</code>), <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>), <code>Gompertz</code> (<code>"gomp"</code>), and <code>piecewise exponential</code> (<code>"pwexp"</code>).</p></dd>
+<dt>basehaz</dt>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponentiated polynomial</code> (<code>"poly"</code>), <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>), <code>Gompertz</code> (<code>"gomp"</code>), and <code>piecewise exponential</code> (<code>"pwexp"</code>).</p></dd>
 
 
 <dt>q_max</dt>
-<dd><p>a value represents the order of the exponentiated polynomial baseline hazard function. This argument should only be used when <code>model = "poly"</code>. In the case of multiple centers, the maximum value of the orders should be used. <code><a href="BFI-internal.html">ql.LRT()</a></code> can be used for obtaining of the order of each center.</p></dd>
+<dd><p>a value represents the order of the exponentiated polynomial baseline hazard function. This argument should only be used when <code>basehaz = "poly"</code>. In the case of multiple centers, the maximum value of the orders should be used. <code><a href="BFI-internal.html">ql.LRT()</a></code> can be used for obtaining of the order of each center.</p></dd>
 
 
 <dt>timax</dt>
-<dd><p>a value represents the minimum (or maximum) value of the maximum times observed in the different centers. This argument should only be used when <code>model = "pwexp"</code>.</p></dd>
+<dd><p>a value represents the minimum (or maximum) value of the maximum times observed in the different centers. This argument should only be used when <code>basehaz = "pwexp"</code>.</p></dd>
 
 
 </dl></div>
@@ -160,58 +160,28 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span>                   cen_rate<span class="op">=</span><span class="fl">0</span>, gen_data_from<span class="op">=</span><span class="st">"exp"</span><span class="op">)</span><span class="op">$</span><span class="va">D</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">Original_y</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">y_new</span> <span class="op">&lt;-</span> <span class="va">Original_y</span><span class="op">[</span><span class="fl">101</span>,<span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">time_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, length.out <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="va">gaussian</span><span class="op">)</span> <span class="co"># !!! "cox"</span></span></span>
+<span class="r-in"><span><span class="va">time_points</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, length.out<span class="op">=</span><span class="fl">20</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># !!! "cox"</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Note that, if in 'X' there is a 'categorical' covariate with more than</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> 2 levels, then 'X' must be a 'data.frame' instead of a 'matrix'! </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Weibull baseline hazard</span></span></span>
 <span class="r-in"><span><span class="co">#------------------------</span></span></span>
-<span class="r-in"><span><span class="va">fit_weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, model <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit_weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family<span class="op">=</span><span class="st">'cox'</span>, Lambda<span class="op">=</span><span class="va">Lambda</span>, basehaz<span class="op">=</span><span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, basehaz = "weibul"):</span> unused argument (basehaz = "weibul")</span>
 <span class="r-in"><span><span class="co"># reltive risk is 1:</span></span></span>
-<span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">time_points</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_weib</span><span class="op">$</span><span class="va">theta_hat</span>, model<span class="op">=</span><span class="st">"weibul"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.00000 68.17715 69.21756 69.83350 70.27384 70.61730 70.89918 71.13838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 71.34624 71.53009 71.69495 71.84441 71.98112 72.10712 72.22398 72.33293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] 72.43501 72.53102 72.62166 72.70750</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cbhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0.0000  107.2127  217.6976  329.4522  442.0395  555.2499  668.9595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  783.0859  897.5702 1012.3685 1127.4464 1242.7764 1358.3361 1474.1066</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 1590.0720 1706.2187 1822.5349 1939.0101 2055.6352 2172.4020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bsurvival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1.000000e+00  2.742303e-47  2.851896e-95 8.331425e-144 1.058522e-192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 7.211424e-242 2.982435e-291  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.00000 68.17715 69.21756 69.83350 70.27384 70.61730 70.89918 71.13838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 71.34624 71.53009 71.69495 71.84441 71.98112 72.10712 72.22398 72.33293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] 72.43501 72.53102 72.62166 72.70750</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0.0000  107.2127  217.6976  329.4522  442.0395  555.2499  668.9595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  783.0859  897.5702 1012.3685 1127.4464 1242.7764 1358.3361 1474.1066</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 1590.0720 1706.2187 1822.5349 1939.0101 2055.6352 2172.4020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1.000000e+00  2.742303e-47  2.851896e-95 8.331425e-144 1.058522e-192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 7.211424e-242 2.982435e-291  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">time_points</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_weib</span><span class="op">$</span><span class="va">theta_hat</span>, basehaz<span class="op">=</span><span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in hazards.fun(time = time_points, p = 10, theta_hat = fit_weib$theta_hat,     basehaz = "weibul"):</span> unused argument (basehaz = "weibul")</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Gompertz baseline hazard</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
-<span class="r-in"><span><span class="va">fit_gomp</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, model <span class="op">=</span> <span class="st">"gomp"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in solve.default(as.matrix(A_hat)):</span> system is computationally singular: reciprocal condition number = 1.66131e-16</span>
+<span class="r-in"><span><span class="va">fit_gomp</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family<span class="op">=</span><span class="st">'cox'</span>, Lambda<span class="op">=</span><span class="va">Lambda</span>, basehaz<span class="op">=</span><span class="st">"gomp"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, basehaz = "gomp"):</span> unused argument (basehaz = "gomp")</span>
 <span class="r-in"><span><span class="co"># different time points</span></span></span>
-<span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">*</span><span class="fl">2</span><span class="op">)</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_gomp</span><span class="op">$</span><span class="va">theta_hat</span>, model<span class="op">=</span><span class="st">"gomp"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_gomp' not found</span>
+<span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">*</span><span class="fl">2</span><span class="op">)</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_gomp</span><span class="op">$</span><span class="va">theta_hat</span>, basehaz<span class="op">=</span><span class="st">"gomp"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in hazards.fun(time = 1:max(y * 2), p = 10, theta_hat = fit_gomp$theta_hat,     basehaz = "gomp"):</span> unused argument (basehaz = "gomp")</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###----------------------------</span></span></span>
@@ -219,18 +189,18 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">###----------------------------</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Exponentiated polynomial baseline hazard</span></span></span>
-<span class="r-in"><span><span class="va">fit_poly</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, model <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in Lambda[1:(p + ql + 1), 1:(p + ql + 1)]:</span> subscript out of bounds</span>
+<span class="r-in"><span><span class="va">fit_poly</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family<span class="op">=</span><span class="st">'cox'</span>, Lambda<span class="op">=</span><span class="va">Lambda</span>, basehaz<span class="op">=</span><span class="st">"poly"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, basehaz = "poly"):</span> unused argument (basehaz = "poly")</span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">y_new</span><span class="op">$</span><span class="va">time</span>, z<span class="op">=</span><span class="va">X_new</span>, theta_hat<span class="op">=</span><span class="va">fit_poly</span><span class="op">$</span><span class="va">theta_hat</span>,</span></span>
-<span class="r-in"><span>            model<span class="op">=</span><span class="st">"poly"</span>, q_max<span class="op">=</span><span class="va">fit_poly</span><span class="op">$</span><span class="va">q_l</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_poly' not found</span>
+<span class="r-in"><span>            basehaz<span class="op">=</span><span class="st">"poly"</span>, q_max<span class="op">=</span><span class="va">fit_poly</span><span class="op">$</span><span class="va">q_l</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in hazards.fun(time = y_new$time, z = X_new, theta_hat = fit_poly$theta_hat,     basehaz = "poly", q_max = fit_poly$q_l):</span> unused argument (basehaz = "poly")</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Piecewise Exponentiaa baseline hazard</span></span></span>
-<span class="r-in"><span><span class="va">fit_pw</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, model <span class="op">=</span> <span class="st">"pwexp"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, model = "pwexp"):</span> argument "min_max_times" is missing, with no default</span>
+<span class="r-in"><span><span class="va">fit_pw</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family<span class="op">=</span><span class="st">'cox'</span>, Lambda<span class="op">=</span><span class="va">Lambda</span>, basehaz<span class="op">=</span><span class="st">"pwexp"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, basehaz = "pwexp"):</span> unused argument (basehaz = "pwexp")</span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">y_new</span><span class="op">$</span><span class="va">time</span>, z<span class="op">=</span><span class="va">X_new</span>, theta_hat<span class="op">=</span><span class="va">fit_pw</span><span class="op">$</span><span class="va">theta_hat</span>,</span></span>
-<span class="r-in"><span>            model<span class="op">=</span><span class="st">"pwexp"</span>, timax<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_pw' not found</span>
+<span class="r-in"><span>            basehaz<span class="op">=</span><span class="st">"pwexp"</span>, timax<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in hazards.fun(time = y_new$time, z = X_new, theta_hat = fit_pw$theta_hat,     basehaz = "pwexp", timax = max(y)):</span> unused argument (basehaz = "pwexp")</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
