@@ -80,6 +80,10 @@
 <dd><p>a list of \(L\) (minus) curvature matrices for \(L\) centers. These matrices must have equal dimensions. See ‘Details’.</p></dd>
 
 
+<dt>family</dt>
+<dd><p>a character string representing the family name used for the local centers.</p></dd>
+
+
 <dt>Lambda</dt>
 <dd><p>a list of \(L+1\) matrices. The \(k^{\th}\) matrix is the chosen inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution in center \(k\), where \(k=1,2,\ldots,L\). The last matrix is the chosen variance-covariance matrix for the Gaussian prior of the (fictive) combined data set.
 If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensions. While, if <code>stratified = TRUE</code>, the first \(L\) matrices must have equal dimensions and the last matrix should have a different (greater) dimention than the others. See ‘Details’.</p></dd>
