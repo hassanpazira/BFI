@@ -191,11 +191,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">##  Example 1:  y ~ Binomial  (L=2 centers)  ##</span></span></span>
 <span class="r-in"><span><span class="co">###############################################</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Model Assumption:</span></span></span>
-<span class="r-in"><span><span class="co">#------------------</span></span></span>
-<span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>  <span class="co"># regression coefficients (beta[1] is the intercept)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Data Simulation for Local Center 1</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------------</span></span></span>
@@ -206,6 +201,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">X1x2_1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">X1</span><span class="op">$</span><span class="va">x2</span> <span class="op">==</span> <span class="st">'1'</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X1x2_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">X1</span><span class="op">$</span><span class="va">x2</span> <span class="op">==</span> <span class="st">'2'</span>, <span class="fl">1</span>, <span class="fl">0</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X1</span><span class="op">$</span><span class="va">x2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">as.factor</a></span><span class="op">(</span><span class="va">X1</span><span class="op">$</span><span class="va">x2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># regression coefficients</span></span></span>
+<span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span>  <span class="co"># beta[1] is the intercept</span></span></span>
 <span class="r-in"><span><span class="co"># linear predictor:</span></span></span>
 <span class="r-in"><span><span class="va">eta1</span>   <span class="op">&lt;-</span> <span class="va">beta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">X1</span><span class="op">$</span><span class="va">x1</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="va">X1x2_1</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span> <span class="op">+</span> <span class="va">X1x2_2</span> <span class="op">*</span> <span class="va">beta</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="co"># inverse of the link function ( g^{-1}(\eta) = \mu ):</span></span></span>
@@ -228,15 +225,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">mu2</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">binomial</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">y2</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html" class="external-link">rbinom</a></span><span class="op">(</span><span class="va">n2</span>, <span class="fl">1</span>, <span class="va">mu2</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#---------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Load the BFI package</span></span></span>
-<span class="r-in"><span><span class="co">#---------------------</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># MAP Estimates at Center 1</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
-<span class="r-in"><span><span class="co"># assume the same inverse covariance matrix (Lambda) for both centers:</span></span></span>
+<span class="r-in"><span><span class="co"># Assume the same inverse covariance matrix (Lambda) for both centers:</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span>     <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.01</span>, family<span class="op">=</span><span class="st">'binomial'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family<span class="op">=</span><span class="st">'binomial'</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span> <span class="co"># intercept and coefficient estimates</span></span></span>
@@ -285,8 +277,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Stratified Analysis</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
-<span class="r-in"><span><span class="co"># By running the following line an error appears because when stratified = TRUE,</span></span></span>
-<span class="r-in"><span><span class="co"># both 'strat_par' and 'center_spec' can not be NULL:</span></span></span>
+<span class="r-in"><span><span class="co"># By running the following line an error appears because</span></span></span>
+<span class="r-in"><span><span class="co"># when stratified = TRUE, both 'strat_par' and 'center_spec' can not be NULL:</span></span></span>
 <span class="r-in"><span><span class="va">Just4check1</span> <span class="op">&lt;-</span> <span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, family<span class="op">=</span><span class="st">'binomial'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>, <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">Just4check1</span><span class="op">)</span> <span class="co"># By default, both 'strat_par' and 'center_spec' are NULL!</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "try-error"</span>
@@ -333,9 +325,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">##  Example 2:  y ~ Gaussian  (L=3 centers)  ##</span></span></span>
 <span class="r-in"><span><span class="co">###############################################</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#-------------------</span></span></span>
-<span class="r-in"><span><span class="co"># Model Assumptions:</span></span></span>
-<span class="r-in"><span><span class="co">#-------------------</span></span></span>
 <span class="r-in"><span><span class="va">p</span>     <span class="op">&lt;-</span> <span class="fl">3</span>                     <span class="co"># number of coefficients without 'intercept'</span></span></span>
 <span class="r-in"><span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">2</span>, <span class="va">p</span><span class="op">)</span>, <span class="fl">1.5</span><span class="op">)</span>  <span class="co"># reg. coefficients (theta[1] is 'intercept') &amp; 'sigma2' = 1.5</span></span></span>
 <span class="r-in"><span></span></span>
