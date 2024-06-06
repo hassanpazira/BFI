@@ -91,7 +91,7 @@
 
 
 <dt>initial</dt>
-<dd><p>a vector specifying initial values for the parameters to be optimized over. The length of <code>initial</code> is equal to the number of model parameters and thus, is equal to the number of rows or columns of <code>Lambda</code>. Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the <code>cox</code> family with the <code>poly</code> function, where it is a vector with the first \(p\) elements as zeros for coefficients (\(\bm \beta\)) and -0.5 for the remaining parameters (\(\bm \omega\)).</p></dd>
+<dd><p>a vector specifying initial values for the parameters to be optimized over. The length of <code>initial</code> is equal to the number of model parameters and thus, is equal to the number of rows or columns of <code>Lambda</code>. Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the <code>cox</code> family with the <code>poly</code> function, where it is a vector with the first \(p\) elements as zeros for coefficients (\(\bm \beta\)) and -0.5 for the remaining parameters (\(\bm \omega\)). For the <code>gaussian</code> family, the last element of the <code>initial</code> vector could also be considered negative, because the Gaussian prior was applied to \(log(\sigma)\).</p></dd>
 
 
 <dt>basehaz</dt>
@@ -141,7 +141,7 @@
 
 <p><code>MAP.estimation</code> returns a list containing the following components:</p>
 <dl><dt>theta_hat</dt>
-<dd><p>the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters;</p></dd>
+<dd><p>the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the <code>gaussian</code> family, the last element of this vector is \(\sigma^2\);</p></dd>
 
 
 <dt>A_hat</dt>
@@ -725,32 +725,37 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  no. obser. in the intervals in the center :  73 18 9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> try-error in beta_loga_logb_hat, now is -.5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> try-error in beta_loga_logb_hat, now is -5 &amp; 5  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = b.diag(Lambda,     0.1), basehaz = "pwexp", n_intervals = 3, min_max_times = max(y$time)):</span> The algorithm did not converge.</span>
 <span class="r-in"><span><span class="va">fit</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3378248  0.6412767  0.8112017  1.2210116 -0.4395803  1.5210912  2.0806011 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3         X4   omega_1     omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      59.0141624  1.5237191  -8.221420 -0.7684943  7.471477  -0.5432178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       1.5237191 75.7850338   2.055835 -2.3450368 17.271477  -0.5076256</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -8.2214204  2.0558345  66.732362 11.1794098 10.841197 -10.2074028</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.7684943 -2.3450368  11.179410 66.2573413 32.189897  -6.1739814</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.4714768 17.2714775  10.841197 32.1898973 53.143897   0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.5432178 -0.5076256 -10.207403 -6.1739814  0.000000  14.4788921</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  0.3801304 -0.9050094  -3.252998 -2.5279576  0.000000   0.0000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3          X4   omega_1     omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            omega_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       0.3801304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2      -0.9050094</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -3.2529981</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -2.5279576</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.0000000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  2.8920832</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3        X4   omega_1   omega_2   omega_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1345772 0.1241519 0.1393598 0.1614251 0.1861669 0.2919131 0.6309423 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1273862 0.1216111 0.1425261 0.1615245 0.2214507 0.3106619 0.1918733 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          X1  X2  X3  X4 omega_1 omega_2 omega_3</span>
@@ -774,8 +779,68 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $q_l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_A_ploy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2]       [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA  0.4851061   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA  0.9583508   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA  1.3019409   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA  1.9132980   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA -2.3586851   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA  5.3263103   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA -1.2771524   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   NA   NA   NA   NA   NA   NA   NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> , , 4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]       [,2]       [,3]        [,4]      [,5]        [,6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $lev_no_ref_zer</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 25.61028</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.742077</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cox"</span>
