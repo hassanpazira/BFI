@@ -70,11 +70,11 @@
 <span>    theta_A_ploys <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    <span class="va">q_ls</span>,</span>
 <span>    center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    <span class="va">which_cent_zero</span>,</span>
-<span>    <span class="va">zero_sample_cov</span>,</span>
-<span>    <span class="va">refer_cat</span>,</span>
-<span>    <span class="va">zero_cat</span>,</span>
-<span>    <span class="va">lev_no_ref_zer</span><span class="op">)</span></span></code></pre></div>
+<span>    <span class="va">which_cent_zeros</span>,</span>
+<span>    <span class="va">zero_sample_covs</span>,</span>
+<span>    <span class="va">refer_cats</span>,</span>
+<span>    <span class="va">zero_cats</span>,</span>
+<span>    <span class="va">lev_no_ref_zeros</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -125,24 +125,25 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 <dd><p>logical flag indicating whether the center has a categorical covariate with no observations/individuals in one of the categories. Default is <code>center_zero_sample = FALSE</code>.</p></dd>
 
 
-<dt>which_cent_zero</dt>
-<dd><p>an integer vector representing the center(s) which has a categorical covariate with no individuals in one of the categories. It can be used if <code>center_zero_sample = TRUE</code></p></dd>
+<dt>which_cent_zeros</dt>
+<dd><p>an integer vector representing the center(s) which has one categorical covariate with no individuals in one of the categories. It is used if <code>center_zero_sample = TRUE</code></p></dd>
 
 
-<dt>zero_sample_cov</dt>
-<dd><p>either a character string or an integer representing the categorical covariate that has no samples/observations in one of its categories. This covariate should have at least two categories, one of which is the reference. It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
+<dt>zero_sample_covs</dt>
+<dd><p>a vector in which each element is a character string representing the categorical covariate that has no samples/observations in one of its categories for the corresponding center. Each element of the vector can be obtained from the output of the <code>MAP.estimation</code> function for the corresponding center, i.e., \(MAP.estimation()zero_sample_cov\). It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
-<dt>refer_cat</dt>
-<dd><p>a character string representing the reference category. The category with no observations (the argument <code>zero_cat</code>) cannot be used as the reference in the argument <code>refer_cat</code>. It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
+<dt>refer_cats</dt>
+<dd><p>a vector in which each element is a character string representing the reference category for the corresponding center. Each element of the vector can be obtained from the output of the <code>MAP.estimation</code> function for the corresponding center, i.e., \(MAP.estimation()$refer_cat\). This vector is used when <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
-<dt>zero_cat</dt>
-<dd><p>a character string representing the category with no samples/observations. It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
+<dt>zero_cats</dt>
+<dd><p>a vector in which each element is a character string representing the category with no samples/observations for the corresponding center. Each element of the vector can be obtained from the output of the <code>MAP.estimation</code> function for the corresponding center, i.e., \(MAP.estimation()$zero_cat\). It is used when <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
-<dt>lev_no_ref_zer</dt>
-<dd><p>a vector containing the names of the levels of the categorical covariate that has no samples/observations in one of its categories. The name of the category with no samples and the name of the reference category are excluded from this vector. This argument is shown when <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code>bfi()</code>.</p></dd>
+<dt>lev_no_ref_zeros</dt>
+<dd><p>a list in which the number of elements equals the length of the <code>which_cent_zeros</code> argument. Each element of the list is a vector containing the names of the levels of the categorical covariate that has no samples/observations in one of its categories for the corresponding center. However,  the name of the category with no samples and the name of the reference category are excluded from this vector. Each element of the list can be obtained from the output of the <code>MAP.estimation</code> function, i.e., \(MAP.estimation()$lev_no_ref_zero\).
+This argument is used if <code>family = "cox"</code> and <code>basehaz = "poly"</code>.</p></dd>
 
 
 </dl></div>
@@ -239,48 +240,35 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># Assume the same inverse covariance matrix (Lambda) for both centers:</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span>     <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fl">0.01</span>, family<span class="op">=</span><span class="st">'binomial'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family<span class="op">=</span><span class="st">'binomial'</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y1, X1, family = "binomial", Lambda):</span> argument "zero_sample_cov" is missing, with no default</span>
 <span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span> <span class="co"># intercept and coefficient estimates</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit1' not found</span>
 <span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># minus the curvature matrix</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit1' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># MAP Estimates at Center 2</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family<span class="op">=</span><span class="st">'binomial'</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y2, X2, family = "binomial", Lambda):</span> argument "zero_sample_cov" is missing, with no default</span>
 <span class="r-in"><span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit2' not found</span>
 <span class="r-in"><span><span class="va">A_hat2</span>     <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit2' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#----------------------</span></span></span>
 <span class="r-in"><span><span class="co"># BFI at Central Center</span></span></span>
 <span class="r-in"><span><span class="co">#----------------------</span></span></span>
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'A_hat1' not found</span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hat1' not found</span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, family<span class="op">=</span><span class="st">'binomial'</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "function"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘binomial’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘Logit’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.5599  1.0176 -0.4345   3.5543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1            2.1907  0.9217  0.3842   3.9973</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21           2.4232  1.3676 -0.2571   5.1036</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22           3.2543  1.7958 -0.2655   6.7741</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)      3.9536 -4.3945  1.5989  1.2484</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              -4.3945  7.1618 -1.7303 -2.2235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21              1.5989 -1.7303  1.6089  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22              1.2484 -2.2235  0.0000  1.2584</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in object[[i]]:</span> object of type 'closure' is not subsettable</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Stratified Analysis</span></span></span>
@@ -301,32 +289,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">newLam</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'binomial'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>                           strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'binomial'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘binomial’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘Logit’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   2.0712  1.0573 -0.0011   4.1434</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2   1.1068  0.9730 -0.8002   3.0138</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 1.3602  0.7385 -0.0873   2.8077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                1.2690  1.0010 -0.6930   3.2309</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                1.4196  1.2151 -0.9619   3.8011</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2      x1     x21     x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1           2.1437           0.0000 -2.6067  0.8052  0.6389</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2           0.0000           2.0000 -1.7878  0.7938  0.6096</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                        -2.6067          -1.7878  7.4518 -1.7303 -2.2235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                        0.8052           0.7938 -1.7303  1.8989  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                        0.6389           0.6096 -2.2235  0.0000  1.5484</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in object[[i]]:</span> object of type 'closure' is not subsettable</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###############################################</span></span></span>
@@ -379,54 +344,43 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># MAP Estimates at Center 1</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="va">fit1</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y1, X1, family = "gaussian", Lambda):</span> argument "zero_sample_cov" is missing, with no default</span>
 <span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span> <span class="co"># intercept and coefficient estimates</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit1' not found</span>
 <span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>     <span class="co"># minus the curvature matrix</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit1' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># MAP Estimates at Center 2</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y2, X2, family = "gaussian", Lambda):</span> argument "zero_sample_cov" is missing, with no default</span>
 <span class="r-in"><span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit2' not found</span>
 <span class="r-in"><span><span class="va">A_hat2</span>     <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit2' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># MAP Estimates at Center 3</span></span></span>
 <span class="r-in"><span><span class="co">#--------------------------</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span>       <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y3</span>, <span class="va">X3</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, <span class="va">Lambda</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y3, X3, family = "gaussian", Lambda):</span> argument "zero_sample_cov" is missing, with no default</span>
 <span class="r-in"><span><span class="va">theta_hat3</span> <span class="op">&lt;-</span> <span class="va">fit3</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit3' not found</span>
 <span class="r-in"><span><span class="va">A_hat3</span>     <span class="op">&lt;-</span> <span class="va">fit3</span><span class="op">$</span><span class="va">A_hat</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit3' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#----------------------</span></span></span>
 <span class="r-in"><span><span class="co"># BFI at Central Center</span></span></span>
 <span class="r-in"><span><span class="co">#----------------------</span></span></span>
 <span class="r-in"><span><span class="va">A_hats</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">A_hat1</span>, <span class="va">A_hat2</span>, <span class="va">A_hat3</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'A_hat1' not found</span>
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span>, <span class="va">theta_hat3</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hat1' not found</span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, family<span class="op">=</span><span class="st">'gaussian'</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9630  0.0966  0.7736   1.1524</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1            2.1060  0.0935  1.9227   2.2893</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2            2.1721  0.0953  1.9853   2.3589</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3            2.0065  0.1118  1.7873   2.2257</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.22 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)       X1       X2      X3   sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)    107.8308  -7.9603   0.9120  2.8864  -0.2843</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1              -7.9603 119.0443  -9.6101 16.0322  -0.6356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2               0.9120  -9.6101 111.0724  2.7901  -0.6447</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3               2.8864  16.0322   2.7901 82.4112  -0.5986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2843  -0.6356  -0.6447 -0.5986 240.5888</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in object[[i]]:</span> object of type 'closure' is not subsettable</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Stratified Analysis</span></span></span>
@@ -437,43 +391,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># 'newLam1' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
 <span class="r-in"><span><span class="va">list_newLam1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi1</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">list_newLam1</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi1</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   1.1385  0.1578  0.8293   1.4477</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2   1.0103  0.1690  0.6791   1.3416</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3   0.6840  0.1794  0.3324   1.0356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                 2.1335  0.0955  1.9464   2.3207</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                 2.1722  0.0954  1.9853   2.3592</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 1.9963  0.1121  1.7766   2.2160</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.218 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3       X1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1          40.3866           0.0000           0.0000  -4.5458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2           0.0000          36.1813           0.0000 -10.3343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3           0.0000           0.0000          31.5129   6.9198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                        -4.5458         -10.3343           6.9198 119.0943</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                         1.7993          -1.1946           0.3073  -9.6101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                         0.4537           2.7545          -0.3218  16.0322</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                    -0.1119          -0.1026          -0.0698  -0.6356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                        X2      X3   sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   1.7993  0.4537  -0.1119</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2  -1.1946  2.7545  -0.1026</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3   0.3073 -0.3218  -0.0698</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                -9.6101 16.0322  -0.6356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2               111.1224  2.7901  -0.6447</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 2.7901 82.4612  -0.5986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2            -0.6447 -0.5986 240.8388</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'bfi1' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratified analysis when 'sigma2' varies across two centers:</span></span></span>
 <span class="r-in"><span><span class="va">newLam2</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
@@ -481,43 +401,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># 'newLam2' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
 <span class="r-in"><span><span class="va">list_newLam2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">list_newLam2</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi2</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.9622  0.0966  0.7728   1.1515</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1            2.1048  0.0935  1.9215   2.2881</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2            2.1706  0.0953  1.9838   2.3573</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3            2.0050  0.1118  1.7859   2.2241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1   0.7406  0.1287  0.4884   0.9928</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2   1.1053  0.1115  0.8868   1.3238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.588 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)       X1       X2      X3 sigma2_loc1 sigma2_loc2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)    107.8808  -7.9603   0.9120  2.8864     -0.1119     -0.1026</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1              -7.9603 119.0943  -9.6101 16.0322     -0.2027     -0.2187</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2               0.9120  -9.6101 111.1224  2.7901     -0.2354     -0.2056</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3               2.8864  16.0322   2.7901 82.4612     -0.2082     -0.1956</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1     -0.1119  -0.2027  -0.2354 -0.2082     60.3988      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2     -0.1026  -0.2187  -0.2056 -0.1956      0.0000     80.4717</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc3     -0.0698  -0.2142  -0.2038 -0.1949      0.0000      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             sigma2_loc3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     -0.0698</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1              -0.2142</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2              -0.2038</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3              -0.1949</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc3    100.5683</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'bfi2' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:</span></span></span>
 <span class="r-in"><span><span class="va">newLam3</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">0.2</span>,<span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>,</span></span>
@@ -525,49 +411,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># 'newLam3' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
 <span class="r-in"><span><span class="va">list_newLam3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi3</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">list_newLam3</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi3</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   1.1371  0.1577  0.8279   1.4462</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2   1.0095  0.1684  0.6793   1.3396</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3   0.6853  0.1794  0.3337   1.0369</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                 2.1313  0.0953  1.9445   2.3181</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                 2.1696  0.0952  1.9830   2.3562</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 1.9939  0.1118  1.7748   2.2129</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1        0.7409  0.1287  0.4888   0.9931</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2        1.1054  0.1115  0.8869   1.3239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.588 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3       X1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1          40.3866           0.0000           0.0000  -4.5458</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2           0.0000          36.1813           0.0000 -10.3343</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3           0.0000           0.0000          31.5129   6.9198</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                        -4.5458         -10.3343           6.9198 119.1943</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                         1.7993          -1.1946           0.3073  -9.6101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                         0.4537           2.7545          -0.3218  16.0322</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1               -0.1119           0.0000           0.0000   1.7993</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2                0.0000          -0.1026           0.0000  -1.1946</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc3                0.0000           0.0000          -0.0698   0.3073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                        X2      X3 sigma2_loc1 sigma2_loc2 sigma2_loc3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc1   0.4537 -0.2354     -0.1119      0.0000      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc2   2.7545 -0.2056      0.0000     -0.1026      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_loc3  -0.3218 -0.2038      0.0000      0.0000     -0.0698</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                -9.6101 16.0322     -0.2027     -0.2187     -0.2142</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2               111.2224  2.7901     -0.2354     -0.2056     -0.2038</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 2.7901 82.5612     -0.2082     -0.1956     -0.1949</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc1       -0.2027 -0.2082     60.3988      0.0000      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc2       -0.2187 -0.1956      0.0000     80.4717      0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2_loc3       -0.2142 -0.1949      0.0000      0.0000    100.5683</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'bfi3' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Center Specific Covariates</span></span></span>
@@ -579,33 +425,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># 'newLam4' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
 <span class="r-in"><span><span class="va">l_newLam4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi4</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">l_newLam4</span>, family<span class="op">=</span><span class="st">'gaussian'</span>, stratified<span class="op">=</span><span class="cn">TRUE</span>, center_spec<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'theta_hats' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi4</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1   1.0025  0.1690  0.6713   1.3337</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3   0.9415  0.1181  0.7100   1.1730</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1              2.1078  0.0946  1.9223   2.2932</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2              2.1703  0.0953  1.9835   2.3572</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3              2.0013  0.1120  1.7818   2.2208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.218 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               (Intercept)_1 (Intercept)_3       X1       X2      X3   sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1       36.1813        0.0000 -10.3343  -1.1946  2.7545  -0.1026</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3        0.0000       71.7995   2.3740   2.1066  0.1319  -0.1817</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                 -10.3343        2.3740 119.1943  -9.6101 16.0322  -0.6356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                  -1.1946        2.1066  -9.6101 111.2224  2.7901  -0.6447</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                   2.7545        0.1319  16.0322   2.7901 82.5612  -0.5986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2              -0.1026       -0.1817  -0.6356  -0.6447 -0.5986 240.8388</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'bfi4' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

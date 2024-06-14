@@ -173,40 +173,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># Weibull baseline hazard</span></span></span>
 <span class="r-in"><span><span class="co">#------------------------</span></span></span>
 <span class="r-in"><span><span class="va">fit_weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family<span class="op">=</span><span class="st">'cox'</span>, Lambda<span class="op">=</span><span class="va">Lambda</span>, basehaz<span class="op">=</span><span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, basehaz = "weibul"):</span> argument "zero_sample_cov" is missing, with no default</span>
 <span class="r-in"><span><span class="co"># reltive risk is 1:</span></span></span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="va">time_points</span>, p<span class="op">=</span><span class="fl">10</span>, theta_hat<span class="op">=</span><span class="va">fit_weib</span><span class="op">$</span><span class="va">theta_hat</span>, basehaz<span class="op">=</span><span class="st">"weibul"</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.00000 68.17715 69.21756 69.83350 70.27384 70.61730 70.89918 71.13838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 71.34624 71.53009 71.69495 71.84441 71.98112 72.10712 72.22398 72.33293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] 72.43501 72.53102 72.62166 72.70750</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $cbhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0.0000  107.2127  217.6976  329.4522  442.0395  555.2499  668.9595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  783.0859  897.5702 1012.3685 1127.4464 1242.7764 1358.3361 1474.1066</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 1590.0720 1706.2187 1822.5349 1939.0101 2055.6352 2172.4020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $bsurvival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1.000000e+00  2.742303e-47  2.851896e-95 8.331425e-144 1.058522e-192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 7.211424e-242 2.982435e-291  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  0.00000 68.17715 69.21756 69.83350 70.27384 70.61730 70.89918 71.13838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] 71.34624 71.53009 71.69495 71.84441 71.98112 72.10712 72.22398 72.33293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] 72.43501 72.53102 72.62166 72.70750</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]    0.0000  107.2127  217.6976  329.4522  442.0395  555.2499  668.9595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8]  783.0859  897.5702 1012.3685 1127.4464 1242.7764 1358.3361 1474.1066</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 1590.0720 1706.2187 1822.5349 1939.0101 2055.6352 2172.4020</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1.000000e+00  2.742303e-47  2.851896e-95 8.331425e-144 1.058522e-192</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6] 7.211424e-242 2.982435e-291  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16]  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit_weib' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Gompertz baseline hazard</span></span></span>
