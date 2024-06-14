@@ -59,12 +59,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"cox"</span><span class="op">)</span>,</span>
-<span>               <span class="va">Lambda</span>, intercept <span class="op">=</span> <span class="cn">TRUE</span>, initial <span class="op">=</span> <span class="cn">NULL</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>,</span>
+<span>               <span class="va">X</span>,</span>
+<span>               family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"cox"</span><span class="op">)</span>,</span>
+<span>               <span class="va">Lambda</span>,</span>
+<span>               intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>               initial <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>               basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>,<span class="st">"exp"</span>,<span class="st">"gomp"</span>,<span class="st">"poly"</span>,<span class="st">"pwexp"</span><span class="op">)</span>,</span>
-<span>               alpha <span class="op">=</span> <span class="fl">0.1</span>, max_order <span class="op">=</span> <span class="fl">2</span>, n_intervals <span class="op">=</span> <span class="fl">4</span>,</span>
-<span>               <span class="va">min_max_times</span>, center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>               <span class="va">zero_sample_cov</span>, <span class="va">refer_cat</span>, <span class="va">zero_cat</span>,</span>
+<span>               alpha <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>               max_order <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>               n_intervals <span class="op">=</span> <span class="fl">4</span>,</span>
+<span>               <span class="va">min_max_times</span>,</span>
+<span>               center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>               <span class="va">zero_sample_cov</span>,</span>
+<span>               <span class="va">refer_cat</span>,</span>
+<span>               <span class="va">zero_cat</span>,</span>
 <span>               control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
     </div>
 
