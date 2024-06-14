@@ -194,15 +194,15 @@
 
 
 <dt>zero_sample_cov</dt>
-<dd><p>a character string representing the categorical covariate that has no samples/observations in one of its categories. It is shown when <code>center_zero_sample = TRUE</code>, and can be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+<dd><p>the categorical covariate that has no samples/observations in one of its categories. It is shown when <code>center_zero_sample = TRUE</code>, and can be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>refer_cat</dt>
-<dd><p>a character string representing the reference category. It is shown when <code>center_zero_sample = TRUE</code>, and can be used in the function <code><a href="BFI.html">bfi()</a></code></p></dd>
+<dd><p>the reference category. It is shown when <code>center_zero_sample = TRUE</code>, and can be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>zero_cat</dt>
-<dd><p>a character string representing the category with no samples/observations. It is shown when <code>center_zero_sample = TRUE</code>, and can be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+<dd><p>the category with no samples/observations. It is shown when <code>center_zero_sample = TRUE</code>, and can be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>value</dt>
@@ -210,7 +210,7 @@
 
 
 <dt>family</dt>
-<dd><p>the <code>family</code> object used.;</p></dd>
+<dd><p>the <code>family</code> used;</p></dd>
 
 
 <dt>intercept</dt>
@@ -297,7 +297,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">###--------------###</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">###--------------###</span></span></span>
 <span class="r-in"><span><span class="co">### y ~ Gaussian ###</span></span></span>
 <span class="r-in"><span><span class="co">###--------------###</span></span></span>
 <span class="r-in"><span></span></span>
@@ -533,8 +534,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "weibul" function</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
-<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit</span></span></span>
+<span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3       X4  omega_1  omega_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.227601 2.455780 3.347414 4.942387 1.449874 1.917162 </span>
@@ -599,15 +600,15 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
-<span class="r-in"><span><span class="va">fit</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
+<span class="r-in"><span><span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3       X4  omega_1  omega_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.227601 2.455780 3.347414 4.942387 1.449874 1.917162 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "poly" function</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
-<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                      basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                       basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
@@ -743,14 +744,14 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="co"># Degree of the exponentiated polynomial baseline hazard</span></span></span>
-<span class="r-in"><span><span class="va">fit</span><span class="op">$</span><span class="va">q_l</span> <span class="op">+</span> <span class="fl">1</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span> <span class="op">+</span> <span class="fl">1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-in"><span><span class="co"># theta_hat for (beta_1, ..., beta_p, omega_0, ..., omega_{q_l})</span></span></span>
-<span class="r-in"><span><span class="va">fit</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># equal to fit$theta_hat</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># equal to fit3$theta_hat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_0    omega_1    omega_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
 <span class="r-in"><span><span class="co"># A_hat</span></span></span>
-<span class="r-in"><span><span class="va">fit</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="va">fit</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">2</span><span class="op">]</span> <span class="co"># equal to fit$A_hat</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">2</span><span class="op">]</span> <span class="co"># equal to fit3$A_hat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]       [,2]       [,3]        [,4]      [,5]        [,6]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
@@ -767,8 +768,39 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  47.746691</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  69.238115</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 115.342663</span>
-<span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co">#summary(fit, cur_mat = TRUE) #! 'cox'</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit3</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 + X4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘cox’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.4851  0.1274  0.2354   0.7348</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.9584  0.1216  0.7200   1.1967</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.3019  0.1425  1.0226   1.5813</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.9133  0.1615  1.5967   2.2299</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  -2.3587  0.2215 -2.7927  -1.9246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   5.3263  0.3107  4.7174   5.9352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  -1.2772  0.1919 -1.6532  -0.9011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  -1.277 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  1.742 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3       X4 omega_1  omega_2  omega_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671  3.8209  -5.7207  -0.2299  7.2938   0.8410  -1.2494</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209 83.3339   3.2493  -6.1135 15.8273  -0.7239  -6.3916</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7207  3.2493  71.7894  11.0856 -2.6684 -24.8958 -41.2733</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299 -6.1135  11.0856  66.2836 23.4187  -7.2190 -17.2399</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938 15.8273  -2.6684  23.4187 72.9359  42.6320  47.7467</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8410 -0.7239 -24.8958  -7.2190 42.6320  56.7467  69.2381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494 -6.3916 -41.2733 -17.2399 47.7467  69.2381 115.3427</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "pwexp" function</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
@@ -776,7 +808,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Minimum of the maximum values of the survival times of all 4 centers is</span></span></span>
 <span class="r-in"><span><span class="va">min_max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, <span class="va">max_times</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
 <span class="r-in"><span>                      basehaz <span class="op">=</span> <span class="st">"pwexp"</span>, n_intervals <span class="op">=</span> <span class="fl">3</span>,</span></span>
 <span class="r-in"><span>                      min_max_times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -787,141 +819,10 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> try-error in beta_loga_logb_hat, now is -5 &amp; 5  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = b.diag(Lambda,     0.1), basehaz = "pwexp", n_intervals = 3, min_max_times = max(y$time)):</span> The algorithm did not converge.</span>
-<span class="r-in"><span><span class="va">fit</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3          X4   omega_1     omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            omega_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3        X4   omega_1   omega_2   omega_3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.1273862 0.1216111 0.1425261 0.1615245 0.2214507 0.3106619 0.1918733 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          X1  X2  X3  X4 omega_1 omega_2 omega_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      0.1 0.0 0.0 0.0     0.0       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2      0.0 0.1 0.0 0.0     0.0       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      0.0 0.0 0.1 0.0     0.0       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      0.0 0.0 0.0 0.1     0.0       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1 0.0 0.0 0.0 0.0     0.1       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 0.0 0.0 0.0 0.0     0.0       1     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 0.0 0.0 0.0 0.0     0.0       0     0.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3 + X4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"      "X2"      "X3"      "X4"      "omega_1" "omega_2" "omega_3"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $q_l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_A_ploy</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> , , 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2]       [,3] [,4] [,5] [,6] [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA  0.4851061   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA  0.9583508   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA  1.3019409   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA  1.9132980   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0   NA   NA -2.3586851   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA  5.3263103   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA -1.2771524   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> , , 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0   NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> , , 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2] [,3] [,4] [,5] [,6] [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0   NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   NA   NA   NA   NA   NA   NA   NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> , , 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]       [,2]       [,3]        [,4]      [,5]        [,6]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  47.746691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  69.238115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 115.342663</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $lev_no_ref_zero</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_sample_cov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.742077</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cox"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span><span class="va">fit4</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit4' not found</span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit4</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit4' not found</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
