@@ -59,14 +59,21 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bfi</span><span class="op">(</span>theta_hats <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>,</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bfi</span><span class="op">(</span>theta_hats <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    <span class="va">A_hats</span>,</span>
+<span>    <span class="va">Lambda</span>,</span>
 <span>    family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"cox"</span><span class="op">)</span>,</span>
-<span>    stratified <span class="op">=</span> <span class="cn">FALSE</span>, strat_par <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    stratified <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    strat_par <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    center_spec <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>,<span class="st">"exp"</span>,<span class="st">"poly"</span>,<span class="st">"gomp"</span>,<span class="st">"pwexp"</span><span class="op">)</span>,</span>
-<span>    theta_A_ploys <span class="op">=</span> <span class="cn">NULL</span>, <span class="va">q_ls</span>,</span>
-<span>    center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">which_cent_zero</span>,</span>
-<span>    <span class="va">zero_sample_cov</span>, <span class="va">refer_cat</span>, <span class="va">zero_cat</span>,</span>
+<span>    theta_A_ploys <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    <span class="va">q_ls</span>,</span>
+<span>    center_zero_sample <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>    <span class="va">which_cent_zero</span>,</span>
+<span>    <span class="va">zero_sample_cov</span>,</span>
+<span>    <span class="va">refer_cat</span>,</span>
+<span>    <span class="va">zero_cat</span>,</span>
 <span>    <span class="va">lev_no_ref_zer</span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -107,18 +114,19 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 
 
 <dt>theta_A_ploys</dt>
-<dd><p>an array where the first component is a matrix with columns representing the MAP estimates of the parameters for different <code>q_l</code>'s. The other components are minus the curvature matrices for the determined <code>q_l</code> until the maximum <code>q_l</code>, i.e., <code>max_order</code>. Therefore, the first non-NA curvature matrix is equal to the output argument <code>A_hat</code>. This output argument, <code>theta_A_ploys</code>, is only shown when <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code>bfi()</code>.</p></dd>
+<dd><p>a list with \(L\) elements so that each element is the array <code>theta_A_ploy</code> (the output of the <code>MAP.estimation</code> function, \(MAP.estimation()$theta_A_ploy\)) for the correcponding center. This argument, <code>theta_A_ploys</code>, is only used if <code>family = "cox"</code> and <code>basehaz = "poly"</code>. See ‘Details’.</p></dd>
 
 
 <dt>q_ls</dt>
-<dd><p>the order/degree minus 1 of the exponentiated polynomial baseline hazard function determined for the current center by the likelihood ratio test. This output argument, <code>q_l</code>, is only shown when <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code>bfi()</code>.</p></dd>
-</dl><p># 'q_ls' could be an scalar!</p>
-<dl><dt>center_zero_sample</dt>
+<dd><p>a vector with \(L\) elements in which each element is the order (minus 1) of the exponentiated polynomial baseline hazard function for the corresponding center, i.e., each element is the value of <code>q_l</code> (the output of the <code>MAP.estimation</code> function, \(MAP.estimation()$q_l\)). This argument, <code>q_ls</code>, is only used if <code>family = "cox"</code> and <code>basehaz = "poly"</code>. It can also be an scalar which represents the maximum value of the <code>q_l</code>'s across the centers.</p></dd>
+
+
+<dt>center_zero_sample</dt>
 <dd><p>logical flag indicating whether the center has a categorical covariate with no observations/individuals in one of the categories. Default is <code>center_zero_sample = FALSE</code>.</p></dd>
 
 
 <dt>which_cent_zero</dt>
-<dd><p>.</p></dd>
+<dd><p>an integer vector representing the center(s) which has a categorical covariate with no individuals in one of the categories. It can be used if <code>center_zero_sample = TRUE</code></p></dd>
 
 
 <dt>zero_sample_cov</dt>
