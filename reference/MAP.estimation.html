@@ -65,7 +65,7 @@
 <span>               <span class="va">Lambda</span>,</span>
 <span>               intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>               initial <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>               basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>,<span class="st">"exp"</span>,<span class="st">"gomp"</span>,<span class="st">"poly"</span>,<span class="st">"pwexp"</span><span class="op">)</span>,</span>
+<span>               basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>, <span class="st">"exp"</span>, <span class="st">"gomp"</span>, <span class="st">"poly"</span>, <span class="st">"pwexp"</span><span class="op">)</span>,</span>
 <span>               alpha <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>               max_order <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>               n_intervals <span class="op">=</span> <span class="fl">4</span>,</span>
@@ -104,7 +104,8 @@
 
 
 <dt>basehaz</dt>
-<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise exponential</code> (<code>"pwexp"</code>). It is only used when <code>family = "cox"</code>.</p></dd>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). It is only used when <code>family = "cox"</code>. If local sample size is large and the shape of the baseline
+hazard function is completely unknown, the ``exponentiated polynomial'' and ``piecewise exponential'' hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the ``piecewise exponential'' hazard function with many intervals.</p></dd>
 
 
 <dt>alpha</dt>
@@ -531,9 +532,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">## Simulating survival data from Weibull with a predefined censoring rate of 0.3</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="surv.simulate.html">surv.simulate</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, beta <span class="op">=</span> <span class="va">beta</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1.8</span><span class="op">)</span>, u1 <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
 <span class="r-in"><span>                   cen_rate <span class="op">=</span> <span class="fl">0.3</span>, gen_data_from <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span><span class="op">$</span><span class="va">D</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "weibul" function</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
@@ -606,8 +607,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "poly" function</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
-<span class="r-in"><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                       basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span> <span class="co">#! omit</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
@@ -660,7 +661,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> $q_l</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_A_ploy</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_A_poly</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> , , 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         [,1] [,2]       [,3] [,4] [,5] [,6] [,7]</span>
@@ -748,33 +749,16 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-in"><span><span class="co"># theta_hat for (beta_1, ..., beta_p, omega_0, ..., omega_{q_l})</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># equal to fit3$theta_hat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_0    omega_1    omega_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="co"># A_hat</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">2</span><span class="op">]</span> <span class="co"># equal to fit3$A_hat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]       [,2]       [,3]        [,4]      [,5]        [,6]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  47.746691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  69.238115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 115.342663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit3</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 + X4 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘cox’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -804,13 +788,13 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "pwexp" function</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="co">#! omit</span></span></span>
 <span class="r-in"><span><span class="co"># Maximum survival times from the 3 other centers are</span></span></span>
 <span class="r-in"><span><span class="va">max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Minimum of the maximum values of the survival times of all 4 centers is</span></span></span>
 <span class="r-in"><span><span class="va">min_max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, <span class="va">max_times</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span>,</span></span>
-<span class="r-in"><span>                      basehaz <span class="op">=</span> <span class="st">"pwexp"</span>, n_intervals <span class="op">=</span> <span class="fl">3</span>,</span></span>
-<span class="r-in"><span>                      min_max_times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"pwexp"</span>,</span></span>
+<span class="r-in"><span>                       n_intervals <span class="op">=</span> <span class="fl">3</span>, min_max_times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  no. obser. in the intervals in the center :  73 18 9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
@@ -818,7 +802,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> try-error in beta_loga_logb_hat, now is -5 &amp; 5  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = b.diag(Lambda,     0.1), basehaz = "pwexp", n_intervals = 3, min_max_times = max(y$time)):</span> The algorithm did not converge.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "cox", Lambda = Lambda, basehaz = "pwexp",     n_intervals = 3, min_max_times = max(y$time)):</span> The algorithm did not converge.</span>
 <span class="r-in"><span><span class="va">fit4</span></span></span>
 <span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in eval(expr, envir, enclos):</span> object 'fit4' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit4</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
