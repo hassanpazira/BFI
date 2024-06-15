@@ -532,7 +532,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">## Simulating survival data from Weibull with a predefined censoring rate of 0.3</span></span></span>
 <span class="r-in"><span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="surv.simulate.html">surv.simulate</a></span><span class="op">(</span>Z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, beta <span class="op">=</span> <span class="va">beta</span>, a <span class="op">=</span> <span class="fl">5</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1.8</span><span class="op">)</span>, u1 <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
 <span class="r-in"><span>                   cen_rate <span class="op">=</span> <span class="fl">0.3</span>, gen_data_from <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span><span class="op">$</span><span class="va">D</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">]</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co">#! 'cox'</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "weibul" function</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
@@ -606,51 +606,51 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1.227601 2.455780 3.347414 4.942387 1.449874 1.917162 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "poly" function</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co">#! 'cox'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">0.1</span><span class="op">)</span> <span class="co">#! omit</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2    omega_3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_0    omega_1    omega_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.4851061  0.9583508  1.3019409  1.9132980 -2.3586851  5.3263103 -1.2771524 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3          X4   omega_1     omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2         X3          X4   omega_0     omega_1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671024  3.8209121  -5.720692  -0.2299187  7.293813   0.8409732</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209121 83.3339481   3.249343  -6.1135305 15.827349  -0.7239149</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7206921  3.2493435  71.789381  11.0855653 -2.668405 -24.8958239</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299187 -6.1135305  11.085565  66.2836154 23.418743  -7.2189523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>            omega_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2938125 15.8273492  -2.668405  23.4187425 72.935902  42.6319895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  0.8409732 -0.7239149 -24.895824  -7.2189523 42.631990  56.7466906</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -1.2494207 -6.3916063 -41.273258 -17.2398551 47.746691  69.2381151</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>            omega_2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X1       -1.249421</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X2       -6.391606</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X3      -41.273258</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X4      -17.239855</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  47.746691</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  69.238115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 115.342663</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  47.746691</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  69.238115</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 115.342663</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3        X4   omega_1   omega_2   omega_3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3        X4   omega_0   omega_1   omega_2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.1273862 0.1216111 0.1425261 0.1615245 0.2214507 0.3106619 0.1918733 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          X1  X2  X3  X4 omega_1 omega_2 omega_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          X1  X2  X3  X4 omega_0 omega_1 omega_2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X1      0.1 0.0 0.0 0.0     0.0       0     0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X2      0.0 0.1 0.0 0.0     0.0       0     0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X3      0.0 0.0 0.1 0.0     0.0       0     0.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X4      0.0 0.0 0.0 0.1     0.0       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1 0.0 0.0 0.0 0.0     0.1       0     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 0.0 0.0 0.0 0.0     0.0       1     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 0.0 0.0 0.0 0.0     0.0       0     0.1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0 0.0 0.0 0.0 0.0     0.1       0     0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1 0.0 0.0 0.0 0.0     0.0       1     0.0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 0.0 0.0 0.0 0.0     0.0       0     0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3 + X4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"      "X2"      "X3"      "X4"      "omega_1" "omega_2" "omega_3"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"      "X2"      "X3"      "X4"      "omega_0" "omega_1" "omega_2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
@@ -767,9 +767,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.9584  0.1216  0.7200   1.1967</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.3019  0.1425  1.0226   1.5813</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.9133  0.1615  1.5967   2.2299</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  -2.3587  0.2215 -2.7927  -1.9246</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   5.3263  0.3107  4.7174   5.9352</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  -1.2772  0.1919 -1.6532  -0.9011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -2.3587  0.2215 -2.7927  -1.9246</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   5.3263  0.3107  4.7174   5.9352</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  -1.2772  0.1919 -1.6532  -0.9011</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  -1.277 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  1.742 </span>
@@ -777,17 +777,17 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3       X4 omega_1  omega_2  omega_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3       X4 omega_0  omega_1  omega_2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X1      65.0671  3.8209  -5.7207  -0.2299  7.2938   0.8410  -1.2494</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.8209 83.3339   3.2493  -6.1135 15.8273  -0.7239  -6.3916</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X3      -5.7207  3.2493  71.7894  11.0856 -2.6684 -24.8958 -41.2733</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.2299 -6.1135  11.0856  66.2836 23.4187  -7.2190 -17.2399</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.2938 15.8273  -2.6684  23.4187 72.9359  42.6320  47.7467</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  0.8410 -0.7239 -24.8958  -7.2190 42.6320  56.7467  69.2381</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.2494 -6.3916 -41.2733 -17.2399 47.7467  69.2381 115.3427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2938 15.8273  -2.6684  23.4187 72.9359  42.6320  47.7467</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  0.8410 -0.7239 -24.8958  -7.2190 42.6320  56.7467  69.2381</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -1.2494 -6.3916 -41.2733 -17.2399 47.7467  69.2381 115.3427</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "pwexp" function</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co"># 'cox'</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span> <span class="co">#! 'cox'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="b.diag.html">b.diag</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="fl">.1</span><span class="op">)</span> <span class="co">#! omit</span></span></span>
 <span class="r-in"><span><span class="co"># Maximum survival times from the 3 other centers are</span></span></span>
 <span class="r-in"><span><span class="va">max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>

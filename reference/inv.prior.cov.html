@@ -138,7 +138,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#----------------</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#----------------</span></span></span>
 <span class="r-in"><span><span class="co"># Data Simulation</span></span></span>
 <span class="r-in"><span><span class="co">#----------------</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>x1<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span>,                     <span class="co"># standard normal variable</span></span></span>
@@ -181,16 +182,13 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.00 0.00 0.00 0.00 0.00   0.05</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Cox family with 'weibul' baseline hazard</span></span></span>
-<span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'cox'</span><span class="op">)</span> <span class="co"># returns a 6-by-6 matrix</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(family, mode = "function", envir = parent.frame()):</span> object 'cox' of mode 'function' was not found</span>
+<span class="r-in"><span><span class="co">#inv.prior.cov(X, lambda = c(0.05, 0.1), family = 'cox') # returns a 6-by-6 matrix</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Cox family with 'pwexp' baseline hazard (4 intervals)</span></span></span>
-<span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fl">0.05</span>, family <span class="op">=</span> <span class="st">'cox'</span><span class="op">)</span> <span class="co"># returns a 8-by-8 matrix</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(family, mode = "function", envir = parent.frame()):</span> object 'cox' of mode 'function' was not found</span>
+<span class="r-in"><span><span class="co">#inv.prior.cov(X, lambda = 0.05, family = 'cox') # returns a 8-by-8 matrix</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Cox family with 'poly' baseline hazard</span></span></span>
-<span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'cox'</span><span class="op">)</span> <span class="co"># returns a 7-by-7 matrix</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in get(family, mode = "function", envir = parent.frame()):</span> object 'cox' of mode 'function' was not found</span>
+<span class="r-in"><span><span class="co">#inv.prior.cov(X, lambda = c(0.05, 0.1), family = 'cox') # returns a 7-by-7 matrix</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Stratified analysis</span></span></span>
