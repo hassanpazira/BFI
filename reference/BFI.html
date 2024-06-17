@@ -659,6 +659,37 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span>  <span class="co"># coefficient estimates</span></span></span>
 <span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>      <span class="co"># minus the curvature matrix</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: Survival(time, status) ~ X1 + X2 + X3 + X4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘cox’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.5639  0.2132  0.1461   0.9817</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.7348  0.1955  0.3517   1.1180</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.2064  0.1883  0.8373   1.5755</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.5217  0.1809  1.1671   1.8762</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.7648  0.3289 -2.4095  -1.1201</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   2.2048  0.3254  1.5671   2.8426</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   0.6856  0.3501 -0.0006   1.3719</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  2.644 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2      X3       X4 omega_0 omega_1  omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      27.2111  0.1077 -0.0258   9.1153 11.7577  4.4990   3.1568</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       0.1077 31.9875 -8.0390   6.5430 -2.2357 -6.5044  -8.4568</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -0.0258 -8.0390 35.8543   3.3953  3.5783 -4.0043  -5.1362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4       9.1153  6.5430  3.3953  59.2482 15.8017 -6.3566 -11.6363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0 11.7577 -2.2357  3.5783  15.8017 31.8764 16.8959  18.4256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  4.4990 -6.5044 -4.0043  -6.3566 16.8959 27.4256  23.6641</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  3.1568 -8.4568 -5.1362 -11.6363 18.4256 23.6641  32.5904</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#---------------------------------------------#</span></span></span>
 <span class="r-in"><span><span class="co"># Simulating Survival data for Local Center 2 #</span></span></span>
@@ -671,6 +702,37 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
 <span class="r-in"><span><span class="va">A_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit2</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: Survival(time, status) ~ X1 + X2 + X3 + X4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘cox’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.1963  0.1708 -0.1383   0.5310</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.9591  0.1873  0.5920   1.3262</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.3306  0.2007  0.9372   1.7241</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.3930  0.2231  0.9557   1.8304</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.4568  0.2572 -1.9608  -0.9528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   3.5348  0.3196  2.9084   4.1612</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  -0.2040  0.2711 -0.7353   0.3273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  0.7456 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1       X2       X3       X4 omega_0 omega_1  omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      36.9336   6.1952  -1.2272  -3.1924  7.0782  3.6568   5.8143</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       6.1952  41.6887   0.3025   0.0034  8.2193 -3.4645 -11.4031</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -1.2272   0.3025  34.5812   6.3341  2.7942 -9.0996 -15.2377</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -3.1924   0.0034   6.3341  28.8288  4.4653 -7.0394 -12.8066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.0782   8.2193   2.7942   4.4653 38.8457 19.9472  21.0986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  3.6568  -3.4645  -9.0996  -7.0394 19.9472 30.0986  30.1597</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  5.8143 -11.4031 -15.2377 -12.8066 21.0986 30.1597  49.9710</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------#</span></span></span>
 <span class="r-in"><span><span class="co"># BFI at Central Center #</span></span></span>
@@ -697,8 +759,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.4979  0.1972 -1.8844  -1.1115</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   3.0640  0.2331  2.6072   3.5208</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   0.0157  0.2093 -0.3946   0.4259</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  0.01567 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
