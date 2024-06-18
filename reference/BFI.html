@@ -88,7 +88,7 @@
 
 
 <dt>family</dt>
-<dd><p>a character string representing the family name used for the local centers.</p></dd>
+<dd><p>a character string representing the family name used for the local centers. Can be abbreviated.</p></dd>
 
 
 <dt>Lambda</dt>
@@ -110,7 +110,7 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 
 
 <dt>basehaz</dt>
-<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise exponential</code> (<code>"pwexp"</code>). It is only used when <code>family = "cox"</code>.</p></dd>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise exponential</code> (<code>"pwexp"</code>). It is only used when <code>family = "cox"</code>. Can be abbreviated.</p></dd>
 
 
 <dt>theta_A_polys</dt>
@@ -191,7 +191,7 @@ The last matrix of the list in the argument <code>Lambda</code> can be built by 
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024). <em>Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets</em>, <em>Statistics in Medicine</em>, 43(12): 2421-2438. &lt;https://doi.org/10.1002/sim.10072&gt;</p>
-<p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2024). <em>Bayesian Federated Inference for Survival Models</em>, <em>Statistics in Medicine</em>, 1-22. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
+<p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2024). <em>Bayesian Federated Inference for Survival Models</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
@@ -712,27 +712,27 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.1963  0.1708 -0.1383   0.5310</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.9591  0.1873  0.5920   1.3262</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.3306  0.2007  0.9372   1.7241</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.3930  0.2231  0.9557   1.8304</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.4568  0.2572 -1.9608  -0.9528</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   3.5348  0.3196  2.9084   4.1612</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  -0.2040  0.2711 -0.7353   0.3273</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.2343  0.1735 -0.1058   0.5744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.6686  0.2055  0.2658   1.0715</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.3558  0.2281  0.9087   1.8029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.5456  0.1894  1.1743   1.9168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.4427  0.2835 -1.9984  -0.8869</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   2.8212  0.3222  2.1898   3.4526</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  -0.1425  0.2666 -0.6651   0.3802</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  0.7456 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -0.6961 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              X1       X2       X3       X4 omega_0 omega_1  omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      36.9336   6.1952  -1.2272  -3.1924  7.0782  3.6568   5.8143</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       6.1952  41.6887   0.3025   0.0034  8.2193 -3.4645 -11.4031</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -1.2272   0.3025  34.5812   6.3341  2.7942 -9.0996 -15.2377</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -3.1924   0.0034   6.3341  28.8288  4.4653 -7.0394 -12.8066</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.0782   8.2193   2.7942   4.4653 38.8457 19.9472  21.0986</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  3.6568  -3.4645  -9.0996  -7.0394 19.9472 30.0986  30.1597</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  5.8143 -11.4031 -15.2377 -12.8066 21.0986 30.1597  49.9710</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3       X4 omega_0  omega_1  omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      35.8003 -1.3818   6.7743   3.9346 -1.8763  -5.7545  -8.8256</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2      -1.3818 34.2316  12.5773  -0.0865 17.1543   5.2691   3.8505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3       6.7743 12.5773  33.8715   3.6799 11.0610  -4.9779 -12.2291</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4       3.9346 -0.0865   3.6799  40.9682  3.6917 -10.7839 -17.1032</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0 -1.8763 17.1543  11.0610   3.6917 35.8442  17.5534  20.1340</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1 -5.7545  5.2691  -4.9779 -10.7839 17.5534  29.1340  30.1511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -8.8256  3.8505 -12.2291 -17.1032 20.1340  30.1511  50.1804</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------#</span></span></span>
 <span class="r-in"><span><span class="co"># BFI at Central Center #</span></span></span>
@@ -752,24 +752,24 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.3083  0.1307  0.0522   0.5644</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.8928  0.1327  0.6327   1.1529</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.2660  0.1370  0.9975   1.5346</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.4243  0.1324  1.1649   1.6838</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.4979  0.1972 -1.8844  -1.1115</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   3.0640  0.2331  2.6072   3.5208</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   0.0157  0.2093 -0.3946   0.4259</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.3609  0.1305  0.1051   0.6167</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.7265  0.1313  0.4692   0.9838</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.2671  0.1392  0.9943   1.5398</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.4884  0.1268  1.2400   1.7369</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.5217  0.2065 -1.9264  -1.1170</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   2.6898  0.2343  2.2305   3.1491</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   0.0498  0.2090 -0.3597   0.4594</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              X1       X2       X3       X4 omega_0  omega_1  omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      64.0447   6.3029  -1.2530   5.9229 18.8359   8.1558   8.9711</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       6.3029  73.5761  -7.7365   6.5464  5.9836  -9.9688 -19.8599</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -1.2530  -7.7365  70.3355   9.7294  6.3724 -13.1038 -20.3738</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4       5.9229   6.5464   9.7294  87.9770 20.2671 -13.3960 -24.4429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0 18.8359   5.9836   6.3724  20.2671 70.6221  36.8431  39.5242</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  8.1558  -9.9688 -13.1038 -13.3960 36.8431  56.5242  53.8238</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  8.9711 -19.8599 -20.3738 -24.4429 39.5242  53.8238  82.4614</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3       X4 omega_0  omega_1  omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      62.9114 -1.2741   6.7485  13.0499  9.8814  -1.2555  -5.6689</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2      -1.2741 66.1191   4.5384   6.4565 14.9185  -1.2353  -4.6064</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3       6.7485  4.5384  69.6259   7.0753 14.6393  -8.9821 -17.3652</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      13.0499  6.4565   7.0753 100.1164 19.4934 -17.1405 -28.7394</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  9.8814 14.9185  14.6393  19.4934 67.6206  34.4493  38.5595</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1 -1.2555 -1.2353  -8.9821 -17.1405 34.4493  55.5595  53.8152</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -5.6689 -4.6064 -17.3652 -28.7394 38.5595  53.8152  82.6707</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

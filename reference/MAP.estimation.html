@@ -88,7 +88,7 @@
 
 
 <dt>family</dt>
-<dd><p>a description of the error distribution. This is a character string naming a family of the model. In the current version of the package, the family of model can be <code>"gaussian"</code> (with <code>identity</code> link function), <code>"binomial"</code> (with <code>logit</code> link function), or <code>"cox"</code>. By default the <code>gaussian</code> family is used. In case of a linear regression model, <code>family = "gaussian"</code>, there is an extra model parameter for the variance of measurement error. While in the case of survival model, <code>family = "cox"</code>, the number of the model parameters depend on the choice of baseline hazard functions, see ‘Details’ for more information.</p></dd>
+<dd><p>a description of the error distribution. This is a character string naming a family of the model. In the current version of the package, the family of model can be <code>"gaussian"</code> (with <code>identity</code> link function), <code>"binomial"</code> (with <code>logit</code> link function), or <code>"cox"</code>. Can be abbreviated. By default the <code>gaussian</code> family is used. In case of a linear regression model, <code>family = "gaussian"</code>, there is an extra model parameter for the variance of measurement error. While in the case of survival model, <code>family = "cox"</code>, the number of the model parameters depend on the choice of baseline hazard functions, see ‘Details’ for more information.</p></dd>
 
 
 <dt>Lambda</dt>
@@ -104,8 +104,7 @@
 
 
 <dt>basehaz</dt>
-<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). It is only used when <code>family = "cox"</code>. If local sample size is large and the shape of the baseline
-hazard function is completely unknown, the ``exponentiated polynomial'' and ``piecewise exponential'' hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the ``piecewise exponential'' hazard function with many intervals.</p></dd>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). Can be abbreviated. It is only used when <code>family = "cox"</code>. If local sample size is large and the shape of the baseline hazard function is completely unknown, the ``exponentiated polynomial'' and ``piecewise exponential'' hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the ``piecewise exponential'' hazard function with many intervals.</p></dd>
 
 
 <dt>alpha</dt>
@@ -283,7 +282,7 @@ The convergence can be checked with the argument <code>convergence</code> in the
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024). <em>Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets</em>, <em>Statistics in Medicine</em>, 43(12): 2421-2438. &lt;https://doi.org/10.1002/sim.10072&gt;</p>
-<p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2024). <em>Bayesian Federated Inference for Survival Models</em>, <em>Statistics in Medicine</em>, 1-22. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
+<p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2024). <em>Bayesian Federated Inference for Survival Models</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
 <p>Byrd R.H., Lu P., Nocedal J. and Zhu C. (1995). <em>A limited memory algorithm for bound constrained optimization</em>. SIAM Journal on Scientific Computing, 16, 1190-1208. &lt;https://doi.org/10.1137/0916069&gt;</p>
     </div>
     <div class="section level2">
