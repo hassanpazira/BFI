@@ -80,7 +80,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>y</dt>
-<dd><p>response vector. If the “<code>binomial</code>” family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of “successes” and the second column is the number of “failures”. For the “<code>cox</code>” family, the response is a matrix where the first column is the survival time, named “time”, and the second column is the censoring indicator, named “status”, with 0 indicating censored and 1 indicating event time.</p></dd>
+<dd><p>response vector. If the “<code>binomial</code>” family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of “successes” and the second column is the number of “failures”. For the “<code>cox</code>” family, the response is a matrix where the first column is the survival time, named “time”, and the second column is the censoring indicator, named “status”, with 0 indicating censoring time and 1 indicating event time.</p></dd>
 
 
 <dt>X</dt>
@@ -185,8 +185,8 @@
 <dd><p>the order/degree minus 1 of the exponentiated polynomial baseline hazard function determined for the current center by the likelihood ratio test. This output argument, <code>q_l</code>, is only shown when <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
-<dt>theta_A_ploy</dt>
-<dd><p>an array where the first component is a matrix with columns representing the MAP estimates of the parameters for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. The other components are minus the curvature matrices for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. Therefore, the first non-NA curvature matrix is equal to the output argument <code>A_hat</code>. This output argument, <code>theta_A_ploy</code>, is only shown if <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+<dt>theta_A_poly</dt>
+<dd><p>an array where the first component is a matrix with columns representing the MAP estimates of the parameters for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. The other components are minus the curvature matrices for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. Therefore, the first non-NA curvature matrix is equal to the output argument <code>A_hat</code>. This output argument, <code>theta_A_poly</code>, is only shown if <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>lev_no_ref_zer</dt>
@@ -245,13 +245,13 @@
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>MAP.estimation</code> function finds the Maximum A Posteriori (MAP) estimates of the model parameters by maximizing the log-posterior density with respect to the parameters, i.e., the estimates equal the values for which the log-posterior density is maximal (the posterior mode).
 In other words, <code>MAP.estimation()</code> optimizes the log-posterior density with respect to the parameter vector to obtain its MAP estimates.
-In addition to the model parameters (i.e., coefficients (\(\bm \beta\)) and variance error (\(\sigma^2_e\)) for <code>gussian</code> or the parameters of the baseline hazard (\(\bm \omega\)) for <code>cox</code>), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.</p>
+In addition to the model parameters (i.e., coefficients (\(\bm \beta\)) and variance error (\(\sigma^2_e\)) for <code>gaussian</code> or the parameters of the baseline hazard (\(\bm \omega\)) for <code>cox</code>), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.</p>
 <p>The <code>MAP.estimation</code> function returns an object of class `<code>bfi</code>`. Therefore, <code><a href="summary.bfi.html">summary()</a></code> can be used for the object returned by <code>MAP.estimation()</code>.</p>
 <p>For the case where <code>family = "cox"</code> and <code>basehaz = "poly"</code>, we assume that in all centers the \(q_\ell\)'s are equal.
 However, the order of the estimated polynomials may vary across the centers so that each center can have different number of parameters, say \(q_\ell\)+1.
 <!-- %Thus, in each location, the vector parameter is a (\eqn{ p+q_\ell} +1)-dimensional vector \eqn{\bm \theta_\ell^\top=(\bm \beta^\top, \bm \omega_\ell^\top)=(\beta_1, \ldots,\beta_p, \omega_{0}, \omega_{1}, \ldots, \omega_{q_\ell})}. -->
 After obtaining the estimates within the local centers (by using <code>MAP.estimation()</code>) and having all estimates in the central server, we choose the order of the polynomial approximation for the combined data to be the maximum of the orders of the local polynomial functions, i.e., \(\max \{q_1, \ldots, q_L \}\), to approximate the global baseline hazard (exponentiated polynomial) function more accurately. This is because the higher-order polynomial approximation can capture more complex features and details in the combined data. Using the higher-order approximation ensures that we account for the higher-order moments and features present in the data while maintaining accuracy.
-As a result, all potential cases are stored in the <code>theta_A_ploy</code> argument to be used in <code><a href="BFI.html">bfi()</a></code> by the central server.
+As a result, all potential cases are stored in the <code>theta_A_poly</code> argument to be used in <code><a href="BFI.html">bfi()</a></code> by the central server.
 For further information on the <code>cox</code> family, refer to the 'References' section.</p>
 <p>To solve unconstrained and bound-constrained optimization problems, the <code>MAP.estimation</code> function utilizes an optimization algorithm called Limited-memory Broyden-Fletcher-Goldfarb-Shanno with Bound Constraints (L-BFGS-B), Byrd et. al. (1995).
 The L-BFGS-B algorithm is a limited-memory “quasi-Newton” method that iteratively updates the parameter estimates by approximating the inverse Hessian matrix using gradient information from the history of previous iterations. This approach allows the algorithm to approximate the curvature of the posterior distribution and efficiently search for the optimal solution, which makes it computationally efficient for problems with a large number of variables.</p>
@@ -287,11 +287,12 @@ The convergence can be checked with the argument <code>convergence</code> in the
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024). <em>Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets</em>, <em>Statistics in Medicine</em>, 43(12): 2421-2438. &lt;https://doi.org/10.1002/sim.10072&gt;</p>
 <p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2024). <em>Bayesian Federated Inference for Survival Models</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
+<p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024b). <em>Bayesian Federated Inference for regression models with heterogeneous multi-center populations</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/2402.02898&gt;</p>
 <p>Byrd R.H., Lu P., Nocedal J. and Zhu C. (1995). <em>A limited memory algorithm for bound constrained optimization</em>. SIAM Journal on Scientific Computing, 16, 1190-1208. &lt;https://doi.org/10.1137/0916069&gt;</p>
     </div>
     <div class="section level2">
     <h2 id="author">Author<a class="anchor" aria-label="anchor" href="#author"></a></h2>
-    <p>Hassan Pazira and Marianna Jonker <br>
+    <p>Hassan Pazira and Marianne Jonker <br>
 Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pazira@radboudumc.nl</a></p>
     </div>
     <div class="section level2">
@@ -628,11 +629,27 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span> <span class="op">+</span> <span class="fl">1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
 <span class="r-in"><span><span class="co"># theta_hat for (beta_1, ..., beta_p, omega_0, ..., omega_{q_l})</span></span></span>
-<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># equal to fit3$theta_hat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_poly</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># equal to fit3$theta_hat</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_0    omega_1    omega_2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4587444  0.9065738  1.2387261  1.8013492 -2.0743547  4.7662933 -1.0941826 </span>
 <span class="r-in"><span><span class="co"># A_hat</span></span></span>
-<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_ploy</span><span class="op">[</span>,,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">2</span><span class="op">]</span> <span class="co"># equal to fit3$A_hat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_poly</span><span class="op">[</span>,,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">2</span><span class="op">]</span> <span class="co"># equal to fit3$A_hat</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]      [,2]       [,3]       [,4]      [,5]       [,6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      67.2578299  3.698096  -6.328249  -0.830014  7.296302   1.005843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.6980959 85.034720   3.130474  -6.311998 15.832762  -1.055534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -6.3282486  3.130474  73.449859  11.351621 -2.661869 -25.299425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.8300140 -6.311998  11.351621  68.043358 23.430052  -8.113705</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2963020 15.832762  -2.661869  23.430052 90.074528  43.191997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  1.0058432 -1.055534 -25.299425  -8.113705 43.191997  57.713003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.7626327 -7.194974 -42.325003 -19.174732 48.713003  71.822389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -0.7626327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -7.1949742</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -42.3250033</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -19.1747319</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  48.7130029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  71.8223891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 122.9402820</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit3</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
