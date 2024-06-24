@@ -61,7 +61,7 @@
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>,</span>
 <span>               <span class="va">X</span>,</span>
-<span>               family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"cox"</span><span class="op">)</span>,</span>
+<span>               family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"survival"</span><span class="op">)</span>,</span>
 <span>               <span class="va">Lambda</span>,</span>
 <span>               intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>               initial <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -80,7 +80,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>y</dt>
-<dd><p>response vector. If the “<code>binomial</code>” family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of “successes” and the second column is the number of “failures”. For the “<code>cox</code>” family, the response is a matrix where the first column is the survival time, named “time”, and the second column is the censoring indicator, named “status”, with 0 indicating censoring time and 1 indicating event time.</p></dd>
+<dd><p>response vector. If the “<code>binomial</code>” family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of “successes” and the second column is the number of “failures”. For the “<code>survival</code>” family, the response is a matrix where the first column is the survival time, named “time”, and the second column is the censoring indicator, named “status”, with 0 indicating censoring time and 1 indicating event time.</p></dd>
 
 
 <dt>X</dt>
@@ -88,7 +88,7 @@
 
 
 <dt>family</dt>
-<dd><p>a description of the error distribution. This is a character string naming a family of the model. In the current version of the package, the family of model can be <code>"gaussian"</code> (with <code>identity</code> link function), <code>"binomial"</code> (with <code>logit</code> link function), or <code>"cox"</code>. Can be abbreviated. By default the <code>gaussian</code> family is used. In case of a linear regression model, <code>family = "gaussian"</code>, there is an extra model parameter for the variance of measurement error. While in the case of survival model, <code>family = "cox"</code>, the number of the model parameters depend on the choice of baseline hazard functions, see ‘Details’ for more information.</p></dd>
+<dd><p>a description of the error distribution. This is a character string naming a family of the model. In the current version of the package, the family of model can be <code>"gaussian"</code> (with <code>identity</code> link function), <code>"binomial"</code> (with <code>logit</code> link function), or <code>"survival"</code>. Can be abbreviated. By default the <code>gaussian</code> family is used. In case of a linear regression model, <code>family = "gaussian"</code>, there is an extra model parameter for the variance of measurement error. While in the case of survival model, <code>family = "survival"</code>, the number of the model parameters depend on the choice of baseline hazard functions, see ‘Details’ for more information.</p></dd>
 
 
 <dt>Lambda</dt>
@@ -96,31 +96,31 @@
 
 
 <dt>intercept</dt>
-<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model. This argument is not used if <code>family = "cox"</code>.</p></dd>
+<dd><p>logical flag for fitting an intercept. If <code>intercept=TRUE</code> (the default), the intercept is fitted, i.e., it is included in the model, and if <code>intercept=FALSE</code> it is set to zero, i.e., it's not in the model. This argument is not used if <code>family = "survival"</code>.</p></dd>
 
 
 <dt>initial</dt>
-<dd><p>a vector specifying initial values for the parameters to be optimized over. The length of <code>initial</code> is equal to the number of model parameters and thus, is equal to the number of rows or columns of <code>Lambda</code>. Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the <code>cox</code> family with the <code>poly</code> function, where it is a vector with the first \(p\) elements as zeros for coefficients (\(\bm \beta\)) and -0.5 for the remaining parameters (\(\bm \omega\)). For the <code>gaussian</code> family, the last element of the <code>initial</code> vector could also be considered negative, because the Gaussian prior was applied to \(log(\sigma)\).</p></dd>
+<dd><p>a vector specifying initial values for the parameters to be optimized over. The length of <code>initial</code> is equal to the number of model parameters and thus, is equal to the number of rows or columns of <code>Lambda</code>. Since the <code>'L-BFGS-B'</code> method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the <code>survival</code> family with the <code>poly</code> function, where it is a vector with the first \(p\) elements as zeros for coefficients (\(\bm \beta\)) and -0.5 for the remaining parameters (\(\bm \omega\)). For the <code>gaussian</code> family, the last element of the <code>initial</code> vector could also be considered negative, because the Gaussian prior was applied to \(log(\sigma)\).</p></dd>
 
 
 <dt>basehaz</dt>
-<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). Can be abbreviated. It is only used when <code>family = "cox"</code>. If local sample size is large and the shape of the baseline hazard function is completely unknown, the ``exponentiated polynomial'' and ``piecewise exponential'' hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the ``piecewise exponential'' hazard function with many intervals.</p></dd>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). Can be abbreviated. It is only used when <code>family = "survival"</code>. If local sample size is large and the shape of the baseline hazard function is completely unknown, the ``exponentiated polynomial'' and ``piecewise exponential'' hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the ``piecewise exponential'' hazard function with many intervals.</p></dd>
 
 
 <dt>alpha</dt>
-<dd><p>a significance level used in the chi-squared distribution (with one degree of freedom and 1-\(\alpha\) representing the upper quantile) to conduct a likelihood ratio test for obtaining the order of the exponentiated polynomial baseline hazard function. It is only used when <code>family = "cox"</code> and <code>basehaz = "poly"</code>. Default is 0.1. See ‘Details’.</p></dd>
+<dd><p>a significance level used in the chi-squared distribution (with one degree of freedom and 1-\(\alpha\) representing the upper quantile) to conduct a likelihood ratio test for obtaining the order of the exponentiated polynomial baseline hazard function. It is only used when <code>family = "survival"</code> and <code>basehaz = "poly"</code>. Default is 0.1. See ‘Details’.</p></dd>
 
 
 <dt>max_order</dt>
-<dd><p>an integer representing the maximum value of <code>q_l</code>, which is the order/degree minus 1 of the exponentiated polynomial baseline hazard function. This argument is only used when <code>family = "cox"</code> and <code>basehaz = "poly"</code>. Default is 2.</p></dd>
+<dd><p>an integer representing the maximum value of <code>q_l</code>, which is the order/degree minus 1 of the exponentiated polynomial baseline hazard function. This argument is only used when <code>family = "survival"</code> and <code>basehaz = "poly"</code>. Default is 2.</p></dd>
 
 
 <dt>n_intervals</dt>
-<dd><p>an integer representing the number of intervals in the piecewise exponential baseline hazard function. This argument is only used when <code>family = "cox"</code> and <code>basehaz = "pwexp"</code>. Default is 4.</p></dd>
+<dd><p>an integer representing the number of intervals in the piecewise exponential baseline hazard function. This argument is only used when <code>family = "survival"</code> and <code>basehaz = "pwexp"</code>. Default is 4.</p></dd>
 
 
 <dt>min_max_times</dt>
-<dd><p>a scalar representing the minimum of the maximum event times observed in the centers. The value of this argument should be defined by the central server (which has access to the maximum event times of all the centers) and is only used when <code>family = "cox"</code> and <code>basehaz = "pwexp"</code>.</p></dd>
+<dd><p>a scalar representing the minimum of the maximum event times observed in the centers. The value of this argument should be defined by the central server (which has access to the maximum event times of all the centers) and is only used when <code>family = "survival"</code> and <code>basehaz = "pwexp"</code>.</p></dd>
 
 
 <dt>center_zero_sample</dt>
@@ -182,15 +182,15 @@
 
 
 <dt>q_l</dt>
-<dd><p>the order/degree minus 1 of the exponentiated polynomial baseline hazard function determined for the current center by the likelihood ratio test. This output argument, <code>q_l</code>, is only shown when <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+<dd><p>the order/degree minus 1 of the exponentiated polynomial baseline hazard function determined for the current center by the likelihood ratio test. This output argument, <code>q_l</code>, is only shown when <code>family = "survival"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>theta_A_poly</dt>
-<dd><p>an array where the first component is a matrix with columns representing the MAP estimates of the parameters for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. The other components are minus the curvature matrices for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. Therefore, the first non-NA curvature matrix is equal to the output argument <code>A_hat</code>. This output argument, <code>theta_A_poly</code>, is only shown if <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+<dd><p>an array where the first component is a matrix with columns representing the MAP estimates of the parameters for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. The other components are minus the curvature matrices for different <code>q_l</code>'s, i.e., <code>q_l</code>, <code>q_l</code>+1, ..., <code>max_order</code>. Therefore, the first non-NA curvature matrix is equal to the output argument <code>A_hat</code>. This output argument, <code>theta_A_poly</code>, is only shown if <code>family = "survival"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>lev_no_ref_zer</dt>
-<dd><p>a vector containing the names of the levels of the categorical covariate that has no samples/observations in one of its categories. The name of the category with no samples and the name of the reference category are excluded from this vector. This argument is shown when <code>family = "cox"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
+<dd><p>a vector containing the names of the levels of the categorical covariate that has no samples/observations in one of its categories. The name of the category with no samples and the name of the reference category are excluded from this vector. This argument is shown when <code>family = "survival"</code> and <code>basehaz = "poly"</code>, and will be used in the function <code><a href="BFI.html">bfi()</a></code>;</p></dd>
 
 
 <dt>zero_sample_cov</dt>
@@ -245,14 +245,14 @@
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p><code>MAP.estimation</code> function finds the Maximum A Posteriori (MAP) estimates of the model parameters by maximizing the log-posterior density with respect to the parameters, i.e., the estimates equal the values for which the log-posterior density is maximal (the posterior mode).
 In other words, <code>MAP.estimation()</code> optimizes the log-posterior density with respect to the parameter vector to obtain its MAP estimates.
-In addition to the model parameters (i.e., coefficients (\(\bm \beta\)) and variance error (\(\sigma^2_e\)) for <code>gaussian</code> or the parameters of the baseline hazard (\(\bm \omega\)) for <code>cox</code>), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.</p>
+In addition to the model parameters (i.e., coefficients (\(\bm \beta\)) and variance error (\(\sigma^2_e\)) for <code>gaussian</code> or the parameters of the baseline hazard (\(\bm \omega\)) for <code>survival</code>), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.</p>
 <p>The <code>MAP.estimation</code> function returns an object of class `<code>bfi</code>`. Therefore, <code><a href="summary.bfi.html">summary()</a></code> can be used for the object returned by <code>MAP.estimation()</code>.</p>
-<p>For the case where <code>family = "cox"</code> and <code>basehaz = "poly"</code>, we assume that in all centers the \(q_\ell\)'s are equal.
+<p>For the case where <code>family = "survival"</code> and <code>basehaz = "poly"</code>, we assume that in all centers the \(q_\ell\)'s are equal.
 However, the order of the estimated polynomials may vary across the centers so that each center can have different number of parameters, say \(q_\ell\)+1.
 <!-- %Thus, in each location, the vector parameter is a (\eqn{ p+q_\ell} +1)-dimensional vector \eqn{\bm \theta_\ell^\top=(\bm \beta^\top, \bm \omega_\ell^\top)=(\beta_1, \ldots,\beta_p, \omega_{0}, \omega_{1}, \ldots, \omega_{q_\ell})}. -->
 After obtaining the estimates within the local centers (by using <code>MAP.estimation()</code>) and having all estimates in the central server, we choose the order of the polynomial approximation for the combined data to be the maximum of the orders of the local polynomial functions, i.e., \(\max \{q_1, \ldots, q_L \}\), to approximate the global baseline hazard (exponentiated polynomial) function more accurately. This is because the higher-order polynomial approximation can capture more complex features and details in the combined data. Using the higher-order approximation ensures that we account for the higher-order moments and features present in the data while maintaining accuracy.
 As a result, all potential cases are stored in the <code>theta_A_poly</code> argument to be used in <code><a href="BFI.html">bfi()</a></code> by the central server.
-For further information on the <code>cox</code> family, refer to the 'References' section.</p>
+For further information on the <code>survival</code> family, refer to the 'References' section.</p>
 <p>To solve unconstrained and bound-constrained optimization problems, the <code>MAP.estimation</code> function utilizes an optimization algorithm called Limited-memory Broyden-Fletcher-Goldfarb-Shanno with Bound Constraints (L-BFGS-B), Byrd et. al. (1995).
 The L-BFGS-B algorithm is a limited-memory “quasi-Newton” method that iteratively updates the parameter estimates by approximating the inverse Hessian matrix using gradient information from the history of previous iterations. This approach allows the algorithm to approximate the curvature of the posterior distribution and efficiently search for the optimal solution, which makes it computationally efficient for problems with a large number of variables.</p>
 <p>By default, the algorithm uses a relative change in the objective function as the convergence criterion. When the change in the objective function between iterations falls below a certain threshold (`<code>factr</code>`) the algorithm is considered to have converged.
@@ -525,7 +525,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###------------###</span></span></span>
-<span class="r-in"><span><span class="co">### Cox family ###</span></span></span>
+<span class="r-in"><span><span class="co">### Survival family ###</span></span></span>
 <span class="r-in"><span><span class="co">###------------###</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Setting a seed for reproducibility</span></span></span>
@@ -546,8 +546,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "weibul" function</span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'cox'</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'cox'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'survival'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3       X4  omega_1  omega_2 </span>
@@ -600,7 +600,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -61.88167</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "cox"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "survival"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $basehaz</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "weibul"</span>
@@ -623,8 +623,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "poly" function</span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'cox'</span>, basehaz <span class="op">=</span> <span class="st">'poly'</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">'poly'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"survival"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Degree of the exponentiated polynomial baseline hazard</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span> <span class="op">+</span> <span class="fl">1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
@@ -655,7 +655,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: Survival(time, status) ~ X1 + X2 + X3 + X4 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘cox’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘survival’ </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Baseline: ‘poly’</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
@@ -687,14 +687,14 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">## MAP estimations with "pwexp" function with 3 intervals</span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co"># Assume we have 4 centers</span></span></span>
-<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'cox'</span>,</span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>,</span></span>
 <span class="r-in"><span>                        basehaz <span class="op">=</span> <span class="st">'pwexp'</span>, n_intervals <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># For this baseline hazard ("pwexp"), we need to know</span></span></span>
 <span class="r-in"><span><span class="co"># maximum survival times of the 3 other centers:</span></span></span>
 <span class="r-in"><span><span class="va">max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">30</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">50</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Exponential.html" class="external-link">rexp</a></span><span class="op">(</span><span class="fl">70</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Minimum of the maximum values of the survival times of all 4 centers is:</span></span></span>
 <span class="r-in"><span><span class="va">min_max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, <span class="va">max_times</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"cox"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"pwexp"</span>,</span></span>
+<span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"survival"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"pwexp"</span>,</span></span>
 <span class="r-in"><span>                       n_intervals <span class="op">=</span> <span class="fl">3</span>, min_max_times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  No. observations in the intervals :  73 18 9 </span>
@@ -704,7 +704,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: Survival(time, status) ~ X1 + X2 + X3 + X4 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘cox’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘survival’ </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Baseline: ‘pwexp’</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
