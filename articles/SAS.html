@@ -79,7 +79,7 @@
                         <h4 data-toc-skip class="author">Hassan
 Pazira</h4>
             
-            <h4 data-toc-skip class="date">2024-06-25</h4>
+            <h4 data-toc-skip class="date">2024-06-26</h4>
       
       
       <div class="d-none name"><code>SAS.Rmd</code></div>
@@ -195,17 +195,18 @@ can be done in R or in SAS. Here’s how you can do it within SAS:</p>
 
   rsubmit;
 
-    /* First install and load 'base', 'stats' and 'remotes' from CRAN */
+    /* First install and load 'base', 'stats' and 'BFI'from CRAN */
     install.packages("base")
     install.packages("stats")
-    install.packages("remotes")
+    install.packages("BFI")  /* To install BFI from CRAN */
     library(base)
     library(stats)
-    library(remotes)
-  
-    /* Then install and load BFI from GitHub */
-    remotes::install_github("hassanpazira/BFI", force = TRUE)
     library(BFI)
+  
+    /* To install BFI from GitHub (if nessecary) */
+    /* install.packages("remotes") */
+    /* library(remotes) */
+    /* remotes::install_github("hassanpazira/BFI", force = TRUE) */
 
   endrsubmit;
 
