@@ -158,7 +158,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">##-------------------------</span></span></span>
 <span class="r-in"><span><span class="co">## Simulating Survival data</span></span></span>
 <span class="r-in"><span><span class="co">##-------------------------</span></span></span>
-<span class="r-in"><span><span class="va">Original_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">101</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">101</span>, <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Original_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="fl">101</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span>, <span class="fl">101</span>, <span class="fl">10</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">&lt;-</span> <span class="va">Original_data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>,<span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">X_new</span> <span class="op">&lt;-</span> <span class="va">Original_data</span><span class="op">[</span><span class="fl">101</span>,<span class="op">]</span></span></span>
 <span class="r-in"><span><span class="co"># Simulating survival data from Exponential distribution</span></span></span>
@@ -173,8 +173,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># Weibull baseline hazard</span></span></span>
 <span class="r-in"><span><span class="co">#------------------------</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">'weibul'</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>If in 'X' there is a 'categorical' covariate with more than 2 levels,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   then 'X' must be a 'data.frame' instead of a 'matrix'! </span>
 <span class="r-in"><span><span class="va">fit_weib</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'survival'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>,</span></span>
 <span class="r-in"><span>                           basehaz <span class="op">=</span> <span class="st">"weibul"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># reltive risk is 1:</span></span></span>
@@ -222,36 +220,36 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">*</span><span class="fl">2</span><span class="op">)</span>, p <span class="op">=</span> <span class="fl">10</span>, theta_hat <span class="op">=</span> <span class="va">fit_gomp</span><span class="op">$</span><span class="va">theta_hat</span>,</span></span>
 <span class="r-in"><span>            basehaz <span class="op">=</span> <span class="st">"gomp"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.371440   4.268450   5.404119   6.841945   8.662322  10.967031</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  13.884933  17.579175  22.256313  28.177856  35.674892  45.166598</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  57.183681  72.398043  91.660358 116.047629 146.923408 186.014036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.371439   4.268448   5.404117   6.841943   8.662318  10.967025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  13.884926  17.579166  22.256301  28.177839  35.674870  45.166570</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  57.183644  72.397995  91.660295 116.047546 146.923299 186.013894</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cbhazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.003272   6.805599  11.619577  17.714369  25.430749  35.200158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  47.568829  63.228325  83.054205 108.154984 139.934108 180.168427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 231.107538 295.599575 377.250444 480.625447 611.504534 777.205476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.003271   6.805596  11.619573  17.714362  25.430739  35.200144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  47.568808  63.228296  83.054165 108.154930 139.934036 180.168330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 231.107409 295.599403 377.250217 480.625146 611.504138 777.204955</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bsurvival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4.962442e-02  1.107557e-03  8.988384e-06  2.026503e-08  9.027470e-12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  5.161375e-16  2.193410e-21  3.469665e-28  8.511715e-37  1.068777e-47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  1.688064e-61  5.673441e-79 4.278301e-101 4.195037e-129 1.452827e-164</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 1.849356e-209 2.672732e-266  0.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4.962447e-02  1.107559e-03  8.988423e-06  2.026517e-08  9.027563e-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  5.161452e-16  2.193456e-21  3.469765e-28  8.512053e-37  1.068835e-47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  1.688186e-61  5.673991e-79 4.278854e-101 4.195758e-129 1.453157e-164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 1.849912e-209 2.673790e-266  0.000000e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.371440   4.268450   5.404119   6.841945   8.662322  10.967031</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  13.884933  17.579175  22.256313  28.177856  35.674892  45.166598</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  57.183681  72.398043  91.660358 116.047629 146.923408 186.014036</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.371439   4.268448   5.404117   6.841943   8.662318  10.967025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  13.884926  17.579166  22.256301  28.177839  35.674870  45.166570</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13]  57.183644  72.397995  91.660295 116.047546 146.923299 186.013894</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.003272   6.805599  11.619577  17.714369  25.430749  35.200158</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  47.568829  63.228325  83.054205 108.154984 139.934108 180.168427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 231.107538 295.599575 377.250444 480.625447 611.504534 777.205476</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]   3.003271   6.805596  11.619573  17.714362  25.430739  35.200144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7]  47.568808  63.228296  83.054165 108.154930 139.934036 180.168330</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] 231.107409 295.599403 377.250217 480.625146 611.504138 777.204955</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4.962442e-02  1.107557e-03  8.988384e-06  2.026503e-08  9.027470e-12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  5.161375e-16  2.193410e-21  3.469665e-28  8.511715e-37  1.068777e-47</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  1.688064e-61  5.673441e-79 4.278301e-101 4.195037e-129 1.452827e-164</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 1.849356e-209 2.672732e-266  0.000000e+00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  4.962447e-02  1.107559e-03  8.988423e-06  2.026517e-08  9.027563e-12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6]  5.161452e-16  2.193456e-21  3.469765e-28  8.512053e-37  1.068835e-47</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11]  1.688186e-61  5.673991e-79 4.278854e-101 4.195758e-129 1.453157e-164</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] 1.849912e-209 2.673790e-266  0.000000e+00</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
@@ -261,8 +259,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Exponentiated polynomial (poly) baseline hazard:</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>If in 'X' there is a 'categorical' covariate with more than 2 levels,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   then 'X' must be a 'data.frame' instead of a 'matrix'! </span>
 <span class="r-in"><span><span class="va">fit_poly</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'survival'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>,</span></span>
 <span class="r-in"><span>                           basehaz <span class="op">=</span> <span class="st">"poly"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">hazards.fun</span><span class="op">(</span>time <span class="op">=</span> <span class="va">y_new</span><span class="op">$</span><span class="va">time</span>, z <span class="op">=</span> <span class="va">X_new</span>, theta_hat <span class="op">=</span> <span class="va">fit_poly</span><span class="op">$</span><span class="va">theta_hat</span>,</span></span>
@@ -277,19 +273,17 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8369646</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.344255</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.386129</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4766309</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4219019</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6208717</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6557984</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Piecewise Exponential (pwexp) baseline hazard:</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">"pwexp"</span><span class="op">)</span></span></span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>If in 'X' there is a 'categorical' covariate with more than 2 levels,</span>
-<span class="r-wrn co"><span class="r-pr">#&gt;</span>   then 'X' must be a 'data.frame' instead of a 'matrix'! </span>
 <span class="r-in"><span><span class="va">fit_pw</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family<span class="op">=</span><span class="st">'survival'</span>, Lambda<span class="op">=</span><span class="va">Lambda</span>, basehaz<span class="op">=</span><span class="st">"pwexp"</span>,</span></span>
 <span class="r-in"><span>                         min_max_times <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -307,13 +301,13 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8429162</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $hazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.055397</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.157905</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $chazard</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4601311</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4088655</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $survival</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6312009</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.6644036</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
