@@ -28,7 +28,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">BFI</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,10 +111,7 @@ to real datasets included in the package.</p>
 <p>Before we go on, we first install and load the <code>BFI</code>
 package:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># First set a CRAN mirror</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>repos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>CRAN <span class="op">=</span> <span class="st">"https://cran.rstudio.com/"</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Install and load the BFI package from CRAN:</span></span>
+<code class="sourceCode R"><span><span class="co"># Install and load the BFI package from CRAN:</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span></code></pre></div>
 <p>By using the following code, we can see that there are two available
@@ -125,13 +122,10 @@ datasets in the package: <code>trauma</code> and
 <p>The <code>trauma</code> dataset can be utilized for the
 <code>"binomial"</code> family and <code>Nurses</code> dataset can be
 used for <code>"gaussian"</code> family. To avoid repetition, we will
-only use the <code>trauma</code> dataset. Load and inspect the
-<code>trauma</code> data as follows:</p>
+only use the <code>trauma</code> dataset. By loading the package, the
+datasets included will be loaded and can be inspected as follows:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Load 'trauma' in the R workspace</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"trauma"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Get the number of rows and columns</span></span>
+<code class="sourceCode R"><span><span class="co"># Get the number of rows and columns</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">trauma</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 371   6</span></span></code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -150,7 +144,7 @@ hospitals (peripheral hospital without a neuro-surgical unit,
 <code>'status=1'</code>, peripheral hospital with a neuro-surgical unit,
 <code>status=2</code>, and academic medical center,
 <code>status=3</code>).</p>
-<p>As we can see it has 6 columns:</p>
+<p>As we can see, it has 6 columns:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">col_name</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colnames.html" class="external-link">colnames</a></span><span class="op">(</span><span class="va">trauma</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "sex"       "age"       "hospital"  "ISS"       "GCS"       "mortality"</span></span></code></pre>
@@ -164,6 +158,8 @@ use</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Get some info about the dataset from the help file</span></span>
 <span><span class="op">?</span><span class="va">trauma</span></span></code></pre></div>
+<p>We will analyse the data with a <code>logistic</code> regression
+model.</p>
 </div>
 <div class="section level2">
 <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
