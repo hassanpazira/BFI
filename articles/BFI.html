@@ -341,7 +341,7 @@ datasets and obtain the MAP estimations based on the combined data:</p>
 <span>                          GCS<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">GCS</span><span class="op">)</span></span>
 <span><span class="va">Lambda</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span>X<span class="op">=</span><span class="va">X_combined</span>, lambda<span class="op">=</span><span class="fl">0.1</span>, L<span class="op">=</span><span class="fl">3</span>, family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
 <span><span class="va">fit_comb</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">mortality</span>, X<span class="op">=</span><span class="va">X_combined</span>, family<span class="op">=</span><span class="st">"binomial"</span>, Lambda<span class="op">=</span><span class="va">Lambda</span><span class="op">)</span> </span>
-<span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit_comb</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit_comb</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
 <span><span class="co">## Summary of the model:</span></span>
 <span><span class="co">## </span></span>
@@ -360,7 +360,16 @@ datasets and obtain the MAP estimations based on the combined data:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## Dispersion parameter (sigma2):  1 </span></span>
 <span><span class="co">##             log Lik Posterior:  -109.8 </span></span>
-<span><span class="co">##                   Convergence:  0</span></span></code></pre>
+<span><span class="co">##                   Convergence:  0 </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## Minus the Curvature Matrix: </span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##             (Intercept)     sex     age      ISS      GCS</span></span>
+<span><span class="co">## (Intercept)     33.9101  8.5588  2.4320   8.3617 -18.2744</span></span>
+<span><span class="co">## sex              8.5588  8.6588  1.8922   1.4043  -4.5371</span></span>
+<span><span class="co">## age              2.4320  1.8922 37.5028  -6.1562  18.0250</span></span>
+<span><span class="co">## ISS              8.3617  1.4043 -6.1562  33.7608 -12.8879</span></span>
+<span><span class="co">## GCS            -18.2744 -4.5371 18.0250 -12.8879  38.8457</span></span></code></pre>
 <p>Now, we can see the difference between the BFI and combined
 estimates:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
@@ -383,6 +392,13 @@ M.A. (2024). Bayesian Federated Inference for Survival Models, arXiv. <a href="
 <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024b). Bayesian Federated
 Inference for regression models with heterogeneous multi-center
 populations, arXiv. <a href="https://arxiv.org/abs/2402.02898" class="external-link uri">https://arxiv.org/abs/2402.02898</a></p>
+</div>
+<div class="section level2">
+<h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
+</h2>
+<p>If you find any errors, have any suggestions, or would like to
+request that something be added, please file an issue at <a href="https://github.com/hassanpazira/BFI/issues/" class="external-link">issue report</a> or
+send an email to: <a href="mailto:hassan.pazira@radboudumc.nl" class="email">hassan.pazira@radboudumc.nl</a> or <a href="mailto:Marianne.Jonker@radboudumc.nl" class="email">Marianne.Jonker@radboudumc.nl</a>.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
