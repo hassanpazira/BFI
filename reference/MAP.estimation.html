@@ -259,7 +259,7 @@ The L-BFGS-B algorithm is a limited-memory “quasi-Newton” method that iterat
 The convergence can be checked with the argument <code>convergence</code> in the output. See ‘Value’.</p>
 <p>In case of convergence issue, it may be necessary to investigate and adjust optimization parameters to facilitate convergence. It can be done using the <code>initial</code> and <code>control</code> arguments. By the argument <code>initial</code> the initial points of the interative optimization algorithm can be changed, and the argument <code>control</code> is a list that can supply any of the following components:</p>
 <dl><dt><code>maxit</code>:</dt>
-<dd><p>is the maximum number of iterations. Default is 100;</p></dd>
+<dd><p>is the maximum number of iterations. Default is 300;</p></dd>
 
 
 <dt><code>factr</code>:</dt>
@@ -395,7 +395,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
@@ -492,7 +494,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
@@ -612,7 +616,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 300</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
