@@ -64,7 +64,7 @@ When the upper limit of the uniform censoring time distribution is unknown, <cod
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">surv.simulate</span><span class="op">(</span>L <span class="op">=</span> <span class="fl">1</span>, <span class="va">Z</span>, <span class="va">beta</span>, <span class="va">a</span>, <span class="va">b</span>, u1 <span class="op">=</span> <span class="fl">0</span>, <span class="va">u2</span>, <span class="va">cen_rate</span>,</span>
 <span>              gen_data_from <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"exp"</span>, <span class="st">"weibul"</span>, <span class="st">"gomp"</span><span class="op">)</span>,</span>
-<span>              only_u2 <span class="op">=</span> <span class="cn">FALSE</span>, n.rep <span class="op">=</span> <span class="fl">200</span>, Trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span>              only_u2 <span class="op">=</span> <span class="cn">FALSE</span>, n.rep <span class="op">=</span> <span class="fl">100</span>, Trace <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -110,7 +110,7 @@ When the upper limit of the uniform censoring time distribution is unknown, <cod
 
 
 <dt>n.rep</dt>
-<dd><p>a scalar specifying the number of iterations. This argument is exclusively used in the case of the <code>Gompertz</code> distribution. Default is 200.</p></dd>
+<dd><p>a scalar specifying the number of iterations. This argument is exclusively used in the case of the <code>Gompertz</code> distribution. Default is 100.</p></dd>
 
 
 <dt>Trace</dt>
@@ -333,80 +333,75 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># Two simulated datasets from 'gomp' with unknown 'u2' and censoring rate of 0.3:</span></span></span>
 <span class="r-in"><span><span class="fu">surv.simulate</span><span class="op">(</span>Z <span class="op">=</span> <span class="va">Z</span><span class="op">[</span><span class="fl">2</span><span class="op">:</span><span class="fl">3</span><span class="op">]</span>, beta <span class="op">=</span> <span class="va">beta</span>, a <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>, b <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">exp</a></span><span class="op">(</span><span class="fl">2</span><span class="op">)</span>, u1 <span class="op">=</span> <span class="fl">0.1</span>,</span></span>
 <span class="r-in"><span>              cen_rate <span class="op">=</span> <span class="fl">0.3</span>, gen_data_from <span class="op">=</span> <span class="st">"gomp"</span>, Trace <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0 0   with u2 = 30 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.01 0.01   with u2 = 21.1275 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.01 0.01   with u2 = 14.95664 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.02 0.02   with u2 = 10.62842 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.03 0.02   with u2 = 7.623236 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.03 0.03   with u2 = 5.501337 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.05 0.04   with u2 = 4.037558 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.06 0.05   with u2 = 3.01 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.09 0.07   with u2 = 2.27666 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.13 0.1   with u2 = 1.768483 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.14 0.11   with u2 = 1.43492 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.16 0.14   with u2 = 1.18403 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.17 0.17   with u2 = 1.009886 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.19 0.2   with u2 = 0.8808732 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.2 0.23   with u2 = 0.7904482 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.21 0.22   with u2 = 0.7232753 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.23 0.25   with u2 = 0.6623672 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.23 0.25   with u2 = 0.6217717 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.24 0.26   with u2 = 0.5850752 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.25 0.26   with u2 = 0.5565191 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.26   with u2 = 0.5338409 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.28   with u2 = 0.5127029 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.29   with u2 = 0.4953104 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.28   with u2 = 0.4825181 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.28   with u2 = 0.4674394 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.29   with u2 = 0.4566523 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.28   with u2 = 0.448336 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.27 0.29   with u2 = 0.4388778 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.29 0.29   with u2 = 0.4309864 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.29   with u2 = 0.426113 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.29   with u2 = 0.4204096 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.29 0.29   with u2 = 0.4132222 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.01 0.01   with u2 = 20 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.01 0.01   with u2 = 14.19 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.02 0.02   with u2 = 10.10383 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.03 0.02   with u2 = 7.28991 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.04 0.03   with u2 = 5.275091 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.05 0.04   with u2 = 3.895249 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.07 0.07   with u2 = 2.896867 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.09 0.06   with u2 = 2.225017 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.12 0.09   with u2 = 1.72242 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.15 0.12   with u2 = 1.39092 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.17 0.15   with u2 = 1.162114 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.17 0.18   with u2 = 0.9992837 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.18 0.2   with u2 = 0.8723362 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.2 0.21   with u2 = 0.7788285 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.21 0.24   with u2 = 0.7064274 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.22 0.24   with u2 = 0.6536355 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.23 0.25   with u2 = 0.6087609 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.24 0.25   with u2 = 0.5731016 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.26   with u2 = 0.5429697 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.27   with u2 = 0.5212091 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.28   with u2 = 0.5016437 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.26 0.27   with u2 = 0.4858998 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.27 0.28   with u2 = 0.4684635 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.29 0.29   with u2 = 0.4560853 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.28   with u2 = 0.4499632 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.27 0.28   with u2 = 0.4408082 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> censoring proportion for silos are:  0.28 0.3   with u2 = 0.4296693 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  Desired u2 is: 0.4132222 ( with u1 = 0.1 ) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  Desired u2 is: 0.4296693 ( with u1 = 0.1 ) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $D</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $D[[1]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            time status       Z.Z_1      Z.Z_2      Z.Z_3       Z.Z_4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  3.220638e-01      0 -0.23027404 -1.2690632 -0.2673166 -1.55025861</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  1.337160e-04      1 -0.32916907  1.6265643  0.2278069  0.91480231</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  2.558107e-02      1  0.49944094 -0.7696502  0.3879469 -0.02710971</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  1.907046e-01      1 -0.92867906  0.2380289 -1.2894161  0.70696930</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  1.470900e-01      0 -0.96832355  0.2955621 -0.4037798  0.42578390</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  9.761088e-02      1 -0.05840795  0.9128333 -0.4899637  0.34036840</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  7.848803e-04      1  1.07646211 -0.8527642  0.2666801  1.41542485</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  9.672344e-05      1  1.68615000 -0.5295145  1.3293412  0.59569653</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  2.237017e-03      1  1.93659046  1.7751477 -1.2878720  0.26822334</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 3.075696e-01      0  0.51202240 -1.6117240  0.9368176 -0.75419444</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  3.491216e-01      0 -0.23027404 -1.2690632 -0.2673166 -1.55025861</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  8.252691e-04      1 -0.32916907  1.6265643  0.2278069  0.91480231</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  8.251961e-06      1  0.49944094 -0.7696502  0.3879469 -0.02710971</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  3.457653e-01      1 -0.92867906  0.2380289 -1.2894161  0.70696930</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  1.383742e-01      1 -0.96832355  0.2955621 -0.4037798  0.42578390</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  3.500657e-02      1 -0.05840795  0.9128333 -0.4899637  0.34036840</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  3.473370e-04      1  1.07646211 -0.8527642  0.2666801  1.41542485</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  3.788401e-04      1  1.68615000 -0.5295145  1.3293412  0.59569653</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  1.746997e-02      1  1.93659046  1.7751477 -1.2878720  0.26822334</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 1.887190e-01      0  0.51202240 -1.6117240  0.9368176 -0.75419444</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $D[[2]]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>            time status       Z.Z_1       Z.Z_2       Z.Z_3      Z.Z_4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1  6.764113e-02      1 -1.44153951  0.84543041  1.63435118 -1.3325912</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  2.338767e-03      1  0.42547690  0.91067540 -0.02140968  0.3038766</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  3.403908e-05      1  0.63158367  0.08532232  0.64390401  1.2853559</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  2.522408e-01      0 -0.15201586 -0.91096893  0.32015202 -0.1719336</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  4.490731e-02      1 -1.48957048  0.09515951  1.29546216 -0.1569018</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6  1.761757e-03      1  0.50347542  0.65439581 -0.57036674  1.1085850</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  3.775679e-01      0  0.95250295 -0.71764421  0.51880688 -1.5608051</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  1.538922e-05      1  0.04937487  1.07616067  1.37303835  0.3469306</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  6.547274e-03      1  0.37153942 -0.04582918 -0.45533515  1.2241016</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 2.979148e-01      0 -0.90718225 -2.49706485  1.40629078 -0.8608085</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11 1.163087e-04      1  2.53099268 -0.03519585  0.12720354  1.4766462</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 9.351734e-04      1  1.13004355  1.34211808  0.83315557 -0.4462548</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 1.520820e-01      0 -0.73382185  0.15624687 -1.35326133  0.2320178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  1.908368e-01      1 -1.44153951  0.84543041  1.63435118 -1.3325912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  5.553927e-03      1  0.42547690  0.91067540 -0.02140968  0.3038766</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  2.554467e-05      1  0.63158367  0.08532232  0.64390401  1.2853559</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  2.509140e-01      1 -0.15201586 -0.91096893  0.32015202 -0.1719336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  7.807589e-02      1 -1.48957048  0.09515951  1.29546216 -0.1569018</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6  8.807375e-03      1  0.50347542  0.65439581 -0.57036674  1.1085850</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  2.237849e-01      0  0.95250295 -0.71764421  0.51880688 -1.5608051</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  2.597067e-04      1  0.04937487  1.07616067  1.37303835  0.3469306</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  7.799071e-03      1  0.37153942 -0.04582918 -0.45533515  1.2241016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 2.913660e-01      0 -0.90718225 -2.49706485  1.40629078 -0.8608085</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11 2.111413e-05      1  2.53099268 -0.03519585  0.12720354  1.4766462</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 5.090627e-03      1  1.13004355  1.34211808  0.83315557 -0.4462548</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 4.275830e-01      0 -0.73382185  0.15624687 -1.35326133  0.2320178</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $censor_propor</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3000000 0.3076923</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2000000 0.2307692</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $u1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $u2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4132222</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4296693</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
