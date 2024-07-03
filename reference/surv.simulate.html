@@ -123,11 +123,11 @@ When the upper limit of the uniform censoring time distribution is unknown, <cod
 <p><code>surv.simulate()</code> can also be used to calculate the unknown upper limit of the uniform distribution, <code>u2</code>, with a predefined censoring rate. To do this, set <code>u2 = NULL</code> and <code>only_u2 = TRUE</code>. In this case, the datasets are not generated; only <code>u2</code> is.</p>
 <p><code>surv.simulate()</code> uses a root-finding algorithm to select the censoring parameter that achieves predefined censoring rates in the simulated survival data.</p>
 <p>When <code>gen_data_from = </code>“exp”:</p><ul><li><p>the cumulative baseline hazard function is considered as \(\Lambda_0=a t\),</p></li>
-<li><p>the event time for the \(\ell^{\text{th}}\) dataset, \(T_\ell\), is computed by \( - log(u) \ exp(- Z_\ell \bm \beta) / a\), where \(u\) follows a standard uniform distribution;</p></li>
+<li><p>the event time for the \(\ell^{\text{th}}\) dataset, \(T_\ell\), is computed by \( - log(u) \ exp(- Z_\ell \boldsymbol{\beta}) / a\), where \(u\) follows a standard uniform distribution;</p></li>
 </ul><p>For <code>gen_data_from = </code>“weibul”:</p><ul><li><p>the cumulative hazard function is as \(\Lambda_0=a t ^ b\),</p></li>
-<li><p>the event time is computed by \(T_\ell= (- log(u) \ exp(- Z_\ell \bm \beta) / a)^{1/b}\), where \(u\) follows a standard uniform distribution;</p></li>
+<li><p>the event time is computed by \(T_\ell= (- log(u) \ exp(- Z_\ell \boldsymbol{\beta}) / a)^{1/b}\), where \(u\) follows a standard uniform distribution;</p></li>
 </ul><p>For <code>gen_data_from = </code>“gomp”:</p><ul><li><p>the cumulative hazard function is as \(\Lambda_0=a (exp(b t) - 1) / b\),</p></li>
-<li><p>the event time is computed by \(T_\ell= \log(1- log(u) \ exp(- Z_\ell \bm \beta) b / a) / b\), where \(u\) follows a standard uniform distribution;</p></li>
+<li><p>the event time is computed by \(T_\ell= \log(1- log(u) \ exp(- Z_\ell \boldsymbol{\beta}) b / a) / b\), where \(u\) follows a standard uniform distribution;</p></li>
 </ul><p>Finally the survival time is obtained by \(\tilde{T}_\ell=\min\{T_\ell , C_\ell \}\).</p>
 <p>The function will be updated for <code>gen_data_from = </code>“gomp”.</p>
     </div>
