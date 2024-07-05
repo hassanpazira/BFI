@@ -120,17 +120,15 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <div class="section level3">
 <h3 id="installing-from-github">Installing from Github<a class="anchor" aria-label="anchor" href="#installing-from-github"></a>
 </h3>
-<p>To install the <code>BFI</code> package directly from Github, you need to have the <strong>devtools</strong> package. So type the following:</p>
+<p>To install the <code>BFI</code> package directly from Github, you need to have the <strong>devtools</strong> package. So type the following to install and then load it:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">if</span><span class="op">(</span><span class="op">!</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span><span class="op">}</span></span></code></pre></div>
-<p>and then load it by typing:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span></code></pre></div>
 <p>Next, install <code>BFI</code> as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"hassanpazira/BFI"</span>, dependencies <span class="op">=</span> <span class="cn">TRUE</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span>, force <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The package can now be loaded into R and used by:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
@@ -138,7 +136,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <h2 id="update">Update<a class="anchor" aria-label="anchor" href="#update"></a>
 </h2>
 <p>The latest version of the <code>BFI</code>package is <code>2.0.1</code>. To check the current version of <code>BFI</code> installed in your R library, use:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html" class="external-link">packageVersion</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -150,7 +148,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <li><p><code><a href="reference/BFI.html">bfi()</a></code>: should be used by a central server.</p></li>
 </ul>
 <p>To access the R documentation for these functions, for example <code><a href="reference/BFI.html">bfi()</a></code>, enter the following command:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/help.html" class="external-link">help</a></span><span class="op">(</span><span class="va">bfi</span>, package <span class="op">=</span> <span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># without loading the BFI package</span></span>
 <span><span class="co"># or, equivalently, after loading the BFI package </span></span>
 <span><span class="op">?</span><span class="va">bfi</span></span></code></pre></div>
@@ -159,11 +157,11 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
 </h2>
 <p>Let’s look at the following example to see how the <code>BFI</code> package can be used. For more examples and details look at the <code>BFI</code> vignette by typing</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/browseVignettes.html" class="external-link">browseVignettes</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span>  <span class="co"># to see all vignettes from the BFI package in an HTML browser.</span></span></code></pre></div>
 <p>or use <code><a href="articles/BFI.html">vignette("BFI")</a></code>, <code><a href="articles/SAS.html">vignette("SAS")</a></code> or <code><a href="articles/Python.html">vignette("Python")</a></code> to see the <code>BFI</code>, <code>SAS</code> or <code>Python</code> vignettes separately in the Help tab of RStudio.</p>
 <p>Now, we generate two independent (local) data sets from Gaussian distribution, and then apply the package to see how it works. First apply the function <code><a href="reference/MAP.estimation.html">MAP.estimation()</a></code> to each local data, and then apply the <code><a href="reference/BFI.html">bfi()</a></code> function to the aggregated results.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co">#-------------</span></span>
 <span><span class="co"># y ~ Gaussian</span></span>
 <span><span class="co">#-------------</span></span>
@@ -251,7 +249,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/hassanpazira/BFI?bran
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>To cite <code>BFI</code> in publications, please use:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"BFI"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">

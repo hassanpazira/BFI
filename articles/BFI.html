@@ -81,7 +81,7 @@ Pazira</h4>
                         <h4 data-toc-skip class="author">Marianne
 Jonker</h4>
             
-            <h4 data-toc-skip class="date">2024-07-03</h4>
+            <h4 data-toc-skip class="date">2024-07-05</h4>
       
       
       <div class="d-none name"><code>BFI.Rmd</code></div>
@@ -190,7 +190,7 @@ the central server, as follows:</p>
 <span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">mortality</span><span class="op">[</span><span class="va">trauma</span><span class="op">$</span><span class="va">hospital</span><span class="op">==</span><span class="fl">1</span><span class="op">]</span>, X<span class="op">=</span><span class="va">X1</span>, family<span class="op">=</span><span class="st">"binomial"</span>, Lambda<span class="op">=</span><span class="va">Lambda1</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Summary of the model:</span></span>
+<span><span class="co">## Summary of the local model:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    Formula: y ~ sex + age + ISS + GCS </span></span>
 <span><span class="co">##     Family: 'binomial' </span></span>
@@ -200,9 +200,9 @@ the central server, as follows:</p>
 <span><span class="co">## </span></span>
 <span><span class="co">##             Estimate Std.Dev  CI 2.5% CI 97.5%</span></span>
 <span><span class="co">## (Intercept)  -2.1226  0.8074  -3.7050  -0.5402</span></span>
-<span><span class="co">## sex          -5.2796  2.6305 -10.4352  -0.1239</span></span>
+<span><span class="co">## sex          -5.2795  2.6305 -10.4351  -0.1239</span></span>
 <span><span class="co">## age           1.8864  0.7210   0.4732   3.2996</span></span>
-<span><span class="co">## ISS           2.3741  0.9251   0.5611   4.1872</span></span>
+<span><span class="co">## ISS           2.3741  0.9250   0.5611   4.1872</span></span>
 <span><span class="co">## GCS          -2.4522  0.8295  -4.0781  -0.8264</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Dispersion parameter (sigma2):  1 </span></span>
@@ -218,7 +218,7 @@ the central server, as follows:</p>
 <span><span class="va">fit2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">mortality</span><span class="op">[</span><span class="va">trauma</span><span class="op">$</span><span class="va">hospital</span><span class="op">==</span><span class="fl">2</span><span class="op">]</span>, X<span class="op">=</span><span class="va">X2</span>, family<span class="op">=</span><span class="st">"binomial"</span>, Lambda<span class="op">=</span><span class="va">Lambda2</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Summary of the model:</span></span>
+<span><span class="co">## Summary of the local model:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    Formula: y ~ sex + age + ISS + GCS </span></span>
 <span><span class="co">##     Family: 'binomial' </span></span>
@@ -229,7 +229,7 @@ the central server, as follows:</p>
 <span><span class="co">##             Estimate Std.Dev CI 2.5% CI 97.5%</span></span>
 <span><span class="co">## (Intercept)  -0.7854  0.3789 -1.5280  -0.0427</span></span>
 <span><span class="co">## sex          -0.7850  0.6999 -2.1568   0.5868</span></span>
-<span><span class="co">## age           1.9601  0.4662  1.0465   2.8737</span></span>
+<span><span class="co">## age           1.9601  0.4662  1.0465   2.8738</span></span>
 <span><span class="co">## ISS           0.5216  0.3673 -0.1983   1.2415</span></span>
 <span><span class="co">## GCS          -1.8737  0.4115 -2.6803  -1.0672</span></span>
 <span><span class="co">## </span></span>
@@ -246,7 +246,7 @@ the central server, as follows:</p>
 <span><span class="va">fit3</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">mortality</span><span class="op">[</span><span class="va">trauma</span><span class="op">$</span><span class="va">hospital</span><span class="op">==</span><span class="fl">3</span><span class="op">]</span>, X<span class="op">=</span><span class="va">X3</span>, family<span class="op">=</span><span class="st">"binomial"</span>, Lambda<span class="op">=</span><span class="va">Lambda3</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit3</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Summary of the model:</span></span>
+<span><span class="co">## Summary of the local model:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    Formula: y ~ sex + age + ISS + GCS </span></span>
 <span><span class="co">##     Family: 'binomial' </span></span>
@@ -259,7 +259,7 @@ the central server, as follows:</p>
 <span><span class="co">## sex           0.1580  0.5714 -0.9619   1.2780</span></span>
 <span><span class="co">## age           1.3031  0.2955  0.7239   1.8824</span></span>
 <span><span class="co">## ISS           0.2967  0.2638 -0.2203   0.8138</span></span>
-<span><span class="co">## GCS          -2.4221  0.4130 -3.2316  -1.6126</span></span>
+<span><span class="co">## GCS          -2.4221  0.4130 -3.2316  -1.6125</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Dispersion parameter (sigma2):  1 </span></span>
 <span><span class="co">##             log Lik Posterior:  -50.63 </span></span>
@@ -303,10 +303,10 @@ estimations:</p>
 <span><span class="va">BFI_fits</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/BFI.html">bfi</a></span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambdas</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">BFI_fits</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Summary of the model:</span></span>
+<span><span class="co">## Summary of the BFI model:</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">##     Family: 'binomial' </span></span>
-<span><span class="co">##       Link: 'Logit'</span></span>
+<span><span class="co">##     Family: 'gaussian' </span></span>
+<span><span class="co">##       Link: 'identity'</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">## </span></span>
@@ -315,18 +315,17 @@ estimations:</p>
 <span><span class="co">## sex          -0.2473  0.4187 -1.0680   0.5733</span></span>
 <span><span class="co">## age           1.2189  0.2190  0.7897   1.6481</span></span>
 <span><span class="co">## ISS           0.4939  0.1945  0.1127   0.8751</span></span>
-<span><span class="co">## GCS          -1.7375  0.2491 -2.2258  -1.2492</span></span>
 <span><span class="co">## </span></span>
-<span><span class="co">## Dispersion parameter (sigma2):  1 </span></span>
+<span><span class="co">## Dispersion parameter (sigma2):  -1.738 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Minus the Curvature Matrix: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##             (Intercept)     sex     age      ISS      GCS</span></span>
-<span><span class="co">## (Intercept)     30.4330  7.7926  0.7577   8.3798 -16.6609</span></span>
+<span><span class="co">## (Intercept)     30.4330  7.7926  0.7578   8.3797 -16.6608</span></span>
 <span><span class="co">## sex              7.7926  7.8026  1.3061   1.8414  -4.6925</span></span>
-<span><span class="co">## age              0.7577  1.3061 31.5230  -4.8355  15.7494</span></span>
-<span><span class="co">## ISS              8.3798  1.8414 -4.8355  30.7882 -11.7190</span></span>
-<span><span class="co">## GCS            -16.6609 -4.6925 15.7494 -11.7190  34.4509</span></span></code></pre>
+<span><span class="co">## age              0.7578  1.3061 31.5230  -4.8356  15.7494</span></span>
+<span><span class="co">## ISS              8.3797  1.8414 -4.8356  30.7881 -11.7189</span></span>
+<span><span class="co">## GCS            -16.6608 -4.6925 15.7494 -11.7189  34.4508</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="comparison">Comparison<a class="anchor" aria-label="anchor" href="#comparison"></a>
@@ -343,7 +342,7 @@ datasets and obtain the MAP estimations based on the combined data:</p>
 <span><span class="va">fit_comb</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">mortality</span>, X<span class="op">=</span><span class="va">X_combined</span>, family<span class="op">=</span><span class="st">"binomial"</span>, Lambda<span class="op">=</span><span class="va">Lambda</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit_comb</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
-<span><span class="co">## Summary of the model:</span></span>
+<span><span class="co">## Summary of the local model:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##    Formula: y ~ sex + age + ISS + GCS </span></span>
 <span><span class="co">##     Family: 'binomial' </span></span>
@@ -365,18 +364,18 @@ datasets and obtain the MAP estimations based on the combined data:</p>
 <span><span class="co">## Minus the Curvature Matrix: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##             (Intercept)     sex     age      ISS      GCS</span></span>
-<span><span class="co">## (Intercept)     33.9101  8.5588  2.4320   8.3617 -18.2744</span></span>
-<span><span class="co">## sex              8.5588  8.6588  1.8922   1.4043  -4.5371</span></span>
-<span><span class="co">## age              2.4320  1.8922 37.5028  -6.1562  18.0250</span></span>
-<span><span class="co">## ISS              8.3617  1.4043 -6.1562  33.7608 -12.8879</span></span>
-<span><span class="co">## GCS            -18.2744 -4.5371 18.0250 -12.8879  38.8457</span></span></code></pre>
+<span><span class="co">## (Intercept)     33.9100  8.5588  2.4320   8.3615 -18.2742</span></span>
+<span><span class="co">## sex              8.5588  8.6588  1.8922   1.4042  -4.5371</span></span>
+<span><span class="co">## age              2.4320  1.8922 37.5026  -6.1561  18.0250</span></span>
+<span><span class="co">## ISS              8.3615  1.4042 -6.1561  33.7604 -12.8876</span></span>
+<span><span class="co">## GCS            -18.2742 -4.5371 18.0250 -12.8876  38.8454</span></span></code></pre>
 <p>Now, we can see the difference between the BFI and combined
 estimates:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Squared Errors:</span></span>
 <span><span class="op">(</span><span class="va">fit_comb</span><span class="op">$</span><span class="va">theta_hat</span> <span class="op">-</span> <span class="va">BFI_fits</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span></code></pre></div>
-<pre><code><span><span class="co">##      (Intercept)         sex        age         ISS        GCS</span></span>
-<span><span class="co">## [1,]  0.02811718 0.007613421 0.01921903 0.003037933 0.05919514</span></span></code></pre>
+<pre><code><span><span class="co">##      (Intercept)       sex        age         ISS        GCS</span></span>
+<span><span class="co">## [1,]  0.02811598 0.0076144 0.01921806 0.003037495 0.05920067</span></span></code></pre>
 <p>which are close to zero, as expected!</p>
 <p>For more details see the following references.</p>
 </div>
