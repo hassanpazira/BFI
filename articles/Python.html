@@ -5,68 +5,51 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="description" content="How to use the BFI package in Python environments.
-">
 <title>Calling BFI from Python • BFI</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js" integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calling BFI from Python">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Calling BFI from Python">
+<meta name="description" content="How to use the BFI package in Python environments.
+">
 <meta property="og:description" content="How to use the BFI package in Python environments.
 ">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
-    
 
-    <nav class="navbar fixed-top navbar-default navbar-expand-lg bg-primary" data-bs-theme="default"><div class="container">
-    
+
+    <nav class="navbar navbar-expand-lg fixed-top bg-primary" data-bs-theme="default" aria-label="Site navigation"><div class="container">
+
     <a class="navbar-brand me-2" href="../index.html">BFI</a>
 
     <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">2.0.1</small>
 
-    
+
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item">
-  <a class="nav-link" href="../reference/index.html">Reference</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="active nav-item dropdown">
-  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
-  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/BFI.html">An Introduction to BFI</a>
-    <a class="dropdown-item" href="../articles/Python.html">Calling BFI from Python</a>
-    <a class="dropdown-item" href="../articles/SAS.html">Using BFI in SAS</a>
-  </div>
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/BFI.html">An Introduction to BFI</a></li>
+    <li><a class="dropdown-item" href="../articles/Python.html">Calling BFI from Python</a></li>
+    <li><a class="dropdown-item" href="../articles/SAS.html">Using BFI in SAS</a></li>
+  </ul>
 </li>
-<li class="nav-item">
-  <a class="nav-link" href="../news/index.html">News</a>
-</li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">News</a></li>
       </ul>
-<form class="form-inline my-2 my-lg-0" role="search">
-        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off">
-</form>
-
-      <ul class="navbar-nav">
-<li class="nav-item">
-  <a class="external-link nav-link" href="https://github.com/hassanpazira/BFI">
-    <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/hassanpazira/BFI"><span class="fa fa-github fa-lg"></span></a></li>
       </ul>
 </div>
 
-    
+
   </div>
 </nav><div class="container template-article">
 
@@ -75,13 +58,14 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Calling BFI from Python</h1>
+
+      <h1>Calling BFI from Python</h1>
                         <h4 data-toc-skip class="author">Hassan
 Pazira</h4>
             
-            <h4 data-toc-skip class="date">2024-07-05</h4>
+            <h4 data-toc-skip class="date">2024-07-07</h4>
       
-      
+
       <div class="d-none name"><code>Python.Rmd</code></div>
     </div>
 
@@ -108,7 +92,7 @@ system through a browser without any preparations.</p>
 </h2>
 <p>First go to <em>Google Colab</em> from <a href="https://colab.google" class="external-link uri">https://colab.google</a> or <a href="https://colab.research.google.com" class="external-link uri">https://colab.research.google.com</a>, and then click on
 <em>New Notebook</em>. Now, skip the two following sections and jump to
-the third section <a href="#Python">Python script</a>.</p>
+the section <a href="#Python">Python Script</a>.</p>
 </div>
 <div class="section level2">
 <h2 id="python-installation">Python Installation<a class="anchor" aria-label="anchor" href="#python-installation"></a>
@@ -188,7 +172,7 @@ version.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="installation-of-required-modules">Installation of required modules<a class="anchor" aria-label="anchor" href="#installation-of-required-modules"></a>
+<h2 id="installation-of-required-modules">Installation of Required Modules<a class="anchor" aria-label="anchor" href="#installation-of-required-modules"></a>
 </h2>
 <p>Here the required modules are installed through PIP. PIP (a Python
 package manager) helps us to install and use various packages/modules in
@@ -208,8 +192,11 @@ following commands on different systems.</p>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="co"># Installing the 'numpy' module</span></span>
 <span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>pip3 install numpy</span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>pip3 install rpy2</span></code></pre></div>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="co"># Installing the 'pickle' module</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>pip3 install pickle</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>pip3 install rpy2</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="on-ubuntu-1">On Ubuntu<a class="anchor" aria-label="anchor" href="#on-ubuntu-1"></a>
@@ -227,8 +214,11 @@ following commands on different systems.</p>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co"># Installing the 'numpy' module</span></span>
 <span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>sudo pip3 install numpy</span>
 <span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>sudo pip3 install rpy2</span></code></pre></div>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># Installing the 'pickle' module</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>sudo pip3 install pickle</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>sudo pip3 install rpy2</span></code></pre></div>
 <p>If the lines above for installation of the modules did not install
 them, use the following:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Installing the 'pandas' module</span></span>
@@ -237,13 +227,17 @@ them, use the following:</p>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># Installing the 'numpy' module</span></span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install python3<span class="sc">-</span>numpy</span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install python3<span class="sc">-</span>rpy2</span></code></pre></div>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co"># Installing the 'pickle' module</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install python3<span class="sc">-</span>pickle</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>sudo apt<span class="sc">-</span>get install python3<span class="sc">-</span>rpy2</span></code></pre></div>
 <p>Finally, use the show command to verify whether the module is now
 part of your Python packages:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>pip3 show pandas</span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>pip3 show numpy</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>pip3 show rpy2</span></code></pre></div>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>pip3 show pickle</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>pip3 show rpy2</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="on-windows-1">On Windows<a class="anchor" aria-label="anchor" href="#on-windows-1"></a>
@@ -270,8 +264,11 @@ More information can be found here: <a href="https://pip.pypa.io/en/stable/insta
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="co"># Installing the 'numpy' module</span></span>
 <span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>pip3 install numpy</span>
 <span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>pip3 install rpy2</span></code></pre></div>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a><span class="co"># Installing the 'pickle' module</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>pip3 install pickle</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a><span class="co"># Installing the 'rpy2' module</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>pip3 install rpy2</span></code></pre></div>
 <p>Now, you can start coding in Python using Python’s command-line
 interpreter or IDLE application. Go to <code>Start</code> and enter
 <code>python</code> in the search bar. You can see Python 3.x and IDLE
@@ -280,7 +277,7 @@ steps.</p>
 </div>
 </div>
 <div class="section level2">
-<h2 id="Python">Python script<a class="anchor" aria-label="anchor" href="#Python"></a>
+<h2 id="Python">Python Script<a class="anchor" aria-label="anchor" href="#Python"></a>
 </h2>
 <p>It is assumed here that the required packages has been properly
 installed, which is the case in <em>Google Colab</em>. Now move on to
@@ -302,8 +299,11 @@ environment. If you want to copy all codes at once go to <a href="#allcodes">the
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="co"># import 'numpy' package</span></span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np                </span>
 <span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co"># import 'rpy2' package</span></span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="im">import</span> rpy2                  </span></code></pre></div>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co"># import 'pickle' package</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co"># import 'rpy2' package</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="im">import</span> rpy2                  </span></code></pre></div>
 <p>and using the following codes imports the required functions such as
 <code>importr()</code> and <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code>:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.packages <span class="im">import</span> importr, data</span>
@@ -384,7 +384,7 @@ covariates:</p>
 <span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>y2 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu2, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="map-estimates-at-the-local-centers">MAP estimates at the local centers<a class="anchor" aria-label="anchor" href="#map-estimates-at-the-local-centers"></a>
+<h3 id="map-estimates-at-the-local-centers">MAP Estimates at the local centers<a class="anchor" aria-label="anchor" href="#map-estimates-at-the-local-centers"></a>
 </h3>
 <p>The following compute the Maximum A Posterior (MAP) estimators of the
 parameters for center 1:</p>
@@ -405,37 +405,96 @@ following:</p>
 <span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>A_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"A_hat"</span>)         <span class="co"># minus the curvature matrix around 'theta_hat2'</span></span>
 <span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>summary_2 <span class="op">=</span> BFI.summary_bfi(fit2, cur_mat <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
 </div>
+</div>
+<div class="section level2">
+<h2 id="sending-the-required-files-to-central-server">Sending the Required Files to Central Server<a class="anchor" aria-label="anchor" href="#sending-the-required-files-to-central-server"></a>
+</h2>
+<p>The required outputs for using the central server are
+<code>fit1</code> for center 1 and <code>fit2</code> for center 2. To
+send these outputs to the central server, you can save the list to a
+file in a common format (such as RDS, JSON, or CSV). This will allow the
+central server to open the file in either R or Python environments.</p>
 <div class="section level3">
-<h3 id="bfi-at-central-center">BFI at central center<a class="anchor" aria-label="anchor" href="#bfi-at-central-center"></a>
+<h3 id="central-server-with-r">Central server with R<a class="anchor" aria-label="anchor" href="#central-server-with-r"></a>
 </h3>
-<p>Now the main function <code><a href="../reference/BFI.html">bfi()</a></code> can be used to obtain the
-BFI estimates:</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>theta_hats <span class="op">=</span> base.<span class="bu">list</span>(theta_hat1, theta_hat2)</span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>A_hats <span class="op">=</span> base.<span class="bu">list</span>(A_hat1, A_hat2)</span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>Lambda1 <span class="op">=</span> pd.DataFrame(Lambda1, index<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>))</span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>Lambda2 <span class="op">=</span> pd.DataFrame(Lambda2, index<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>))</span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>Lambdas <span class="op">=</span> base.<span class="bu">list</span>(Lambda1, Lambda2)</span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>fit_bfi <span class="op">=</span> BFI.bfi(theta_hats, A_hats, Lambdas)</span>
-<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a><span class="bu">print</span>(fit_bfi)</span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>summary_bfi <span class="op">=</span> BFI.summary_bfi(fit_bfi, cur_mat <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
+<p>If the central server is using R, follow the instructions below. If
+it is using Python, go to the next subsection: <a href="#server_python">Central server with Python</a>. We will show how
+to do this for <code>fit1</code> at center 1. The process is the same
+for center 2. Since <code>fit1</code> is an R object and the central
+server is using R, you can save it as an RDS file, which is a file
+format native to R for single R objects.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="im">import</span> rpy2.robjects <span class="im">as</span> ro</span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="co"># Save fit1 as an RDS file</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>ro.r(<span class="st">'saveRDS(fit1, file="fit1.rds")'</span>)</span></code></pre></div>
+<p>This file, <code>fit1.rds</code> should be sent to the central
+server, where it can be loaded as follows:</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Load the saved RDS file</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>fit1 <span class="op">&lt;-</span> readRDS(<span class="st">"path/to/fit1.rds"</span>) <span class="co"># use the relative path to the file</span></span></code></pre></div>
+<p>Now, the variable <code>fit1</code> is a list in R containing all
+information needed for further analysis:</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>theta_hat1 <span class="op">&lt;-</span> fit1$theta_hat</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>A_hat1 <span class="op">&lt;-</span> fit1$A_hat</span></code></pre></div>
+<p>To see how to proceed and use <code><a href="../reference/BFI.html">bfi()</a></code> in R, see, for
+example, <a href="https://hassanpazira.github.io/BFI/reference/BFI.html">here</a>.</p>
+</div>
+<div class="section level3">
+<h3 id="server_python">Central server with Python<a class="anchor" aria-label="anchor" href="#server_python"></a>
+</h3>
+<p>If the central server is using Python, follow the instructions below.
+We will show how to do this for <code>fit1</code> at center 1. The
+process is the same for center 2. Since <code>fit1</code> needs to be
+shared with the central server which is using Python, you can serialize
+it using the <code>pickle</code> module, which is a common way to save
+Python objects. At the center 1, use the following to create
+<code>fit1.pkl</code>:</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="co"># Save fit1 as a pickle file</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit1.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> f:</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>    pickle.dump(fit1, f)</span></code></pre></div>
+<p>Now, the file <code>fit1.pkl</code> should be sent to the central
+server, where it can be loaded as follows:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># Load the pickle file using the relative path to the file</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>    fit1 <span class="op">=</span> pickle.load(f)</span></code></pre></div>
+<p>The variable <code>fit1</code> contains all information needed for
+further analysis in the central server. To see how to proceed and obtain
+the BFI estimates on the central server, follow the next section.</p>
+</div>
+<div class="section level3">
+<h3 id="bfi-at-central-server-using-python">BFI at Central Server (using Python)<a class="anchor" aria-label="anchor" href="#bfi-at-central-server-using-python"></a>
+</h3>
+<p>On the central server, the main function <code><a href="../reference/BFI.html">bfi()</a></code> can be
+used to obtain the BFI estimates:</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>theta_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"theta_hat"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>A_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"A_hat"</span>)</span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>theta_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"theta_hat"</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a>A_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"A_hat"</span>)</span>
+<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>theta_hats <span class="op">=</span> base.<span class="bu">list</span>(theta_hat1, theta_hat2)</span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>A_hats <span class="op">=</span> base.<span class="bu">list</span>(A_hat1, A_hat2)</span>
+<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>Lambda1 <span class="op">=</span> pd.DataFrame(Lambda1, index<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>))</span>
+<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>Lambda2 <span class="op">=</span> pd.DataFrame(Lambda2, index<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>))</span>
+<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>Lambdas <span class="op">=</span> base.<span class="bu">list</span>(Lambda1, Lambda2)</span>
+<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a>fit_bfi <span class="op">=</span> BFI.bfi(theta_hats, A_hats, Lambdas)</span>
+<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a><span class="bu">print</span>(fit_bfi)</span>
+<span id="cb36-12"><a href="#cb36-12" tabindex="-1"></a>summary_bfi <span class="op">=</span> BFI.summary_bfi(fit_bfi, cur_mat <span class="op">=</span> <span class="va">True</span>)</span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="datasets-included-in-the-bfi-package">Datasets included in the <code>BFI</code> package<a class="anchor" aria-label="anchor" href="#datasets-included-in-the-bfi-package"></a>
 </h3>
 <p>To find a list of all datasets included in the package run:</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="bu">print</span>(utils.data(package <span class="op">=</span> <span class="st">"BFI"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="bu">print</span>(utils.data(package <span class="op">=</span> <span class="st">"BFI"</span>))</span></code></pre></div>
 <p>In order to use the datasets available from the <code>BFI</code>
 package, use the following codes:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>Nurses <span class="op">=</span> data(BFI).fetch(<span class="st">'Nurses'</span>)[<span class="st">'Nurses'</span>]  <span class="co"># is equivalent to BFI::Nurses in R</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(Nurses))</span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(Nurses))</span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>trauma <span class="op">=</span> data(BFI).fetch(<span class="st">'trauma'</span>)[<span class="st">'trauma'</span>]  <span class="co"># is equivalent to BFI::trauma in R</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(trauma))</span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(trauma))</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a>Nurses <span class="op">=</span> data(BFI).fetch(<span class="st">'Nurses'</span>)[<span class="st">'Nurses'</span>]  <span class="co"># is equivalent to BFI::Nurses in R</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(Nurses))</span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(Nurses))</span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a></span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>trauma <span class="op">=</span> data(BFI).fetch(<span class="st">'trauma'</span>)[<span class="st">'trauma'</span>]  <span class="co"># is equivalent to BFI::trauma in R</span></span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(trauma))</span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(trauma))</span></code></pre></div>
 <p>At the end, use the following to deactivate automatic conversion:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>numpy2ri.deactivate()</span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>pandas2ri.deactivate()</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>numpy2ri.deactivate()</span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>pandas2ri.deactivate()</span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -443,97 +502,116 @@ package, use the following codes:</p>
 </h2>
 <p>If you need all the codes at once to copy and paste them for example
 into <em>Google Colab</em>, here’s the complete codes:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># import 'pandas' package</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a></span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="co"># import 'numpy' package</span></span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np                </span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a></span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a><span class="co"># import 'rpy2' package</span></span>
-<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a><span class="im">import</span> rpy2                  </span>
-<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a></span>
-<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.packages <span class="im">import</span> importr, data</span>
-<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.vectors <span class="im">import</span> StrVector</span>
-<span id="cb35-12"><a href="#cb35-12" tabindex="-1"></a><span class="im">from</span> rpy2.robjects <span class="im">import</span> numpy2ri, pandas2ri</span>
-<span id="cb35-13"><a href="#cb35-13" tabindex="-1"></a><span class="co"># activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects</span></span>
-<span id="cb35-14"><a href="#cb35-14" tabindex="-1"></a>numpy2ri.activate()   </span>
-<span id="cb35-15"><a href="#cb35-15" tabindex="-1"></a>pandas2ri.activate()</span>
-<span id="cb35-16"><a href="#cb35-16" tabindex="-1"></a></span>
-<span id="cb35-17"><a href="#cb35-17" tabindex="-1"></a><span class="co"># import R's "utils" package</span></span>
-<span id="cb35-18"><a href="#cb35-18" tabindex="-1"></a>utils <span class="op">=</span> importr(<span class="st">'utils'</span>)</span>
-<span id="cb35-19"><a href="#cb35-19" tabindex="-1"></a></span>
-<span id="cb35-20"><a href="#cb35-20" tabindex="-1"></a><span class="co"># import R's "base" package</span></span>
-<span id="cb35-21"><a href="#cb35-21" tabindex="-1"></a>base <span class="op">=</span> importr(<span class="st">'base'</span>)</span>
-<span id="cb35-22"><a href="#cb35-22" tabindex="-1"></a></span>
-<span id="cb35-23"><a href="#cb35-23" tabindex="-1"></a>utils.chooseCRANmirror(ind<span class="op">=</span><span class="dv">1</span>)  <span class="co"># which selects the first mirror in the list</span></span>
-<span id="cb35-24"><a href="#cb35-24" tabindex="-1"></a>package_names <span class="op">=</span> (<span class="st">'stats'</span>, <span class="st">'BFI'</span>)</span>
-<span id="cb35-25"><a href="#cb35-25" tabindex="-1"></a>utils.install_packages(StrVector(package_names))</span>
-<span id="cb35-26"><a href="#cb35-26" tabindex="-1"></a></span>
-<span id="cb35-27"><a href="#cb35-27" tabindex="-1"></a><span class="co"># loading the installed packages</span></span>
-<span id="cb35-28"><a href="#cb35-28" tabindex="-1"></a>stats <span class="op">=</span> importr(<span class="st">'stats'</span>)</span>
-<span id="cb35-29"><a href="#cb35-29" tabindex="-1"></a>BFI <span class="op">=</span> importr(<span class="st">'BFI'</span>)</span>
-<span id="cb35-30"><a href="#cb35-30" tabindex="-1"></a></span>
-<span id="cb35-31"><a href="#cb35-31" tabindex="-1"></a><span class="co">## Examples</span></span>
-<span id="cb35-32"><a href="#cb35-32" tabindex="-1"></a></span>
-<span id="cb35-33"><a href="#cb35-33" tabindex="-1"></a><span class="co"># model parameters: 'theta' and 'p' are assumed to be the same for both centers:</span></span>
-<span id="cb35-34"><a href="#cb35-34" tabindex="-1"></a>theta <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">0.75</span>])   <span class="co"># intercept is theta[0], sigma2 is theta[4]</span></span>
-<span id="cb35-35"><a href="#cb35-35" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">3</span>     <span class="co"># number of regression parameters without intercept</span></span>
-<span id="cb35-36"><a href="#cb35-36" tabindex="-1"></a></span>
-<span id="cb35-37"><a href="#cb35-37" tabindex="-1"></a><span class="co"># Data Simulation for center 1</span></span>
-<span id="cb35-38"><a href="#cb35-38" tabindex="-1"></a>n1 <span class="op">=</span> <span class="dv">30</span>   <span class="co"># sample size of center 1</span></span>
-<span id="cb35-39"><a href="#cb35-39" tabindex="-1"></a>X1 <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n1, p)) </span>
-<span id="cb35-40"><a href="#cb35-40" tabindex="-1"></a>X1.shape   <span class="co"># dimension of X1</span></span>
-<span id="cb35-41"><a href="#cb35-41" tabindex="-1"></a>X1 <span class="op">=</span> pd.DataFrame(X1, columns<span class="op">=</span>[<span class="st">'X1'</span>, <span class="st">'X2'</span>, <span class="st">'X3'</span>])</span>
-<span id="cb35-42"><a href="#cb35-42" tabindex="-1"></a>mu1 <span class="op">=</span> theta[<span class="dv">0</span>] <span class="op">+</span> np.dot(X1, np.delete(theta, [<span class="dv">0</span>, <span class="dv">4</span>]))  <span class="co"># for gaussian: \eta = \mu </span></span>
-<span id="cb35-43"><a href="#cb35-43" tabindex="-1"></a>X1 <span class="op">=</span> pandas2ri.py2rpy(X1)   <span class="co"># == base.as_data_frame(X1)</span></span>
-<span id="cb35-44"><a href="#cb35-44" tabindex="-1"></a>y1 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu1, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span>
-<span id="cb35-45"><a href="#cb35-45" tabindex="-1"></a></span>
-<span id="cb35-46"><a href="#cb35-46" tabindex="-1"></a><span class="co"># Data Simulation for center 2</span></span>
-<span id="cb35-47"><a href="#cb35-47" tabindex="-1"></a>n2 <span class="op">=</span> <span class="dv">50</span>   <span class="co"># sample size of center 2</span></span>
-<span id="cb35-48"><a href="#cb35-48" tabindex="-1"></a>X2 <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n2, p))</span>
-<span id="cb35-49"><a href="#cb35-49" tabindex="-1"></a>X2 <span class="op">=</span> pd.DataFrame(X2, columns<span class="op">=</span>[<span class="st">'X1'</span>, <span class="st">'X2'</span>, <span class="st">'X3'</span>])</span>
-<span id="cb35-50"><a href="#cb35-50" tabindex="-1"></a>mu2 <span class="op">=</span> theta[<span class="dv">0</span>] <span class="op">+</span> np.dot(X2, np.delete(theta, [<span class="dv">0</span>, <span class="dv">4</span>]))</span>
-<span id="cb35-51"><a href="#cb35-51" tabindex="-1"></a>X2 <span class="op">=</span> pandas2ri.py2rpy(X2)</span>
-<span id="cb35-52"><a href="#cb35-52" tabindex="-1"></a>y2 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu2, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span>
-<span id="cb35-53"><a href="#cb35-53" tabindex="-1"></a></span>
-<span id="cb35-54"><a href="#cb35-54" tabindex="-1"></a><span class="co"># MAP estimates at center 1</span></span>
-<span id="cb35-55"><a href="#cb35-55" tabindex="-1"></a><span class="co"># Creating an inverse covariance matrix for a Gaussian prior for center 1</span></span>
-<span id="cb35-56"><a href="#cb35-56" tabindex="-1"></a>Lambda1 <span class="op">=</span> BFI.inv_prior_cov(X1, <span class="fl">0.01</span>, <span class="st">'gaussian'</span>)</span>
-<span id="cb35-57"><a href="#cb35-57" tabindex="-1"></a>fit1 <span class="op">=</span> BFI.MAP_estimation(y1, X1, <span class="st">'gaussian'</span>, Lambda1)</span>
-<span id="cb35-58"><a href="#cb35-58" tabindex="-1"></a><span class="bu">print</span>(fit1)</span>
-<span id="cb35-59"><a href="#cb35-59" tabindex="-1"></a>theta_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"theta_hat"</span>) <span class="co"># MAP estimates of the intercept and coefficients</span></span>
-<span id="cb35-60"><a href="#cb35-60" tabindex="-1"></a>A_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"A_hat"</span>)         <span class="co"># minus the curvature matrix</span></span>
-<span id="cb35-61"><a href="#cb35-61" tabindex="-1"></a>summary_1 <span class="op">=</span> BFI.summary_bfi(fit1, cur_mat <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb35-62"><a href="#cb35-62" tabindex="-1"></a></span>
-<span id="cb35-63"><a href="#cb35-63" tabindex="-1"></a><span class="co"># MAP estimates at center 2</span></span>
-<span id="cb35-64"><a href="#cb35-64" tabindex="-1"></a><span class="co"># Creating an inverse covariance matrix for Gaussian prior for center 2</span></span>
-<span id="cb35-65"><a href="#cb35-65" tabindex="-1"></a>Lambda2 <span class="op">=</span> BFI.inv_prior_cov(X2, <span class="fl">0.01</span>, <span class="st">'gaussian'</span>)</span>
-<span id="cb35-66"><a href="#cb35-66" tabindex="-1"></a><span class="co"># MAP estimates</span></span>
-<span id="cb35-67"><a href="#cb35-67" tabindex="-1"></a>fit2 <span class="op">=</span> BFI.MAP_estimation(y2, X2, <span class="st">'gaussian'</span>, Lambda2)</span>
-<span id="cb35-68"><a href="#cb35-68" tabindex="-1"></a>theta_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"theta_hat"</span>) <span class="co"># MAP estimates of the parameters</span></span>
-<span id="cb35-69"><a href="#cb35-69" tabindex="-1"></a>A_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"A_hat"</span>)         <span class="co"># minus the curvature matrix around 'theta_hat2'</span></span>
-<span id="cb35-70"><a href="#cb35-70" tabindex="-1"></a>summary_2 <span class="op">=</span> BFI.summary_bfi(fit2, cur_mat <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb35-71"><a href="#cb35-71" tabindex="-1"></a></span>
-<span id="cb35-72"><a href="#cb35-72" tabindex="-1"></a><span class="co"># BFI at central center</span></span>
-<span id="cb35-73"><a href="#cb35-73" tabindex="-1"></a>theta_hats <span class="op">=</span> base.<span class="bu">list</span>(theta_hat1, theta_hat2)</span>
-<span id="cb35-74"><a href="#cb35-74" tabindex="-1"></a>A_hats <span class="op">=</span> base.<span class="bu">list</span>(A_hat1, A_hat2)</span>
-<span id="cb35-75"><a href="#cb35-75" tabindex="-1"></a>Lambda1 <span class="op">=</span> pd.DataFrame(Lambda1, index<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>))</span>
-<span id="cb35-76"><a href="#cb35-76" tabindex="-1"></a>Lambda2 <span class="op">=</span> pd.DataFrame(Lambda2, index<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>))</span>
-<span id="cb35-77"><a href="#cb35-77" tabindex="-1"></a>Lambdas <span class="op">=</span> base.<span class="bu">list</span>(Lambda1, Lambda2)</span>
-<span id="cb35-78"><a href="#cb35-78" tabindex="-1"></a>fit_bfi <span class="op">=</span> BFI.bfi(theta_hats, A_hats, Lambdas)</span>
-<span id="cb35-79"><a href="#cb35-79" tabindex="-1"></a><span class="bu">print</span>(fit_bfi)</span>
-<span id="cb35-80"><a href="#cb35-80" tabindex="-1"></a>summary_bfi <span class="op">=</span> BFI.summary_bfi(fit_bfi, cur_mat <span class="op">=</span> <span class="va">True</span>)</span>
-<span id="cb35-81"><a href="#cb35-81" tabindex="-1"></a></span>
-<span id="cb35-82"><a href="#cb35-82" tabindex="-1"></a><span class="co"># To find a list of all datasets included in the package:</span></span>
-<span id="cb35-83"><a href="#cb35-83" tabindex="-1"></a><span class="bu">print</span>(utils.data(package <span class="op">=</span> <span class="st">"BFI"</span>))</span>
-<span id="cb35-84"><a href="#cb35-84" tabindex="-1"></a></span>
-<span id="cb35-85"><a href="#cb35-85" tabindex="-1"></a>Nurses <span class="op">=</span> data(BFI).fetch(<span class="st">'Nurses'</span>)[<span class="st">'Nurses'</span>]</span>
-<span id="cb35-86"><a href="#cb35-86" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(Nurses))</span>
-<span id="cb35-87"><a href="#cb35-87" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(Nurses))</span>
-<span id="cb35-88"><a href="#cb35-88" tabindex="-1"></a></span>
-<span id="cb35-89"><a href="#cb35-89" tabindex="-1"></a>trauma <span class="op">=</span> data(BFI).fetch(<span class="st">'trauma'</span>)[<span class="st">'trauma'</span>]</span>
-<span id="cb35-90"><a href="#cb35-90" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(trauma))</span>
-<span id="cb35-91"><a href="#cb35-91" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(trauma))</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="co"># import 'pandas' package</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a></span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a><span class="co"># import 'numpy' package</span></span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np                </span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a><span class="co"># import 'pickle' package</span></span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a><span class="im">import</span> pickle</span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a></span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a><span class="co"># import 'rpy2' package</span></span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a><span class="im">import</span> rpy2                  </span>
+<span id="cb40-12"><a href="#cb40-12" tabindex="-1"></a></span>
+<span id="cb40-13"><a href="#cb40-13" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.packages <span class="im">import</span> importr, data</span>
+<span id="cb40-14"><a href="#cb40-14" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.vectors <span class="im">import</span> StrVector</span>
+<span id="cb40-15"><a href="#cb40-15" tabindex="-1"></a><span class="im">from</span> rpy2.robjects <span class="im">import</span> numpy2ri, pandas2ri</span>
+<span id="cb40-16"><a href="#cb40-16" tabindex="-1"></a><span class="co"># activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects</span></span>
+<span id="cb40-17"><a href="#cb40-17" tabindex="-1"></a>numpy2ri.activate()   </span>
+<span id="cb40-18"><a href="#cb40-18" tabindex="-1"></a>pandas2ri.activate()</span>
+<span id="cb40-19"><a href="#cb40-19" tabindex="-1"></a></span>
+<span id="cb40-20"><a href="#cb40-20" tabindex="-1"></a><span class="co"># import R's "utils" package</span></span>
+<span id="cb40-21"><a href="#cb40-21" tabindex="-1"></a>utils <span class="op">=</span> importr(<span class="st">'utils'</span>)</span>
+<span id="cb40-22"><a href="#cb40-22" tabindex="-1"></a></span>
+<span id="cb40-23"><a href="#cb40-23" tabindex="-1"></a><span class="co"># import R's "base" package</span></span>
+<span id="cb40-24"><a href="#cb40-24" tabindex="-1"></a>base <span class="op">=</span> importr(<span class="st">'base'</span>)</span>
+<span id="cb40-25"><a href="#cb40-25" tabindex="-1"></a></span>
+<span id="cb40-26"><a href="#cb40-26" tabindex="-1"></a>utils.chooseCRANmirror(ind<span class="op">=</span><span class="dv">1</span>)  <span class="co"># which selects the first mirror in the list</span></span>
+<span id="cb40-27"><a href="#cb40-27" tabindex="-1"></a>package_names <span class="op">=</span> (<span class="st">'stats'</span>, <span class="st">'BFI'</span>)</span>
+<span id="cb40-28"><a href="#cb40-28" tabindex="-1"></a>utils.install_packages(StrVector(package_names))</span>
+<span id="cb40-29"><a href="#cb40-29" tabindex="-1"></a></span>
+<span id="cb40-30"><a href="#cb40-30" tabindex="-1"></a><span class="co"># loading the installed packages</span></span>
+<span id="cb40-31"><a href="#cb40-31" tabindex="-1"></a>stats <span class="op">=</span> importr(<span class="st">'stats'</span>)</span>
+<span id="cb40-32"><a href="#cb40-32" tabindex="-1"></a>BFI <span class="op">=</span> importr(<span class="st">'BFI'</span>)</span>
+<span id="cb40-33"><a href="#cb40-33" tabindex="-1"></a></span>
+<span id="cb40-34"><a href="#cb40-34" tabindex="-1"></a><span class="co">## Examples</span></span>
+<span id="cb40-35"><a href="#cb40-35" tabindex="-1"></a></span>
+<span id="cb40-36"><a href="#cb40-36" tabindex="-1"></a><span class="co"># model parameters: 'theta' and 'p' are assumed to be the same for both centers:</span></span>
+<span id="cb40-37"><a href="#cb40-37" tabindex="-1"></a>theta <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="fl">0.75</span>])   <span class="co"># intercept is theta[0], sigma2 is theta[4]</span></span>
+<span id="cb40-38"><a href="#cb40-38" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">3</span>     <span class="co"># number of regression parameters without intercept</span></span>
+<span id="cb40-39"><a href="#cb40-39" tabindex="-1"></a></span>
+<span id="cb40-40"><a href="#cb40-40" tabindex="-1"></a><span class="co"># Data Simulation for center 1</span></span>
+<span id="cb40-41"><a href="#cb40-41" tabindex="-1"></a>n1 <span class="op">=</span> <span class="dv">30</span>   <span class="co"># sample size of center 1</span></span>
+<span id="cb40-42"><a href="#cb40-42" tabindex="-1"></a>X1 <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n1, p)) </span>
+<span id="cb40-43"><a href="#cb40-43" tabindex="-1"></a>X1.shape   <span class="co"># dimension of X1</span></span>
+<span id="cb40-44"><a href="#cb40-44" tabindex="-1"></a>X1 <span class="op">=</span> pd.DataFrame(X1, columns<span class="op">=</span>[<span class="st">'X1'</span>, <span class="st">'X2'</span>, <span class="st">'X3'</span>])</span>
+<span id="cb40-45"><a href="#cb40-45" tabindex="-1"></a>mu1 <span class="op">=</span> theta[<span class="dv">0</span>] <span class="op">+</span> np.dot(X1, np.delete(theta, [<span class="dv">0</span>, <span class="dv">4</span>]))  <span class="co"># for gaussian: \eta = \mu </span></span>
+<span id="cb40-46"><a href="#cb40-46" tabindex="-1"></a>X1 <span class="op">=</span> pandas2ri.py2rpy(X1)   <span class="co"># == base.as_data_frame(X1)</span></span>
+<span id="cb40-47"><a href="#cb40-47" tabindex="-1"></a>y1 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu1, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span>
+<span id="cb40-48"><a href="#cb40-48" tabindex="-1"></a></span>
+<span id="cb40-49"><a href="#cb40-49" tabindex="-1"></a><span class="co"># Data Simulation for center 2</span></span>
+<span id="cb40-50"><a href="#cb40-50" tabindex="-1"></a>n2 <span class="op">=</span> <span class="dv">50</span>   <span class="co"># sample size of center 2</span></span>
+<span id="cb40-51"><a href="#cb40-51" tabindex="-1"></a>X2 <span class="op">=</span> np.random.normal(size<span class="op">=</span>(n2, p))</span>
+<span id="cb40-52"><a href="#cb40-52" tabindex="-1"></a>X2 <span class="op">=</span> pd.DataFrame(X2, columns<span class="op">=</span>[<span class="st">'X1'</span>, <span class="st">'X2'</span>, <span class="st">'X3'</span>])</span>
+<span id="cb40-53"><a href="#cb40-53" tabindex="-1"></a>mu2 <span class="op">=</span> theta[<span class="dv">0</span>] <span class="op">+</span> np.dot(X2, np.delete(theta, [<span class="dv">0</span>, <span class="dv">4</span>]))</span>
+<span id="cb40-54"><a href="#cb40-54" tabindex="-1"></a>X2 <span class="op">=</span> pandas2ri.py2rpy(X2)</span>
+<span id="cb40-55"><a href="#cb40-55" tabindex="-1"></a>y2 <span class="op">=</span> np.random.normal(loc<span class="op">=</span>mu2, scale<span class="op">=</span>np.sqrt(theta[<span class="dv">4</span>]))</span>
+<span id="cb40-56"><a href="#cb40-56" tabindex="-1"></a></span>
+<span id="cb40-57"><a href="#cb40-57" tabindex="-1"></a><span class="co">## MAP estimates at center 1</span></span>
+<span id="cb40-58"><a href="#cb40-58" tabindex="-1"></a><span class="co"># Creating an inverse covariance matrix for a Gaussian prior for center 1</span></span>
+<span id="cb40-59"><a href="#cb40-59" tabindex="-1"></a>Lambda1 <span class="op">=</span> BFI.inv_prior_cov(X1, <span class="fl">0.01</span>, <span class="st">'gaussian'</span>)</span>
+<span id="cb40-60"><a href="#cb40-60" tabindex="-1"></a>fit1 <span class="op">=</span> BFI.MAP_estimation(y1, X1, <span class="st">'gaussian'</span>, Lambda1)</span>
+<span id="cb40-61"><a href="#cb40-61" tabindex="-1"></a><span class="bu">print</span>(fit1)</span>
+<span id="cb40-62"><a href="#cb40-62" tabindex="-1"></a>theta_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"theta_hat"</span>) <span class="co"># MAP estimates of the intercept and coefficients</span></span>
+<span id="cb40-63"><a href="#cb40-63" tabindex="-1"></a>A_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"A_hat"</span>)         <span class="co"># minus the curvature matrix</span></span>
+<span id="cb40-64"><a href="#cb40-64" tabindex="-1"></a>summary_1 <span class="op">=</span> BFI.summary_bfi(fit1, cur_mat <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb40-65"><a href="#cb40-65" tabindex="-1"></a><span class="co"># Save fit1 as a pickle file for sending to the central server</span></span>
+<span id="cb40-66"><a href="#cb40-66" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit1.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> f:</span>
+<span id="cb40-67"><a href="#cb40-67" tabindex="-1"></a>    pickle.dump(fit1, f)</span>
+<span id="cb40-68"><a href="#cb40-68" tabindex="-1"></a></span>
+<span id="cb40-69"><a href="#cb40-69" tabindex="-1"></a><span class="co">## MAP estimates at center 2</span></span>
+<span id="cb40-70"><a href="#cb40-70" tabindex="-1"></a><span class="co"># Creating an inverse covariance matrix for Gaussian prior for center 2</span></span>
+<span id="cb40-71"><a href="#cb40-71" tabindex="-1"></a>Lambda2 <span class="op">=</span> BFI.inv_prior_cov(X2, <span class="fl">0.01</span>, <span class="st">'gaussian'</span>)</span>
+<span id="cb40-72"><a href="#cb40-72" tabindex="-1"></a><span class="co"># MAP estimates</span></span>
+<span id="cb40-73"><a href="#cb40-73" tabindex="-1"></a>fit2 <span class="op">=</span> BFI.MAP_estimation(y2, X2, <span class="st">'gaussian'</span>, Lambda2)</span>
+<span id="cb40-74"><a href="#cb40-74" tabindex="-1"></a>theta_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"theta_hat"</span>) <span class="co"># MAP estimates of the parameters</span></span>
+<span id="cb40-75"><a href="#cb40-75" tabindex="-1"></a>A_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"A_hat"</span>)         <span class="co"># minus the curvature matrix around 'theta_hat2'</span></span>
+<span id="cb40-76"><a href="#cb40-76" tabindex="-1"></a>summary_2 <span class="op">=</span> BFI.summary_bfi(fit2, cur_mat <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb40-77"><a href="#cb40-77" tabindex="-1"></a><span class="co"># Save fit2 as a pickle file for sending to the central server</span></span>
+<span id="cb40-78"><a href="#cb40-78" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit2.pkl'</span>, <span class="st">'wb'</span>) <span class="im">as</span> f:</span>
+<span id="cb40-79"><a href="#cb40-79" tabindex="-1"></a>    pickle.dump(fit2, f)</span>
+<span id="cb40-80"><a href="#cb40-80" tabindex="-1"></a></span>
+<span id="cb40-81"><a href="#cb40-81" tabindex="-1"></a><span class="co">## BFI at central server</span></span>
+<span id="cb40-82"><a href="#cb40-82" tabindex="-1"></a><span class="co"># Load the pickle file using the relative path to the file</span></span>
+<span id="cb40-83"><a href="#cb40-83" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<span id="cb40-84"><a href="#cb40-84" tabindex="-1"></a>    fit1 <span class="op">=</span> pickle.load(f)</span>
+<span id="cb40-85"><a href="#cb40-85" tabindex="-1"></a>theta_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"theta_hat"</span>)</span>
+<span id="cb40-86"><a href="#cb40-86" tabindex="-1"></a>A_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"A_hat"</span>)</span>
+<span id="cb40-87"><a href="#cb40-87" tabindex="-1"></a><span class="co"># Load the pickle file using the relative path to the file</span></span>
+<span id="cb40-88"><a href="#cb40-88" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit2.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<span id="cb40-89"><a href="#cb40-89" tabindex="-1"></a>    fit2 <span class="op">=</span> pickle.load(f)</span>
+<span id="cb40-90"><a href="#cb40-90" tabindex="-1"></a>theta_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"theta_hat"</span>)</span>
+<span id="cb40-91"><a href="#cb40-91" tabindex="-1"></a>A_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"A_hat"</span>)</span>
+<span id="cb40-92"><a href="#cb40-92" tabindex="-1"></a>theta_hats <span class="op">=</span> base.<span class="bu">list</span>(theta_hat1, theta_hat2)</span>
+<span id="cb40-93"><a href="#cb40-93" tabindex="-1"></a>A_hats <span class="op">=</span> base.<span class="bu">list</span>(A_hat1, A_hat2)</span>
+<span id="cb40-94"><a href="#cb40-94" tabindex="-1"></a>Lambda1 <span class="op">=</span> pd.DataFrame(Lambda1, index<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit1.rx2(<span class="st">"names"</span>))</span>
+<span id="cb40-95"><a href="#cb40-95" tabindex="-1"></a>Lambda2 <span class="op">=</span> pd.DataFrame(Lambda2, index<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>), columns<span class="op">=</span>fit2.rx2(<span class="st">"names"</span>))</span>
+<span id="cb40-96"><a href="#cb40-96" tabindex="-1"></a>Lambdas <span class="op">=</span> base.<span class="bu">list</span>(Lambda1, Lambda2)</span>
+<span id="cb40-97"><a href="#cb40-97" tabindex="-1"></a>fit_bfi <span class="op">=</span> BFI.bfi(theta_hats, A_hats, Lambdas)</span>
+<span id="cb40-98"><a href="#cb40-98" tabindex="-1"></a><span class="bu">print</span>(fit_bfi)</span>
+<span id="cb40-99"><a href="#cb40-99" tabindex="-1"></a>summary_bfi <span class="op">=</span> BFI.summary_bfi(fit_bfi, cur_mat <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb40-100"><a href="#cb40-100" tabindex="-1"></a></span>
+<span id="cb40-101"><a href="#cb40-101" tabindex="-1"></a><span class="co"># To find a list of all datasets included in the package:</span></span>
+<span id="cb40-102"><a href="#cb40-102" tabindex="-1"></a><span class="bu">print</span>(utils.data(package <span class="op">=</span> <span class="st">"BFI"</span>))</span>
+<span id="cb40-103"><a href="#cb40-103" tabindex="-1"></a></span>
+<span id="cb40-104"><a href="#cb40-104" tabindex="-1"></a>Nurses <span class="op">=</span> data(BFI).fetch(<span class="st">'Nurses'</span>)[<span class="st">'Nurses'</span>]</span>
+<span id="cb40-105"><a href="#cb40-105" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(Nurses))</span>
+<span id="cb40-106"><a href="#cb40-106" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(Nurses))</span>
+<span id="cb40-107"><a href="#cb40-107" tabindex="-1"></a></span>
+<span id="cb40-108"><a href="#cb40-108" tabindex="-1"></a>trauma <span class="op">=</span> data(BFI).fetch(<span class="st">'trauma'</span>)[<span class="st">'trauma'</span>]</span>
+<span id="cb40-109"><a href="#cb40-109" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(trauma))</span>
+<span id="cb40-110"><a href="#cb40-110" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'trauma' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(trauma))</span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="contact">Contact<a class="anchor" aria-label="anchor" href="#contact"></a>
@@ -542,7 +620,7 @@ into <em>Google Colab</em>, here’s the complete codes:</p>
 request that something be added, please file an issue at <a href="https://github.com/hassanpazira/BFI/issues/" class="external-link">issue report</a> or
 send an email to: <a href="mailto:hassan.pazira@radboudumc.nl" class="email">hassan.pazira@radboudumc.nl</a>.</p>
 </div>
-  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
 </div>
 
@@ -553,15 +631,15 @@ send an email to: <a href="mailto:hassan.pazira@radboudumc.nl" class="email">has
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
     </footer>
 </div>
 
-  
 
-  
+
+
 
   </body>
 </html>
