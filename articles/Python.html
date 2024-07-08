@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Hassan
 Pazira</h4>
             
-            <h4 data-toc-skip class="date">2024-07-07</h4>
+            <h4 data-toc-skip class="date">2024-07-08</h4>
       
 
       <div class="d-none name"><code>Python.Rmd</code></div>
@@ -429,7 +429,7 @@ format native to R for single R objects.</p>
 <p>This file, <code>fit1.rds</code> should be sent to the central
 server, where it can be loaded as follows:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># Load the saved RDS file</span></span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>fit1 <span class="op">&lt;-</span> readRDS(<span class="st">"path/to/fit1.rds"</span>) <span class="co"># use the relative path to the file</span></span></code></pre></div>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>fit1 <span class="op">&lt;-</span> readRDS(<span class="st">"fit1.rds"</span>) <span class="co"># use the relative path to the file</span></span></code></pre></div>
 <p>Now, the variable <code>fit1</code> is a list in R containing all
 information needed for further analysis:</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>theta_hat1 <span class="op">&lt;-</span> fit1$theta_hat</span>
@@ -452,8 +452,8 @@ Python objects. At the center 1, use the following to create
 <span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>    pickle.dump(fit1, f)</span></code></pre></div>
 <p>Now, the file <code>fit1.pkl</code> should be sent to the central
 server, where it can be loaded as follows:</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># Load the pickle file using the relative path to the file</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="co"># Load the pickle file</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:  <span class="co"># use the relative path to the file</span></span>
 <span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>    fit1 <span class="op">=</span> pickle.load(f)</span></code></pre></div>
 <p>The variable <code>fit1</code> contains all information needed for
 further analysis in the central server. To see how to proceed and obtain
@@ -466,11 +466,11 @@ the BFI estimates on the central server, follow the next section.</p>
 <p>On the central server, first load the files saved to a proper
 address:</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># Load the file form center 1</span></span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f: <span class="co"># use the relative path to the file</span></span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f: <span class="co"># use the relative path to the file</span></span>
 <span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>    fit1 <span class="op">=</span> pickle.load(f)</span>
 <span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a></span>
 <span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a><span class="co"># Load the file form center 2, using the relative path to the file</span></span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit2.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit2.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
 <span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>    fit2 <span class="op">=</span> pickle.load(f)</span></code></pre></div>
 <p>Now, The main function <code><a href="../reference/BFI.html">bfi()</a></code> can be used to obtain the
 BFI estimates:</p>
@@ -593,12 +593,12 @@ into <em>Google Colab</em>, here’s the complete codes:</p>
 <span id="cb41-80"><a href="#cb41-80" tabindex="-1"></a></span>
 <span id="cb41-81"><a href="#cb41-81" tabindex="-1"></a><span class="co">## BFI at central server</span></span>
 <span id="cb41-82"><a href="#cb41-82" tabindex="-1"></a><span class="co"># Load the pickle file using the relative path to the file</span></span>
-<span id="cb41-83"><a href="#cb41-83" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<span id="cb41-83"><a href="#cb41-83" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit1.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:  <span class="co"># use the relative path to the file</span></span>
 <span id="cb41-84"><a href="#cb41-84" tabindex="-1"></a>    fit1 <span class="op">=</span> pickle.load(f)</span>
 <span id="cb41-85"><a href="#cb41-85" tabindex="-1"></a>theta_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"theta_hat"</span>)</span>
 <span id="cb41-86"><a href="#cb41-86" tabindex="-1"></a>A_hat1 <span class="op">=</span> fit1.rx2(<span class="st">"A_hat"</span>)</span>
 <span id="cb41-87"><a href="#cb41-87" tabindex="-1"></a><span class="co"># Load the pickle file using the relative path to the file</span></span>
-<span id="cb41-88"><a href="#cb41-88" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'path/to/fit2.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
+<span id="cb41-88"><a href="#cb41-88" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'fit2.pkl'</span>, <span class="st">'rb'</span>) <span class="im">as</span> f:</span>
 <span id="cb41-89"><a href="#cb41-89" tabindex="-1"></a>    fit2 <span class="op">=</span> pickle.load(f)</span>
 <span id="cb41-90"><a href="#cb41-90" tabindex="-1"></a>theta_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"theta_hat"</span>)</span>
 <span id="cb41-91"><a href="#cb41-91" tabindex="-1"></a>A_hat2 <span class="op">=</span> fit2.rx2(<span class="st">"A_hat"</span>)</span>
