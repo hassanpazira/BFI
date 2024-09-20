@@ -85,15 +85,18 @@ If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensi
 
 
 <dt id="arg-stratified">stratified<a class="anchor" aria-label="anchor" href="#arg-stratified"></a></dt>
-<dd><p>logical flag for performing the stratified analysis. If <code>stratified = TRUE</code>, the parameter(s) selected in the <code>strat_par</code> argument are allowed to be different across centers, except when the argument <code>center_cluster</code> is not <code>NULL</code>. Default is <code>stratified = FALSE</code>. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>logical flag for performing the stratified analysis. If <code>stratified = TRUE</code>, the parameter(s) selected in the <code>strat_par</code> argument are allowed to be different across centers (to deal with heterogeneity across centers), except when the argument <code>center_cluster</code> is not <code>NULL</code>. Default is <code>stratified = FALSE</code>. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt id="arg-strat-par">strat_par<a class="anchor" aria-label="anchor" href="#arg-strat-par"></a></dt>
-<dd><p>a one- or two-element integer vector for indicating the stratification parameter(s). The values \(1\) and/or \(2\) are/is used to indicate that the “intercept” and/or “sigma2” are allowed to vary, respectively. This argument is used only when <code>stratified = TRUE</code> and <code>center_cluster = NULL</code>. Default is <code>strat_par = NULL</code>, but if <code>stratified = TRUE</code>, <code>strat_par</code> can not be <code>NULL</code> unless there is a center specific variable. For the <code>binomial</code> family the length of the vector should be at most one which refers to “intercept”, and the value of this element should be \(1\). For <code>gaussian</code> family this vector can be \(1\) for indicating the “intercept” only, \(2\) for indicating the “sigma2” only, and c(\(1\), \(2\)) for both “intercept” and “sigma2”. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>a integer vector for indicating the stratification parameter(s). It can be used to deal with heterogeneity due to center-specific parameters.
+For the <code>"binomial"</code> and <code>"gaussian"</code> families it is a one- or two-element integer vector so that the values \(1\) and/or \(2\) are/is used to indicate that the “intercept” and/or “sigma2” are allowed to vary, respectively. For the <code>"binomial"</code> family the length of the vector should be at most one which refers to “intercept”, and the value of this element should be \(1\) (to handel heterogeneity across outcome means). For <code>"gaussian"</code> this vector can be \(1\) for indicating the “intercept” only (handeling heterogeneity across outcome means), \(2\) for indicating the “sigma2” only (handeling heterogeneity due to nuisance parameter), and c(\(1\), \(2\)) for both “intercept” and “sigma2”. When <code>family = "survival"</code>, this vector can contain any combination from 1 to the maximum number of parameters of the baseline function, i.e., \(1\) for <code>"exp"</code>, \(2\) for <code>"weibul"</code> and <code>"gomp"</code>, <code>max_order + 1</code> for <code>"poly"</code>, and <code>n_intervals</code> for <code>"pwexp"</code>.
+This argument is used only when <code>stratified = TRUE</code> and <code>center_cluster = NULL</code>.
+Default is <code>strat_par = NULL</code>. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt id="arg-center-cluster">center_cluster<a class="anchor" aria-label="anchor" href="#arg-center-cluster"></a></dt>
-<dd><p>a vector of \(L\) elements for representing the center specific variable. This argument is used only when <code>stratified = TRUE</code> and <code>strat_par = NULL</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_cluster</code> must be the same as in the list of the argument <code>theta_hats</code>.
+<dd><p>a vector of \(L\) elements to account for the heterogeneity across centers due to clustering. This argument is used only when <code>stratified = TRUE</code> and <code>strat_par = NULL</code>. Each element represents a specific feature of the corresponding center. There must be only one specific value or attribute for each center. This vector could be a numeric, characteristic or factor vector. Note that, the order of the centers in the vector <code>center_cluster</code> must be the same as in the list of the argument <code>theta_hats</code>.
 The used data type in the argument <code>center_cluster</code> must be categorical. Default is <code>center_cluster = NULL</code>. See also ‘Details’ and ‘Examples’.</p></dd>
 
 
@@ -114,7 +117,7 @@ The used data type in the argument <code>center_cluster</code> must be categoric
 
 
 <dt id="arg-center-zero-sample">center_zero_sample<a class="anchor" aria-label="anchor" href="#arg-center-zero-sample"></a></dt>
-<dd><p>logical flag indicating whether the center has a categorical covariate with no observations/individuals in one of the categories. Default is <code>center_zero_sample = FALSE</code>. For more detailes see ‘References’.</p></dd>
+<dd><p>logical flag indicating whether the center has a categorical covariate with no observations/individuals in one of the categories. It is used to address heterogeneity across centers due to center-specific covariates. Default is <code>center_zero_sample = FALSE</code>. For more detailes see ‘References’.</p></dd>
 
 
 <dt id="arg-which-cent-zeros">which_cent_zeros<a class="anchor" aria-label="anchor" href="#arg-which-cent-zeros"></a></dt>
