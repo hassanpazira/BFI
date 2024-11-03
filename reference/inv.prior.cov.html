@@ -303,66 +303,17 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># center specific covariate has K = 2 categories across 4 centers; y ~ Binomial</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>              center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Iran"</span>,<span class="st">"Netherlands"</span>,<span class="st">"Netherlands"</span>,<span class="st">"Iran"</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         (Intercept)_Iran (Intercept)_Netherlands  x1 x21 x22</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Iran                     0.1                     0.0 0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Netherlands              0.0                     0.1 0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                                   0.0                     0.0 1.1 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                                  0.0                     0.0 0.0 1.1 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                                  0.0                     0.0 0.0 0.0 1.1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                                  0.0                     0.0 0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                         x31</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Iran        0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Netherlands 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                      0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                     0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                     1.1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(0.1:2), family = "binomial", stratified = TRUE,     center_spec = c("Iran", "Netherlands", "Netherlands", "Iran"),     L = 4):</span> unused argument (center_spec = c("Iran", "Netherlands", "Netherlands", "Iran"))</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># center specific covariate has K = 3 categories across 5 centers; y ~ Gaussian</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.5</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>              center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Medium"</span>,<span class="st">"Big"</span>,<span class="st">"Small"</span>,<span class="st">"Big"</span>,<span class="st">"Small"</span><span class="op">)</span>, L <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    (Intercept)_Big (Intercept)_Medium (Intercept)_Small  x1 x21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Big                0.5                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Medium             0.0                0.5               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Small              0.0                0.0               0.5 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                             0.0                0.0               0.0 1.5 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                            0.0                0.0               0.0 0.0 1.5</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                            0.0                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                            0.0                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                         0.0                0.0               0.0 0.0 0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                    x22 x31 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Big    0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Medium 0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Small  0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                 0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                0.0 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                1.5 0.0    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                0.0 1.5    0.0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.0 0.0    2.5</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = c(0.5:3), family = "gaussian", stratified = TRUE,     center_spec = c("Medium", "Big", "Small", "Big", "Small"),     L = 5):</span> unused argument (center_spec = c("Medium", "Big", "Small", "Big", "Small"))</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># center specific covariate has K = 4 categories across 5 centers; y ~ Gaussian</span></span></span>
 <span class="r-in"><span><span class="fu">inv.prior.cov</span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fl">1</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, stratified <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>              center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">5</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               (Intercept)_1 (Intercept)_2 (Intercept)_3 (Intercept)_4 x1 x21</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1             1             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_2             0             1             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3             0             0             1             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_4             0             0             0             1  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1                        0             0             0             0  1   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21                       0             0             0             0  0   1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22                       0             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31                       0             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                    0             0             0             0  0   0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               x22 x31 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_2   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_4   0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x1              0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x21             0   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x22             1   0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> x31             0   1      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          0   0      1</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X, lambda = 1, family = "gaussian", stratified = TRUE,     center_spec = c(3, 1:4), L = 5):</span> unused argument (center_spec = c(3, 1:4))</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>

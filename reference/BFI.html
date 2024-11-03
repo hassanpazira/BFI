@@ -601,15 +601,37 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># of '3', while this value for the second center is '1', i.e., center_cluster = c(3,1,3)</span></span></span>
 <span class="r-in"><span><span class="va">newLam4</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'gaussian'</span>,</span></span>
 <span class="r-in"><span>                         stratified<span class="op">=</span><span class="cn">TRUE</span>, center_cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in inv.prior.cov(X1, lambda = c(0.1, 0.2, 0.3), family = "gaussian",     stratified = TRUE, center_cluster = c(3, 1, 3), L = 3):</span> unused argument (center_cluster = c(3, 1, 3))</span>
 <span class="r-in"><span><span class="co"># 'newLam4' is used the prior for combined data and 'Lambda' is used the prior for locals</span></span></span>
 <span class="r-in"><span><span class="va">l_newLam4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam4</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'newLam4' not found</span>
 <span class="r-in"><span><span class="va">bfi4</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">l_newLam4</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, center_cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'l_newLam4' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi4</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'bfi4' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1   0.9412  0.1681  0.6117   1.2706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3   0.8233  0.1251  0.5781   1.0686</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1              0.9454  0.1020  0.7455   1.1454</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2             -0.0116  0.0971 -0.2020   0.1788</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3              0.0294  0.1015 -0.1695   0.2283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.176 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               (Intercept)_1 (Intercept)_3      X1       X2       X3   sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1       38.6215        0.0000 -7.1785   9.8374 -13.1667  -0.0929</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3        0.0000       64.6654  5.5685   7.6329  -0.6335  -0.1603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                  -7.1785        5.5685 98.8284   7.0582  -2.9109  -0.2822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                   9.8374        7.6329  7.0582 110.1166  -1.7587   0.0094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 -13.1667       -0.6335 -2.9109  -1.7587 101.9264  -0.0120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2              -0.0929       -0.1603 -0.2822   0.0094  -0.0120 240.8651</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">####################################################</span></span></span>
