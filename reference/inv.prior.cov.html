@@ -51,7 +51,7 @@
 <span>              stratified <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>              strat_par <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>              center_cluster <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>              basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>, <span class="st">"exp"</span>, <span class="st">"gomp"</span>, <span class="st">"poly"</span>, <span class="st">"pwexp"</span><span class="op">)</span>,</span>
+<span>              basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>, <span class="st">"exp"</span>, <span class="st">"gomp"</span>, <span class="st">"poly"</span>, <span class="st">"pwexp"</span>, <span class="st">"unspecified"</span><span class="op">)</span>,</span>
 <span>              max_order <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>              n_intervals <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -77,7 +77,7 @@
 
 
 <dt id="arg-intercept">intercept<a class="anchor" aria-label="anchor" href="#arg-intercept"></a></dt>
-<dd><p>logical flag for having an intercept. It does not used when <code>family = "survival"</code>. By changing the <code>intercept</code> the dimension of the inverse covariance matrix changes. If <code>intercept = TRUE</code> (the default), the output matrix created by <code>inv.prior.cov()</code> has one row and one column related to <code>intercept</code>, while if <code>intercept = FALSE</code>, the resulting matrix does not have the row and column called <code>intercept</code>.</p></dd>
+<dd><p>logical flag for having an intercept. It is not used when <code>family = "survival"</code>. By changing the <code>intercept</code> the dimension of the inverse covariance matrix changes. If <code>intercept = TRUE</code> (the default), the output matrix created by <code>inv.prior.cov()</code> has one row and one column related to <code>intercept</code>, while if <code>intercept = FALSE</code>, the resulting matrix does not have the row and column called <code>intercept</code>.</p></dd>
 
 
 <dt id="arg-stratified">stratified<a class="anchor" aria-label="anchor" href="#arg-stratified"></a></dt>
@@ -96,7 +96,7 @@ The used data type in the argument <code>center_cluster</code> must be categoric
 
 
 <dt id="arg-basehaz">basehaz<a class="anchor" aria-label="anchor" href="#arg-basehaz"></a></dt>
-<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). Can be abbreviated. It is only used when <code>family = "survival"</code>.</p></dd>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), <code>piecewise constant exponential</code> (<code>"pwexp"</code>), and <code>unspecified baseline hazard</code> (<code>"unspecified"</code>). Can be abbreviated. It is only used when <code>family = "survival"</code>.</p></dd>
 
 
 <dt id="arg-max-order">max_order<a class="anchor" aria-label="anchor" href="#arg-max-order"></a></dt>

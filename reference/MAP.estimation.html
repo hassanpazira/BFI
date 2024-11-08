@@ -49,7 +49,7 @@
 <span>               <span class="va">Lambda</span>,</span>
 <span>               intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>               initial <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>               basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>, <span class="st">"exp"</span>, <span class="st">"gomp"</span>, <span class="st">"poly"</span>, <span class="st">"pwexp"</span><span class="op">)</span>,</span>
+<span>               basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"weibul"</span>, <span class="st">"exp"</span>, <span class="st">"gomp"</span>, <span class="st">"poly"</span>, <span class="st">"pwexp"</span>, <span class="st">"unspecified"</span><span class="op">)</span>,</span>
 <span>               alpha <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>               max_order <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>               n_intervals <span class="op">=</span> <span class="fl">4</span>,</span>
@@ -91,7 +91,7 @@
 
 
 <dt id="arg-basehaz">basehaz<a class="anchor" aria-label="anchor" href="#arg-basehaz"></a></dt>
-<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), and <code>piecewise constant exponential</code> (<code>"pwexp"</code>). Can be abbreviated. It is only used when <code>family = "survival"</code>. If local sample size is large and the shape of the baseline hazard function is completely unknown, the “exponentiated polynomial” and “piecewise exponential” hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the “piecewise exponential” hazard function with many intervals.</p></dd>
+<dd><p>a character string representing one of the available baseline hazard functions; <code>exponential</code> (<code>"exp"</code>), <code>Weibull</code> (<code>"weibul"</code>, the default), <code>Gompertz</code> (<code>"gomp"</code>), <code>exponentiated polynomial</code> (<code>"poly"</code>), <code>piecewise constant exponential</code> (<code>"pwexp"</code>), and <code>unspecified baseline hazard</code> (<code>"unspecified"</code>). Can be abbreviated. It is only used when <code>family = "survival"</code>. If local sample size is large and the shape of the baseline hazard function is completely unknown, the “exponentiated polynomial” and “piecewise exponential” hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the “piecewise exponential” hazard function with many intervals.</p></dd>
 
 
 <dt id="arg-alpha">alpha<a class="anchor" aria-label="anchor" href="#arg-alpha"></a></dt>
@@ -320,198 +320,18 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># MAP estimates with 'intercept'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">"gaussian"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">fit</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"gaussian"</span>, <span class="va">Lambda</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    1.341258    2.236391    2.071001    2.164002    1.054571 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)         X1         X2         X3     sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  28.5475747  1.9315730 -7.7385763  6.2804549 -0.2682462</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1            1.9315730 20.4369223 -2.2127254  4.5673270 -0.4472059</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2           -7.7385763 -2.2127254 49.3206700  3.1359341 -0.4141474</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3            6.2804549  4.5673270  3.1359341 24.3657850 -0.4327445</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2       -0.2682462 -0.4472059 -0.4141474 -0.4327445 64.2183745</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1          X2          X3      sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   0.1982976   0.2269483   0.1476575   0.2153269   0.1248065 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)  X1  X2  X3 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)         0.1 0.0 0.0 0.0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                  0.0 0.1 0.0 0.0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                  0.0 0.0 0.1 0.0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                  0.0 0.0 0.0 0.1      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2              0.0 0.0 0.0 0.0      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "(Intercept)" "X1"          "X2"          "X3"          "sigma2"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_sample_cov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 35.28046</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $basehaz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "weibul" "exp"    "gomp"   "poly"   "pwexp" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "gaussian", Lambda):</span> The algorithm did not converge.</span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fit' not found</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.3413  0.1983  0.9526   1.7299</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1            2.2364  0.2269  1.7916   2.6812</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2            2.0710  0.1477  1.7816   2.3604</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3            2.1640  0.2153  1.7420   2.5860</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.055 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  -35.28 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      X1      X2      X3  sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     28.5476  1.9316 -7.7386  6.2805 -0.2682</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1               1.9316 20.4369 -2.2127  4.5673 -0.4472</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2              -7.7386 -2.2127 49.3207  3.1359 -0.4141</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3               6.2805  4.5673  3.1359 24.3658 -0.4327</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2          -0.2682 -0.4472 -0.4141 -0.4327 64.2184</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fit' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># MAP estimates without 'intercept'</span></span></span>
 <span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">(</span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, <span class="va">Lambda</span>, intercept <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3   sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2.241637 1.832740 2.525235 2.496099 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                X1         X2         X3     sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      8.6921038 -0.9348497  1.9296405 -0.4483243</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2     -0.9348497 20.8951379  1.3248942 -0.3665339</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      1.9296405  1.3248942 10.3520007 -0.5050368</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.4483243 -0.3665339 -0.5050368 69.9843284</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3    sigma2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.3478802 0.2205610 0.3192969 0.1195753 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         X1  X2  X3 sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1     0.1 0.0 0.0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2     0.0 0.1 0.0      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3     0.0 0.0 0.1      0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 0.0 0.0 0.0      1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X1 + X2 + X3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"     "X2"     "X3"     "sigma2"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 30</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_sample_cov</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_cat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 63.9101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $basehaz</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "weibul" "exp"    "gomp"   "poly"   "pwexp" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] FALSE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in MAP.estimation(y, X, family = "gaussian", Lambda, intercept = FALSE):</span> The algorithm did not converge.</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X1 + X2 + X3 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1   2.2416  0.3479  1.5598   2.9235</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2   1.8327  0.2206  1.4004   2.2650</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3   2.5252  0.3193  1.8994   3.1510</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  2.496 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  -63.91 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             X1      X2      X3  sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      8.6921 -0.9348  1.9296 -0.4483</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2     -0.9348 20.8951  1.3249 -0.3665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      1.9296  1.3249 10.3520 -0.5050</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2 -0.4483 -0.3665 -0.5050 69.9843</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'fit1' not found</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###-----------------###</span></span></span>
@@ -524,7 +344,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
 <span class="r-in"><span><span class="co"># Simulating Survival data</span></span></span>
 <span class="r-in"><span><span class="co">#-------------------------</span></span></span>
-<span class="r-in"><span><span class="va">n</span>    <span class="op">&lt;-</span> <span class="fl">40</span></span></span>
+<span class="r-in"><span><span class="va">n</span>    <span class="op">&lt;-</span> <span class="fl">100</span></span></span>
 <span class="r-in"><span><span class="va">beta</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">4</span></span></span>
 <span class="r-in"><span><span class="va">p</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">beta</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">X</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n</span> <span class="op">*</span> <span class="va">p</span><span class="op">)</span>, <span class="va">n</span>, <span class="va">p</span><span class="op">)</span><span class="op">)</span> <span class="co"># continuous (normal) variables</span></span></span>
@@ -541,20 +361,20 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3       X4  omega_1  omega_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.022608 1.923233 2.658896 3.033005 1.199592 1.560015 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1.216502 2.433061 3.305429 4.895585 1.411903 1.905060 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1         X2          X3           X4      omega_1   omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       32.285644   5.767152  -3.5607948  -3.11069513   2.53101341 -21.77443</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        5.767152  24.867161  -7.1800119  -2.12615479   9.93044276 -25.70815</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3       -3.560795  -7.180012  25.9879789  -4.46109728  -0.82453629 -31.24050</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4       -3.110695  -2.126155  -4.4610973  22.38799938   0.08080909 -45.70763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   2.531013   9.930443  -0.8245363   0.08080909  33.80041453 -45.88800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -21.774426 -25.708151 -31.2405030 -45.70763145 -45.88799582 371.85632</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 X1          X2          X3          X4     omega_1   omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       54.813643    8.232601   -3.813501   -5.643886    7.220449  -49.8473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        8.232601   85.409611   -5.039660  -16.200600   15.679748 -130.8181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3       -3.813501   -5.039660   57.371520    4.560337   -2.868448 -186.1929</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4       -5.643886  -16.200600    4.560337   56.028421   23.120562 -262.4108</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   7.220449   15.679748   -2.868448   23.120562   77.588076 -229.2848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -49.847299 -130.818053 -186.192918 -262.410849 -229.284799 2656.6802</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>        X1        X2        X3        X4   omega_1   omega_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.2049384 0.2700345 0.3192750 0.3702427 0.2115831 0.1097131 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_1    omega_2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.15896950 0.19980633 0.26038338 0.36632933 0.14912596 0.06994841 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          X1  X2  X3  X4 omega_1 omega_2</span>
@@ -572,7 +392,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"      "X2"      "X3"      "X4"      "omega_1" "omega_2"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4</span>
@@ -587,7 +407,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -11.22305</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -61.88167</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "survival"</span>
@@ -608,9 +428,36 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
-<span class="r-in"><span><span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       X1       X2       X3       X4  omega_1  omega_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1.022608 1.923233 2.658896 3.033005 1.199592 1.560015 </span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit2</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: Survival(time, status) ~ X1 + X2 + X3 + X4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘survival’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Baseline: ‘weibul’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        1.2165  0.1590  0.9049   1.5281</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        2.4331  0.1998  2.0414   2.8247</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        3.3054  0.2604  2.7951   3.8158</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        4.8956  0.3663  4.1776   5.6136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   1.4119  0.1491  1.1196   1.7042</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   1.9051  0.0699  1.7680   2.0422</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  61.88 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               X1        X2        X3        X4   omega_1   omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       54.8136    8.2326   -3.8135   -5.6439    7.2204  -49.8473</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        8.2326   85.4096   -5.0397  -16.2006   15.6797 -130.8181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3       -3.8135   -5.0397   57.3715    4.5603   -2.8684 -186.1929</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4       -5.6439  -16.2006    4.5603   56.0284   23.1206 -262.4108</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   7.2204   15.6797   -2.8684   23.1206   77.5881 -229.2848</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -49.8473 -130.8181 -186.1929 -262.4108 -229.2848 2656.6802</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "poly" function</span></span></span>
@@ -623,25 +470,25 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># theta_hat for (beta_1, ..., beta_p, omega_0, ..., omega_{q_l})</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_poly</span><span class="op">[</span>,,<span class="fl">1</span><span class="op">]</span><span class="op">[</span>,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="co"># equal to fit3$theta_hat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         X1         X2         X3         X4    omega_0    omega_1    omega_2 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.3215329  1.2037173  1.0405380  1.2693381 -1.2389571  1.7395803  0.4144363 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.4587444  0.9065738  1.2387261  1.8013492 -2.0743547  4.7662933 -1.0941826 </span>
 <span class="r-in"><span><span class="co"># A_hat</span></span></span>
 <span class="r-in"><span><span class="va">fit3</span><span class="op">$</span><span class="va">theta_A_poly</span><span class="op">[</span>,,<span class="va">fit3</span><span class="op">$</span><span class="va">q_l</span><span class="op">+</span><span class="fl">2</span><span class="op">]</span> <span class="co"># equal to fit3$A_hat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]        [,2]        [,3]        [,4]       [,5]       [,6]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       39.808689  12.2009785   6.9910434   7.4263062  2.6009837  -7.262528</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       12.200979  32.9625712   2.4257004   0.6537674 10.0024752  -3.077053</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        6.991043   2.4257004  34.6638475  -2.4049047 -0.6626546  -7.620654</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        7.426306   0.6537674  -2.4049047  38.3051057  0.2572066 -10.431489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0   2.600984  10.0024752  -0.6626546   0.2572066 45.2390197  19.915636</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  -7.262528  -3.0770530  -7.6206543 -10.4314888 19.9156360  35.751712</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -14.604789 -12.1610483 -11.8935671 -16.6172308 26.7517116  43.916983</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              [,7]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      -14.60479</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2      -12.16105</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -11.89357</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -16.61723</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  26.75171</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  43.91698</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  79.89797</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]      [,2]       [,3]       [,4]      [,5]       [,6]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      67.2578299  3.698096  -6.328249  -0.830014  7.296302   1.005843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.6980959 85.034720   3.130474  -6.311998 15.832762  -1.055534</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -6.3282486  3.130474  73.449859  11.351621 -2.661869 -25.299425</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.8300140 -6.311998  11.351621  68.043358 23.430052  -8.113705</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2963020 15.832762  -2.661869  23.430052 90.074528  43.191997</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  1.0058432 -1.055534 -25.299425  -8.113705 43.191997  57.713003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.7626327 -7.194974 -42.325003 -19.174732 48.713003  71.822389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                [,7]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1       -0.7626327</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       -7.1949742</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -42.3250033</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -19.1747319</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  48.7130029</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  71.8223891</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 122.9402820</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit3</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
@@ -653,27 +500,27 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.3215  0.1760 -0.0235   0.6665</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        1.2037  0.2073  0.7973   1.6101</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.0405  0.1808  0.6862   1.3948</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.2693  0.1792  0.9181   1.6205</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -1.2390  0.1936 -1.6184  -0.8595</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   1.7396  0.3078  1.1362   2.3429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   0.4144  0.2148 -0.0065   0.8354</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.4587  0.1242  0.2153   0.7022</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.9066  0.1159  0.6793   1.1338</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        1.2387  0.1364  0.9713   1.5061</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.8013  0.1460  1.5153   2.0874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  -2.0744  0.1647 -2.3971  -1.7516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1   4.7663  0.2867  4.2044   5.3282</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2  -1.0942  0.1826 -1.4520  -0.7364</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -2.402 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -1.084 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               X1       X2       X3       X4 omega_0  omega_1  omega_2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1       39.8087  12.2010   6.9910   7.4263  2.6010  -7.2625 -14.6048</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       12.2010  32.9626   2.4257   0.6538 10.0025  -3.0771 -12.1610</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        6.9910   2.4257  34.6638  -2.4049 -0.6627  -7.6207 -11.8936</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        7.4263   0.6538  -2.4049  38.3051  0.2572 -10.4315 -16.6172</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0   2.6010  10.0025  -0.6627   0.2572 45.2390  19.9156  26.7517</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  -7.2625  -3.0771  -7.6207 -10.4315 19.9156  35.7517  43.9170</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -14.6048 -12.1610 -11.8936 -16.6172 26.7517  43.9170  79.8980</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3       X4 omega_0  omega_1  omega_2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      67.2578  3.6981  -6.3282  -0.8300  7.2963   1.0058  -0.7626</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       3.6981 85.0347   3.1305  -6.3120 15.8328  -1.0555  -7.1950</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -6.3282  3.1305  73.4499  11.3516 -2.6619 -25.2994 -42.3250</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.8300 -6.3120  11.3516  68.0434 23.4301  -8.1137 -19.1747</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_0  7.2963 15.8328  -2.6619  23.4301 90.0745  43.1920  48.7130</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  1.0058 -1.0555 -25.2994  -8.1137 43.1920  57.7130  71.8224</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.7626 -7.1950 -42.3250 -19.1747 48.7130  71.8224 122.9403</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">##</span></span></span>
 <span class="r-in"><span><span class="co">## MAP estimations with "pwexp" function with 3 intervals</span></span></span>
@@ -689,7 +536,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"survival"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"pwexp"</span>,</span></span>
 <span class="r-in"><span>                       n_intervals <span class="op">=</span> <span class="fl">3</span>, min_max_times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  No. observations in the intervals :  21 15 4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  No. observations in the intervals :  73 18 9 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit4</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -702,27 +549,60 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.2487  0.1986 -0.1405   0.6379</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.9223  0.2488  0.4347   1.4099</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3        0.8142  0.2130  0.3966   1.2317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4        0.9903  0.2212  0.5568   1.4239</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  -0.4971  0.2939 -1.0732   0.0789</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   0.8749  0.4030  0.0850   1.6648</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   1.9182  0.6030  0.7363   3.1001</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1        0.3310  0.1353  0.0658   0.5961</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2        0.6246  0.1242  0.3812   0.8680</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3        0.7795  0.1377  0.5097   1.0493</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4        1.1811  0.1588  0.8699   1.4924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  -0.3968  0.1787 -0.7471  -0.0465</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2   1.4806  0.2910  0.9104   2.0509</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3   1.4282  0.6395  0.1747   2.6817</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -11.42 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -27.06 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2      X3      X4 omega_1 omega_2 omega_3</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1      28.7140  7.4845  3.1246  3.2991  4.2573 -0.4782 -1.1707</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2       7.4845 24.1520 -1.2192 -0.2741  9.6072  1.6478 -1.2245</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3       3.1246 -1.2192 25.4085 -0.8338  2.9585 -3.3194 -0.2792</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4       3.2991 -0.2741 -0.8338 26.4068  5.4940 -3.1502 -2.0586</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  4.2573  9.6072  2.9585  5.4940 17.4972  0.0000  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.4782  1.6478 -3.3194 -3.1502  0.0000  7.1251  0.0000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3 -1.1707 -1.2245 -0.2792 -2.0586  0.0000  0.0000  3.0818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>              X1      X2       X3      X4 omega_1  omega_2 omega_3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1      58.2386  2.0588  -8.1905 -0.7741  7.5573  -0.4890  0.2409</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2       2.0588 74.7939   1.2829 -3.3496 16.9213  -0.5449 -0.5155</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3      -8.1905  1.2829  65.1478  9.3205  9.5898 -10.3783 -1.8274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4      -0.7741 -3.3496   9.3205 64.3901 31.2096  -6.2708 -1.4469</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_1  7.5573 16.9213   9.5898 31.2096 54.3965   0.0000  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_2 -0.4890 -0.5449 -10.3783 -6.2708  0.0000  14.5194  0.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> omega_3  0.2409 -0.5155  -1.8274 -1.4469  0.0000   0.0000  2.5716</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="co">## Semi-parametric Cox model</span></span></span>
+<span class="r-in"><span><span class="co">##</span></span></span>
+<span class="r-in"><span><span class="va">Lambda</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X</span>, lambda <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">"unspecified"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit5</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">'survival'</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>, basehaz <span class="op">=</span> <span class="st">"unspecified"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit5</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: Survival(time, status) ~ X1 + X2 + X3 + X4 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘survival’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Baseline: ‘unspecified’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1   1.3040  0.1934  0.9249   1.6831</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2   2.4894  0.2806  1.9394   3.0394</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3   3.2086  0.3418  2.5387   3.8785</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4   5.0264  0.5237  4.0001   6.0528</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -143.5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          X1       X2       X3       X4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1  51.7496   3.0205  -6.6147 -10.8334</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2   3.0205  57.6207 -11.4154 -21.3849</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3  -6.6147 -11.4154  34.9165 -12.4757</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -10.8334 -21.3849 -12.4757  23.3777</span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
