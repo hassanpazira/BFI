@@ -8,8 +8,8 @@
 <title>An Introduction to BFI in R • BFI</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="../deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="An Introduction to BFI in R">
 <meta name="description" content="How to use the BFI package in R.
 ">
@@ -65,7 +65,7 @@ Pazira</h4>
                         <h4 data-toc-skip class="author">Marianne
 Jonker</h4>
             
-            <h4 data-toc-skip class="date">2024-11-08</h4>
+            <h4 data-toc-skip class="date">2025-02-05</h4>
       
 
       <div class="d-none name"><code>BFI.Rmd</code></div>
@@ -292,7 +292,8 @@ format that R can easily read, such as an RDS file.</p>
 <div class="section level3">
 <h3 id="bfi-estimations">BFI estimations<a class="anchor" aria-label="anchor" href="#bfi-estimations"></a>
 </h3>
-<p>Now, the sent files can be loaded in R using the following lines:</p>
+<p>Now, the received files can be loaded in R using the following
+lines:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Load the RDS files</span></span>
 <span><span class="va">fit1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html" class="external-link">readRDS</a></span><span class="op">(</span><span class="st">"fit1.rds"</span><span class="op">)</span> <span class="co"># use the relative path to the file</span></span>
@@ -343,7 +344,7 @@ datasets and obtain the MAP estimations based on the combined data:</p>
 <span>                          age<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">age</span>,</span>
 <span>                          ISS<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">ISS</span>,</span>
 <span>                          GCS<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">GCS</span><span class="op">)</span></span>
-<span><span class="va">Lambda</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span>X<span class="op">=</span><span class="va">X_combined</span>, lambda<span class="op">=</span><span class="fl">0.1</span>, L<span class="op">=</span><span class="fl">3</span>, family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
+<span><span class="va">Lambda</span>   <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span>X<span class="op">=</span><span class="va">X_combined</span>, lambda<span class="op">=</span><span class="fl">0.01</span>, L<span class="op">=</span><span class="fl">3</span>, family<span class="op">=</span><span class="st">"binomial"</span><span class="op">)</span></span>
 <span><span class="va">fit_comb</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span>y<span class="op">=</span><span class="va">trauma</span><span class="op">$</span><span class="va">mortality</span>, X<span class="op">=</span><span class="va">X_combined</span>, family<span class="op">=</span><span class="st">"binomial"</span>, Lambda<span class="op">=</span><span class="va">Lambda</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="../reference/summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit_comb</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## </span></span>
@@ -356,31 +357,31 @@ datasets and obtain the MAP estimations based on the combined data:</p>
 <span><span class="co">## Coefficients:</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##             Estimate Std.Dev CI 2.5% CI 97.5%</span></span>
-<span><span class="co">## (Intercept)  -1.6110  0.2368 -2.0752  -1.1468</span></span>
-<span><span class="co">## sex          -0.3346  0.3946 -1.1079   0.4388</span></span>
-<span><span class="co">## age           1.3575  0.2034  0.9588   1.7562</span></span>
-<span><span class="co">## ISS           0.5490  0.1852  0.1860   0.9119</span></span>
-<span><span class="co">## GCS          -1.9808  0.2348 -2.4411  -1.5205</span></span>
+<span><span class="co">## (Intercept)  -1.6255  0.2398 -2.0955  -1.1556</span></span>
+<span><span class="co">## sex          -0.3357  0.3990 -1.1178   0.4463</span></span>
+<span><span class="co">## age           1.3703  0.2056  0.9673   1.7733</span></span>
+<span><span class="co">## ISS           0.5498  0.1862  0.1848   0.9149</span></span>
+<span><span class="co">## GCS          -1.9981  0.2379 -2.4645  -1.5318</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Dispersion parameter (sigma2):  1 </span></span>
-<span><span class="co">##             log Lik Posterior:  -109.8 </span></span>
+<span><span class="co">##             log Lik Posterior:  -109.4 </span></span>
 <span><span class="co">##                   Convergence:  0 </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## Minus the Curvature Matrix: </span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">##             (Intercept)     sex     age      ISS      GCS</span></span>
-<span><span class="co">## (Intercept)     33.9100  8.5588  2.4320   8.3615 -18.2742</span></span>
-<span><span class="co">## sex              8.5588  8.6588  1.8922   1.4042  -4.5371</span></span>
-<span><span class="co">## age              2.4320  1.8922 37.5026  -6.1561  18.0250</span></span>
-<span><span class="co">## ISS              8.3615  1.4042 -6.1561  33.7604 -12.8876</span></span>
-<span><span class="co">## GCS            -18.2742 -4.5371 18.0250 -12.8876  38.8454</span></span></code></pre>
+<span><span class="co">## (Intercept)     33.5675  8.4942  2.3840   8.3535 -18.2832</span></span>
+<span><span class="co">## sex              8.4942  8.5042  1.8643   1.4055  -4.5326</span></span>
+<span><span class="co">## age              2.3840  1.8643 37.1516  -6.1748  18.0223</span></span>
+<span><span class="co">## ISS              8.3535  1.4055 -6.1748  33.4408 -12.8543</span></span>
+<span><span class="co">## GCS            -18.2832 -4.5326 18.0223 -12.8543  38.5342</span></span></code></pre>
 <p>Now, we can see the difference between the BFI and combined
 estimates:</p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Squared Errors:</span></span>
 <span><span class="op">(</span><span class="va">fit_comb</span><span class="op">$</span><span class="va">theta_hat</span> <span class="op">-</span> <span class="va">BFI_fits</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span></span></code></pre></div>
-<pre><code><span><span class="co">##      (Intercept)       sex        age         ISS        GCS</span></span>
-<span><span class="co">## [1,]  0.02811598 0.0076144 0.01921806 0.003037495 0.05920067</span></span></code></pre>
+<pre><code><span><span class="co">##      (Intercept)        sex        age         ISS        GCS</span></span>
+<span><span class="co">## [1,]  0.03319286 0.00781985 0.02292217 0.003132086 0.06791077</span></span></code></pre>
 <p>which are close to zero, as expected!</p>
 <p>For more details see the following references.</p>
 </div>
