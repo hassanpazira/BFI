@@ -94,7 +94,7 @@ If <code>stratified = FALSE</code>, all \(L+1\) matrices must have equal dimensi
 
 
 <dt id="arg-strat-par">strat_par<a class="anchor" aria-label="anchor" href="#arg-strat-par"></a></dt>
-<dd><p>a integer vector for indicating the stratification parameter(s). It can be used to deal with heterogeneity due to center-specific parameters.
+<dd><p>an integer vector for indicating the stratification parameter(s). It can be used to deal with heterogeneity due to center-specific parameters.
 For the <code>"binomial"</code> and <code>"gaussian"</code> families it is a one- or two-element integer vector so that the values \(1\) and/or \(2\) are/is used to indicate that the “intercept” and/or “sigma2” are allowed to vary, respectively. For the <code>"binomial"</code> family the length of the vector should be at most one which refers to “intercept”, and the value of this element should be \(1\) (to handel heterogeneity across outcome means). For <code>"gaussian"</code> this vector can be \(1\) for indicating the “intercept” only (handeling heterogeneity across outcome means), \(2\) for indicating the “sigma2” only (handeling heterogeneity due to nuisance parameter), and c(\(1\), \(2\)) for both “intercept” and “sigma2”. When <code>family = "survival"</code>, this vector can contain any combination from 1 to the maximum number of parameters of the baseline function, i.e., \(1\) for <code>"exp"</code>, \(2\) for <code>"weibul"</code> and <code>"gomp"</code>, <code>max_order + 1</code> for <code>"poly"</code>, and <code>n_intervals</code> for <code>"pwexp"</code>.
 This argument is used only when <code>stratified = TRUE</code> and <code>center_cluster = NULL</code>.
 Default is <code>strat_par = NULL</code>. See ‘Details’ and ‘Examples’.</p></dd>
@@ -176,8 +176,12 @@ This argument is used if <code>center_zero_sample = TRUE</code>.</p></dd>
 <dd><p>whether a stratified analysis was done or not;</p></dd>
 
 
+<dt>strat_par</dt>
+<dd><p>the stratification parameter(s) used;</p></dd>
+
+
 <dt>ATE</dt>
-<dd><p>a list which gives the estimates of the (average) treatment effect. Two diffterent estimations when the family is <code>gaussian</code> or <code>binomial</code>, and one estimation when the family is  <code>survival</code>. For more detailes see ‘References’.</p></dd>
+<dd><p>the estimates of the treatment effect. Two diffterent estimations ig the family is <code>gaussian</code> or <code>binomial</code>, and one estimation if the family is  <code>survival</code>. For more detailes see ‘References’.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -613,13 +617,14 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">###----------------------------###</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Assume the first and third centers have the same center-specific covariate value</span></span></span>
-<span class="r-in"><span><span class="co"># of '3', while this value for the second center is '1', i.e., center_cluster = c(3,1,3)</span></span></span>
+<span class="r-in"><span><span class="co"># of 'High', while this value for the second center is 'Low', i.e.,</span></span></span>
+<span class="r-in"><span><span class="co"># center_cluster = c('High','Low','High')</span></span></span>
 <span class="r-in"><span><span class="va">newLam4</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.1</span>, <span class="fl">0.2</span>, <span class="fl">0.3</span><span class="op">)</span>, family<span class="op">=</span><span class="st">'gaussian'</span>,</span></span>
-<span class="r-in"><span>                         stratified<span class="op">=</span><span class="cn">TRUE</span>, center_cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span>, L<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                         stratified <span class="op">=</span> <span class="cn">TRUE</span>, center_cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'High'</span>,<span class="st">'Low'</span>,<span class="st">'High'</span><span class="op">)</span>, L <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># 'newLam4' is used as the prior for combined data and 'Lambda' is used as the prior for locals</span></span></span>
 <span class="r-in"><span><span class="va">l_newLam4</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi4</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">l_newLam4</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
-<span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, center_cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3</span>,<span class="fl">1</span>,<span class="fl">3</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, center_cluster <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'High'</span>,<span class="st">'Low'</span>,<span class="st">'High'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi4</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
@@ -629,24 +634,31 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1   0.9412  0.1681  0.6117   1.2706</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3   0.8233  0.1251  0.5781   1.0686</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1              0.9454  0.1020  0.7455   1.1454</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2             -0.0116  0.0971 -0.2020   0.1788</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3              0.0294  0.1015 -0.1695   0.2283</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_High   0.8233  0.1251  0.5781   1.0686</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Low    0.9412  0.1681  0.6117   1.2706</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                 0.9454  0.1020  0.7455   1.1454</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                -0.0116  0.0971 -0.2020   0.1788</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 0.0294  0.1015 -0.1695   0.2283</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1.176 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>               (Intercept)_1 (Intercept)_3      X1       X2       X3   sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_1       38.6215        0.0000 -7.1785   9.8374 -13.1667  -0.0929</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_3        0.0000       64.6654  5.5685   7.6329  -0.6335  -0.1603</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1                  -7.1785        5.5685 98.8284   7.0582  -2.9109  -0.2822</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2                   9.8374        7.6329  7.0582 110.1166  -1.7587   0.0094</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 -13.1667       -0.6335 -2.9109  -1.7587 101.9264  -0.0120</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2              -0.0929       -0.1603 -0.2822   0.0094  -0.0120 240.8651</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                  (Intercept)_High (Intercept)_Low      X1       X2       X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_High          64.6654          0.0000  5.5685   7.6329  -0.6335</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Low            0.0000         38.6215 -7.1785   9.8374 -13.1667</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                         5.5685         -7.1785 98.8284   7.0582  -2.9109</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                         7.6329          9.8374  7.0582 110.1166  -1.7587</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                        -0.6335        -13.1667 -2.9109  -1.7587 101.9264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2                    -0.1603         -0.0929 -0.2822   0.0094  -0.0120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                    sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_High  -0.1603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)_Low   -0.0929</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                -0.2822</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                 0.0094</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                -0.0120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2           240.8651</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###---------------------###</span></span></span>
 <span class="r-in"><span><span class="co">###  Treatment Effect   ###</span></span></span>
