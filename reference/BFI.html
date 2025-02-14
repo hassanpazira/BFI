@@ -284,7 +284,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">bfi</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.447915 2.495104 4.102333 2.219866</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -333,7 +332,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">Lambda</span>, <span class="va">newLam</span><span class="op">)</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
 <span class="r-in"><span>           stratified<span class="op">=</span><span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.316743 1.186484 1.450029 1.984783 1.362106</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -443,7 +441,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">theta_hats</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">theta_hat1</span>, <span class="va">theta_hat2</span>, <span class="va">theta_hat3</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">bfi</span>        <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">Lambda</span>, family <span class="op">=</span> <span class="st">'gaussian'</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.866599110  0.938457616 -0.007667073  0.019929649</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -482,7 +479,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi1</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">list_newLam1</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi1</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.70672579  0.94188102  0.88185606  0.94924448 -0.01413278  0.02757189</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -528,8 +524,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">list_newLam2</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi2</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.866141482  0.937986082 -0.007571456  0.019867769  1.355924634</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [6]  1.035019361  1.172754524</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -574,8 +568,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi3</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">list_newLam3</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi3</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.70745621  0.94129246  0.88188782  0.94822825 -0.01402343  0.02747319</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [7]  1.35575280  1.03511877  1.17277780</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -632,7 +624,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi4</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats</span>, <span class="va">A_hats</span>, <span class="va">l_newLam4</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, center_spec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'High'</span>,<span class="st">'Low'</span>,<span class="st">'High'</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi4</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.82331589  0.94115407  0.94544452 -0.01161342  0.02939354</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -696,7 +687,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">theta_hat1</span> <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">theta_hat</span>  <span class="co"># coefficient estimates</span></span></span>
 <span class="r-in"><span><span class="va">A_hat1</span>     <span class="op">&lt;-</span> <span class="va">fit1</span><span class="op">$</span><span class="va">A_hat</span>      <span class="co"># minus the curvature matrix</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.6589476  0.8424763  1.4327460 -1.5157831  1.8741816  1.7874313</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -739,7 +729,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">theta_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">theta_hat</span></span></span>
 <span class="r-in"><span><span class="va">A_hat2</span> <span class="op">&lt;-</span> <span class="va">fit2</span><span class="op">$</span><span class="va">A_hat</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit2</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.5961452  0.4217694  1.2563107 -1.0431130  2.0875007 -0.1027799</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -780,7 +769,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span>Lambda <span class="op">=</span> <span class="va">Lambda</span>, family <span class="op">=</span> <span class="st">'survival'</span>, theta_A_polys <span class="op">=</span> <span class="va">theta_A_hats</span>,</span></span>
 <span class="r-in"><span>           basehaz <span class="op">=</span> <span class="st">"poly"</span>, q_ls <span class="op">=</span> <span class="va">qls</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi</span>, cur_mat<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.6008863  0.6305901  1.2683727 -1.2108278  2.2308392  0.1754555</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -829,7 +817,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi0</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span>Lambda <span class="op">=</span> <span class="va">list_newLam0</span>, family <span class="op">=</span> <span class="st">'survival'</span>, theta_A_polys <span class="op">=</span> <span class="va">theta_A_hats</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"poly"</span><span class="op">)</span>, p <span class="op">=</span> <span class="fl">3</span>, q_ls <span class="op">=</span> <span class="va">qls</span>, strat_par <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi0</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.5811807  0.6167979  1.2269267 -1.2096994 -1.1426533  2.1173868  0.1988292</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -877,8 +864,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">bfi1</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span>Lambda <span class="op">=</span> <span class="va">list_newLam1</span>, family <span class="op">=</span> <span class="st">'survival'</span>, theta_A_polys <span class="op">=</span> <span class="va">theta_A_hats</span>,</span></span>
 <span class="r-in"><span>            stratified <span class="op">=</span> <span class="cn">TRUE</span>, basehaz <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"poly"</span><span class="op">)</span>, p <span class="op">=</span> <span class="fl">3</span>, q_ls <span class="op">=</span> <span class="va">qls</span>, strat_par <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">bfi1</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1]  0.5704193  0.6065884  1.2503207 -1.3203118 -1.1005524  2.4653643  1.8936843</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [8]  0.2404492</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
