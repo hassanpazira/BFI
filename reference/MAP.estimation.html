@@ -75,7 +75,7 @@
 
 
 <dt id="arg-x">X<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>design matrix of dimension \(n_{\ell} \times p\), where \(p\) is the number of covariates or predictors and \(n_{\ell}\) is the number of indeviduals in the local center. Note that the order of the covariates must be the same across the centers; otherwise, the output estimates of bfi() will be incorrect.</p></dd>
+<dd><p>design matrix of dimension \(n_{\ell} \times p\), where \(p\) is the number of covariates or predictors and \(n_{\ell}\) is the number of indeviduals in the local center. If there is a categorical covariate, then the function <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code> should be used to encode the covariate as a factor. Note that the order of the covariates must be the same across the centers; otherwise, the output estimates of bfi() will be incorrect.</p></dd>
 
 
 <dt id="arg-family">family<a class="anchor" aria-label="anchor" href="#arg-family"></a></dt>
