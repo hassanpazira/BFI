@@ -63,7 +63,7 @@
                         <h4 data-toc-skip class="author">Hassan
 Pazira</h4>
             
-            <h4 data-toc-skip class="date">2025-02-23</h4>
+            <h4 data-toc-skip class="date">2025-03-20</h4>
       
 
       <div class="d-none name"><code>SAS.Rmd</code></div>
@@ -116,10 +116,9 @@ R. First the RLANG option must be set when SAS is started. This may be
 set either in a custom configuration file or on the SAS command line.
 Second, SAS needs an <em>R_HOME</em> environment variable to point it to
 the correct, available version of R.</p>
-</div>
-<div class="section level3">
-<h3 id="the-rlang-system-option">The RLANG System Option<a class="anchor" aria-label="anchor" href="#the-rlang-system-option"></a>
-</h3>
+<div class="section level4">
+<h4 id="the-rlang-system-option">The RLANG System Option<a class="anchor" aria-label="anchor" href="#the-rlang-system-option"></a>
+</h4>
 <p>The <em>RLANG system option</em> determines whether you have
 permission to call R from the SAS system. You can determine the value of
 the RLANG option by submitting the following SAS statements:</p>
@@ -140,6 +139,7 @@ interfaces</em></strong></li>
 </ul>
 <p>If the <em>SAS log</em> contains this statement, it means that R
 integration is enabled, and you can call R from the SAS system :)</p>
+</div>
 <div class="section level4">
 <h4 id="install-r">Install R<a class="anchor" aria-label="anchor" href="#install-r"></a>
 </h4>
@@ -240,6 +240,7 @@ with p=3 covariates:</p>
     append from X1;
     close X1;
 
+    /* Transfer SAS data to the R session */
     call ExportMatrixToR(X1, "X1");
     call ExportMatrixToR(y1, "y1");
 
@@ -273,6 +274,7 @@ quit;</code></pre>
     append from X2;
     close X2;
 
+    /* Transfer SAS data to the R session */
     call ExportMatrixToR(X2, "X2");
     call ExportMatrixToR(y2, "y2");
 
@@ -296,12 +298,12 @@ parameters for center 1:</p>
     # Inverse Covariance Matrix
     #---------------------------
     # Creating the inverse covariance matrix for the Gaussian prior distribution:
-    Lambda &lt;- inv.prior.cov(X1, lambda=0.05, family=gaussian)
+    Lambda &lt;- inv.prior.cov(X1, lambda=0.05, family='gaussian')
 
     #--------------------------
     # MAP estimates at center 1
     #--------------------------
-    fit1       &lt;- MAP.estimation(y1, X1, family=gaussian, Lambda)
+    fit1       &lt;- MAP.estimation(y1, X1, family='gaussian', Lambda)
     theta_hat1 &lt;- fit1$theta_hat # intercept and coefficient estimates
     A_hat1     &lt;- fit1$A_hat     # minus the curvature matrix
     summary(fit1, cur_mat=TRUE)
@@ -316,12 +318,12 @@ following:</p>
   rsubmit;
     
     # Creating the inverse covariance matrix for the Gaussian prior distribution:
-    Lambda &lt;- inv.prior.cov(X2, lambda=0.05, family=gaussian)
+    Lambda &lt;- inv.prior.cov(X2, lambda=0.05, family='gaussian')
 
     #--------------------------
     # MAP estimates at center 2
     #--------------------------
-    fit2       &lt;- MAP.estimation(y2, X2, family=gaussian, Lambda)
+    fit2       &lt;- MAP.estimation(y2, X2, family='gaussian', Lambda)
     theta_hat2 &lt;- fit2$theta_hat
     A_hat2     &lt;- fit2$A_hat
     summary(fit2, cur_mat=TRUE)
@@ -340,7 +342,7 @@ acquire the BFI estimates:</p>
   rsubmit;
   
     # Creating the inverse covariance matrix for central server:
-    Lambda &lt;- inv.prior.cov(X1, lambda=0.05, family=gaussian) # the same as other centers
+    Lambda &lt;- inv.prior.cov(X1, lambda=0.05, family='gaussian') # the same as other centers
   
     #----------------------
     # BFI at central center
@@ -352,6 +354,7 @@ acquire the BFI estimates:</p>
 
   endrsubmit;
 
+  /* Transfer the outputs from R to SAS */
   call ImportMatrixFromR(bfi, "bfi");
   
 quit;</code></pre>
@@ -360,8 +363,8 @@ quit;</code></pre>
 <div class="section level3">
 <h3 id="datasets-included-in-the-bfi-package">Datasets included in the <code>BFI</code> package<a class="anchor" aria-label="anchor" href="#datasets-included-in-the-bfi-package"></a>
 </h3>
-<p>In order to find and use the datasets available from the
-<code>BFI</code> package, use the following codes:</p>
+<p>To find and use the datasets available in the <code>BFI</code>
+package, use the following codes:</p>
 <pre class="sas"><code>proc iml;
 
   rsubmit;

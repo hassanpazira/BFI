@@ -52,6 +52,7 @@
 <span>    strat_par <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    center_spec <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    theta_A_polys <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>    treat_round <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    for_ATE <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>    <span class="va">p</span>,</span>
 <span>    <span class="va">q_ls</span>,</span>
@@ -106,11 +107,15 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 
 
 <dt id="arg-theta-a-polys">theta_A_polys<a class="anchor" aria-label="anchor" href="#arg-theta-a-polys"></a></dt>
-<dd><p>a list with \(L\) elements so that each element is the array <code>theta_A_ploy</code> (the output of the <code>MAP.estimation</code> function, <code>MAP.estimation()$theta_A_ploy</code>) for the corresponding center. This argument, <code>theta_A_polys</code>, is only used if <code>family = "survival"</code> and <code>basehaz = "poly"</code>. See ‘Details’.</p></dd>
+<dd><p>a list with \(L\) elements so that each element is the array <code>theta_A_ploy</code> (the output of the <code>MAP.estimation</code> function, <code>MAP.estimation()$theta_A_ploy</code>) for the corresponding center. This argument, <code>theta_A_polys</code>, is only used if <code>family = "survival"</code> and <code>basehaz = "poly"</code>. See ‘Details’ and ‘Examples’.</p></dd>
+
+
+<dt id="arg-treat-round">treat_round<a class="anchor" aria-label="anchor" href="#arg-treat-round"></a></dt>
+<dd><p>a character string representing the <code>"first"</code> and <code>"second"</code> rounds of estimating the treatment effect.</p></dd>
 
 
 <dt id="arg-for-ate">for_ATE<a class="anchor" aria-label="anchor" href="#arg-for-ate"></a></dt>
-<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 8 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions</p></dd>
+<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 8 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
@@ -197,13 +202,14 @@ The models in the different centers should be defined in exactly the same way; a
 In both cases of the <code>stratified</code> argument (<code>TRUE</code> or <code>FALSE</code>), if only the first \(L\) matrices are equal, the argument <code>Lambda</code> can be a list of two matrices, so that the fist matrix represents the chosen variance-covariance matrix for local centers and the second one is the chosen matrix for the combined data set.
 The last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
 <p>If the data type used in the argument <code>center_spec</code> is continuous or categorical with the number of categories equal to the number of centers, one can use <code>stratified = TRUE</code> and <code>center_spec = NULL</code>, and set <code>strat_par</code> not to <code>NULL</code> (i.e., to \(1\), \(2\) or both \((1, 2)\)). Indeed, in this case, the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers.</p>
-<p>When <code>family = 'survival'</code> and <code>basehaz = 'poly'</code>, the arguments <code>theta_hats</code> and <code>A_hats</code> should not be provided. Instead, the <code>theta_A_polys</code> and <code>q_ls</code> arguments should be defined using the local information, specifically <code>MAP.estimation()$theta_A_poly</code> and <code>MAP.estimation()$q_l</code>, respectively. See the last example in ‘Examples’.</p>
+<p>When <code>family = 'survival'</code> and <code>basehaz = 'poly'</code>, the arguments <code>theta_hats</code> and <code>A_hats</code> should not be provided. Instead, the <code>theta_A_polys</code> and <code>q_ls</code> arguments should be defined using the local information, specifically <code>MAP.estimation()$theta_A_poly</code> and <code>MAP.estimation()$q_l</code>, respectively. See Example 3 in ‘Examples’.</p>
+<p>For estimating the treatment effect, in the first round, <code>treat_round = "first"</code>, the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically.)</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024a). <em>Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets</em>, <em>Statistics in Medicine</em>, 43(12): 2421-2438. &lt;https://doi.org/10.1002/sim.10072&gt;</p>
-<p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2024). <em>Bayesian Federated Inference for Survival Models</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
-<p>Jonker M.A., Pazira H. and Coolen A.C.C. (2024b). <em>Bayesian Federated Inference for regression models with heterogeneous multi-center populations</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/2402.02898&gt;</p>
+<p>Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2025b). <em>Bayesian Federated Inference for Survival Models</em>, <em>Journal of Applied Statistics (Accepted)</em>. &lt;https://arxiv.org/abs/2404.17464&gt;</p>
+<p>Jonker M.A., Pazira H. and Coolen A.C.C. (2025a). <em>Bayesian Federated Inference for regression models based on non-shared medical center data</em>, <em>Research Synthesis Methods</em>, 1-41. &lt;https://doi.org/10.1017/rsm.2025.6&gt;</p>
 <p>van den Heuvel Z.D., Pazira H. and Jonker M.A. (2025). <em>Bayesian Federated Inference for estimating a treatment effect with non-shared data from multiple observational studies</em>, <em>arXiv</em>. &lt;https://arxiv.org/abs/???&gt;</p>
     </div>
     <div class="section level2">
