@@ -76,16 +76,16 @@ Pazira</h4>
 </h3>
 <p>The <code>BFI</code> package is a powerful tool in <strong>R</strong>
 designed to execute the <strong>Bayesian Federated Inference</strong>
-(<strong>BFI</strong>) methodology, supporting a wide range of
-regression models including <em>linear</em>, <em>logistic</em>, and
+(<strong>BFI</strong>) methodology. It supports a wide range of
+regression models, including <em>linear</em>, <em>logistic</em>, and
 <em>survival</em> regression. While <strong>SAS</strong> offers robust
 statistical capabilities, it currently lacks a dedicated package for
-implementing the <em>BFI</em> method. Consequently, this vignette serves
+implementing the <em>BFI</em> method. Consequently, this vignette aims
 to bridge that gap by illustrating how to utilize the R package
 <code>BFI</code> within the SAS environment. By seamlessly integrating
-R’s <code>BFI</code> package with the analytical prowess of SAS, users
+R’s <code>BFI</code> package with the analytical prower of SAS, users
 gain access to a comprehensive suite of statistical techniques,
-enhancing their ability to conduct sophisticated data analyses,
+enhancing their ability to perform sophisticated data analyses,
 particularly when working with small datasets.</p>
 <p>In this guide, we’ll explore how you can leverage SAS to effectively
 utilize the <code>BFI</code> package for your data analysis needs.</p>
@@ -101,27 +101,27 @@ Online Help</a>.</p>
 <h3 id="accessing-sas-services">Accessing SAS Services<a class="anchor" aria-label="anchor" href="#accessing-sas-services"></a>
 </h3>
 <p>To access SAS services, you typically need to connect to a SAS
-server. Here’s how you can do it using <strong>SAS Studio</strong>,
-which is a web-based interface for SAS:</p>
+server. Here’s how you can do this using <strong>SAS Studio</strong>, a
+web-based interface for SAS:</p>
 <p>Open a web browser and navigate to the URL provided by your SAS
 administrator for accessing <em>SAS Studio</em>. Enter your credentials
-to log in to SAS Studio. Once logged in, you can access SAS services
-such as analysis and reporting through the SAS Studio interface.</p>
+to log in. Once logged in, you can access SAS services such as analysis
+and reporting through the SAS Studio interface.</p>
 </div>
 <div class="section level3">
-<h3 id="install-r-and-configure-with-sas">Install R and Configure with SAS<a class="anchor" aria-label="anchor" href="#install-r-and-configure-with-sas"></a>
+<h3 id="install-r-and-configuring-it-with-sas">Install R and Configuring It with SAS<a class="anchor" aria-label="anchor" href="#install-r-and-configuring-it-with-sas"></a>
 </h3>
 <p>SAS requires two configuration options in order to communicate with
 R. First the RLANG option must be set when SAS is started. This may be
 set either in a custom configuration file or on the SAS command line.
-Second, SAS needs an <em>R_HOME</em> environment variable to point it to
+Second, SAS needs an <em>R_HOME</em> environment variable pointing it to
 the correct, available version of R.</p>
 <div class="section level4">
 <h4 id="the-rlang-system-option">The RLANG System Option<a class="anchor" aria-label="anchor" href="#the-rlang-system-option"></a>
 </h4>
 <p>The <em>RLANG system option</em> determines whether you have
-permission to call R from the SAS system. You can determine the value of
-the RLANG option by submitting the following SAS statements:</p>
+permission to call R from the SAS system. You can check the value of the
+RLANG option by submitting the following SAS statements:</p>
 <pre class="sas"><code>proc options option=RLANG;
 run;</code></pre>
 <p>The result is one of the following statements in the SAS log:</p>
