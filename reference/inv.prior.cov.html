@@ -47,6 +47,8 @@
 <span>              lambda <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>              L <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>              family <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gaussian"</span>, <span class="st">"binomial"</span>, <span class="st">"survival"</span><span class="op">)</span>,</span>
+<span>              treatment <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>              treat_round <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>              intercept <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>              stratified <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>              strat_par <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -74,6 +76,14 @@
 
 <dt id="arg-family">family<a class="anchor" aria-label="anchor" href="#arg-family"></a></dt>
 <dd><p>a description of the error distribution. This is a character string naming a family of the model. In the current version of the package, the family of model can be <code>"gaussian"</code> (with <code>identity</code> link function), <code>"binomial"</code> (with <code>logit</code> link function), or <code>"survival"</code>. Can be abbreviated. By default the <code>gaussian</code> family is used. In case of a linear regression model, <code>family = "gaussian"</code>, there is an extra model parameter for the variance of measurement error. While in the case of survival model, <code>family = "survival"</code>, the number of the model parameters depend on the choice of baseline hazard functions, see ‘Details’ for more information.</p></dd>
+
+
+<dt id="arg-treatment">treatment<a class="anchor" aria-label="anchor" href="#arg-treatment"></a></dt>
+<dd><p>a character string representing the name or place of the binary covariate, respectively. This covariate indicates whether the patient got the new treatment (\(z_{\ell i}=1\)) or the placebo/standard treatment (\(z_{\ell i}=0\)). For both the first and second rounds, it should not be '<code>NULL</code>'. See ‘Details’.</p></dd>
+
+
+<dt id="arg-treat-round">treat_round<a class="anchor" aria-label="anchor" href="#arg-treat-round"></a></dt>
+<dd><p>a character string representing the <code>'first'</code> or <code>'second'</code> round of estimating treatment effects. In the first round, <code>treat_round = 'first'</code>, the local estimates of the coefficients (\(\gamma_{\ell}\)) is estimated. In the second round, <code>treat_round = 'second'</code>, the <code>propensity</code> scores and the statistical summaries (<code>for_ATE</code>) are calculated.</p></dd>
 
 
 <dt id="arg-intercept">intercept<a class="anchor" aria-label="anchor" href="#arg-intercept"></a></dt>
