@@ -115,7 +115,7 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 
 
 <dt id="arg-for-ate">for_ATE<a class="anchor" aria-label="anchor" href="#arg-for-ate"></a></dt>
-<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 9 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list.</p></dd>
+<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 9 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
@@ -207,7 +207,7 @@ In both cases of the <code>stratified</code> argument (<code>TRUE</code> or <cod
 The last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
 <p>If the data type used in the argument <code>center_spec</code> is continuous or categorical with the number of categories equal to the number of centers, one can use <code>stratified = TRUE</code> and <code>center_spec = NULL</code>, and set <code>strat_par</code> not to <code>NULL</code> (i.e., to \(1\), \(2\) or both \((1, 2)\)). Indeed, in this case, the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers.</p>
 <p>When <code>family = 'survival'</code> and <code>basehaz = 'poly'</code>, the arguments <code>theta_hats</code> and <code>A_hats</code> should not be provided. Instead, the <code>theta_A_polys</code> and <code>q_ls</code> arguments should be defined using the local information, specifically <code>MAP.estimation()$theta_A_poly</code> and <code>MAP.estimation()$q_l</code>, respectively. See Example 3 in ‘Examples’.</p>
-<p>For estimating the treatment effect, in the first round, <code>treat_round = "first"</code>, the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically.)</p>
+<p>For estimating the treatment effect, in the first round, <code>treat_round = "first"</code>, the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically. It should be defined using the output of <code>MAP.estimation()$for_ATE</code> obtained from the first round.)</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -419,7 +419,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, treatment <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
 <span class="r-in"><span>                         treat_round<span class="op">=</span><span class="st">"first"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, Lambda <span class="op">=</span> <span class="va">Lambda1</span>,</span></span>
-<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round<span class="op">=</span><span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># In the first round, the output is without the threatment!</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1_r1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
@@ -442,7 +443,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda2</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, treatment <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
 <span class="r-in"><span>                         treat_round<span class="op">=</span><span class="st">"first"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, Lambda <span class="op">=</span> <span class="va">Lambda2</span>,</span></span>
-<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round<span class="op">=</span><span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          x1 </span>
@@ -527,7 +528,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">## Centeral Server:</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r1</span><span class="op">$</span><span class="va">theta_hat</span>, <span class="va">fit2_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">A_hats_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r1</span><span class="op">$</span><span class="va">A_hat</span>, <span class="va">fit2_r1</span><span class="op">$</span><span class="va">A_hat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fitbfi_r1</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r1</span>, <span class="va">A_hats_r1</span>, <span class="va">Lambda1</span>, family<span class="op">=</span><span class="st">'binomial'</span>,</span></span>
+<span class="r-in"><span><span class="va">fitbfi_r1</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r1</span>, <span class="va">A_hats_r1</span>, <span class="va">Lambda1</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
 <span class="r-in"><span>                 treat_round <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fitbfi_r1</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -558,8 +559,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda11</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, treatment <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
 <span class="r-in"><span>                         treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, Lambda <span class="op">=</span> <span class="va">Lambda11</span>,</span></span>
-<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round<span class="op">=</span><span class="st">"second"</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
 <span class="r-in"><span>                          gamma_bfi <span class="op">=</span> <span class="va">fitbfi_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># In the second round, the output is only with the threatment!</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
@@ -582,7 +584,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">Lambda22</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, treatment <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
 <span class="r-in"><span>                         treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, Lambda <span class="op">=</span> <span class="va">Lambda22</span>,</span></span>
-<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round<span class="op">=</span><span class="st">"second"</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
 <span class="r-in"><span>                          gamma_bfi <span class="op">=</span> <span class="va">fitbfi_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
@@ -678,7 +680,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">theta_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">theta_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">A_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">A_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">A_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">for_ATEs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">for_ATE</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">for_ATE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family<span class="op">=</span><span class="st">'binomial'</span>,</span></span>
+<span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
 <span class="r-in"><span>                 treat_round <span class="op">=</span> <span class="st">"second"</span>, for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">S_var</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
@@ -711,13 +713,13 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Average Treatment Effect (ATE):  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    IPTW:  0.227 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   wIPTW:  0.2344 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          IPTW:  0.227 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         wIPTW:  0.2344 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sample Variance:  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    Treatment:  0.06048 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      Control:  0.2394 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Treatment:  0.06048 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Control:  0.2394 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#################################################</span></span></span>
@@ -1019,7 +1021,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> sigma2           240.8651</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">###---------------------###</span></span></span>
 <span class="r-in"><span><span class="co">###  Treatment Effect   ###</span></span></span>
 <span class="r-in"><span><span class="co">###---------------------###</span></span></span>
@@ -1027,8 +1028,357 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">#-----------------------------#</span></span></span>
 <span class="r-in"><span><span class="co"># New Data for Local Center 1 #</span></span></span>
 <span class="r-in"><span><span class="co">#-----------------------------#</span></span></span>
+<span class="r-in"><span><span class="co"># Generating new data with 'treatment' variable</span></span></span>
+<span class="r-in"><span><span class="co"># We cansider the first variable (X1$X1) to be the treatment</span></span></span>
+<span class="r-in"><span><span class="va">X1</span><span class="op">$</span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="va">n1</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># categorical variable</span></span></span>
+<span class="r-in"><span><span class="co">#X1$X1 &lt;- as.factor(X1$X1)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># linear predictor:</span></span></span>
+<span class="r-in"><span><span class="co">#X1x2_2 &lt;- ifelse(X1$treatment == '2', 1, 0)</span></span></span>
+<span class="r-in"><span><span class="co">#eta1   &lt;- beta[1] + X1$x1 * beta[2] + X1x2_2 * beta[3]</span></span></span>
+<span class="r-in"><span><span class="va">eta1</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X1</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="va">mu1</span>    <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta1</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y1</span>     <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n1</span>, <span class="va">mu1</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------#</span></span></span>
+<span class="r-in"><span><span class="co"># New Data for Local Center 2 #</span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------#</span></span></span>
+<span class="r-in"><span><span class="co"># We cansider the first variable (X2$X1) to be the treatment!</span></span></span>
+<span class="r-in"><span><span class="va">X2</span><span class="op">$</span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="va">n2</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># categorical variable</span></span></span>
+<span class="r-in"><span><span class="co"># linear predictor:</span></span></span>
+<span class="r-in"><span><span class="va">eta2</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X2</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="co"># inverse of the link function:</span></span></span>
+<span class="r-in"><span><span class="va">mu2</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta2</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y2</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n2</span>, <span class="va">mu2</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------#</span></span></span>
+<span class="r-in"><span><span class="co"># New Data for Local Center 3 #</span></span></span>
+<span class="r-in"><span><span class="co">#-----------------------------#</span></span></span>
+<span class="r-in"><span><span class="co"># We cansider the first variable (X3$X1) to be the treatment!</span></span></span>
+<span class="r-in"><span><span class="va">X3</span><span class="op">$</span><span class="va">X1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="va">n3</span>, replace<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span> <span class="co"># categorical variable</span></span></span>
+<span class="r-in"><span><span class="co"># linear predictor:</span></span></span>
+<span class="r-in"><span><span class="va">eta3</span> <span class="op">&lt;-</span> <span class="va">theta</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/matrix.html" class="external-link">as.matrix</a></span><span class="op">(</span><span class="va">X3</span><span class="op">)</span> </span></span>
+<span class="r-in"><span><span class="co"># inverse of the link function:</span></span></span>
+<span class="r-in"><span><span class="va">mu3</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/family.html" class="external-link">gaussian</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="fu">linkinv</span><span class="op">(</span><span class="va">eta3</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y3</span>   <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">n3</span>, <span class="va">mu3</span>, sd <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="va">theta</span><span class="op">[</span><span class="fl">5</span><span class="op">]</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#-------------#</span></span></span>
+<span class="r-in"><span><span class="co"># First Round #</span></span></span>
+<span class="r-in"><span><span class="co">#-------------#</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Center 1:</span></span></span>
+<span class="r-in"><span><span class="va">Lambda1</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, <span class="co"># same results with 'gaussian'</span></span></span>
+<span class="r-in"><span>                         treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round<span class="op">=</span><span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># When treat_round = "first", the family will automatically set to 'binomial',</span></span></span>
+<span class="r-in"><span><span class="co"># even if family = 'gaussian' or family = 'survival'.</span></span></span>
+<span class="r-in"><span><span class="va">fit1_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, <span class="co"># same results with 'binomial'</span></span></span>
+<span class="r-in"><span>                          Lambda <span class="op">=</span> <span class="va">Lambda1</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># The output without the threatment (X1) in the first round!</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1_r1</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X2 + X3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘binomial’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘Logit’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   0.0223  0.3766 -0.7158   0.7603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2            0.2602  0.4041 -0.5318   1.0522</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            0.4581  0.4304 -0.3854   1.3016</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  -20.02 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Center 2:</span></span></span>
+<span class="r-in"><span><span class="va">Lambda2</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
+<span class="r-in"><span>                         treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round<span class="op">=</span><span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit2_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, Lambda <span class="op">=</span> <span class="va">Lambda2</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit2_r1</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X2          X3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> -0.52120058  0.29742357 -0.08886829 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)        X2        X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)    9.354493  2.945393 -3.248575</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2             2.945393 11.750351 -1.184030</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            -3.248575 -1.184030  9.977399</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X2          X3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.3596205   0.3040087   0.3362061 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   X2   X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2                 0.00 0.01 0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3                 0.00 0.00 0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X2 + X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "(Intercept)" "X2"          "X3"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_treat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $gamma_bfi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $RCT_propens</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $propensity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $for_ATE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_sample_cov</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 26.38388</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "binomial"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $basehaz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Centeral Server:</span></span></span>
+<span class="r-in"><span><span class="va">theta_hats_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r1</span><span class="op">$</span><span class="va">theta_hat</span>, <span class="va">fit2_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">A_hats_r1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r1</span><span class="op">$</span><span class="va">A_hat</span>, <span class="va">fit2_r1</span><span class="op">$</span><span class="va">A_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fitbfi_r1</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r1</span>, <span class="va">A_hats_r1</span>, <span class="va">Lambda1</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
+<span class="r-in"><span>                 treat_round <span class="op">=</span> <span class="st">"first"</span><span class="op">)</span> <span class="co"># same results with 'binomial'</span></span></span>
+<span class="r-in"><span><span class="co"># The output without the threatment (X1) in the first round!</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fitbfi_r1</span>, cur_mat <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘binomial’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘Logit’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)  -0.2424  0.2574 -0.7470   0.2622</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2            0.2451  0.2406 -0.2265   0.7168</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3            0.1488  0.2626 -0.3659   0.6635</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)      X2      X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)     16.4799  3.1477 -3.9190</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2               3.1477 17.9615 -1.9104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3              -3.9190 -1.9104 15.5098</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#--------------#</span></span></span>
+<span class="r-in"><span><span class="co"># Second Round #</span></span></span>
+<span class="r-in"><span><span class="co">#--------------#</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Center 1:</span></span></span>
+<span class="r-in"><span><span class="va">Lambda11</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>,</span></span>
+<span class="r-in"><span>                          treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit1_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, Lambda <span class="op">=</span> <span class="va">Lambda11</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
+<span class="r-in"><span>                          gamma_bfi <span class="op">=</span> <span class="va">fitbfi_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># The output with only the threatment (X1) in the second round!</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the local model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Formula: y ~ X2 + X3 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.0285  0.3868  0.2704   1.7865</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1            1.2372  0.5159  0.2261   2.2484</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  3.969 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             log Lik Posterior:  -71.46 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Center 2:</span></span></span>
+<span class="r-in"><span><span class="va">Lambda22</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>,</span></span>
+<span class="r-in"><span>                          treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit2_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>, Lambda <span class="op">=</span> <span class="va">Lambda22</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
+<span class="r-in"><span>                          gamma_bfi <span class="op">=</span> <span class="va">fitbfi_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fit2_r2</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1      sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   1.1927959   0.7520922   3.5989485 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)          X1      sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept) 22.14307019 10.10269136 -0.02386092</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1          10.10269136 10.11269136 -0.01503365</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2      -0.02386092 -0.01503365 80.14388436</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)          X1      sigma2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   0.2880712   0.4262706   0.1117030 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             (Intercept)   X1 sigma2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)        0.01 0.00   0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1                 0.00 0.01   0.00</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> sigma2             0.00 0.00   0.01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $formula</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] y ~ X2 + X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $names</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "(Intercept)" "X1"          "sigma2"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 40</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $np</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "X1"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_treat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "0"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $gamma_bfi</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   (Intercept)      X2        X3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1  -0.2424109 0.24512 0.1487866</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $RCT_propens</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $propensity</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] 0.4228957 0.2872530 0.5435048 0.6162998 0.4389738 0.4533253 0.5423924</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8] 0.4295079 0.3948974 0.5279462 0.3830530 0.3982273 0.3216490 0.4675986</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [15] 0.5106539 0.3565694 0.3786060 0.4616242 0.4758353 0.4287259 0.4189701</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] 0.4281438 0.3818497 0.5980655 0.5318969 0.3729389 0.4134376 0.4051359</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [29] 0.4820874 0.3853137 0.4671696 0.4610488 0.5546443 0.4229997 0.4534592</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [36] 0.5209616 0.4055026 0.3859785 0.3263390 0.4925895</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $for_ATE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.00000 24.00000 31.18591 90.44691 36.35907 70.74137 43.29671 51.66003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [9] 28.72066</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_sample_cov</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $refer_cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $zero_cat</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 91.3175</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "gaussian"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $basehaz</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $intercept</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] TRUE</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $convergence</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control$maxit</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 100</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"class")</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "bfi"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">## Centeral Server:</span></span></span>
+<span class="r-in"><span><span class="va">theta_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">theta_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">A_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">A_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">A_hat</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">for_ATEs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">for_ATE</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">for_ATE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family <span class="op">=</span> <span class="st">'gaussian'</span>,</span></span>
+<span class="r-in"><span>                 treat_round <span class="op">=</span> <span class="st">"second"</span>, for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">ATE</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $IPTW</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9823843</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $wIPTW</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9702013</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">S_var</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.935765</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.289511</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fitbfi_r2</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Family: ‘gaussian’ </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Link: ‘identity’</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             Estimate Std.Dev CI 2.5% CI 97.5%</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> (Intercept)   1.1344  0.2312  0.6813   1.5874</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1            0.9579  0.3271  0.3169   1.5990</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dispersion parameter (sigma2):  3.758 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Average Treatment Effect (ATE):  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          IPTW:  0.9824 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         wIPTW:  0.9702 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sample Variance:  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>     Treatment:  1.936 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       Control:  2.29 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">####################################################</span></span></span>
