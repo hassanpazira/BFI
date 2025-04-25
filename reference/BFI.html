@@ -115,7 +115,7 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 
 
 <dt id="arg-for-ate">for_ATE<a class="anchor" aria-label="anchor" href="#arg-for-ate"></a></dt>
-<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 9 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 9 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list. It should be defined using the output of <code>MAP.estimation()$for_ATE</code> obtained from the first round. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
@@ -207,7 +207,7 @@ In both cases of the <code>stratified</code> argument (<code>TRUE</code> or <cod
 The last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
 <p>If the data type used in the argument <code>center_spec</code> is continuous or categorical with the number of categories equal to the number of centers, one can use <code>stratified = TRUE</code> and <code>center_spec = NULL</code>, and set <code>strat_par</code> not to <code>NULL</code> (i.e., to \(1\), \(2\) or both \((1, 2)\)). Indeed, in this case, the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers.</p>
 <p>When <code>family = 'survival'</code> and <code>basehaz = 'poly'</code>, the arguments <code>theta_hats</code> and <code>A_hats</code> should not be provided. Instead, the <code>theta_A_polys</code> and <code>q_ls</code> arguments should be defined using the local information, specifically <code>MAP.estimation()$theta_A_poly</code> and <code>MAP.estimation()$q_l</code>, respectively. See Example 3 in ‘Examples’.</p>
-<p>For estimating the treatment effect, in the first round, <code>treat_round = "first"</code>, the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically. It should be defined using the output of <code>MAP.estimation()$for_ATE</code> obtained from the first round.)</p>
+<p>For estimating the treatment effect, in the first round, <code>treat_round = "first"</code>, the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically.)</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
