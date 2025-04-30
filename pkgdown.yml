@@ -1,11 +1,11 @@
 pandoc: 3.1.11
-pkgdown: 2.1.1
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   BFI: BFI.html
   Python: Python.html
   SAS: SAS.html
-last_built: 2025-04-25T21:04Z
+last_built: 2025-04-30T22:18Z
 urls:
   reference: https://hassanpazira.github.io/BFI/reference
   article: https://hassanpazira.github.io/BFI/articles
