@@ -115,7 +115,7 @@ The used data type in the argument <code>center_spec</code> must be categorical.
 
 
 <dt id="arg-for-ate">for_ATE<a class="anchor" aria-label="anchor" href="#arg-for-ate"></a></dt>
-<dd><p>a list of \(L\) vectors of 4 (for <code>survival</code>) or 9 (for <code>binomial</code> or <code>gaussian</code>) elements to calculate the treatment effect. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list. It should be defined using the output of <code>MAP.estimation()$for_ATE</code> obtained from the first round. See ‘Details’ and ‘Examples’.</p></dd>
+<dd><p>a list of \(L\) vectors of 9 elements to calculate the average treatment effects (ATEs) only for the <code>binomial</code> and <code>gaussian</code> families. These vectors must have equal dimensions. If <code>treat_round = "first"</code>, then <code>for_ATE</code> must be <code>NULL</code>. If <code>treat_round = "second"</code>, then <code>for_ATE</code> must be a list for <code>binomial</code> and <code>gaussian</code>, while for <code>survival</code>, <code>for_ATE</code> must be <code>NULL</code>. It should be defined using the output of <code>MAP.estimation()$for_ATE</code> obtained from the first round. See ‘Details’ and ‘Examples’.</p></dd>
 
 
 <dt id="arg-p">p<a class="anchor" aria-label="anchor" href="#arg-p"></a></dt>
@@ -158,7 +158,7 @@ This argument is used if <code>center_zero_sample = TRUE</code>.</p></dd>
 
 <p><code>bfi</code> returns a list containing the following components:</p>
 <dl><dt>theta_hat</dt>
-<dd><p>the vector of estimates obtained by combining the inference results from the \(L\) centers with the <code>'BFI'</code> methodology. If an intercept was fitted in every center and <code>stratified = FALSE</code>, there is only one general “intercept” in this vector, while if <code>stratified = TRUE</code> and <code>strat_par = 1</code>, there are \(L\) different intercepts in the model, for each center one;</p></dd>
+<dd><p>the vector of estimates obtained by combining the inference results from the \(L\) centers with the <code>'BFI'</code> methodology. If an intercept was fitted in every center and <code>stratified = FALSE</code>, there is only one general “intercept” in this vector, while if <code>stratified = TRUE</code> and <code>strat_par = 1</code>, there are \(L\) different intercepts in the model, for each center one. If <code>treatment</code> is not '<code>NULL</code>', when <code>treat_round = 'first'</code>, <code>theta_hat</code> gives \(\hat{\boldsymbol{\gamma}}_{BFI}\), and when <code>treat_round = 'second'</code>, <code>theta_hat</code> is the treatment effect \(\hat \zeta_{BFI}\);</p></dd>
 
 
 <dt>A_hat</dt>
@@ -186,11 +186,11 @@ This argument is used if <code>center_zero_sample = TRUE</code>.</p></dd>
 
 
 <dt>S_var</dt>
-<dd><p>the sample variance of the treatment and control arms.</p></dd>
+<dd><p>the sample variance of the treatment and control arms. It will be 'NULL' for <code>survival</code>.</p></dd>
 
 
 <dt>Ave_Treat</dt>
-<dd><p>the estimates of the treatment effect. Two diffterent estimations (IPTW and wIPTW) if the family is <code>gaussian</code> or <code>binomial</code>, and one estimation if the family is  <code>survival</code>. For more detailes see ‘References’.</p></dd>
+<dd><p>the estimates of the average treatment effect. Two diffterent estimations (IPTW and wIPTW) if the family is <code>gaussian</code> or <code>binomial</code>, and for the <code>survival</code> family it is 'NULL'. For more detailes see ‘References’.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -207,7 +207,7 @@ In both cases of the <code>stratified</code> argument (<code>TRUE</code> or <cod
 The last matrix of the list in the argument <code>Lambda</code> can be built by the function <code><a href="inv.prior.cov.html">inv.prior.cov()</a></code>.</p>
 <p>If the data type used in the argument <code>center_spec</code> is continuous or categorical with the number of categories equal to the number of centers, one can use <code>stratified = TRUE</code> and <code>center_spec = NULL</code>, and set <code>strat_par</code> not to <code>NULL</code> (i.e., to \(1\), \(2\) or both \((1, 2)\)). Indeed, in this case, the stratification parameter(s) given in the argument <code>strat_par</code> are assumed to be different across the centers.</p>
 <p>When <code>family = 'survival'</code> and <code>basehaz = 'poly'</code>, the arguments <code>theta_hats</code> and <code>A_hats</code> should not be provided. Instead, the <code>theta_A_polys</code> and <code>q_ls</code> arguments should be defined using the local information, specifically <code>MAP.estimation()$theta_A_poly</code> and <code>MAP.estimation()$q_l</code>, respectively. See Example 3 in ‘Examples’.</p>
-<p>For estimating the treatment effect, in the first round, <code>treat_round = "first"</code>, the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically.)</p>
+<p>For estimating the treatment effect, in the first round (<code>treat_round = "first"</code>), the argument <code>for_ATE</code> must be <code>NULL</code> (the default) and the family must be set to <code>binomial</code> (family is handled automatically.)</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -2040,8 +2040,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [29] 0.5090532 0.5464391</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $for_ATE</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 17.00000 13.00000 19.58604 16.39050 34.18449 39.54283 26.10104 26.35585</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [9] 13.20972</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $zero_sample_cov</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -2078,24 +2077,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">## Centeral Server:</span></span></span>
 <span class="r-in"><span><span class="va">theta_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">theta_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">A_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">A_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">A_hat</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">for_ATEs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">for_ATE</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">for_ATE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family <span class="op">=</span> <span class="st">'survival'</span>,</span></span>
-<span class="r-in"><span>                 basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
-<span class="r-in"><span>                 for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">Ave_Treat</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $IPTW</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3804594</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $wIPTW</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.1492739</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">S_var</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.4914914</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -1.035116</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span>                 basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># When family = 'survival', 'for_ATE' is not calculated.</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fitbfi_r2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
@@ -2107,16 +2091,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> X1   0.8183  0.3591  0.1145   1.5222</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Average Treatment Effect (ATE):  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          IPTW:  0.3805 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         wIPTW:  0.1493 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sample Variance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Treatment:  -0.4915 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Control:  -1.035 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

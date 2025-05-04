@@ -100,7 +100,7 @@
 
 
 <dt id="arg-treat-round">treat_round<a class="anchor" aria-label="anchor" href="#arg-treat-round"></a></dt>
-<dd><p>a character string representing the <code>'first'</code> or <code>'second'</code> round of estimating treatment effects. In the first round, <code>treat_round = 'first'</code>, the local estimates of the coefficients (\(\gamma_{\ell}\)) is estimated. In the second round, <code>treat_round = 'second'</code>, the <code>propensity</code> scores and the statistical summaries (<code>for_ATE</code>) are calculated to be sent to the central server for estimating the average treatment effects.</p></dd>
+<dd><p>a character string representing the <code>'first'</code> or <code>'second'</code> round of estimating treatment effects. In the first round, <code>treat_round = 'first'</code>, the local estimates of the coefficients (\(\gamma_{\ell}\)) is estimated. In the second round, <code>treat_round = 'second'</code>, the treatment effect, <code>propensity</code> scores and the statistical summaries (<code>for_ATE</code>, only for 'binomial' and 'gaussian' families) are calculated to be sent to the central server for estimating the BFI treatment effect (\(\hat \zeta_{BFI}\)) and average treatment effects (ATEs).</p></dd>
 
 
 <dt id="arg-refer-treat">refer_treat<a class="anchor" aria-label="anchor" href="#arg-refer-treat"></a></dt>
@@ -161,7 +161,7 @@
 
 <p><code>MAP.estimation</code> returns a list containing the following components:</p>
 <dl><dt>theta_hat</dt>
-<dd><p>the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the <code>gaussian</code> family, the last element of this vector is \(\sigma^2\);</p></dd>
+<dd><p>the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the <code>gaussian</code> family, the last element of this vector is \(\sigma^2\). When <code>treatment</code> is not NULL and <code>treat_round = 'first'</code>, this is the MAP estimates of only regression coefficients (\(\boldsymbol{\gamma}_\ell\)) except the treatment effect \(\zeta_\ell\). While <code>treatment</code> is not NULL and <code>treat_round = 'second'</code>, this is \(\hat{\zeta}_\ell\), the weighted MAP estimate of the treatment effect \( \zeta_\ell\) in center \(\ell\);</p></dd>
 
 
 <dt>A_hat</dt>
@@ -261,20 +261,7 @@
 <dd><p>\(\sum_{i=1}^{n_{\ell}} (1 - z_{\ell i}) y_{\ell i}\),</p></dd>
 
 	
-</dl><p>but in <code>survival</code>, its elements are:</p><dl><dt>first</dt>
-<dd><p>\(\hat \zeta_\ell\), the weighted MAP estimates of the treatment effect \( \zeta_\ell\) in center \(\ell\),</p></dd>
-
-		<dt>second</dt>
-<dd><p>\(\hat{\bold{A}}_\ell\), minus the curvature (1\(\times\)1)-dimensional matrix estimates (variance) around \( \zeta_\ell\) in center \(\ell\),</p></dd>
-
-		<dt>third</dt>
-<dd><p>standard deviation of \( \zeta_\ell\) in center \(\ell\), i.e., , <code>sqrt(solve(for_ATE[2]))</code></p></dd>
-
-		<dt>fourth</dt>
-<dd><p>an integer value used to encode the warnings and the errors related to the algorithm used to maximaze the weighted partial log likelihood;</p></dd>
-
-		
-</dl></dd>
+</dl><p>but for <code>survival</code>, it's 'NULL';</p></dd>
 
 
 <dt>zero_sample_cov</dt>
@@ -340,7 +327,7 @@ For further information on the <code>survival</code> family, refer to the 'Refer
 <p>The three arguments <code>'treatment'</code>, <code>'treat_round'</code>, <code>'refer_treat'</code>, <code>'gamma_bfi'</code>, and <code>'RCT_propens'</code> are related to the estimation of the treatment effect.
 For observational and non-randomized studies, the treatment effect is estimated in two rounds; In the first round, \(\hat{\boldsymbol{\beta}}_{\ell}\) (or \(\hat{\boldsymbol{\gamma}}_{\ell}\)) are estimated locally and in the central server \(\hat{\boldsymbol{\beta}}_{BFI}\) (or \(\hat{\boldsymbol{\gamma}}_{BFI}\)) is estimated and then is sent to all local centers for the second round to estimate propensity scores, weights, treatment effect and ATEs.
 In the first round, the argument <code>treatment</code> should not be '<code>NULL</code>' and <code>treat_round = "first"</code>, while <code>gamma_bfi = NULL</code> and <code>RCT_propens = NULL</code>. Moreover, in the first round, the family must be set to <code>binomial</code>, however this is handled automatically.
-In the second round, propensity scores are estimated, and some summary statistics are sent to the central server to estimate the average treatment estimates, ATEs (in this case <code>treatment</code> and <code>gamma_bfi</code> should not be '<code>NULL</code>' and <code>treat_round = "second"</code>, but <code>RCT_propens = NULL</code>).
+In the second round, local weighted MAP estimate of the treatment effects and propensity scores are estimated, and along with some summary statistics are sent to the central server to estimate the average treatment effects ATEs (in this case <code>treatment</code> and <code>gamma_bfi</code> should not be '<code>NULL</code>' and <code>treat_round = "second"</code>, but <code>RCT_propens = NULL</code>).
 In contrast, for the randomized control trial (RCT), the treatment effect can be estimated by only one round as the propensity scores are known (in this case <code>treatment</code> and <code>RCT_propens</code> should not be '<code>NULL</code>', but <code>gamma_bfi = NULL</code>).
 NOTE: the argument <code>gamma_bfi</code> should not include estimates of the nuisance parameter \(\sigma\) in the <code>gaussian</code> family or any parameters of the baseline hazard (\(\boldsymbol{\omega}\)) and the intercept for <code>survival</code>.
 For more examples on treatment effect estimation, see the ‘Examples’ section of <code><a href="BFI.html">bfi</a></code>.</p>
