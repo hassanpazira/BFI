@@ -340,7 +340,8 @@ For further information on the <code>survival</code> family, refer to the 'Refer
 <p>The three arguments <code>treatment</code>, <code>gamma_bfi</code>, and <code>RCT_propens</code> are related to the estimation of the treatment effect.
 For observational and non-randomized studies, the treatment effect is estimated in two rounds; In the first round, \(\hat{\boldsymbol{\beta}}_{\ell}\) (or \(\hat{\boldsymbol{\gamma}}_{\ell}\)) are estimated locally and in the central server \(\hat{\boldsymbol{\beta}}_{BFI}\) (or \(\hat{\boldsymbol{\gamma}}_{BFI}\)) is estimated and then is sent to all centers for the second round. In the first round, the argument <code>treatment</code> should not be '<code>NULL</code>', while <code>gamma_bfi = NULL</code> and <code>RCT_propens = NULL</code>. Moreover, in the first round, the family must be set to <code>binomial</code>, but this is handled automatically. In the second round, propensity scores are estimated, and some summary statistics are sent to the central server to estimate the average treatment estimate, ATE (in this case <code>treatment</code> and <code>gamma_bfi</code> should not be '<code>NULL</code>', but <code>RCT_propens = NULL</code>).
 In contrast, for the randomized control trial (RCT), the treatment effect can be estimated by only one round as the propensity scores are known (in this case <code>treatment</code> and <code>RCT_propens</code> should not be '<code>NULL</code>', but <code>gamma_bfi = NULL</code>).
-NOTE: the argument <code>gamma_bfi</code> should not include estimates of the nuisance parameter \(\sigma\) in the <code>gaussian</code> family or any parameters of the baseline hazard (\(\boldsymbol{\omega}\)) for <code>survival</code>. Check this: <code>identical(names(gamma_bfi), X[, -which(colnames(X) == treatment)])</code> should be <code>TRUE</code>.</p>
+NOTE: the argument <code>gamma_bfi</code> should not include estimates of the nuisance parameter \(\sigma\) in the <code>gaussian</code> family or any parameters of the baseline hazard (\(\boldsymbol{\omega}\)) for <code>survival</code>. Check this: <code>identical(names(gamma_bfi), X[, -which(colnames(X) == treatment)])</code> should be <code>TRUE</code>.
+For more examples on treatment effect estimation, see the ‘Examples’ section of <code><a href="BFI.html">bfi</a></code>.</p>
 <p>To solve unconstrained and bound-constrained optimization problems, the <code>MAP.estimation</code> function utilizes an optimization algorithm called Limited-memory Broyden-Fletcher-Goldfarb-Shanno with Bound Constraints (L-BFGS-B), Byrd et. al. (1995).
 The L-BFGS-B algorithm is a limited-memory “quasi-Newton” method that iteratively updates the parameter estimates by approximating the inverse Hessian matrix using gradient information from the history of previous iterations. This approach allows the algorithm to approximate the curvature of the posterior distribution and efficiently search for the optimal solution, which makes it computationally efficient for problems with a large number of variables.</p>
 <p>By default, the algorithm uses a relative change in the objective function as the convergence criterion. When the change in the objective function between iterations falls below a certain threshold (`<code>factr</code>`) the algorithm is considered to have converged.
@@ -883,21 +884,21 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1   1.3040  0.1912  0.9293   1.6787</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2   2.4894  0.2755  1.9494   3.0293</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3   3.2086  0.3354  2.5512   3.8660</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4   5.0264  0.5126  4.0218   6.0311</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1   1.2473  0.1869  0.8811   1.6136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2   2.3849  0.2668  1.8620   2.9077</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3   3.0800  0.3251  2.4428   3.7172</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4   4.8160  0.4949  3.8460   5.7860</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -143.5 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -145.6 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Minus the Curvature Matrix: </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          X1       X2       X3       X4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1  51.8496   3.0205  -6.6147 -10.8334</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X2   3.0205  57.7207 -11.4154 -21.3849</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X3  -6.6147 -11.4154  35.0165 -12.4757</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -10.8334 -21.3849 -12.4757  23.4777</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1  52.6669   2.9390  -6.7156 -10.8854</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X2   2.9390  58.7634 -11.4832 -21.7196</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X3  -6.7156 -11.4832  35.4618 -12.5839</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X4 -10.8854 -21.7196 -12.5839  23.8793</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>

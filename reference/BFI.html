@@ -751,8 +751,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co"># equal to 0.5. Here we use 'RCT_propens', instead of 'gamma_bfi':</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Center 1:</span></span></span>
-<span class="r-in"><span><span class="va">Lambda11</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, treatment <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
-<span class="r-in"><span>                          treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda11</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, Lambda <span class="op">=</span> <span class="va">Lambda11</span>,</span></span>
 <span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
 <span class="r-in"><span>                          RCT_propens <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="va">n1</span><span class="op">)</span><span class="op">)</span> <span class="co"># gamma_bfi = NULL</span></span></span>
@@ -775,8 +775,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   Convergence:  0 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Center 2:</span></span></span>
-<span class="r-in"><span><span class="va">Lambda22</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, treatment <span class="op">=</span> <span class="st">"treatment"</span>,</span></span>
-<span class="r-in"><span>                          treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda22</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
+<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'binomial'</span>, Lambda <span class="op">=</span> <span class="va">Lambda22</span>,</span></span>
 <span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"treatment"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
 <span class="r-in"><span>                          RCT_propens <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fl">0.5</span>, <span class="va">n2</span><span class="op">)</span><span class="op">)</span> <span class="co"># gamma_bfi = NULL</span></span></span>
@@ -1958,8 +1958,9 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="co">#--------------#</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Center 1:</span></span></span>
-<span class="r-in"><span><span class="va">Lambda11</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">"unspecified"</span>,</span></span>
-<span class="r-in"><span>                          treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">Lambda11</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X1</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'survival'</span>,</span></span>
+<span class="r-in"><span>                          basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>,</span></span>
+<span class="r-in"><span>                          treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit1_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y1</span>, <span class="va">X1</span>, family <span class="op">=</span> <span class="st">'survival'</span>, Lambda <span class="op">=</span> <span class="va">Lambda11</span>,</span></span>
 <span class="r-in"><span>                          basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>,</span></span>
 <span class="r-in"><span>                          treat_round <span class="op">=</span> <span class="st">"second"</span>, gamma_bfi <span class="op">=</span> <span class="va">fitbfi_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
@@ -1975,29 +1976,30 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1   0.7177  0.4752 -0.2137   1.6491</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1   0.7169  0.4752 -0.2145   1.6482</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> log Lik Posterior:  -123.5 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       Convergence:  0 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">## Center 2:</span></span></span>
 <span class="r-in"><span><span class="va">Lambda22</span> <span class="op">&lt;-</span> <span class="fu"><a href="inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span><span class="va">X2</span>, lambda <span class="op">=</span> <span class="fl">0.01</span>, family <span class="op">=</span> <span class="st">'survival'</span>,</span></span>
-<span class="r-in"><span>                          basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>, treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                          basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>,</span></span>
+<span class="r-in"><span>                          treat_round<span class="op">=</span><span class="st">"second"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span><span class="va">y2</span>, <span class="va">X2</span>, family <span class="op">=</span> <span class="st">'survival'</span>, basehaz <span class="op">=</span> <span class="st">"unspecified"</span>,</span></span>
 <span class="r-in"><span>                          Lambda <span class="op">=</span> <span class="va">Lambda22</span>, treatment <span class="op">=</span> <span class="st">"X1"</span>,</span></span>
 <span class="r-in"><span>                          treat_round <span class="op">=</span> <span class="st">"second"</span>, gamma_bfi <span class="op">=</span> <span class="va">fitbfi_r1</span><span class="op">$</span><span class="va">theta_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit2_r2</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $theta_hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       X1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.952047 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        X1 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.9506257 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $A_hat</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          X1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1 3.333697</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1 3.335594</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sd</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        X1 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5476927 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5475369 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      X1</span>
@@ -2051,7 +2053,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $value</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 109.5995</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 109.604</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $family</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "survival"</span>
@@ -2078,7 +2080,8 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">A_hats_r2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">A_hat</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">A_hat</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">for_ATEs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">fit1_r2</span><span class="op">$</span><span class="va">for_ATE</span>, <span class="va">fit2_r2</span><span class="op">$</span><span class="va">for_ATE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family <span class="op">=</span> <span class="st">'survival'</span>,</span></span>
-<span class="r-in"><span>                 basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>, for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                 basehaz <span class="op">=</span> <span class="st">"unspecified"</span>, treat_round <span class="op">=</span> <span class="st">"second"</span>,</span></span>
+<span class="r-in"><span>                 for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">Ave_Treat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $IPTW</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3804594</span>
@@ -2103,7 +2106,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> Coefficients:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Estimate Std.Dev CI 2.5% CI 97.5%</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> X1   0.8194  0.3592  0.1154   1.5233</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> X1   0.8183  0.3591  0.1145   1.5222</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Average Treatment Effect (ATE):  </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
