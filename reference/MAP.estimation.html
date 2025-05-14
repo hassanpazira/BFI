@@ -161,7 +161,7 @@
 
 <p><code>MAP.estimation</code> returns a list containing the following components:</p>
 <dl><dt>theta_hat</dt>
-<dd><p>the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the <code>gaussian</code> family, the last element of this vector is \(\sigma^2\). When <code>treatment</code> is not NULL and <code>treat_round = 'first'</code>, this is the MAP estimates of only regression coefficients (\(\boldsymbol{\gamma}_\ell\)) except the treatment effect \(\zeta_\ell\). While <code>treatment</code> is not NULL and <code>treat_round = 'second'</code>, this is \(\hat{\zeta}_\ell\), the weighted MAP estimate of the treatment effect \( \zeta_\ell\) in center \(\ell\);</p></dd>
+<dd><p>the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the <code>gaussian</code> family, although a Gaussian prior was applied to \(\log(\sigma^2)\), the last element of this vector was back-transformed to \(\sigma^2\). When <code>treatment</code> is not NULL and <code>treat_round = 'first'</code>, this is the MAP estimates of only regression coefficients (\(\boldsymbol{\gamma}_\ell\)) except the treatment effect \(\zeta_\ell\). While <code>treatment</code> is not NULL and <code>treat_round = 'second'</code>, this is \(\hat{\zeta}_\ell\), the weighted MAP estimate of the treatment effect \( \zeta_\ell\) in center \(\ell\);</p></dd>
 
 
 <dt>A_hat</dt>
