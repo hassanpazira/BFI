@@ -185,11 +185,8 @@ This argument is used if <code>center_zero_sample = TRUE</code>.</p></dd>
 <dd><p>the stratification parameter(s) used;</p></dd>
 
 
-<dt>S_var</dt>
-<dd><p>the sample variance of the treatment and control arms. It will be 'NULL' for <code>survival</code>.</p></dd>
-
-
-<dt>Ave_Treat</dt>
+</dl><p><!-- %\item{S_var}{the sample variance of the treatment and control arms. It will be 'NULL' for \code{survival}.} --></p>
+<dl><dt>Ave_Treat</dt>
 <dd><p>the estimates of the average treatment effect. Two diffterent estimations (IPTW and wIPTW) if the family is <code>gaussian</code> or <code>binomial</code>, and for the <code>survival</code> family it is 'NULL'. For more detailes see ‘References’.</p></dd>
 
 </dl></div>
@@ -704,12 +701,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
 <span class="r-in"><span>                 treat_round <span class="op">=</span> <span class="st">"second"</span>, for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">S_var</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.06048387</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2393617</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">Ave_Treat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $IPTW</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2269916</span>
@@ -736,11 +728,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          IPTW:  0.227 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         wIPTW:  0.2344 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sample Variance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Treatment:  0.06048 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Control:  0.2394 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#--------------------#</span></span></span>
 <span class="r-in"><span><span class="co">#  Randomized Trial  #</span></span></span>
@@ -875,12 +862,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-in"><span><span class="va">fitbfi_r2</span> <span class="op">&lt;-</span> <span class="fu">bfi</span><span class="op">(</span><span class="va">theta_hats_r2</span>, <span class="va">A_hats_r2</span>, <span class="va">Lambda11</span>, family <span class="op">=</span> <span class="st">'binomial'</span>,</span></span>
 <span class="r-in"><span>                 treat_round <span class="op">=</span> <span class="st">"second"</span>, for_ATE <span class="op">=</span> <span class="va">for_ATEs</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">S_var</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.06048387</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2393617</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">Ave_Treat</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $IPTW</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.1</span>
@@ -907,11 +889,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          IPTW:  -0.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         wIPTW:  0.2292 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sample Variance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Treatment:  0.06048 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Control:  0.2394 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">#################################################</span></span></span>
@@ -1468,12 +1445,7 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.055543</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span><span class="va">fitbfi_r2</span><span class="op">$</span><span class="va">S_var</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $treatment</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.743847</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $control</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.31523</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="fu"><a href="summary.bfi.html">summary</a></span><span class="op">(</span><span class="va">fitbfi_r2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Summary of the BFI model:</span>
@@ -1493,11 +1465,6 @@ Maintainer: Hassan Pazira <a href="mailto:hassan.pazira@radboudumc.nl">hassan.pa
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          IPTW:  1.046 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         wIPTW:  1.056 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sample Variance:  </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     Treatment:  1.744 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       Control:  1.315 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co">####################################################</span></span></span>
