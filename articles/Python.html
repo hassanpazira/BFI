@@ -82,25 +82,25 @@ out the <em>BFI</em> method so far, this vignette describes the usage of
 the R package <code>BFI</code> in the Python environment.</p>
 <p>To move to the Python environment, we need to prepare our operating
 system. Although, we explain in the following how to prepare it in
-different systems (‘<em>MacOS</em>’, ‘<em>Ubuntu</em>’ and
-‘<em>Windows</em>’), we recommend that to use ‘<em>Google Colab</em>’ to
-write and execute (the following) Python codes which can be done in any
-system through a browser without any preparations.</p>
+different systems (‘<em>macOS</em>’, ‘<em>Ubuntu</em>’ and
+‘<em>Windows</em>’), we recommend using ‘<em>Google Colab</em>’ to write
+and execute (the following) Python code, as it can be done in any system
+through a browser without any preparations.</p>
 </div>
 <div class="section level2">
 <h2 id="google-colab">Google Colab<a class="anchor" aria-label="anchor" href="#google-colab"></a>
 </h2>
 <p>First go to <em>Google Colab</em> from <a href="https://colab.google" class="external-link uri">https://colab.google</a> or <a href="https://colab.research.google.com" class="external-link uri">https://colab.research.google.com</a>, and then click on
-<em>New Notebook</em>. Now, skip the two following sections and jump to
-the section <a href="#Python">Python Script</a>.</p>
+<em>New Notebook</em>. Now, skip the next two sections and proceed to
+the <a href="#Python">Python Script</a> section.</p>
 </div>
 <div class="section level2">
 <h2 id="python-installation">Python Installation<a class="anchor" aria-label="anchor" href="#python-installation"></a>
 </h2>
-<p>The steps to install the latest version of Python on ‘MacOS’,
+<p>The steps to install the latest version of Python on ‘macOS’,
 ‘Ubuntu’ and ‘Windows’ are as follows:</p>
 <div class="section level3">
-<h3 id="on-macos">On MacOS<a class="anchor" aria-label="anchor" href="#on-macos"></a>
+<h3 id="on-macos">On macOS<a class="anchor" aria-label="anchor" href="#on-macos"></a>
 </h3>
 <p>Open a terminal window (cmd + space and search ‘Terminal’) and
 install the package manager ‘Homebrew’ by executing the following
@@ -180,7 +180,7 @@ Python programming.</p>
 <p>Install the latest version of PIP and required modules by running the
 following commands on different systems.</p>
 <div class="section level3">
-<h3 id="on-macos-1">On MacOS<a class="anchor" aria-label="anchor" href="#on-macos-1"></a>
+<h3 id="on-macos-1">On macOS<a class="anchor" aria-label="anchor" href="#on-macos-1"></a>
 </h3>
 <p>Install/Upgrade the latest version of PIP by running</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Installing PIP</span></span>
@@ -287,12 +287,12 @@ typing the following command in the terminal window (you should skip
 this line if you are already in <em>Google Colab</em>):</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">python3</span></span></code></pre></div>
-<p>As of now, all the following codes should be run in the Python
-environment. If you want to copy all codes at once go to <a href="#allcodes">the last section</a>.</p>
+<p>As of now, all the following code should be run in the Python
+environment. If you want to copy all code at once go to <a href="#allcodes">the last section</a>.</p>
 <div class="section level3">
 <h3 id="importing-python-modules-and-functions">Importing <code>Python</code> modules and functions<a class="anchor" aria-label="anchor" href="#importing-python-modules-and-functions"></a>
 </h3>
-<p>Use the following codes to import required Python modules:</p>
+<p>Use the following code to import required Python modules:</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># import 'pandas' package</span></span>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a></span>
@@ -304,7 +304,7 @@ environment. If you want to copy all codes at once go to <a href="#allcodes">the
 <span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a></span>
 <span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a><span class="co"># import 'rpy2' package</span></span>
 <span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a><span class="im">import</span> rpy2                  </span></code></pre></div>
-<p>and using the following codes imports the required functions such as
+<p>and using the following code imports the required functions such as
 <code>importr()</code> and <code><a href="https://rdrr.io/r/utils/data.html" class="external-link">data()</a></code>:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.packages <span class="im">import</span> importr, data</span>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="im">from</span> rpy2.robjects.vectors <span class="im">import</span> StrVector</span>
@@ -494,7 +494,7 @@ BFI estimates:</p>
 <p>To find a list of all datasets included in the package run:</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="bu">print</span>(utils.data(package <span class="op">=</span> <span class="st">"BFI"</span>))</span></code></pre></div>
 <p>In order to use the datasets available from the <code>BFI</code>
-package, use the following codes:</p>
+package, use the following code:</p>
 <div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>Nurses <span class="op">=</span> data(BFI).fetch(<span class="st">'Nurses'</span>)[<span class="st">'Nurses'</span>]  <span class="co"># is equivalent to BFI::Nurses in R</span></span>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Dimension of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.dim(Nurses))</span>
 <span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Colnames of the 'Nurses' data: </span><span class="ch">\n</span><span class="st">"</span>, base.colnames(Nurses))</span>
@@ -507,10 +507,10 @@ package, use the following codes:</p>
 <span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>pandas2ri.deactivate()</span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="allcodes">All codes together<a class="anchor" aria-label="anchor" href="#allcodes"></a>
+<h2 id="allcodes">All code together<a class="anchor" aria-label="anchor" href="#allcodes"></a>
 </h2>
-<p>If you need all the codes at once to copy and paste them for example
-into <em>Google Colab</em>, here’s the complete codes:</p>
+<p>If you need all the code at once to copy and paste them for example
+into <em>Google Colab</em>, here’s the complete code:</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="co"># import 'pandas' package</span></span>
 <span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a></span>

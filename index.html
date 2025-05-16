@@ -63,8 +63,8 @@
 <div class="section level2">
 <h2 id="description">Description<a class="anchor" aria-label="anchor" href="#description"></a>
 </h2>
-<p>Due to the limited size of the available data sets especially in rare diseases, it is sometimes challenging to identify the most relevant predictive features using multivariable statistical analysis. This issue may be resolved by combining data from multiple centers into one centralized location without sharing their data with each other, but doing so is difficult in reality because of privacy and security concerns.</p>
-<p>To address these challenges, we developed and implemented a Bayesian Federated Inference (BFI) framework for multicenter data. It aims to leverage the statistical power of larger (combined) data sets without requiring all the data to be aggregated in one location. The BFI framework allows each center to use its own local data to infer the optimal parameter values as well as additional features of the posterior parameter distribution to be able to gather more information that is not captured by alternative techniques. One of the benefits of BFI over alternative approaches is that only one inference cycle across the centers is required in BFI.</p>
+<p>Due to the limited size of the available data sets, especially in rare diseases, identifying the most relevant predictive features using multivariable statistical analysis can be challenging. This issue may be resolved by combining data from multiple centers into one centralized location without sharing their data with each other, but doing so is difficult in reality because of privacy and security concerns.</p>
+<p>To address these challenges, we developed and implemented a Bayesian Federated Inference (BFI) framework for multicenter data. It aims to leverage the statistical power of larger (combined) data sets without requiring all the data to be aggregated in one location. The BFI framework enables each center to use its own local data to infer the optimal parameter values and additional features of the posterior distribution, providing insights not captured by alternative techniques. One of the benefits of BFI over alternative approaches is that only one inference cycle across the centers is required in BFI.</p>
 <p>An R package called <code>BFI</code> has been created to perform Bayesian Federated Inference. The following instructions will install the development version of the <code>BFI</code> package to a computer. Python and SAS users can also apply the BFI methodology in their respective environments. For instructions, see <a href="https://hassanpazira.github.io/BFI/articles/Python.html">here for Python</a> and <a href="https://hassanpazira.github.io/BFI/articles/SAS.html">here for SAS</a>.</p>
 </div>
 <div class="section level2">
@@ -91,9 +91,9 @@
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://hassanpazira.github.io/BFI/">BFI</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="installing-from-github">Installing from Github<a class="anchor" aria-label="anchor" href="#installing-from-github"></a>
+<h3 id="installing-from-github">Installing from GitHub<a class="anchor" aria-label="anchor" href="#installing-from-github"></a>
 </h3>
-<p>To install the <code>BFI</code> package directly from Github, you need to have the <strong>devtools</strong> package. So type the following to install and then load it:</p>
+<p>To install the <code>BFI</code> package directly from GitHub, you need to have the <strong>devtools</strong> package. So type the following to install and then load it:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://devtools.r-lib.org/" class="external-link">devtools</a></span><span class="op">)</span></span></code></pre></div>

@@ -83,10 +83,10 @@ statistical capabilities, it currently lacks a dedicated package for
 implementing the <em>BFI</em> method. Consequently, this vignette aims
 to bridge that gap by illustrating how to utilize the R package
 <code>BFI</code> within the SAS environment. By seamlessly integrating
-R’s <code>BFI</code> package with the analytical prower of SAS, users
+R’s <code>BFI</code> package with the analytical prowess of SAS, users
 gain access to a comprehensive suite of statistical techniques,
 enhancing their ability to perform sophisticated data analyses,
-particularly when working with small datasets.</p>
+particularly when working with small data sets.</p>
 <p>In this guide, we’ll explore how you can leverage SAS to effectively
 utilize the <code>BFI</code> package for your data analysis needs.</p>
 <p>To utilize R within SAS, it’s assumed that you have access to a SAS
@@ -111,11 +111,11 @@ and reporting through the SAS Studio interface.</p>
 <div class="section level3">
 <h3 id="install-r-and-configuring-it-with-sas">Install R and Configuring It with SAS<a class="anchor" aria-label="anchor" href="#install-r-and-configuring-it-with-sas"></a>
 </h3>
-<p>SAS requires two configuration options in order to communicate with
-R. First the RLANG option must be set when SAS is started. This may be
-set either in a custom configuration file or on the SAS command line.
-Second, SAS needs an <em>R_HOME</em> environment variable pointing it to
-the correct, available version of R.</p>
+<p>SAS requires two configuration options to communicate with R. First
+the RLANG option must be set when SAS is started. This may be set either
+in a custom configuration file or on the SAS command line. Second, SAS
+needs an <em>R_HOME</em> environment variable pointing it to the
+correct, available version of R.</p>
 <div class="section level4">
 <h4 id="the-rlang-system-option">The RLANG System Option<a class="anchor" aria-label="anchor" href="#the-rlang-system-option"></a>
 </h4>
@@ -172,9 +172,10 @@ for data analysis and statistical modeling.</p>
 <h4 id="installing-r-packages-from-cran-and-github-in-sas">Installing R packages from CRAN and GitHub in SAS:<a class="anchor" aria-label="anchor" href="#installing-r-packages-from-cran-and-github-in-sas"></a>
 </h4>
 <p>To install an R package from <strong>CRAN</strong> and
-<strong>GitHub</strong>, you can use the <code>base</code>,
-<code>stats</code> and <code>remotes</code> packages, respectively. It
-can be done in R or in SAS. Here’s how you can do it within SAS:</p>
+<strong>GitHub</strong>, you can use the <code>base</code> and
+<code>stats</code> packages for CRAN, and the <code>remotes</code>
+package for GitHub, respectively. It can be done in R or in SAS. Here’s
+how you can do it within SAS:</p>
 <pre class="sas"><code>proc iml;
 
   rsubmit;
@@ -203,9 +204,9 @@ example.</p>
 <div class="section level3">
 <h3 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h3>
-<p>Now we generate two datasets independently from <em>Gaussian</em>
+<p>Now we generate two data sets independently from <em>Gaussian</em>
 distribution, and then apply main functions in the <code>BFI</code>
-package to these datasets:</p>
+package to these data sets:</p>
 <div class="section level4">
 <h4 id="simulate-data-for-two-local-centers">Simulate data for two local centers<a class="anchor" aria-label="anchor" href="#simulate-data-for-two-local-centers"></a>
 </h4>
@@ -361,15 +362,15 @@ quit;</code></pre>
 </div>
 </div>
 <div class="section level3">
-<h3 id="datasets-included-in-the-bfi-package">Datasets included in the <code>BFI</code> package<a class="anchor" aria-label="anchor" href="#datasets-included-in-the-bfi-package"></a>
+<h3 id="data-sets-included-in-the-bfi-package">Data sets included in the <code>BFI</code> package<a class="anchor" aria-label="anchor" href="#data-sets-included-in-the-bfi-package"></a>
 </h3>
-<p>To find and use the datasets available in the <code>BFI</code>
+<p>To find and use the data sets available in the <code>BFI</code>
 package, use the following codes:</p>
 <pre class="sas"><code>proc iml;
 
   rsubmit;
   
-    # To find a list of all datasets included in the package
+    # To find a list of all data sets included in the package
     print(data(package = "BFI"))  
   
     # To use the 'Nurses' data
