@@ -1,0 +1,687 @@
+# Calling BFI from Python
+
+## Introduction
+
+`BFI` is an **R** package that performs **Bayesian Federated Inference**
+(**BFI**) for *linear*, *logistic*, and *survival* regression models.
+Since there is no **Python** package for carrying out the *BFI* method
+so far, this vignette describes the usage of the R package `BFI` in the
+Python environment.
+
+To move to the Python environment, we need to prepare our operating
+system. Although, we explain in the following how to prepare it in
+different systems (‘*macOS*’, ‘*Ubuntu*’ and ‘*Windows*’), we recommend
+using ‘*Google Colab*’ to write and execute (the following) Python code,
+as it can be done in any system through a browser without any
+preparations.
+
+## Google Colab
+
+First go to *Google Colab* from <https://developers.google.com/colab> or
+<https://colab.research.google.com>, and then click on *New Notebook*.
+Now, skip the next two sections and proceed to the [Python
+Script](#Python) section.
+
+## Python Installation
+
+The steps to install the latest version of Python on ‘macOS’, ‘Ubuntu’
+and ‘Windows’ are as follows:
+
+### On macOS
+
+Open a terminal window (cmd + space and search ‘Terminal’) and install
+the package manager ‘Homebrew’ by executing the following command:
+
+``` r
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+Install the latest version of Python (Python 3) with the following
+command:
+
+``` r
+brew install python@3
+```
+
+Verify the installation by checking the Python version:
+
+``` r
+
+python3 --version
+```
+
+It’s assumed that R is also installed and configured on your system. If
+not, the following can do it:
+
+``` r
+# Install XCode command-line tools
+xcode-select --install
+
+# Install R
+brew install --cask r
+```
+
+### On Ubuntu
+
+Update package repositories and get latest package information by
+running the following command in a terminal window:
+
+``` r
+sudo apt-get update -y
+```
+
+Verify if Python is indeed installed on your system by the following
+command:
+
+``` r
+
+python3 --version
+```
+
+If you already have Python (Python 3) installed on your system, you only
+need to upgrade it to the latest version as follows:
+
+``` r
+sudo apt-get upgrade python3
+```
+
+In case you did not have Python installed in the first place, the latest
+version of Python can be installed using the following command:
+
+``` r
+sudo apt-get install python3
+```
+
+Verify the installation by checking the Python version:
+
+``` r
+
+python3 --version
+```
+
+If you don’t have R installed and configured, just run the following:
+
+``` r
+# Install R
+sudo apt-get install r-base
+```
+
+### On Windows
+
+By default, Python is usually not installed on Windows. However, you can
+check if it exists on the system by running one line of command on the
+command prompt. Go to **Start** and enter `cmd` in the search bar, and
+then click **Command Prompt**. Enter the command `python --version` or
+`python3 --version` in the command prompt.
+
+To download Python, go to the official Python download website for
+Windows: <https://www.python.org>. Find a stable Python 3 release, and
+download the executable file for your system from the appropriate link.
+
+After the installer is downloaded, open/run the Python installer to
+install Python. Select the **Add Python 3.x to PATH** checkbox, which
+enables users to launch Python from the command line, and then select
+**Install Now**.
+
+Once the installation is complete, you can verify whether the Python
+installation is successful through the command line. Enter the command
+`python --version` or `python3 --version` in the command prompt.
+
+It’s assumed that R is also installed on your system. If you don’t have
+R installed, just visit CRAN downloads (<https://cran.r-project.org>)
+and get the last version.
+
+## Installation of Required Modules
+
+Here the required modules are installed through PIP. PIP (a Python
+package manager) helps us to install and use various packages/modules in
+Python programming.
+
+Install the latest version of PIP and required modules by running the
+following commands on different systems.
+
+### On macOS
+
+Install/Upgrade the latest version of PIP by running
+
+``` r
+# Installing PIP
+python3 -m pip install --user --upgrade pip
+```
+
+Install required modules by running the following commands
+
+``` r
+# Installing the 'pandas' module
+pip3 install pandas
+
+# Installing the 'numpy' module
+pip3 install numpy
+
+# Installing the 'pickle' module
+pip3 install pickle
+
+# Installing the 'rpy2' module
+pip3 install rpy2
+```
+
+### On Ubuntu
+
+To install PIP use the code
+
+``` r
+# Installing PIP
+sudo apt-get install python3-pip
+```
+
+Verify you have successfully installed PIP by running
+
+``` r
+
+pip3 -V
+```
+
+Now, install required modules by typing the following commands
+
+``` r
+# Installing the 'pandas' module
+sudo pip3 install pandas
+
+# Installing the 'numpy' module
+sudo pip3 install numpy
+
+# Installing the 'pickle' module
+sudo pip3 install pickle
+
+# Installing the 'rpy2' module
+sudo pip3 install rpy2
+```
+
+If the lines above for installation of the modules did not install them,
+use the following:
+
+``` r
+# Installing the 'pandas' module
+sudo apt-get install python3-pandas
+
+# Installing the 'numpy' module
+sudo apt-get install python3-numpy
+
+# Installing the 'pickle' module
+sudo apt-get install python3-pickle
+
+# Installing the 'rpy2' module
+sudo apt-get install python3-rpy2
+```
+
+Finally, use the show command to verify whether the module is now part
+of your Python packages:
+
+``` r
+pip3 show pandas
+pip3 show numpy
+pip3 show pickle
+pip3 show rpy2
+```
+
+### On Windows
+
+Usually, PIP is automatically installed if you are using Python
+downloaded from <https://www.python.org>. If you have followed the
+previous steps provided in this vignette, then you have PIP installed on
+your system. To check if PIP is already installed on Windows, you should
+open the command line again, type `pip -V`, and press `Enter`.
+
+If PIP is not installed: First download
+[get-pip.py](https://bootstrap.pypa.io/get-pip.py) to a folder on your
+computer. Then, open a command prompt and navigate to the folder
+containing the get-pip.py installer. Finally, run the following command:
+
+``` r
+python get-pip.py
+```
+
+PIP should now be installed successfully. If we receive a ‘file not
+found’ error, double check the directory path to the file. You can use
+the `dir` command to view the entire contents of a directory. More
+information can be found here:
+<https://pip.pypa.io/en/stable/installation>.
+
+Now, install required modules by running the following commands:
+
+``` r
+# Installing the 'pandas' module
+pip3 install pandas
+
+# Installing the 'numpy' module
+pip3 install numpy
+
+# Installing the 'pickle' module
+pip3 install pickle
+
+# Installing the 'rpy2' module
+pip3 install rpy2
+```
+
+Now, you can start coding in Python using Python’s command-line
+interpreter or IDLE application. Go to `Start` and enter `python` in the
+search bar. You can see Python 3.x and IDLE which can be used for
+coding. Open one of them and follow the following steps.
+
+## Python Script
+
+It is assumed here that the required packages has been properly
+installed, which is the case in *Google Colab*. Now move on to work with
+the `rpy2` package inside a Python script! If you are not in the Python
+script, first go to the Python Environment by typing the following
+command in the terminal window (you should skip this line if you are
+already in *Google Colab*):
+
+``` r
+
+python3
+```
+
+As of now, all the following code should be run in the Python
+environment. If you want to copy all code at once go to [the last
+section](#allcodes).
+
+### Importing `Python` modules and functions
+
+Use the following code to import required Python modules:
+
+``` python
+# import 'pandas' package
+import pandas as pd
+
+# import 'numpy' package
+import numpy as np                
+
+# import 'pickle' package
+import pickle
+
+# import 'rpy2' package
+import rpy2                  
+```
+
+and using the following code imports the required functions such as
+`importr()` and [`data()`](https://rdrr.io/r/utils/data.html):
+
+``` python
+from rpy2.robjects.packages import importr, data
+from rpy2.robjects.vectors import StrVector
+from rpy2.robjects import numpy2ri, pandas2ri
+# activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects
+numpy2ri.activate()   
+pandas2ri.activate()
+```
+
+### Installing `R` packages from CRAN and GitHub
+
+First load the packages preinstalled with R using `importr()` as
+follows:
+
+``` python
+# import R's "utils" package
+utils = importr('utils')
+
+# import R's "base" package
+base = importr('base')
+```
+
+Then install the R packages `stats` and `BFI` from CRAN by typing
+
+``` python
+utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
+package_names = ('stats', 'BFI')
+utils.install_packages(StrVector(package_names))
+```
+
+Now load the installed packages using
+
+``` python
+stats = importr('stats')
+BFI = importr('BFI')
+```
+
+#### Installing the `BFI` package from GitHub (if necessary)
+
+If you want to install the `BFI` package from GitHub (instead of CRAN),
+it can be installed and loaded using the following lines:
+
+``` python
+utils.chooseCRANmirror(ind=1)
+utils.install_packages('devtools')
+devtools = importr('devtools')
+
+# Installing the 'BFI' package
+devtools.install_github("hassanpazira/BFI", force = True)
+
+# Loading the package
+BFI = importr('BFI')
+```
+
+## Applying BFI method to the simulated data
+
+Now we generate two datasets independently from Gaussian distribution,
+and then apply main functions in the `BFI` package to these datasets:
+
+### Data Simulation for two Local Centers
+
+First generate 30 samples randomly from Gaussian distribution with 3
+covariates:
+
+``` python
+# model parameters: 'theta' and 'p' are assumed to be the same for both centers:
+theta = np.array([1, 2, 3, 4, 0.75])   # intercept is theta[0], sigma2 is theta[4]
+p = 3     # number of regression parameters without intercept
+
+# Center 1:
+n1 = 30   # sample size of center 1
+X1 = np.random.normal(size=(n1, p)) 
+X1.shape   # dimension of X1
+X1 = pd.DataFrame(X1, columns=['X1', 'X2', 'X3'])
+mu1 = theta[0] + np.dot(X1, np.delete(theta, [0, 4]))  # for gaussian: \eta = \mu 
+X1 = pandas2ri.py2rpy(X1)   # == base.as_data_frame(X1)
+y1 = np.random.normal(loc=mu1, scale=np.sqrt(theta[4]))
+```
+
+Then generate randomly 50 samples from Gaussian distribution with 3
+covariates:
+
+``` python
+# Center 2:
+n2 = 50   # sample size of center 2
+X2 = np.random.normal(size=(n2, p))
+X2 = pd.DataFrame(X2, columns=['X1', 'X2', 'X3'])
+mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
+X2 = pandas2ri.py2rpy(X2)
+y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
+```
+
+### MAP Estimates at the Local Centers
+
+The following compute the Maximum A Posterior (MAP) estimators of the
+parameters for center 1:
+
+``` python
+# Creating an inverse covariance matrix for a Gaussian prior for center 1
+Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
+fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
+print(fit1)
+theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
+A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
+summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
+```
+
+Obtaining the MAP estimators of the parameters for center 2 using the
+following:
+
+``` python
+# Creating an inverse covariance matrix for Gaussian prior for center 2
+Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
+# MAP estimates
+fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
+theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
+A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
+summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
+```
+
+### Sending the Required Files to Central Server
+
+The required outputs for using the central server are `fit1` for center
+1 and `fit2` for center 2. To send these outputs to the central server,
+you can save the list to a file in a common format (such as RDS, JSON,
+or CSV). This will allow the central server to open the file in either R
+or Python environments.
+
+#### Central server with R
+
+If the central server is using R, follow the instructions below. If it
+is using Python, go to the next subsection: [Central server with
+Python](#server_python). We will show how to do this for `fit1` at
+center 1. The process is the same for center 2. Since `fit1` is an R
+object and the central server is using R, you can save it as an RDS
+file, which is a file format native to R for single R objects.
+
+``` python
+import rpy2.robjects as ro
+
+# Save fit1 as an RDS file
+ro.r('saveRDS(fit1, file="fit1.rds")')
+```
+
+This file, `fit1.rds` should be sent to the central server, where it can
+be loaded as follows:
+
+``` python
+# Load the saved RDS file
+fit1 <- readRDS("fit1.rds") # use the relative path to the file
+```
+
+Now, the variable `fit1` is a list in R containing all information
+needed for further analysis:
+
+``` python
+theta_hat1 <- fit1$theta_hat
+A_hat1 <- fit1$A_hat
+```
+
+To see how to proceed and use
+[`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md) in R,
+see, for example,
+[here](https://hassanpazira.github.io/BFI/reference/BFI.html).
+
+#### Central server with Python
+
+If the central server is using Python, follow the instructions below. We
+will show how to do this for `fit1` at center 1. The process is the same
+for center 2. Since `fit1` needs to be shared with the central server
+which is using Python, you can serialize it using the `pickle` module,
+which is a common way to save Python objects. At the center 1, use the
+following to create `fit1.pkl`:
+
+``` python
+# Save fit1 as a pickle file
+with open('fit1.pkl', 'wb') as f:
+    pickle.dump(fit1, f)
+```
+
+Now, the file `fit1.pkl` should be sent to the central server, where it
+can be loaded as follows:
+
+``` python
+# Load the pickle file
+with open('fit1.pkl', 'rb') as f:  # use the relative path to the file
+    fit1 = pickle.load(f)
+```
+
+The variable `fit1` contains all information needed for further analysis
+in the central server. To see how to proceed and obtain the BFI
+estimates on the central server, follow the next section.
+
+### BFI at Central Server (using Python)
+
+On the central server, first load the files saved to a proper address:
+
+``` python
+# Load the file form center 1
+with open('fit1.pkl', 'rb') as f: # use the relative path to the file
+    fit1 = pickle.load(f)
+
+# Load the file form center 2, using the relative path to the file
+with open('fit2.pkl', 'rb') as f:
+    fit2 = pickle.load(f)
+```
+
+Now, The main function
+[`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md) can be
+used to obtain the BFI estimates:
+
+``` python
+theta_hat1 = fit1.rx2("theta_hat")
+A_hat1 = fit1.rx2("A_hat")
+theta_hat2 = fit2.rx2("theta_hat")
+A_hat2 = fit2.rx2("A_hat")
+theta_hats = base.list(theta_hat1, theta_hat2)
+A_hats = base.list(A_hat1, A_hat2)
+Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
+Lambda2 = pd.DataFrame(Lambda2, index=fit2.rx2("names"), columns=fit2.rx2("names"))
+Lambdas = base.list(Lambda1, Lambda2)
+fit_bfi = BFI.bfi(theta_hats, A_hats, Lambdas)
+print(fit_bfi)
+summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
+```
+
+## Datasets included in the `BFI` package
+
+To find a list of all datasets included in the package run:
+
+``` python
+print(utils.data(package = "BFI"))
+```
+
+In order to use the datasets available from the `BFI` package, use the
+following code:
+
+``` python
+Nurses = data(BFI).fetch('Nurses')['Nurses']  # is equivalent to BFI::Nurses in R
+print("Dimension of the 'Nurses' data: \n", base.dim(Nurses))
+print("Colnames of the 'Nurses' data: \n", base.colnames(Nurses))
+
+trauma = data(BFI).fetch('trauma')['trauma']  # is equivalent to BFI::trauma in R
+print("Dimension of the 'trauma' data: \n", base.dim(trauma))
+print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
+```
+
+At the end, use the following to deactivate automatic conversion:
+
+``` python
+numpy2ri.deactivate()
+pandas2ri.deactivate()
+```
+
+## All code together
+
+If you need all the code at once to copy and paste them for example into
+*Google Colab*, here’s the complete code:
+
+``` python
+# import 'pandas' package
+import pandas as pd
+
+# import 'numpy' package
+import numpy as np                
+
+# import 'pickle' package
+import pickle
+
+# import 'rpy2' package
+import rpy2                  
+
+from rpy2.robjects.packages import importr, data
+from rpy2.robjects.vectors import StrVector
+from rpy2.robjects import numpy2ri, pandas2ri
+# activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects
+numpy2ri.activate()   
+pandas2ri.activate()
+
+# import R's "utils" package
+utils = importr('utils')
+
+# import R's "base" package
+base = importr('base')
+
+utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
+package_names = ('stats', 'BFI')
+utils.install_packages(StrVector(package_names))
+
+# loading the installed packages
+stats = importr('stats')
+BFI = importr('BFI')
+
+## Examples
+
+# model parameters: 'theta' and 'p' are assumed to be the same for both centers:
+theta = np.array([1, 2, 3, 4, 0.75])   # intercept is theta[0], sigma2 is theta[4]
+p = 3     # number of regression parameters without intercept
+
+# Data Simulation for center 1
+n1 = 30   # sample size of center 1
+X1 = np.random.normal(size=(n1, p)) 
+X1.shape   # dimension of X1
+X1 = pd.DataFrame(X1, columns=['X1', 'X2', 'X3'])
+mu1 = theta[0] + np.dot(X1, np.delete(theta, [0, 4]))  # for gaussian: \eta = \mu 
+X1 = pandas2ri.py2rpy(X1)   # == base.as_data_frame(X1)
+y1 = np.random.normal(loc=mu1, scale=np.sqrt(theta[4]))
+
+# Data Simulation for center 2
+n2 = 50   # sample size of center 2
+X2 = np.random.normal(size=(n2, p))
+X2 = pd.DataFrame(X2, columns=['X1', 'X2', 'X3'])
+mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
+X2 = pandas2ri.py2rpy(X2)
+y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
+
+## MAP estimates at center 1
+# Creating an inverse covariance matrix for a Gaussian prior for center 1
+Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
+fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
+print(fit1)
+theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
+A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
+summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
+# Save fit1 as a pickle file for sending to the central server
+with open('fit1.pkl', 'wb') as f:
+    pickle.dump(fit1, f)
+
+## MAP estimates at center 2
+# Creating an inverse covariance matrix for Gaussian prior for center 2
+Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
+# MAP estimates
+fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
+theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
+A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
+summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
+# Save fit2 as a pickle file for sending to the central server
+with open('fit2.pkl', 'wb') as f:
+    pickle.dump(fit2, f)
+
+## BFI at central server
+# Load the pickle file using the relative path to the file
+with open('fit1.pkl', 'rb') as f:  # use the relative path to the file
+    fit1 = pickle.load(f)
+theta_hat1 = fit1.rx2("theta_hat")
+A_hat1 = fit1.rx2("A_hat")
+# Load the pickle file using the relative path to the file
+with open('fit2.pkl', 'rb') as f:
+    fit2 = pickle.load(f)
+theta_hat2 = fit2.rx2("theta_hat")
+A_hat2 = fit2.rx2("A_hat")
+theta_hats = base.list(theta_hat1, theta_hat2)
+A_hats = base.list(A_hat1, A_hat2)
+Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
+Lambda2 = pd.DataFrame(Lambda2, index=fit2.rx2("names"), columns=fit2.rx2("names"))
+Lambdas = base.list(Lambda1, Lambda2)
+fit_bfi = BFI.bfi(theta_hats, A_hats, Lambdas)
+print(fit_bfi)
+summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
+
+# To find a list of all datasets included in the package:
+print(utils.data(package = "BFI"))
+
+Nurses = data(BFI).fetch('Nurses')['Nurses']
+print("Dimension of the 'Nurses' data: \n", base.dim(Nurses))
+print("Colnames of the 'Nurses' data: \n", base.colnames(Nurses))
+
+trauma = data(BFI).fetch('trauma')['trauma']
+print("Dimension of the 'trauma' data: \n", base.dim(trauma))
+print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
+```
+
+## Contact
+
+If you find any errors, have any suggestions, or would like to request
+that something be added, please file an issue at [issue
+report](https://github.com/hassanpazira/BFI/issues/) or send an email
+to: <h.pazira@arq.org>.
