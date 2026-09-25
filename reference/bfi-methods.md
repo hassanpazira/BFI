@@ -61,18 +61,75 @@ y <- rnorm(50)
 Lambda <- inv.prior.cov(X, lambda = 0.01, family = "gaussian")
 fit <- MAP.estimation(y, X, family = "gaussian", Lambda = Lambda)
 fit
+#> $theta_hat
+#> (Intercept)          x1      sigma2 
+#>   0.1742710   0.1539692   0.9242471 
 #> 
-#> Local MAP estimates (family: gaussian)
+#> $A_hat
+#>              (Intercept)           x1       sigma2
+#> (Intercept) 54.108085482  3.835566511  0.001765771
+#> x1           3.835566511 57.913345104  0.001548889
+#> sigma2       0.001765771  0.001548889 25.009268865
 #> 
-#> (Intercept)           x1       sigma2  
-#>   -0.129876     0.003659     0.871924  
+#> $sd
+#> (Intercept)          x1      sigma2 
+#>   0.1362670   0.1317142   0.1999629 
 #> 
+#> $Lambda
+#>             (Intercept)   x1 sigma2
+#> (Intercept)        0.01 0.00   0.00
+#> x1                 0.00 0.01   0.00
+#> sigma2             0.00 0.00   0.01
+#> 
+#> $formula
+#> [1] y ~ x1
+#> 
+#> $names
+#> [1] "(Intercept)" "x1"          "sigma2"     
+#> 
+#> $n
+#> [1] 50
+#> 
+#> $np
+#> [1] 2
+#> 
+#> $treatment
+#> NULL
+#> 
+#> $zero_sample_cov
+#> NULL
+#> 
+#> $refer_cat
+#> NULL
+#> 
+#> $zero_cat
+#> NULL
+#> 
+#> $value
+#> [1] 46.08029
+#> 
+#> $family
+#> [1] "gaussian"
+#> 
+#> $basehaz
+#> [1] "weibul"      "exp"         "gomp"        "poly"        "pwexp"      
+#> [6] "unspecified"
+#> 
+#> $intercept
+#> [1] TRUE
+#> 
+#> $convergence
+#> [1] 0
+#> 
+#> $control
+#> $control$maxit
+#> [1] 100
+#> 
+#> 
+#> attr(,"class")
+#> [1] "bfi"
 coef(fit)
-#>  (Intercept)           x1       sigma2 
-#> -0.129875691  0.003659374  0.871924188 
+#> NULL
 vcov(fit)
-#>               (Intercept)            x1        sigma2
-#> (Intercept)  1.743912e-02 -2.687922e-04  7.963622e-07
-#> x1          -2.687922e-04  1.962599e-02 -3.798895e-08
-#> sigma2       7.963622e-07 -3.798895e-08  3.039947e-02
+#> Error in UseMethod("vcov"): no applicable method for 'vcov' applied to an object of class "bfi"
 ```

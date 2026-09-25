@@ -21,17 +21,17 @@ real data sets included in the package.
 Before we go on, we first install and load the `BFI` package:
 
 ``` r
-
 # Install and load the BFI package from CRAN:
 install.packages("BFI")
 library(BFI)
 ```
 
+    ## Warning: package 'BFI' was built under R version 4.5.3
+
 By using the following code, we can see that there are two available
 data sets in the package: `trauma` and `Nurses`.
 
 ``` r
-
 data(package = "BFI")
 ```
 
@@ -42,7 +42,6 @@ package, the data sets included will be loaded and can be inspected as
 follows:
 
 ``` r
-
 # Get the number of rows and columns
 dim(trauma)
 ```
@@ -50,7 +49,6 @@ dim(trauma)
     ## [1] 371   6
 
 ``` r
-
 # To get an idea of the data set, print the first 7 rows
 head(trauma, 7)
 ```
@@ -77,7 +75,6 @@ is a categorical variable which indicates the hospitals involved in the
 study. For more information about this data set use
 
 ``` r
-
 # Get some info about the data set from the help file
 ?trauma
 ```
@@ -87,7 +84,6 @@ standardize the covariates. This is not necessary for the analysis, but
 is done for the interpretability of the accuracy of the estimates.
 
 ``` r
-
 trauma$age <- scale(trauma$age)
 trauma$ISS <- scale(trauma$ISS) 
 trauma$GCS <- scale(trauma$GCS) 
@@ -98,7 +94,6 @@ By using the following code we can see there are three hospitals
 involved in the study:
 
 ``` r
-
 length(levels(trauma$hospital))
 ```
 
@@ -113,7 +108,6 @@ should perform the analysis independently and send the output to the
 central server, as follows:
 
 ``` r
-
 # Center 1:
 # X1 <- data.frame(sex=trauma$sex[trauma$hospital==1],
 #                  age=trauma$age[trauma$hospital==1],
@@ -146,7 +140,6 @@ summary(fit1)
     ##                   Convergence:  0
 
 ``` r
-
 # Center 2:
 # X2 <- data.frame(sex=trauma$sex[trauma$hospital==2],
 #                  age=trauma$age[trauma$hospital==2],
@@ -179,7 +172,6 @@ summary(fit2)
     ##                   Convergence:  0
 
 ``` r
-
 # Center 3:
 # X3 <- data.frame(sex=trauma$sex[trauma$hospital==3],
 #                  age=trauma$age[trauma$hospital==3],
@@ -218,7 +210,6 @@ by adding `control = list(maxit=500)` to the function `MAP.estimation`,
 as shown below:
 
 ``` r
-
 # Example for Center 3:
 fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3, control = list(maxit=500))
 ```
@@ -228,7 +219,6 @@ observations and parameters, we can use the output of the
 `MAP.estimation` function as follows:
 
 ``` r
-
 # number of samples in center 1
 fit1$n
 ```
@@ -236,7 +226,6 @@ fit1$n
     ## [1] 49
 
 ``` r
-
 # number of parameters in center 1
 fit1$np
 ```
@@ -244,7 +233,6 @@ fit1$np
     ## [1] 5
 
 ``` r
-
 # number of samples in center 2
 fit2$n
 ```
@@ -252,7 +240,6 @@ fit2$n
     ## [1] 106
 
 ``` r
-
 # number of samples in center 3
 fit3$n
 ```
@@ -268,7 +255,6 @@ from R to the central server (which also uses R), you can save them in a
 format that R can easily read, such as an RDS file.
 
 ``` r
-
 # Save fit1 as an RDS file
 saveRDS(fit1, file="fit1.rds")
 
@@ -284,7 +270,6 @@ saveRDS(fit3, file="fit3.rds")
 Now, the received files can be loaded in R using the following lines:
 
 ``` r
-
 # Load the RDS files
 fit1 <- readRDS("fit1.rds") # use the relative path to the file
 fit2 <- readRDS("fit2.rds") # use the relative path to the file
@@ -296,7 +281,6 @@ On the central server, the
 can be used to obtain the BFI estimations:
 
 ``` r
-
 theta_hats <- list(fit1$theta_hat, fit2$theta_hat, fit3$theta_hat)
 A_hats     <- list(fit1$A_hat, fit2$A_hat, fit3$A_hat)
 Lambda_com <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
@@ -337,7 +321,6 @@ To compare the performance of the BFI methodology, we can combine the
 data sets and obtain the MAP estimations based on the combined data:
 
 ``` r
-
 # MAP estimates of the combined data:
 X_combined  <- data.frame(sex=trauma$sex,
                           age=trauma$age,
@@ -380,7 +363,6 @@ summary(fit_comb, cur_mat=TRUE)
 Now, we can see the difference between the BFI and combined estimates:
 
 ``` r
-
 # Squared Errors:
 (fit_comb$theta_hat - BFI_fits$theta_hat)^2
 ```

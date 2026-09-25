@@ -205,7 +205,6 @@ Maintainer: Hassan Pazira <h.pazira@arq.org>
 ## Examples
 
 ``` r
-
 # Setting a seed for reproducibility
 set.seed(1123)
 

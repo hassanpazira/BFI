@@ -265,7 +265,6 @@ Maintainer: Hassan Pazira \<h.pazira@arq.org\>
 ## Examples
 
 ``` r
-
 #----------------
 # Data Simulation
 #----------------

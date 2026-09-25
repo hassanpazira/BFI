@@ -63,7 +63,6 @@ Maintainer: Hassan Pazira <h.pazira@arq.org>
 ## Examples
 
 ``` r
-
 #--------------------
 # family = "gaussian"
 #--------------------
