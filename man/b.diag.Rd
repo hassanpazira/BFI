@@ -31,7 +31,7 @@ where \code{b_diag} is the matrix returned by \code{b.diag()}.
 }
 
 \author{Hassan Pazira\cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
+Maintainer: Hassan Pazira \email{h.pazira@arq.org}
 }
 
 

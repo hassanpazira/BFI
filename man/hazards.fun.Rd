@@ -25,7 +25,7 @@ hazards.fun(time,
 
 \item{basehaz}{a character string representing one of the available baseline hazard functions; \code{exponential} (\code{"exp"}), \code{Weibull} (\code{"weibul"}, the default), \code{Gompertz} (\code{"gomp"}), \code{exponentiated polynomial} (\code{"poly"}), and \code{piecewise exponential} (\code{"pwexp"}). Can be abbreviated.}
 
-\item{q_max}{a value represents the order of the exponentiated polynomial baseline hazard function. This argument should only be used when \code{basehaz = "poly"}. In the case of multiple centers, the maximum value of the orders should be used. \code{ql.LRT()} can be used for obtaining of the order of each center.}
+\item{q_max}{a value represents the order of the exponentiated polynomial baseline hazard function. This argument should only be used when \code{basehaz = "poly"}. In the case of multiple centers, the maximum value of the orders should be used. \code{ql.LRT()} can be used to obtain the order of each center.}
 
 \item{timax}{a value represents the minimum (or maximum) value of the maximum times observed in the different centers. This argument should only be used when \code{basehaz = "pwexp"}.}
 
@@ -57,11 +57,13 @@ The function \code{hazards.fun()} can be used for prediction purposes with new s
 }
 
 \references{
-Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2025b). \emph{Bayesian Federated Inference for Survival Models}, \emph{Journal of Applied Statistics (Accepted)}. <https://arxiv.org/abs/2404.17464>
+Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).
+\emph{Bayesian federated inference for survival models},
+\emph{Journal of Applied Statistics}, 53(2): 203-223.
+<https://doi.org/10.1080/02664763.2025.2511932>
 }
 
 \author{Hassan Pazira\cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
 }
 
 \seealso{

@@ -36,10 +36,10 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
     }
     A_l <- matrix(0, len_thet, len_thet)
     A_l[-len_thet, -len_thet] <- power / sigma2_e_hat + Lambda[-(p + 1), -(p + 1)]
-    A_l[len_thet, len_thet] <- 2 * Lambda[len_thet, len_thet] * sigma2_e_hat +
-      2 * power2 / sigma2_e_hat
+    A_l[len_thet, len_thet] <- (Lambda[len_thet, len_thet] * sigma2_e_hat +
+                                  power2 / sigma2_e_hat)/2
     A_l[seq_len(len_thet - 1), len_thet] <- A_l[len_thet, seq_len(len_thet - 1)] <-
-      -2 * power3 / sigma2_e_hat
+      power3 / sigma2_e_hat
     colnames(A_l) <- rownames(A_l) <- c(colnames(X), "sigma2")
   }
   if (family == "survival") {
@@ -99,7 +99,7 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
         # Outer product of weighted covariate averages
         outer_product <- weighted_cov %o% weighted_cov # == weighted_cov %*% t(weighted_cov)
         # Update the Hessian matrix
-        hessian <- hessian - (weighted_cov_matrix - outer_product)
+        hessian <- hessian - wli[i] * (weighted_cov_matrix - outer_product)
       }
       if (dim(M_l)[1] == dim(hessian)[1]) {
         M_l <- - hessian + Gamma # not Lambda!
@@ -129,7 +129,6 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
               }
               M_l[l,m] <- power # + Lambda[l,m]
             }
-            M_l <- M_l/1 + Lambda
           }
           if (basehaz == "gomp") {
             power <- 0
@@ -180,7 +179,6 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
               }
               M_l[l,m] <- power # + Lambda[l,m]
             }
-            M_l <- M_l/1 + Lambda
           }
           if (basehaz == "weibul") {
             power <- 0
@@ -227,7 +225,6 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
               }
               M_l[l,m] <- power # + Lambda[l,m]
             }
-            M_l <- M_l/1 + Lambda
           }
           if (basehaz == "poly") {
             M_k1m2_s_lambda_Taylor <- function(s, m, p, q_l, beta_dotomega){
@@ -267,9 +264,12 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
               power <- as.numeric(crossprod(s_k2m2_lam_integ, wli * exp(as.numeric(Z %*% beta_hat))))
               M_l[l,m] <- power # + Lambda[l,m]  # or Gamma_omega[l-p,m-p]
             }
-            M_l <- M_l/1 + Lambda
           }
         }
+      }
+      # Add prior curvature once
+      if (basehaz %in% c("exp", "gomp", "weibul", "poly")) {
+        M_l <- M_l + Lambda
       }
     }
     if (basehaz == "poly") {

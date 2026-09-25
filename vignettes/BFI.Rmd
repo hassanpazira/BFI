@@ -210,11 +210,14 @@ which are close to zero, as expected!
 For more details see the following references.
 
 ## References
-Jonker M.A., Pazira H. and Coolen A.C.C. (2024). Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets, Statistics in Medicine, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
+Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).
+\emph{Bayesian federated inference for survival models},
+\emph{Journal of Applied Statistics}, 53(2): 203-223.
+<https://doi.org/10.1080/02664763.2025.2511932>
 
-Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2025b). Bayesian Federated Inference for Survival Models, Journal of Applied Statistics (Accepted). <https://arxiv.org/abs/2404.17464>
+Jonker M.A., Pazira H. and Coolen A.C.C. (2025). \emph{Bayesian Federated Inference for regression models based on non-shared medical center data}, \emph{Research Synthesis Methods}, 16(2): 383-423. <https://doi.org/10.1017/rsm.2025.6>
 
-Jonker M.A., Pazira H. and Coolen A.C.C. (2025a). Bayesian Federated Inference for regression models based on non-shared medical center data, Research Synthesis Methods, 1-41. <https://doi.org/10.1017/rsm.2025.6>
+Jonker M.A., Pazira H. and Coolen A.C.C. (2024). \emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets}, \emph{Statistics in Medicine}, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
 
 <!-- van den Heuvel Z.D., Pazira H. and Jonker M.A. (2025c). Bayesian Federated Causal Inference from observational data, arXiv. <https://arxiv.org/abs/???> -->
 
@@ -222,4 +225,4 @@ Jonker M.A., Pazira H. and Coolen A.C.C. (2025a). Bayesian Federated Inference f
 
 ## Contact
 
-If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: hassan.pazira@radboudumc.nl or Marianne.Jonker@radboudumc.nl.
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: h.pazira@arq.org.

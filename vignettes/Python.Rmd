@@ -39,7 +39,7 @@ Although, we explain in the following how to prepare it in different systems ('*
 
 ## Google Colab
 
-First go to *Google Colab* from https://colab.google or https://colab.research.google.com, and then click on *New Notebook*. Now, skip the next two sections and proceed to the [Python Script](#Python) section.
+First go to *Google Colab* from https://developers.google.com/colab or https://colab.research.google.com, and then click on *New Notebook*. Now, skip the next two sections and proceed to the [Python Script](#Python) section.
 
 ## Python Installation
 
@@ -610,5 +610,5 @@ print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
 
 ## Contact
 
-If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: hassan.pazira@radboudumc.nl.
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: h.pazira@arq.org.
 

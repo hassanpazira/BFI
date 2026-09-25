@@ -84,73 +84,150 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
   }
   if (!(family == "survival" & basehaz == "poly")) {
     L <- length(A_hats)
+    # Use the parameter order of center 1 as the reference order
+    ref_names <- names(theta_hats[[1]])
+    if (is.null(ref_names)) {
+      stop("Names of 'theta_hat's cannot be NULL.")
+    }
+    if (anyDuplicated(ref_names)) {
+      stop("Names of parameters in 'theta_hat's must be unique.")
+    }
+    original_names <- vector("list", L)
     for (l in seq_len(L)) {
-      if (l == 1) equal_names_theta <- equal_names_A_hat <- list()
-      if (is.null(names(theta_hats[[l]]))) stop("Names of 'theta_hat's cannot be NULL.")
-      equal_names_theta[[l]] <- names(theta_hats[[l]])
-      if (is.null(colnames(A_hats[[l]]))) stop("Colnames of 'A_hat's cannot be NULL.")
-      equal_names_A_hat[[l]] <- colnames(A_hats[[l]])
-    }
-    if (!all(equal_names_theta[[1]] == unlist(equal_names_theta))) {
-      if (all(sapply(equal_names_theta, function(x) all(sort(x) == sort(equal_names_theta[[1]]))))) {
-        theta_hats <- lapply(theta_hats, function(x) x[order(names(x))])
-      } else {
-        stop("Names of 'theta_hat's are not the same across centers")
+      nm_theta <- names(theta_hats[[l]])
+      rn_A <- rownames(A_hats[[l]])
+      cn_A <- colnames(A_hats[[l]])
+      if (is.null(nm_theta)) {
+        stop("Names of 'theta_hat's cannot be NULL.")
       }
-    }
-    if (!all(equal_names_A_hat[[1]] == unlist(equal_names_A_hat))) {
-      if (all(sapply(equal_names_A_hat, function(x) all(sort(x) == sort(equal_names_A_hat[[1]]))))) {
-        A_hats <- lapply(A_hats, function(x) x[order(rownames(x)), order(colnames(x))])
-      } else {
-        stop("Colnames/Rownames of 'A_hat's are not the same across centers")
+      if (is.null(rn_A) || is.null(cn_A)) {
+        stop("Rownames and colnames of 'A_hat's cannot be NULL.")
       }
+      # Within each center, theta_hat and A_hat must describe
+      # exactly the same parameters in the same order.
+      if (!identical(nm_theta, rn_A) ||
+          !identical(nm_theta, cn_A)) {
+        stop(
+          "'theta_hat' and 'A_hat' do not have the same parameter ",
+          "order within center ", l, "."
+        )
+      }
+      # Across centers, the parameter sets must be identical.
+      if (!setequal(nm_theta, ref_names)) {
+        stop("Names of 'theta_hat's are not the same across centers.")
+      }
+      original_names[[l]] <- nm_theta
+      # Reorder to the parameter order of center 1
+      theta_hats[[l]] <- theta_hats[[l]][ref_names]
+      A_hats[[l]] <-
+        A_hats[[l]][ref_names, ref_names, drop = FALSE]
     }
   } else {
     L <- length(theta_A_polys)
+    ## Use the parameter order of center 1 as the reference order.
+    ## For poly, the first dimension contains the regression
+    ## parameters followed by omega_0, ..., omega_max_order.
+    ref_names <- dimnames(theta_A_polys[[1]])[[1]]
+
+    if (is.null(ref_names)) {
+      stop("Names of parameters in 'theta_A_polys' cannot be NULL.")
+    }
+
+    if (anyDuplicated(ref_names)) {
+      stop("Names of parameters in 'theta_A_polys' must be unique.")
+    }
+
+    original_names <- vector("list", L)
+
     for (l in seq_len(L)) {
-      if (l == 1) equal_names_theta <- equal_names_A_hat <- list()
-      if (is.null(rownames(theta_A_polys[[l]][,,1])))
-        stop("Names of 'theta_hat's in 'theta_A_polys' cannot be NULL.")
-      equal_names_theta[[l]] <- rownames(theta_A_polys[[l]][,,1])
-      if (is.null(rownames(theta_A_polys[[l]][,,2])))
-        stop("Colnames of 'A_hat's in 'theta_A_polys' cannot be NULL.")
-      equal_names_A_hat[[l]] <- rownames(theta_A_polys[[l]][,,2])
-    }
-    if (!all(equal_names_theta[[1]] == unlist(equal_names_theta))) {
-      if (all(sapply(equal_names_theta, function(x) all(sort(x) == sort(equal_names_theta[[1]]))))) {
-        theta_A_polys_changes_theta <- lapply(seq_along(theta_A_polys), function(l) {
-          x <- theta_A_polys[[l]]
-          nr <- nrow(x[,,1])
-          q_lsr <- q_ls[l]
-          if ((q_lsr+1) >= nr) stop("q_ls[l] is too large; cannot exclude all rows from sorting.")
-          sorted_indices <- order(rownames(x[1:(nr - q_lsr - 1), , 1]))
-          x[c(sorted_indices, (nr - q_lsr):nr), , 1]
-        })
-        for (ll in seq_along(theta_A_polys)) {
-          theta_A_polys[[ll]][,,1] <- theta_A_polys_changes_theta[[ll]]
-        }
-      } else {
-        stop("Names of 'theta_hat's are not the same across centers")
+
+      x <- theta_A_polys[[l]]
+
+      nm_row <- dimnames(x)[[1]]
+      nm_col <- dimnames(x)[[2]]
+
+      if (is.null(nm_row)) {
+        stop(
+          "Names of parameters in 'theta_A_polys' cannot be NULL ",
+          "in center ", l, "."
+        )
       }
-    }
-    if (!all(equal_names_A_hat[[1]] == unlist(equal_names_A_hat))) {
-      if (all(sapply(equal_names_A_hat, function(x) all(sort(x) == sort(equal_names_A_hat[[1]]))))) {
-        theta_A_polys_changes_A <- lapply(seq_along(theta_A_polys), function(l) {
-          x <- theta_A_polys[[l]]
-          nr <- nrow(x[,,1])
-          q_lsr <- q_ls[l]
-          if ((q_lsr+1) >= nr) stop("q_ls[l] is too large; cannot exclude all rows from sorting.")
-          sorted_indices <- order(rownames(x[1:(nr - q_lsr - 1), , 1]))
-          x[c(sorted_indices, (nr - q_lsr):nr), c(sorted_indices, (nr - q_lsr):nr), 2:(q_lsr+2)]
-        })
-        for (ll in seq_along(theta_A_polys)) {
-          theta_A_polys[[ll]][,,-1] <- theta_A_polys_changes_A[[ll]]
-          # Directly modifying rownames(theta_A_polys[[ll]][,,1]) does NOT work in a 3D array!
-          dimnames(theta_A_polys[[ll]])[[1]] <- rownames(theta_A_polys_changes_theta[[ll]])
-        }
-      } else {
-        stop("Colnames/Rownames of 'A_hat's are not the same across centers")
+
+      if (anyDuplicated(nm_row)) {
+        stop(
+          "Names of parameters in 'theta_A_polys' must be unique ",
+          "in center ", l, "."
+        )
       }
+
+      if (!setequal(nm_row, ref_names)) {
+        stop(
+          "Names of parameters in 'theta_A_polys' are not the same ",
+          "across centers."
+        )
+      }
+
+      original_names[[l]] <- nm_row
+
+      ## Row permutation needed to reproduce the order of center 1.
+      row_index <- match(ref_names, nm_row)
+
+      if (anyNA(row_index)) {
+        stop(
+          "Could not align parameter names in 'theta_A_polys' ",
+          "for center ", l, "."
+        )
+      }
+
+      ## The second dimension has two different roles:
+      ##
+      ##   slice 1: columns index polynomial orders / theta estimates
+      ##   other slices: columns index curvature parameters
+      ##
+      ## Therefore the second dimension must NOT be permuted in slice 1.
+      ##
+      ## If second-dimension names are available, use them for the
+      ## curvature matrices. Otherwise, their positional order is the
+      ## same as the first parameter dimension.
+      if (!is.null(nm_col)) {
+        if (anyDuplicated(nm_col)) {
+          stop(
+            "Column names of curvature matrices in 'theta_A_polys' ",
+            "must be unique in center ", l, "."
+          )
+        }
+        if (!setequal(nm_col, ref_names)) {
+          stop(
+            "Row and column parameter names in 'theta_A_polys' ",
+            "do not describe the same parameters in center ", l, "."
+          )
+        }
+        col_index <- match(ref_names, nm_col)
+      } else {
+        col_index <- row_index
+      }
+      x_aligned <- x
+
+      ## theta estimates:
+      ## reorder parameter rows only, never the columns of slice 1.
+      x_aligned[, , 1] <- x[row_index, , 1, drop = FALSE][, , 1]
+
+      ## curvature matrices:
+      ## reorder both parameter dimensions.
+      if (dim(x)[3] >= 2) {
+        for (s in 2:dim(x)[3]) {
+          x_aligned[, , s] <-
+            x[row_index, col_index, s, drop = FALSE][, , 1]
+        }
+      }
+      ## Keep the reference parameter order from center 1.
+      dimnames(x_aligned)[[1]] <- ref_names
+
+      if (!is.null(nm_col)) {
+        dimnames(x_aligned)[[2]] <- ref_names
+      }
+
+      theta_A_polys[[l]] <- x_aligned
     }
   }
   if (L == 1) stop("The number of locations should be > 1.")
@@ -180,6 +257,54 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
       stop("Lambda should be a list.")
     }
   }
+  # if (!(family == "survival" & basehaz == "poly")) {
+  order_changed <- any(vapply(
+    original_names,
+    function(x) !identical(x, ref_names),
+    logical(1)
+  ))
+  align_lambda <- function(M, target_names, label, names_required = FALSE) {
+    rn <- rownames(M)
+    cn <- colnames(M)
+    if (is.null(rn) || is.null(cn)) {
+      if (names_required) {
+        stop(
+          label,
+          " must have rownames and colnames when parameter ",
+          "orders differ across centers."
+        )
+      }
+      return(M)
+    }
+    if (!setequal(rn, target_names) ||
+        !setequal(cn, target_names)) {
+      stop(
+        label,
+        " does not contain the same parameter names as 'theta_hats'."
+      )
+    }
+    M[target_names, target_names, drop = FALSE]
+  }
+  # Local prior matrices: one matrix for each center
+  for (l in seq_len(L)) {
+    Lambda_all[[l]] <- align_lambda(
+      Lambda_all[[l]],
+      ref_names,
+      paste0("Lambda_all[[", l, "]]"),
+      names_required = !identical(original_names[[l]], ref_names)
+    )
+  }
+  # In the non-stratified case the combined prior has the same
+  # parameterization as the local models.
+  if (!stratified) {
+    Lambda_all[[L + 1]] <- align_lambda(
+      Lambda_all[[L + 1]],
+      ref_names,
+      paste0("Lambda_all[[", L + 1, "]]"),
+      names_required = order_changed
+    )
+  }
+  # }
   if (family == "survival" & basehaz == "poly") {
     if (length(q_ls) != 1) {
       if (length(q_ls) != L) stop("Length of 'q_ls' should be ", sQuote(L),".")
@@ -554,7 +679,8 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
       A_bfi[-noncore, -noncore] <- A_a_bfi
       for (j in seq_len(L)) {
         A_bfi[noncore[j, ], noncore[j, ]] <- A_hats_tilda_b_l[[j]]
-        A_bfi[noncore[j, ], -noncore] <- A_bfi[-noncore, noncore[j, ]] <- A_hats_ab_l[[j]]
+        A_bfi[-noncore, noncore[j, ]] <- A_hats_ab_l[[j]]
+        A_bfi[noncore[j, ], -noncore] <- t(A_hats_ab_l[[j]])
       }
       sd_bfi <- sqrt(diag(solve(as.matrix(A_bfi))))
     } else {
@@ -720,8 +846,8 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
       A_bfi[-noncore, -noncore] <- A_1a_bfi
       for (k in seq_len(K)) {
         A_bfi[noncore[k, ], noncore[k, ]] <- A_hats_1bk[[k]]
-        A_bfi[noncore[k, ], -noncore] <- A_bfi[-noncore, noncore[k, ]] <-
-          A_hats_1abk[[k]]
+        A_bfi[-noncore, noncore[k, ]] <- A_hats_1abk[[k]]
+        A_bfi[noncore[k, ], -noncore] <- t(A_hats_1abk[[k]])
       }
       sd_bfi <- sqrt(diag(solve(as.matrix(A_bfi))))
     }

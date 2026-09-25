@@ -36,7 +36,7 @@ n.par(X, family = c("gaussian", "binomial", "survival"))
 }
 
 \author{Hassan Pazira\cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
+Maintainer: Hassan Pazira \email{h.pazira@arq.org}
 }
 
 \examples{

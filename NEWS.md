@@ -1,6 +1,23 @@
-# BFI v3.1.0 (Latest)
+# BFI v3.2.0
+* Added S3 methods `print.bfi()`, `coef.bfi()`, and `vcov.bfi()` for objects of class `"bfi"`.
+
+* Improved the handling and presentation of Gaussian residual-variance parameters. Posterior covariance matrices returned by `vcov()` are transformed from the `log(sigma2)` scale to the original `sigma2` scale using the delta method when applicable.
+
+* Improved `summary.bfi()` output for center-specific Gaussian residual variances, including delta-method standard deviations and back-transformed credible intervals.
+
+* Corrected the curvature calculation for parametric survival models with exponential, Weibull, Gompertz, and exponentiated-polynomial baseline hazards so that the Gaussian-prior precision matrix is added once to the likelihood curvature.
+
+* Corrected the weighted curvature calculation for Cox models with an unspecified baseline hazard.
+
+* Improved parameter alignment in `bfi()`. Local parameter vectors, curvature matrices, and corresponding prior precision matrices with the same named parameters may now have different parameter orders across centers; the parameter order of the first center is used as the reference order.
+
+* Extended name-based parameter alignment to exponentiated-polynomial survival models.
+
+* Corrected handling of scalar `q_ls` values for exponentiated-polynomial survival models.
+
+
+# BFI v3.1.0
 * The `MAP.estimation` function has been revised, and corresponding updates have been made to its documentation and examples.
-* This version marks the final contribution of Hassan Pazira as the package maintainer. The new maintainer for future versions is Marianne A. Jonker <Marianne.Jonker@radboudumc.nl>
 
 # BFI v3.0.1
 * In this release, the package has been updated to support both observational and randomized trial data for estimating treatment effects using Bayesian Federated 'Causal' Inference.

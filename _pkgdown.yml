@@ -10,6 +10,31 @@ development:
   mode: auto
   version_label: default
 
+reference:
+- title: Main functions
+  contents:
+  - MAP.estimation
+  - bfi
+  - inv.prior.cov
+  - summary.bfi
+  - hazards.fun
+  - coef.bfi
+
+- title: Supporting functions
+  contents:
+  - surv.simulate
+  - b.diag
+  - n.par
+
+- title: Data sets
+  contents:
+  - Nurses
+  - trauma
+
+- title: Package
+  contents:
+  - BFI-package
+
 navbar:
   type: default
   left:
@@ -29,4 +54,5 @@ navbar:
     href: news/index.html
   right:
   - icon: fa-github fa-lg
+    aria-label: GitHub
     href: https://github.com/hassanpazira/BFI

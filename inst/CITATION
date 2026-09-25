@@ -1,8 +1,18 @@
+citHeader(
+  "To cite BFI in publications, please cite the package and the accompanying paper:"
+)
+
+## R package citation generated automatically from DESCRIPTION
+citation(auto = meta)
+
+## BFI package paper
 bibentry(
-  bibtype  = "Manual",
-  title    = "BFI: Bayesian Federated Inference",
-  author   = "Hassan Pazira, Emanuele Massa, Marianne A. Jonker",
-  year     = "2024",
-  note = "R package version 3.1.0",
-  url      = "https://CRAN.R-project.org/package=BFI"
+  bibtype = "Misc",
+  title = "BFI: An R Package for Bayesian Federated Inference",
+  author = c(
+    person(given = "Hassan", family = "Pazira"),
+    person(given = c("Marianne", "A."), family = "Jonker")
+  ),
+  year = "2026",
+  note = "arXiv:2609.27977"
 )

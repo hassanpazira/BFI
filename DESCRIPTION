@@ -1,19 +1,19 @@
 Package: BFI
 Type: Package
 Title: Bayesian Federated Inference
-Version: 3.1.0
-Date/Publication: 2024-04-27
-Authors@R: c(person(given = "Hassan", family = "Pazira", email = "hassan.pazira@radboudumc.nl", 
+Version: 3.2.0
+Date: 2026-09-25
+Authors@R: c(person(given = "Hassan", family = "Pazira", email = "h.pazira@arq.org", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4266-6877")),
     person(given = "Emanuele", family = "Massa", role = "aut",
     comment = c(ORCID = "0000-0001-5715-2572")),
-    person(given = "Marianne A.", family = "Jonker", role = "aut",
+    person(given = "Marianne A.", family = "Jonker", role = c("aut"),
     comment = c(ORCID = "0000-0003-0134-8482")))
 Author: Hassan Pazira [aut, cre] (<https://orcid.org/0000-0002-4266-6877>),
   Emanuele Massa [aut] (<https://orcid.org/0000-0001-5715-2572>),
   Marianne A. Jonker [aut] (<https://orcid.org/0000-0003-0134-8482>)
-Maintainer: Hassan Pazira <hassan.pazira@radboudumc.nl>
-Description: The Bayesian Federated Inference ('BFI') method combines inference results obtained from local data sets in the separate centers. In this version of the package, the 'BFI' methodology is programmed for linear, logistic and survival regression models. For GLMs, see Jonker, Pazira and Coolen (2024) <doi:10.1002/sim.10072>; for survival models, see Pazira, Massa, Weijers, Coolen and Jonker (2025) <doi:10.48550/arXiv.2404.17464>; and for heterogeneous populations, see Jonker, Pazira and Coolen (2025) <doi:10.1017/rsm.2025.6>.
+Maintainer: Hassan Pazira <h.pazira@arq.org>
+Description: The Bayesian Federated Inference ('BFI') method combines inference results obtained from local data sets in the separate centers. In this version of the package, the 'BFI' methodology is programmed for linear, logistic and survival regression models. For GLMs, see Jonker, Pazira and Coolen (2024) <doi:10.1002/sim.10072>; for survival models, see Pazira, Massa, Weijers, Coolen and Jonker (2026) <doi:10.1080/02664763.2025.2511932>; and for heterogeneous populations, see Jonker, Pazira and Coolen (2025) <doi:10.1017/rsm.2025.6>.
 License: MIT + file LICENSE
 URL: https://hassanpazira.github.io/BFI/
 Encoding: UTF-8
@@ -31,5 +31,5 @@ LazyData: true
 Imports: 
     stats
 Config/testthat/edition: 3
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Language: en-US

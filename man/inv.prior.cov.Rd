@@ -23,7 +23,7 @@ inv.prior.cov(X,
 \arguments{
 \item{X}{design matrix of dimension \eqn{n \times p}, where \eqn{n} is the number of samples observed, and \eqn{p} is the number of predictors/variables so excluding the intercept.}
 
-\item{lambda}{the vector used as the diagonal of the (inverse covariance) matrix that will be created by \code{inv.prior.cov()}. The length of the vector depends on the number of columns of \code{X}, type of the covariates (continuous/dichotomous or categorical), \code{family}, whether an \code{intercept} is included in the model, and whether \code{stratified} analysis is desired. When \code{stratified = FALSE}, \code{lambda} could be a single positive number (if all values in the vector are equal), a vector of two elements (the first is used for regression parameters including ``intercept'' and the second for the ``sigma2'' in the gaussian family or for the baseline hazard parameters in the survival case), or a vector of length equal to the number of model parameters. However, the length of \code{lambda} is different when \code{stratified = TRUE}, see \sQuote{Details} for more information. Default is \code{lambda = 1}, which means all model parameters are set to one.}
+\item{lambda}{the vector used as the diagonal of the (inverse covariance) matrix that will be created by \code{inv.prior.cov()}. The length of the vector depends on the number of columns of \code{X}, type of the covariates (continuous/dichotomous or categorical), \code{family}, whether an \code{intercept} is included in the model, and whether \code{stratified} analysis is desired. When \code{stratified = FALSE}, \code{lambda} could be a single positive number (if all values in the vector are equal), a vector of two elements (the first is used for regression parameters including ``intercept'' and the second for the residual standard deviation ``sigma'' in the gaussian family or for the baseline hazard parameters in the survival case), or a vector of length equal to the number of model parameters. However, the length of \code{lambda} is different when \code{stratified = TRUE}, see \sQuote{Details} for more information. Default is \code{lambda = 1}, which means all model parameters are set to one.}
 
 \item{L}{the number of centers. This argument is used only when \code{stratified = TRUE}. Default is \code{L = 2}. See \sQuote{Details} and \sQuote{Examples}.}
 
@@ -57,13 +57,13 @@ The used data type in the argument \code{center_spec} must be categorical. Defau
 
 When \code{stratified = FALSE}, the length of the vector \code{lambda} depends on the covariate matrix \code{X}, \code{family}, \code{basehaz}, and whether an ``intercept'' is included in the model. For example, if the design matrix \code{X} has \code{p} columns with continuous or dichotomous covariates, \code{family = gaussian}, and \code{intercept = TRUE}, then \code{lambda} should have \eqn{p+2} elements. In this case, if in \code{X} there is a categorical covariate with \eqn{q>2} categories, then the length of \code{lambda} increases with \eqn{q-2}.
 
-All values of \code{lambda} should be non-negative as they represent the inverse of the variance of the Gaussian prior. This argument is considered as the inverse of the variance of the prior distribution for: \eqn{(\beta_0, \boldsymbol{\beta})} if \code{family = "binomial"} and \code{intercept = TRUE}; \eqn{(\beta_0, \boldsymbol{\beta},\sigma^2)} if \code{family = "gaussian"} and \code{intercept = TRUE}; and \eqn{( \boldsymbol{\beta},\boldsymbol{\omega})} if \code{family = "survival"}.
+All values of \code{lambda} should be positive as they represent the inverse of the variance of the Gaussian prior. This argument is considered as the inverse of the variance of the prior distribution for: \eqn{(\beta_0, \boldsymbol{\beta})} if \code{family = "binomial"} and \code{intercept = TRUE}; \eqn{(\beta_0, \boldsymbol{\beta},\sigma)} if \code{family = "gaussian"} and \code{intercept = TRUE}; and \eqn{( \boldsymbol{\beta},\boldsymbol{\omega})} if \code{family = "survival"}.
 
 If all values in the vector \code{lambda} equal, one value is enough to be given as entry.
 If \code{lambda} is a scalar, the function \code{inv.prior.cov} sets each value at the diagonal equal to \code{lambda}.
 %In the linear regression model the last parameter is assumed to be the inverse of the variance of the prior distribution for the measurement error.
 When \code{lambda} is two dimensional: if \code{family = "binomial"}, the first and second values are used for the inverse of the variance of the prior distribution for the intercept (\eqn{\beta_0}) and regression parameters (\eqn{\boldsymbol{\beta}}), respectively;
-If \code{family = "gaussian"}, the first and second values are used for the inverse of the variance of the prior distribution for the regression parameters including the intercept (\eqn{\beta_0, \boldsymbol{\beta}}) and variance of the measurement error (\eqn{ \sigma^2}), respectively;
+If \code{family = "gaussian"}, the first and second values are used for the inverse of the variance of the prior distribution for the regression parameters including the intercept (\eqn{\beta_0, \boldsymbol{\beta}}) and variance of the measurement error (\eqn{ \sigma}), respectively;
 If \code{family = "survival"}, the first and second values are used for the inverse of the variance of the prior distribution for the regression parameters (\eqn{\boldsymbol{\beta}}) and baseline hazard parameters (\eqn{ \omega}), respectively.
 But if \code{stratified = TRUE} the length of the vector \code{lambda} must be equal to the number of parameters in the combined model.
 
@@ -81,15 +81,18 @@ The output of \code{inv.prior.cov()} can be used in the main functions \code{MAP
 }
 
 \references{
+Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).
+\emph{Bayesian federated inference for survival models},
+\emph{Journal of Applied Statistics}, 53(2): 203-223.
+<https://doi.org/10.1080/02664763.2025.2511932>
+
+Jonker M.A., Pazira H. and Coolen A.C.C. (2025). \emph{Bayesian Federated Inference for regression models based on non-shared medical center data}, \emph{Research Synthesis Methods}, 16(2): 383-423. <https://doi.org/10.1017/rsm.2025.6>
+
 Jonker M.A., Pazira H. and Coolen A.C.C. (2024). \emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets}, \emph{Statistics in Medicine}, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
-
-Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2025b). \emph{Bayesian Federated Inference for Survival Models}, \emph{Journal of Applied Statistics (Accepted)}. <https://arxiv.org/abs/2404.17464>
-
-Jonker M.A., Pazira H. and Coolen A.C.C. (2025a). \emph{Bayesian Federated Inference for regression models based on non-shared medical center data}, \emph{Research Synthesis Methods}, 1-41. <https://doi.org/10.1017/rsm.2025.6>
 }
 
-\author{Hassan Pazira and Marianne Jonker \cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
+\author{Hassan Pazira\cr
+Maintainer: \packageMaintainer{BFI}
 }
 
 \seealso{

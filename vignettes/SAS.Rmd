@@ -334,4 +334,4 @@ In the near future, we will be releasing the SAS/IML package for BFI, which can 
 
 ### Contact
 
-If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: [hassan.pazira\@radboudumc.nl](mailto:hassan.pazira@radboudumc.nl){.email}.
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: [h.pazira@arq.org](mailto:h.pazira@arq.org){.email}.

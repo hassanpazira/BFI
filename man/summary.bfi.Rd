@@ -40,7 +40,7 @@ By default, \code{summary.bfi} function does not return (minus) the curvature ma
 
 \item{A_hat}{the component from \code{object}. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
 
-\item{sd}{the component from \code{object}. If \code{family = "gaussian"}, the last element of this vector is the square root of the estimated dispersion. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
+\item{sd}{the posterior standard deviations corresponding to the reported parameter estimates. For Gaussian models with center-specific residual variances, the standard deviations corresponding to \code{sigma2} are transformed from the \eqn{\log(\sigma^2)} scale to the original \eqn{\sigma^2} scale using the delta method. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
 
 \item{Lambda}{the component from \code{object}. See the \code{\link{MAP.estimation}} function.}
 
@@ -60,19 +60,20 @@ By default, \code{summary.bfi} function does not return (minus) the curvature ma
 
 \item{stratified}{the component from \code{object}. See the \code{\link{bfi}} function.}
 
-\item{estimate}{the estimated regression coefficients, i.e., without the estimate \code{sigma2}.}
+\item{estimate}{the estimated regression coefficients. For \code{gaussian} models the common dispersion parameter is excluded, but center-specific residual variances obtained with \code{strat_par = 2} or \code{strat_par = c(1, 2)} are included.}
 
 \item{logLikPost}{the value of the log-likelihood posterior density evaluated at estimates (\code{theta_hat}).}
 
 \item{link}{the link function only for GLMs, not for the survival family. By default the \code{gaussian} family with \code{identity} link function and the \code{binomial} family with \code{logit} link function are used.}
 
-\item{dispersion}{the estimated variance of the random error, i.e., \code{sigma2}. The \code{dispersion} is taken as \code{1} for the \code{binomial} family.}
+\item{dispersion}{the estimated residual variance \code{sigma2} for Gaussian models with a common residual variance. For Gaussian models with center-specific residual variances, this component is \code{NULL}. For the \code{binomial} family, the dispersion parameter is fixed at \code{1}. For the \code{survival} family, this component is \code{NULL}.}
 
-\item{CI}{a 95\code{\%} credible interval of the MAP estimates of the parameters.}
+\item{CI}{a 95\code{\%} credible interval for the parameters. For center-specific residual variances the interval is computed on the \eqn{\log(\sigma^2)} scale and back-transformed, so it is always positive and not symmetric around the estimate. The standard deviation printed for these parameters is obtained by the delta method on the \eqn{\sigma^2} scale.}
+
 }
 
 \author{Hassan Pazira\cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
+Maintainer: Hassan Pazira \email{h.pazira@arq.org}
 }
 
 \seealso{

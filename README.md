@@ -1,5 +1,5 @@
 
-# `BFI` <img src="./man/figures/BFI_Hexagon_blue2.png" align="right" width="110px"/>
+# `BFI` <img src="./man/figures/BFI_Hexagon_blue2.png" alt="BFI package logo" align="right" width="110px"/>
 
 > #### Bayesian Federated Inference
 
@@ -28,9 +28,9 @@ For instructions, see [here for Python](https://hassanpazira.github.io/BFI/artic
 First, you need to install R and RStudio:
 
 * Install [R](https://www.R-project.org/)
-* Install [RStudio Desktop](https://posit.co/download/rstudio-desktop/) (once you have R installed)
+* Install [RStudio Desktop](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads?ref=rstudio-legacy) (once you have R installed)
 
-For more details about installing R and RStudio, see [this page](https://andreashandel.github.io/MADAcourse/content/module-intro-tools/tools-randrstudio.html).
+For more details about installing R and RStudio, see [RStudio User Guide](https://docs.posit.co/ide/user/).
 If you need help learning R, see [RStudio Education](https://education.rstudio.com/learn/).
 
 
@@ -68,7 +68,7 @@ library(BFI)
 
 ## Update
 
-The latest version of the `BFI`package is `3.1.0`. To check the current version of `BFI` installed in your R library, use:
+The latest version of the `BFI`package is `3.2.0`. To check the current version of `BFI` installed in your R library, use:
 
 ``` r
 packageVersion("BFI")
@@ -202,14 +202,16 @@ citation("BFI")
 
 Here are some of technical papers of the package:
 
+-   [BFI R package paper](https://arxiv.org/abs/2609.27977)
+
 -   [BFI for Generalized Linear Models (GLMs)](https://doi.org/10.1002/sim.10072)
 
--   [BFI for Survival Models](https://arxiv.org/abs/2404.17464)
+-   [BFI for Survival Models](https://doi.org/10.1080/02664763.2025.2511932)
 
 -   [BFI in Heterogeneous Populations](https://doi.org/10.1017/rsm.2025.6)
 
 
 ## Contact
 
-If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: hassan.pazira@radboudumc.nl.
+If you find any errors, have any suggestions, or would like to request that something be added, please file an issue at [issue report](https://github.com/hassanpazira/BFI/issues/) or send an email to: h.pazira@arq.org.
 

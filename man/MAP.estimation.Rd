@@ -31,7 +31,7 @@ MAP.estimation(y,
 
 \item{y}{response vector. If the \dQuote{\code{binomial}} family is used, this argument is a vector with entries 0 (failure) or 1 (success). Alternatively, for this family, the response can be a matrix where the first column is the number of \dQuote{successes} and the second column is the number of \dQuote{failures}. For the \dQuote{\code{survival}} family, the response is a matrix where the first column is the survival time, named \dQuote{time}, and the second column is the censoring indicator, named \dQuote{status}, with 0 indicating censoring time and 1 indicating event time.}
 
-\item{X}{design matrix of dimension \eqn{n_{\ell} \times p}, where \eqn{p} is the number of covariates or predictors and \eqn{n_{\ell}} is the number of indeviduals in the local center. If there is a categorical covariate, then the function \code{factor()} should be used to encode the covariate as a factor. Note that the order of the covariates must be the same across the centers; otherwise, the output estimates of \code{bfi()} will be incorrect.}
+\item{X}{design matrix of dimension \eqn{n_{\ell} \times p}, where \eqn{p} is the number of covariates or predictors and \eqn{n_{\ell}} is the number of indeviduals in the local center. If there is a categorical covariate, then the function \code{factor()} should be used to encode the covariate as a factor. The same covariates should be used across centers when their local inference results are combined by \code{bfi()}. The order of the covariates may differ across centers, provided that the corresponding model parameters are uniquely named.}
 
 \item{family}{a description of the error distribution. This is a character string naming a family of the model. In the current version of the package, the family of model can be \dQuote{\code{gaussian}} (with \code{identity} link function), \dQuote{\code{binomial}} (with \code{logit} link function), or \dQuote{\code{survival}}. Can be abbreviated. By default the \dQuote{\code{gaussian}} family is used. In case of a linear regression model, \code{family = "gaussian"}, there is an extra model parameter for the variance of measurement error. While in the case of survival model, \code{family = "survival"}, the number of the model parameters depend on the choice of baseline hazard functions, see \sQuote{Details} for more information.}
 
@@ -51,7 +51,7 @@ MAP.estimation(y,
 
 \item{RCT_propens}{a vector specifying the propensity scores, which represent the probability of receiving the treatment given the covariates, which are known in the randomized studies (RCTs). For example, in a 1:1 randomized trial, the propensity scores are, by definition, equal to 1/2 (or 0.5), whereas in an unbalanced randomized trial, e.g., a 2:1 trial, the propensity scores are now 2/3 and 1/3 for the two arms, respectively. The length of \code{RCT_propens} equals to the number of individuals in the local center denoted as \eqn{n_{\ell}}. This argument is used only when the study is a randomized control trial, i.e., the propensity scores are known for this local center. In this case, there is only \sQuote{one} round, and the argument \code{treatment} must not be '\code{NULL}', whereas \code{gamma_bfi = NULL}. Indeed, when 'treatment' is not '\code{NULL}', one of the arguments '\code{RCT_propens}' or '\code{gamma_bfi}' could be '\code{NULL}'. See \sQuote{Details}.}
 
-\item{initial}{a vector specifying initial values for the parameters to be optimized over. The length of \code{initial} is equal to the number of model parameters and thus, is equal to the number of rows or columns of \code{Lambda}. Since the \code{'L-BFGS-B'} method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the \code{survival} family with the \code{poly} function, where it is a vector with the first \eqn{p} elements as zeros for coefficients (\eqn{\boldsymbol{\beta}}) and -0.5 for the remaining parameters (\eqn{\boldsymbol{\omega}}). For the \code{gaussian} family, the last element of the \code{initial} vector could also be considered negative, because the Gaussian prior was applied to \eqn{log(\sigma^2)}.}
+\item{initial}{a vector specifying initial values for the parameters to be optimized over. The length of \code{initial} is equal to the number of model parameters and thus, is equal to the number of rows or columns of \code{Lambda}. Since the \code{'L-BFGS-B'} method is used in the algorithm, these values should always be finite. Default is a vector of zeros, except for the \code{survival} family with the \code{poly} function, where it is a vector with the first \eqn{p} elements as zeros for coefficients (\eqn{\boldsymbol{\beta}}) and -0.5 for the remaining parameters (\eqn{\boldsymbol{\omega}}). For the \code{gaussian} family, the last element of the \code{initial} vector could also be considered negative, because the optimization for this parameter is carried out on the \eqn{\log(\sigma^2)} scale.}
 
 \item{alpha}{a significance level used in the chi-squared distribution (with one degree of freedom and 1-\eqn{\alpha} representing the upper quantile) to conduct a likelihood ratio test for obtaining the order of the exponentiated polynomial baseline hazard function. It is only used when \code{family = "survival"} and \code{basehaz = "poly"}. Default is 0.1. See \sQuote{Details}.}
 
@@ -76,11 +76,16 @@ MAP.estimation(y,
 
 \code{MAP.estimation} returns a list containing the following components:
 
-\item{theta_hat}{the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the \code{gaussian} family, although a Gaussian prior was applied to \eqn{\log(\sigma^2)}, the last element of this vector was back-transformed to \eqn{\sigma^2}. When \code{treatment} is not NULL and \code{treat_round = 'first'}, this is the MAP estimates of only regression coefficients (\eqn{\boldsymbol{\gamma}_\ell}) except the treatment effect \eqn{\zeta_\ell}. While \code{treatment} is not NULL and \code{treat_round = 'second'}, this is \eqn{\hat{\zeta}_\ell}, the weighted MAP estimate of the treatment effect \eqn{ \zeta_\ell} in center \eqn{\ell};}
+\item{theta_hat}{the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the \code{gaussian} family, the dispersion parameter is estimated on the \eqn{\log(\sigma^2)} scale and the last element of this vector is back-transformed to \eqn{\sigma^2}. When \code{treatment} is not NULL and \code{treat_round = 'first'}, this is the MAP estimates of only regression coefficients (\eqn{\boldsymbol{\gamma}_\ell}) except the treatment effect \eqn{\zeta_\ell}. While \code{treatment} is not NULL and \code{treat_round = 'second'}, this is \eqn{\hat{\zeta}_\ell}, the weighted MAP estimate of the treatment effect \eqn{ \zeta_\ell} in center \eqn{\ell};}
 
-\item{A_hat}{minus the curvature (or Hessian) matrix around the point \code{theta_hat}. The dimension of the matrix is the same as the argument \code{Lambda};}
+\item{A_hat}{minus the curvature (or Hessian) matrix of the log-posterior
+around the point \code{theta_hat}. The dimension of the matrix is the same as
+the argument \code{Lambda}. For the \code{gaussian} family the row and column
+labelled \code{sigma2} refers to the \eqn{\log(\sigma^2)} scale, on which the
+dispersion parameter is estimated;}
 
-\item{sd}{the vector of (posterior) standard deviation of the MAP estimates in \code{theta_hat}, that is \code{sqrt(diag(solve(A_hat)))};}
+\item{sd}{the vector of (posterior) standard deviation of the MAP estimates in \code{theta_hat}, that is \code{sqrt(diag(solve(A_hat)))}.
+For the \code{gaussian} family the element labelled \code{sigma2} is the standard deviation on the \eqn{\log(\sigma^2)} scale;}
 
 \item{Lambda}{the inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution for the parameters. It's exactly the same as the argument \code{Lambda};}
 
@@ -163,6 +168,10 @@ MAP.estimation(y,
 In other words, \code{MAP.estimation()} optimizes the log-posterior density with respect to the parameter vector to obtain its MAP estimates.
 In addition to the model parameters (i.e., coefficients (\eqn{\boldsymbol{\beta}}) and variance error (\eqn{\sigma^2_e}) for \code{gaussian} or the parameters of the baseline hazard (\eqn{\boldsymbol{\omega}}) for \code{survival}), the curvature matrix (Hessian of the log-posterior) is estimated around the mode.
 
+For the \code{gaussian} family the dispersion parameter is estimated on the
+\eqn{\log(\sigma^2)} scale, and the corresponding row and column of the
+curvature matrix refer to that scale.
+
 The \code{MAP.estimation} function returns an object of class `\code{bfi}`. Therefore, \code{summary()} can be used for the object returned by \code{MAP.estimation()}.
 
 For the case where \code{family = "survival"} and \code{basehaz = "poly"}, we assume that in all centers the \eqn{q_\ell}'s are equal.
@@ -206,11 +215,14 @@ In case of convergence issue, it may be necessary to investigate and adjust opti
 }
 
 \references{
+Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).
+\emph{Bayesian federated inference for survival models},
+\emph{Journal of Applied Statistics}, 53(2): 203-223.
+<https://doi.org/10.1080/02664763.2025.2511932>
+
+Jonker M.A., Pazira H. and Coolen A.C.C. (2025). \emph{Bayesian Federated Inference for regression models based on non-shared medical center data}, \emph{Research Synthesis Methods}, 16(2): 383-423. <https://doi.org/10.1017/rsm.2025.6>
+
 Jonker M.A., Pazira H. and Coolen A.C.C. (2024). \emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets}, \emph{Statistics in Medicine}, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
-
-Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2025b). \emph{Bayesian Federated Inference for Survival Models}, \emph{Journal of Applied Statistics (Accepted)}. <https://arxiv.org/abs/2404.17464>
-
-Jonker M.A., Pazira H. and Coolen A.C.C. (2025a). \emph{Bayesian Federated Inference for regression models based on non-shared medical center data}, \emph{Research Synthesis Methods}, 1-41. <https://doi.org/10.1017/rsm.2025.6>
 
 %van den Heuvel Z.D., Pazira H. and Jonker M.A. (2025c). \emph{Bayesian Federated Causal Inference from observational data}, \emph{arXiv}. <https://arxiv.org/abs/???>
 
@@ -219,7 +231,7 @@ Byrd R.H., Lu P., Nocedal J. and Zhu C. (1995). \emph{A limited memory algorithm
 
 \author{
 Hassan Pazira and Marianne Jonker \cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
+Maintainer: \packageMaintainer{BFI}
 }
 
 \seealso{

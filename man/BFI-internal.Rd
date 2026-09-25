@@ -18,7 +18,7 @@
 
 \code{optim.survival()} is a general-purpose optimization algorithm based on the ``L-BFGS-B'' method, and returns a vector of estimates for the coefficients and baseline hazard parameters.
 
-\code{ql.LRT()} returns an optimal order/degree of the exponentiated polynomial model, obtained by the likelihood ratio test, for the 'cox' family.
+\code{ql.LRT()} returns an optimal order/degree of the exponentiated polynomial model, obtained by the likelihood ratio test, for the 'survival' family.
 
 \code{lambda.poly()} returns the baseline hazard function for the exponentiated polynomial form.
 
@@ -28,7 +28,7 @@
 \details{These functions are not intended for use by users.}
 \author{
 Hassan Pazira\cr
-Maintainer: Hassan Pazira \email{hassan.pazira@radboudumc.nl}
+Maintainer: Hassan Pazira \email{h.pazira@arq.org}
 }
 \keyword{internal}
 \keyword{optimize}
