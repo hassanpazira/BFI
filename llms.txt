@@ -53,6 +53,7 @@ To install and load the `BFI` package directly from R, type the
 following (in Console)
 
 ``` r
+
 install.packages("BFI")
 library(BFI)
 ```
@@ -63,6 +64,7 @@ To install the `BFI` package directly from GitHub, you need to have the
 **devtools** package. So type the following to install and then load it:
 
 ``` r
+
 install.packages("devtools")
 library(devtools)
 ```
@@ -70,12 +72,14 @@ library(devtools)
 Next, install `BFI` as follows:
 
 ``` r
+
 devtools::install_github("hassanpazira/BFI", dependencies = TRUE, build_vignettes = TRUE, force = TRUE)
 ```
 
 The package can now be loaded into R and used by:
 
 ``` r
+
 library(BFI)
 ```
 
@@ -85,6 +89,7 @@ The latest version of the `BFI`package is `3.2.0`. To check the current
 version of `BFI` installed in your R library, use:
 
 ``` r
+
 packageVersion("BFI")
 ```
 
@@ -105,6 +110,7 @@ To access the R documentation for these functions, for example
 the following command:
 
 ``` r
+
 help(bfi, package = "BFI")  # without loading the BFI package
 # or, equivalently, after loading the BFI package 
 ?bfi
@@ -116,6 +122,7 @@ Let’s look at the following example to see how the `BFI` package can be
 used. For more examples and details look at the `BFI` vignette by typing
 
 ``` r
+
 browseVignettes("BFI")  # to see all vignettes from the BFI package in an HTML browser.
 ```
 
@@ -136,6 +143,7 @@ to each local data, and then apply the
 to the aggregated results.
 
 ``` r
+
 #-------------
 # y ~ Gaussian
 #-------------
@@ -225,6 +233,7 @@ summary(bfi3, cur_mat=TRUE)
 To cite `BFI` in publications, please use:
 
 ``` r
+
 citation("BFI")
 ```
 

@@ -2,6 +2,8 @@
 
 ## BFI v3.2.0
 
+CRAN release: 2026-09-26
+
 - Added S3 methods
   [`print.bfi()`](https://hassanpazira.github.io/BFI/reference/bfi-methods.md),
   [`coef.bfi()`](https://hassanpazira.github.io/BFI/reference/bfi-methods.md),

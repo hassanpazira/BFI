@@ -46,6 +46,7 @@ brew install python@3
 Verify the installation by checking the Python version:
 
 ``` r
+
 python3 --version
 ```
 
@@ -73,6 +74,7 @@ Verify if Python is indeed installed on your system by the following
 command:
 
 ``` r
+
 python3 --version
 ```
 
@@ -93,6 +95,7 @@ sudo apt-get install python3
 Verify the installation by checking the Python version:
 
 ``` r
+
 python3 --version
 ```
 
@@ -174,6 +177,7 @@ sudo apt-get install python3-pip
 Verify you have successfully installed PIP by running
 
 ``` r
+
 pip3 -V
 ```
 
@@ -274,6 +278,7 @@ command in the terminal window (you should skip this line if you are
 already in *Google Colab*):
 
 ``` r
+
 python3
 ```
 
