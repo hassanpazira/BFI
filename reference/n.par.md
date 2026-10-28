@@ -1,4 +1,4 @@
-# The Number of Predictors, Coefficients, and Observations
+# Number of predictors, coefficients, and observations
 
 `n.par` returns the number of regression parameters, covariates and
 observations present in X based on the selected family.

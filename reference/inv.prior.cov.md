@@ -11,7 +11,7 @@ the parameters of the baseline hazard function as well.
 ## Usage
 
 ``` r
-inv.prior.cov(X,
+inv.prior.cov(X = NULL,
               lambda = 1,
               L = 2,
               family = c("gaussian", "binomial", "survival"),
@@ -23,7 +23,9 @@ inv.prior.cov(X,
               center_spec = NULL,
               basehaz = c("weibul", "exp", "gomp", "poly", "pwexp", "unspecified"),
               max_order = 2,
-              n_intervals = 4)
+              n_intervals = 4,
+              formula = NULL,
+              data = NULL)
 ```
 
 ## Arguments
@@ -44,10 +46,10 @@ inv.prior.cov(X,
   analysis is desired. When `stratified = FALSE`, `lambda` could be a
   single positive number (if all values in the vector are equal), a
   vector of two elements (the first is used for regression parameters
-  including “intercept” and the second for the residual standard
-  deviation “sigma” in the gaussian family or for the baseline hazard
-  parameters in the survival case), or a vector of length equal to the
-  number of model parameters. However, the length of `lambda` is
+  including “intercept” and the second for the log residual variance
+  \\\eta = \log(\sigma^2)\\ in the gaussian family or for the baseline
+  hazard parameters in the survival case), or a vector of length equal
+  to the number of model parameters. However, the length of `lambda` is
   different when `stratified = TRUE`, see ‘Details’ for more
   information. Default is `lambda = 1`, which means all model parameters
   are set to one.
@@ -172,6 +174,20 @@ inv.prior.cov(X,
   exponential baseline hazard function. This argument is only used when
   `family = "survival"` and `basehaz = "pwexp"`. Default is 4.
 
+- formula:
+
+  An optional object of class `"formula"` specifying a symbolic
+  description of the predictors used to construct the prior precision
+  matrix. One-sided and two-sided formulas are accepted; the response,
+  if specified, is not evaluated. See ‘Details’ for the supported
+  formula specification and its limitations.
+
+- data:
+
+  A data frame containing the predictor variables specified in
+  `formula`. This argument is required when `formula` is supplied. The
+  response variable does not need to be present in `data`.
+
 ## Details
 
 `inv.prior.cov` creates a diagonal matrix with the vector `lambda` as
@@ -179,6 +195,28 @@ its diagonal. The argument `stratified = TRUE` should only be used to
 construct a matrix for the prior density in case of stratification in
 the fictive combined data. Never be used for the construction of the
 matrix for analysis in the centers.
+
+For the Gaussian family, the prior precision matrix is defined for the
+regression coefficients and the log residual variance, \\\eta =
+\log(\sigma^2)\\. A zero-mean Gaussian prior is assigned to \\\eta\\,
+rather than directly to \\\sigma^2\\ or the residual standard deviation.
+For non-stratified Gaussian models, the corresponding prior precision is
+the last diagonal element of `Lambda`. For stratified Gaussian models
+with center-specific variances, the corresponding precision parameters
+refer to the center-specific log residual variances.
+
+The prior precision matrix can be constructed using either the original
+`X` interface or the optional `formula`/`data` interface.
+
+For Gaussian and binomial models, the intercept specification can also
+be determined by the formula. Both intercept and no-intercept formulas
+are supported. For no-intercept Gaussian and binomial formula simply use
+a no-intercept formula, such as `y ~ x - 1` or use the original `X`
+interface with `intercept = FALSE`. If `intercept` is explicitly
+supplied, it must agree with the formula. Since its default is `TRUE`,
+no-intercept formulas, such as `y ~ x - 1`, require `intercept = FALSE`
+to be specified explicitly. Interactions, inline transformations, and
+offsets are not supported by the formula interface.
 
 When `stratified = FALSE`, the length of the vector `lambda` depends on
 the covariate matrix `X`, `family`, `basehaz`, and whether an
@@ -193,7 +231,7 @@ All values of `lambda` should be positive as they represent the inverse
 of the variance of the Gaussian prior. This argument is considered as
 the inverse of the variance of the prior distribution for: \\(\beta_0,
 \boldsymbol{\beta})\\ if `family = "binomial"` and `intercept = TRUE`;
-\\(\beta_0, \boldsymbol{\beta},\sigma)\\ if `family = "gaussian"` and
+\\(\beta_0, \boldsymbol{\beta}, \eta )\\ if `family = "gaussian"` and
 `intercept = TRUE`; and \\( \boldsymbol{\beta},\boldsymbol{\omega})\\ if
 `family = "survival"`.
 
@@ -206,8 +244,8 @@ intercept (\\\beta_0\\) and regression parameters
 (\\\boldsymbol{\beta}\\), respectively; If `family = "gaussian"`, the
 first and second values are used for the inverse of the variance of the
 prior distribution for the regression parameters including the intercept
-(\\\beta_0, \boldsymbol{\beta}\\) and variance of the measurement error
-(\\ \sigma\\), respectively; If `family = "survival"`, the first and
+(\\\beta_0, \boldsymbol{\beta}\\) and log residual variance (\\\eta =
+\log(\sigma^2)\\), respectively; If `family = "survival"`, the first and
 second values are used for the inverse of the variance of the prior
 distribution for the regression parameters (\\\boldsymbol{\beta}\\) and
 baseline hazard parameters (\\ \omega\\), respectively. But if
@@ -291,6 +329,16 @@ inv.prior.cov(X, lambda = 0.05, family = 'binomial')
 #> x31                0.00 0.00 0.00 0.00 0.05
 # returns a 5-by-5 matrix
 
+# Formula interface without a response variable
+inv.prior.cov(formula = ~ x1 + x2 + x3, data = X, lambda = 0.05,
+              family = "binomial")
+#>             (Intercept)   x1  x21  x22  x31
+#> (Intercept)        0.05 0.00 0.00 0.00 0.00
+#> x1                 0.00 0.05 0.00 0.00 0.00
+#> x21                0.00 0.00 0.05 0.00 0.00
+#> x22                0.00 0.00 0.00 0.05 0.00
+#> x31                0.00 0.00 0.00 0.00 0.05
+
 # y ~ Binomial without 'intercept'
 inv.prior.cov(X, lambda = 0.05, family = "binomial", intercept = FALSE)
 #>       x1  x21  x22  x31
@@ -299,6 +347,15 @@ inv.prior.cov(X, lambda = 0.05, family = "binomial", intercept = FALSE)
 #> x22 0.00 0.00 0.05 0.00
 #> x31 0.00 0.00 0.00 0.05
 # a 4-by-4 matrix
+
+# Formula interface without an intercept
+inv.prior.cov(formula = ~ x1 + x2 + x3 - 1, data = X, lambda = 0.05,
+              family = "binomial", intercept = FALSE)
+#>       x1  x21  x22  x31
+#> x1  0.05 0.00 0.00 0.00
+#> x21 0.00 0.05 0.00 0.00
+#> x22 0.00 0.00 0.05 0.00
+#> x31 0.00 0.00 0.00 0.05
 
 # y ~ Gaussian with 'intercept'
 inv.prior.cov(X, lambda = 0.05, family = 'gaussian')

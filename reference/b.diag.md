@@ -1,4 +1,4 @@
-# Create a Block Diagonal Matrix
+# Create a block diagonal matrix
 
 Construct a block diagonal matrix using multiple given block matrices.
 

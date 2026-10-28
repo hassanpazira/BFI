@@ -214,7 +214,8 @@ bfi(theta_hats = NULL,
 
 ## Value
 
-`bfi` returns a list containing the following components:
+`bfi()` returns an object of class `c("bfi_federated", "bfi")` (a list)
+containing the following components:
 
 - theta_hat:
 
@@ -292,6 +293,20 @@ across centers. The order of these parameters may differ between
 centers; in that case, `bfi()` aligns the local parameter vectors,
 curvature matrices, and corresponding prior precision matrices by
 parameter name before combining the local inference results.
+
+For Gaussian models, local residual-variance estimates are internally
+transformed to the log-variance scale, \\\eta = \log(\sigma^2)\\, before
+federated aggregation. This ensures that local parameter estimates and
+curvature matrices are expressed on the same parameter scale.
+
+After aggregation, the estimated residual variances are back-transformed
+to the original \\\sigma^2\\ scale for reporting in `theta_hat` and
+[`coef()`](https://rdrr.io/r/stats/coef.html). The aggregated curvature
+matrix `A_hat` and the corresponding elements of `sd` remain on the
+\\\log(\sigma^2)\\ scale.
+
+This parameterization is also used for stratified Gaussian models with
+center-specific residual variances.
 
 Note that the order of the elements in the lists `theta_hats`, `A_hats`
 and `Lambda`, must be the same with respect to the centers, so that in
@@ -428,7 +443,7 @@ theta_hats <- list(theta_hat1, theta_hat2)
 A_hats     <- list(A_hat1, A_hat2)
 bfi        <- bfi(theta_hats, A_hats, Lambda, family='binomial')
 class(bfi)
-#> [1] "bfi"
+#> [1] "bfi_federated" "bfi"          
 summary(bfi, cur_mat=TRUE)
 #> 
 #> Summary of the BFI model:
@@ -883,21 +898,21 @@ summary(bfi, cur_mat=TRUE)
 #> Coefficients:
 #> 
 #>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   0.8666  0.1008  0.6691   1.0641
-#> X1            1.9381  0.1010  1.7401   2.1360
-#> X2            1.9914  0.0969  1.8015   2.1814
-#> X3            2.0190  0.1001  1.8228   2.2152
+#> (Intercept)   0.8666  0.1008  0.6690   1.0642
+#> X1            1.9381  0.1010  1.7400   2.1361
+#> X2            1.9914  0.0970  1.8014   2.1815
+#> X3            2.0190  0.1001  1.8227   2.2153
 #> 
-#> Dispersion parameter (sigma2):  1.178 
+#> Dispersion parameter (sigma2):  1.172 
 #> 
 #> Minus the Curvature Matrix: 
 #> 
 #>             (Intercept)      X1       X2       X3  sigma2
-#> (Intercept)    103.1343 -1.6101  17.4699 -13.7999  0.1268
-#> X1              -1.6101 98.6759   7.0585  -2.9108  0.2902
-#> X2              17.4699  7.0585 109.9640  -1.7586  0.2952
-#> X3             -13.7999 -2.9108  -1.7586 101.7741  0.3053
-#> sigma2           0.1268  0.2902   0.2952   0.3053 60.0788
+#> (Intercept)    103.0248 -1.6076  17.4512 -13.7830  0.1268
+#> X1              -1.6076 98.5692   7.0518  -2.9078  0.2902
+#> X2              17.4512  7.0518 109.8454  -1.7551  0.2952
+#> X3             -13.7830 -2.9078  -1.7551 101.6663  0.3052
+#> sigma2           0.1268  0.2902   0.2952   0.3052 60.0756
 
 ###---------------------###
 ### Stratified Analysis ###
@@ -921,33 +936,33 @@ summary(bfi1, cur_mat = TRUE)
 #> Coefficients:
 #> 
 #>                  Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)_loc1   0.7078  0.2132  0.2899   1.1257
-#> (Intercept)_loc2   0.9409  0.1681  0.6115   1.2704
-#> (Intercept)_loc3   0.8822  0.1539  0.5805   1.1839
-#> X1                 1.9483  0.1022  1.7480   2.1485
-#> X2                 1.9842  0.0973  1.7935   2.1748
-#> X3                 2.0255  0.1016  1.8264   2.2246
+#> (Intercept)_loc1   0.7077  0.2133  0.2895   1.1258
+#> (Intercept)_loc2   0.9409  0.1682  0.6113   1.2706
+#> (Intercept)_loc3   0.8822  0.1540  0.5804   1.1840
+#> X1                 1.9483  0.1022  1.7479   2.1486
+#> X2                 1.9842  0.0973  1.7934   2.1749
+#> X3                 2.0255  0.1016  1.8263   2.2247
 #> 
-#> Dispersion parameter (sigma2):  1.173 
+#> Dispersion parameter (sigma2):  1.171 
 #> 
 #> Minus the Curvature Matrix: 
 #> 
 #>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3      X1
-#> (Intercept)_loc1          22.1351           0.0000           0.0000  3.3624
-#> (Intercept)_loc2           0.0000          38.6210           0.0000 -7.1784
-#> (Intercept)_loc3           0.0000           0.0000          42.6283  2.2058
-#> X1                         3.3624          -7.1784           2.2058 98.7259
-#> X2                         1.1876           9.8372           6.4451  7.0585
-#> X3                        -1.3801         -13.1665           0.7467 -2.9108
+#> (Intercept)_loc1          22.1079           0.0000           0.0000  3.3583
+#> (Intercept)_loc2           0.0000          38.5748           0.0000 -7.1698
+#> (Intercept)_loc3           0.0000           0.0000          42.5921  2.2039
+#> X1                         3.3583          -7.1698           2.2039 98.6192
+#> X2                         1.1861           9.8254           6.4397  7.0518
+#> X3                        -1.3784         -13.1507           0.7461 -2.9078
 #> sigma2                     0.0362           0.0466           0.0440  0.2902
 #>                        X2       X3  sigma2
-#> (Intercept)_loc1   1.1876  -1.3801  0.0362
-#> (Intercept)_loc2   9.8372 -13.1665  0.0466
-#> (Intercept)_loc3   6.4451   0.7467  0.0440
-#> X1                 7.0585  -2.9108  0.2902
-#> X2               110.0140  -1.7586  0.2952
-#> X3                -1.7586 101.8241  0.3053
-#> sigma2             0.2952   0.3053 60.3288
+#> (Intercept)_loc1   1.1861  -1.3784  0.0362
+#> (Intercept)_loc2   9.8254 -13.1507  0.0466
+#> (Intercept)_loc3   6.4397   0.7461  0.0440
+#> X1                 7.0518  -2.9078  0.2902
+#> X2               109.8954  -1.7551  0.2952
+#> X3                -1.7551 101.7163  0.3052
+#> sigma2             0.2952   0.3052 60.3256
 
 # Stratified analysis when 'sigma2' varies across two centers:
 newLam2 <- inv.prior.cov(X1, lambda = c(0.1,0.3), family = 'gaussian',
@@ -967,13 +982,13 @@ summary(bfi2, cur_mat = TRUE)
 #> Coefficients:
 #> 
 #>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   0.8662  0.1008  0.6687   1.0637
-#> X1            1.9371  0.1010  1.7392   2.1350
-#> X2            1.9907  0.0969  1.8007   2.1806
-#> X3            2.0179  0.1001  1.8218   2.2140
-#> sigma2_loc1   1.3388  0.3421  0.8114   2.2091
-#> sigma2_loc2   1.0257  0.2276  0.6639   1.5847
-#> sigma2_loc3   1.1641  0.2314  0.7885   1.7187
+#> (Intercept)   0.8662  0.1008  0.6686   1.0637
+#> X1            1.9371  0.1010  1.7391   2.1351
+#> X2            1.9906  0.0970  1.8006   2.1807
+#> X3            2.0179  0.1001  1.8216   2.2141
+#> sigma2_loc1   1.3557  0.3464  0.8216   2.2370
+#> sigma2_loc2   1.0393  0.2307  0.6727   1.6056
+#> sigma2_loc3   1.1749  0.2335  0.7958   1.7346
 #> 
 #> For the residual variances, the standard deviation is obtained by the 
 #> delta method and the credible interval is computed on the log scale 
@@ -982,11 +997,11 @@ summary(bfi2, cur_mat = TRUE)
 #> Minus the Curvature Matrix: 
 #> 
 #>             (Intercept)      X1       X2       X3 sigma2_loc1 sigma2_loc2
-#> (Intercept)    103.1843 -1.6101  17.4699 -13.7999      0.0362      0.0466
-#> X1              -1.6101 98.7259   7.0585  -2.9108      0.0954      0.0989
-#> X2              17.4699  7.0585 110.0140  -1.7586      0.0957      0.0989
-#> X3             -13.7999 -2.9108  -1.7586 101.8241      0.1052      0.0987
-#> sigma2_loc1      0.0362  0.0954   0.0957   0.1052     15.3181      0.0000
+#> (Intercept)    103.0748 -1.6076  17.4512 -13.7830      0.0362      0.0466
+#> X1              -1.6076 98.6192   7.0518  -2.9078      0.0955      0.0989
+#> X2              17.4512  7.0518 109.8954  -1.7551      0.0957      0.0989
+#> X3             -13.7830 -2.9078  -1.7551 101.7163      0.1052      0.0987
+#> sigma2_loc1      0.0362  0.0955   0.0957   0.1052     15.3155      0.0000
 #> sigma2_loc2      0.0466  0.0989   0.0989   0.0987      0.0000     20.3019
 #> sigma2_loc3      0.0440  0.0958   0.1006   0.1013      0.0000      0.0000
 #>             sigma2_loc3
@@ -996,7 +1011,7 @@ summary(bfi2, cur_mat = TRUE)
 #> X3               0.1013
 #> sigma2_loc1      0.0000
 #> sigma2_loc2      0.0000
-#> sigma2_loc3     25.3088
+#> sigma2_loc3     25.3081
 
 # Stratified analysis when 'intercept' and 'sigma2' vary across 2 centers:
 newLam3 <- inv.prior.cov(X1, lambda = c(0.1,0.2,0.3), family = 'gaussian',
@@ -1016,15 +1031,15 @@ summary(bfi3, cur_mat = TRUE)
 #> Coefficients:
 #> 
 #>                  Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)_loc1   0.7077  0.2132  0.2898   1.1256
-#> (Intercept)_loc2   0.9404  0.1681  0.6110   1.2699
-#> (Intercept)_loc3   0.8826  0.1539  0.5809   1.1843
-#> X1                 1.9463  0.1021  1.7462   2.1464
-#> X2                 1.9825  0.0972  1.7919   2.1730
-#> X3                 2.0234  0.1015  1.8244   2.2224
-#> sigma2_loc1        1.3392  0.3422  0.8116   2.2096
-#> sigma2_loc2        1.0255  0.2276  0.6638   1.5844
-#> sigma2_loc3        1.1641  0.2314  0.7885   1.7187
+#> (Intercept)_loc1   0.7077  0.2133  0.2896   1.1259
+#> (Intercept)_loc2   0.9404  0.1682  0.6108   1.2700
+#> (Intercept)_loc3   0.8826  0.1540  0.5808   1.1844
+#> X1                 1.9463  0.1022  1.7460   2.1465
+#> X2                 1.9824  0.0973  1.7918   2.1731
+#> X3                 2.0233  0.1016  1.8242   2.2224
+#> sigma2_loc1        1.3562  0.3465  0.8219   2.2378
+#> sigma2_loc2        1.0390  0.2306  0.6725   1.6053
+#> sigma2_loc3        1.1748  0.2335  0.7957   1.7345
 #> 
 #> For the residual variances, the standard deviation is obtained by the 
 #> delta method and the credible interval is computed on the log scale 
@@ -1033,25 +1048,25 @@ summary(bfi3, cur_mat = TRUE)
 #> Minus the Curvature Matrix: 
 #> 
 #>                  (Intercept)_loc1 (Intercept)_loc2 (Intercept)_loc3      X1
-#> (Intercept)_loc1          22.1351           0.0000           0.0000  3.3624
-#> (Intercept)_loc2           0.0000          38.6210           0.0000 -7.1784
-#> (Intercept)_loc3           0.0000           0.0000          42.6283  2.2058
-#> X1                         3.3624          -7.1784           2.2058 98.8259
-#> X2                         1.1876           9.8372           6.4451  7.0585
-#> X3                        -1.3801         -13.1665           0.7467 -2.9108
-#> sigma2_loc1                0.0362           0.0000           0.0000  0.0954
+#> (Intercept)_loc1          22.1079           0.0000           0.0000  3.3583
+#> (Intercept)_loc2           0.0000          38.5748           0.0000 -7.1698
+#> (Intercept)_loc3           0.0000           0.0000          42.5921  2.2039
+#> X1                         3.3583          -7.1698           2.2039 98.7192
+#> X2                         1.1861           9.8254           6.4397  7.0518
+#> X3                        -1.3784         -13.1507           0.7461 -2.9078
+#> sigma2_loc1                0.0362           0.0000           0.0000  0.0955
 #> sigma2_loc2                0.0000           0.0466           0.0000  0.0989
 #> sigma2_loc3                0.0000           0.0000           0.0440  0.0958
 #>                        X2       X3 sigma2_loc1 sigma2_loc2 sigma2_loc3
-#> (Intercept)_loc1   1.1876  -1.3801      0.0362      0.0000      0.0000
-#> (Intercept)_loc2   9.8372 -13.1665      0.0000      0.0466      0.0000
-#> (Intercept)_loc3   6.4451   0.7467      0.0000      0.0000      0.0440
-#> X1                 7.0585  -2.9108      0.0954      0.0989      0.0958
-#> X2               110.1140  -1.7586      0.0957      0.0989      0.1006
-#> X3                -1.7586 101.9241      0.1052      0.0987      0.1013
-#> sigma2_loc1        0.0957   0.1052     15.3181      0.0000      0.0000
+#> (Intercept)_loc1   1.1861  -1.3784      0.0362      0.0000      0.0000
+#> (Intercept)_loc2   9.8254 -13.1507      0.0000      0.0466      0.0000
+#> (Intercept)_loc3   6.4397   0.7461      0.0000      0.0000      0.0440
+#> X1                 7.0518  -2.9078      0.0955      0.0989      0.0958
+#> X2               109.9954  -1.7551      0.0957      0.0989      0.1006
+#> X3                -1.7551 101.8163      0.1052      0.0987      0.1013
+#> sigma2_loc1        0.0957   0.1052     15.3155      0.0000      0.0000
 #> sigma2_loc2        0.0989   0.0987      0.0000     20.3019      0.0000
-#> sigma2_loc3        0.1006   0.1013      0.0000      0.0000     25.3088
+#> sigma2_loc3        0.1006   0.1013      0.0000      0.0000     25.3081
 
 ###----------------------------###
 ### Center Specific Covariates ###
@@ -1078,30 +1093,30 @@ summary(bfi4, cur_mat = TRUE)
 #> Coefficients:
 #> 
 #>                  Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)_High   0.8242  0.1251  0.5789   1.0694
-#> (Intercept)_Low    0.9398  0.1681  0.6104   1.2692
-#> X1                 1.9435  0.1020  1.7435   2.1434
-#> X2                 1.9849  0.0971  1.7945   2.1753
-#> X3                 2.0253  0.1015  1.8264   2.2242
+#> (Intercept)_High   0.8242  0.1252  0.5788   1.0695
+#> (Intercept)_Low    0.9398  0.1682  0.6102   1.2694
+#> X1                 1.9435  0.1021  1.7434   2.1435
+#> X2                 1.9849  0.0972  1.7944   2.1754
+#> X3                 2.0252  0.1015  1.8262   2.2243
 #> 
-#> Dispersion parameter (sigma2):  1.173 
+#> Dispersion parameter (sigma2):  1.171 
 #> 
 #> Minus the Curvature Matrix: 
 #> 
 #>                  (Intercept)_High (Intercept)_Low      X1       X2       X3
-#> (Intercept)_High          64.6634          0.0000  5.5682   7.6327  -0.6334
-#> (Intercept)_Low            0.0000         38.6210 -7.1784   9.8372 -13.1665
-#> X1                         5.5682         -7.1784 98.8259   7.0585  -2.9108
-#> X2                         7.6327          9.8372  7.0585 110.1140  -1.7586
-#> X3                        -0.6334        -13.1665 -2.9108  -1.7586 101.9241
-#> sigma2                     0.0802          0.0466  0.2902   0.2952   0.3053
+#> (Intercept)_High          64.6001          0.0000  5.5622   7.6258  -0.6323
+#> (Intercept)_Low            0.0000         38.5748 -7.1698   9.8254 -13.1507
+#> X1                         5.5622         -7.1698 98.7192   7.0518  -2.9078
+#> X2                         7.6258          9.8254  7.0518 109.9954  -1.7551
+#> X3                        -0.6323        -13.1507 -2.9078  -1.7551 101.8163
+#> sigma2                     0.0802          0.0466  0.2902   0.2952   0.3052
 #>                   sigma2
 #> (Intercept)_High  0.0802
 #> (Intercept)_Low   0.0466
 #> X1                0.2902
 #> X2                0.2952
-#> X3                0.3053
-#> sigma2           60.3288
+#> X3                0.3052
+#> sigma2           60.3256
 
 
 ###---------------------###
@@ -1248,11 +1263,11 @@ summary(fit1_r2)
 #> Coefficients:
 #> 
 #>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   1.0775  0.6320 -0.1611   2.3161
-#> X1            1.6527  0.8983 -0.1080   3.4133
+#> (Intercept)   1.0763  0.4475  0.1992   1.9535
+#> X1            1.6572  0.6365  0.4097   2.9047
 #> 
-#> Dispersion parameter (sigma2):  12.28 
-#>             log Lik Posterior:  -105.5 
+#> Dispersion parameter (sigma2):  6.134 
+#>             log Lik Posterior:  -84.85 
 #>                   Convergence:  0 
 
 ## Center 2:
@@ -1294,10 +1309,10 @@ summary(fitbfi_r2)
 #> Coefficients:
 #> 
 #>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   0.9774  0.3461  0.2990   1.6557
-#> X1            2.0672  0.4901  1.1067   3.0277
+#> (Intercept)   0.9741  0.2452  0.4935   1.4546
+#> X1            2.0794  0.3472  1.3989   2.7599
 #> 
-#> Dispersion parameter (sigma2):  14.69 
+#> Dispersion parameter (sigma2):  7.306 
 #> 
 #> Average Treatment Effect (ATE):  
 #> 

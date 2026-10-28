@@ -1,4 +1,4 @@
-# Summarizing BFI Fits
+# Summarizing BFI fits
 
 Summary method for an object with class 'bfi' created by the
 `MAP.estimation` and `bfi` functions.
@@ -11,46 +11,64 @@ summary(object,
         cur_mat = FALSE,
         digits = max(3, getOption("digits") - 3),
         ...)
+
+# S3 method for class 'summary.bfi'
+print(x,
+        digits = x$summary_digits,
+        cur_mat = x$summary_cur_mat,
+        ...)
 ```
 
 ## Arguments
 
 - object:
 
-  fitted `bfi` object.
+  A fitted object of class `"bfi"`.
+
+- x:
+
+  An object of class `"summary.bfi"` returned by `summary.bfi()`.
 
 - cur_mat:
 
-  logical; if `TRUE`, minus the curvature matrix around the estimated
-  parameters is returned and printed. Default is `FALSE`.
+  Logical; if `TRUE`, the minus curvature matrix is also printed when
+  the summary object is displayed. The matrix remains available in
+  `A_hat` regardless of this option. Default is `FALSE` for
+  `summary.bfi()`.
 
 - digits:
 
-  significant digits in printout.
+  Number of digits used to format the printed results.
 
 - ...:
 
-  additional arguments affecting the summary produced.
+  Additional arguments, currently unused.
 
 ## Details
 
-`summary.bfi()` gives information about the MAP estimates of parameters
-of the model. It can be used for the `bfi` objects built by the
-`MAP.estimation` and `bfi` functions.
+`summary.bfi()` prepares a structured summary of results returned by
+[`MAP.estimation()`](https://hassanpazira.github.io/BFI/reference/MAP.estimation.md)
+or [`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md).
 
-The output of the summary method shows the details of the model, i.e.
-formula, family and link function used to specify the generalized linear
-model, followed by information about the estimates, standard deviations
-and credible intervals. Information about the log-likelihood posterior
-and convergence status are also provided.
+The resulting object can be stored without producing printed output.
+When displayed, `print.summary.bfi()` prints the model family, link
+function or baseline hazard, parameter estimates, posterior standard
+deviations, and 95% credible intervals.
 
-By default, `summary.bfi` function does not return (minus) the curvature
-matrix, but the user can use `cur_mat = TRUE` to print it.
+For local models, the log-posterior value and convergence status are
+also displayed.
+
+The minus curvature matrix is retained in `A_hat`. When `cur_mat = TRUE`
+is supplied to `summary.bfi()`, this matrix is also printed when the
+summary object is displayed.
+
+The print method returns the summary object invisibly.
 
 ## Value
 
-`summary.bfi` returns an object of class `summary.bfi`, a list with the
-following components:
+`summary.bfi` returns an object of class `"summary.bfi"`, containing the
+components described below. `print.summary.bfi()` displays the summary
+and returns the supplied object invisibly.
 
 - theta_hat:
 
@@ -166,6 +184,20 @@ following components:
   around the estimate. The standard deviation printed for these
   parameters is obtained by the delta method on the \\\sigma^2\\ scale.
 
+- coef_table:
+
+  A matrix containing the reported parameter estimates, posterior
+  standard deviations, and 95% credible interval limits.
+
+- summary_digits:
+
+  The number of digits selected for printing the summary.
+
+- summary_cur_mat:
+
+  A logical value indicating whether the curvature matrix should be
+  displayed when the summary is printed.
+
 ## Author
 
 Hassan Pazira  
@@ -204,7 +236,7 @@ y      <- rnorm(n, mu, sd = sqrt(theta[5]))
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 0.5), family = "gaussian")
 fit    <- MAP.estimation(y, X, family = "gaussian", Lambda)
 class(fit)
-#> [1] "bfi"
+#> [1] "bfi_local" "bfi"      
 
 #-------------------------
 # Summary of MAP estimates
@@ -220,56 +252,29 @@ summary(fit)
 #> Coefficients:
 #> 
 #>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   0.5077  0.3072 -0.0945   1.1099
-#> x1            1.7133  0.1977  1.3259   2.1007
-#> x22           3.9905  0.4676  3.0741   4.9070
-#> x23           4.6274  0.4377  3.7695   5.4853
+#> (Intercept)   0.5084  0.3086 -0.0964   1.1131
+#> x1            1.7132  0.1985  1.3241   2.1024
+#> x22           3.9894  0.4696  3.0691   4.9098
+#> x23           4.6264  0.4396  3.7648   5.4879
 #> 
-#> Dispersion parameter (sigma2):  1.421 
-#>             log Lik Posterior:  -59.53 
+#> Dispersion parameter (sigma2):  1.434 
+#>             log Lik Posterior:  -29.44 
 #>                   Convergence:  0 
 sumfit <- summary(fit, cur_mat = TRUE)
-#> 
-#> Summary of the local model:
-#> 
-#>    Formula: y ~ x1 + x2 
-#>     Family: ‘gaussian’ 
-#>       Link: ‘identity’
-#> 
-#> Coefficients:
-#> 
-#>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   0.5077  0.3072 -0.0945   1.1099
-#> x1            1.7133  0.1977  1.3259   2.1007
-#> x22           3.9905  0.4676  3.0741   4.9070
-#> x23           4.6274  0.4377  3.7695   5.4853
-#> 
-#> Dispersion parameter (sigma2):  1.421 
-#>             log Lik Posterior:  -59.53 
-#>                   Convergence:  0 
-#> 
-#> Minus the Curvature Matrix: 
-#> 
-#>             (Intercept)      x1    x22    x23  sigma2
-#> (Intercept)     28.2460  6.0093 7.7402 9.8511  0.0505
-#> x1               6.0093 27.0031 0.8318 2.7736  0.1714
-#> x22              7.7402  0.8318 7.8402 0.0000  0.3990
-#> x23              9.8511  2.7736 0.0000 9.9511  0.4627
-#> sigma2           0.0505  0.1714 0.3990 0.4627 20.7106
 sumfit$estimate
 #> (Intercept)          x1         x22         x23 
-#>    0.507736    1.713305    3.990528    4.627400 
+#>   0.5083817   1.7132473   3.9894438   4.6263612 
 sumfit$logLikPost
-#> [1] -59.53309
+#> [1] -29.44136
 sumfit$dispersion
-#>   sigma2 
-#> 1.421159 
+#>  sigma2 
+#> 1.43356 
 sumfit$CI
 #>                   2.5 %   97.5 %
-#> (Intercept) -0.09445457 1.109927
-#> x1           1.32586120 2.100748
-#> x22          3.07407378 4.906981
-#> x23          3.76947073 5.485330
+#> (Intercept) -0.09636638 1.113130
+#> x1           1.32412402 2.102371
+#> x22          3.06910368 4.909784
+#> x23          3.76478601 5.487936
 class(sumfit)
 #> [1] "summary.bfi"
 ```

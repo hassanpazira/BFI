@@ -1,4 +1,4 @@
-# Maximum A Posteriori estimation
+# Maximum a posteriori estimation
 
 `MAP.estimation` function is used (in local centers) to compute Maximum
 A Posterior (MAP) estimators of the parameters for Generalized Linear
@@ -7,8 +7,8 @@ Models (GLM) and Survival models.
 ## Usage
 
 ``` r
-MAP.estimation(y,
-               X,
+MAP.estimation(y= NULL,
+               X= NULL,
                family = c("gaussian", "binomial", "survival"),
                Lambda,
                intercept = TRUE,
@@ -27,7 +27,9 @@ MAP.estimation(y,
                zero_sample_cov,
                refer_cat,
                zero_cat,
-               control = list())
+               control = list(),
+               formula = NULL,
+               data = NULL)
 ```
 
 ## Arguments
@@ -87,7 +89,11 @@ MAP.estimation(y,
   logical flag for fitting an intercept. If `intercept=TRUE` (the
   default), the intercept is fitted, i.e., it is included in the model,
   and if `intercept = FALSE` it is set to zero, i.e., it's not in the
-  model. This argument is not used if `family = "survival"`.
+  model. This argument is not used if `family = "survival"`. When the
+  formula interface is used for Gaussian or binomial models, the
+  `intercept` argument must agree with the formula. Since the default is
+  `TRUE`, formulas without an intercept require `intercept = FALSE` to
+  be specified explicitly.
 
 - basehaz:
 
@@ -244,9 +250,25 @@ MAP.estimation(y,
 
   a list of control parameters. See ‘Details’.
 
+- formula:
+
+  An optional object of class `"formula"` specifying a symbolic
+  description of the model to be fitted. It is an optional two-sided
+  formula specifying the response and predictors. It must be used
+  together with `data`, instead of `y` and `X`. Additive formulas using
+  existing column names are supported.
+
+- data:
+
+  A local data frame containing the response and predictor variables
+  specified in `formula`. This argument is required only when `formula`
+  is supplied and is not required when the original `y`/`X` interface is
+  used.
+
 ## Value
 
-`MAP.estimation` returns a list containing the following components:
+`MAP.estimation` returns an object of class `c("bfi_local", "bfi")` (a
+list) containing the following components:
 
 - theta_hat:
 
@@ -483,10 +505,47 @@ For the `gaussian` family the dispersion parameter is estimated on the
 \\\log(\sigma^2)\\ scale, and the corresponding row and column of the
 curvature matrix refer to that scale.
 
-The `MAP.estimation` function returns an object of class \``bfi`\`.
-Therefore,
-[`summary()`](https://hassanpazira.github.io/BFI/reference/summary.bfi.md)
-can be used for the object returned by `MAP.estimation()`.
+For Gaussian models, the regression coefficients and the log residual
+variance, \\\eta = \log(\sigma^2)\\, are estimated jointly. When the
+prior precision matrix is constructed by
+[`inv.prior.cov()`](https://hassanpazira.github.io/BFI/reference/inv.prior.cov.md),
+independent zero-mean Gaussian priors are specified for the regression
+coefficients and \\\eta\\. The reported estimate of the residual
+variance is \\\sigma^2 = \exp(\eta)\\. The corresponding elements of
+`A_hat` and `sd` remain on the \\\eta\\ scale.
+
+For Gaussian models in the second treatment-estimation round, inverse
+probability of treatment weights enter a weighted pseudo-likelihood.
+Each observation's contribution to the Gaussian log-likelihood is
+multiplied by its weight. Consequently, the log-variance contribution is
+proportional to \\(\sum_i w_i)\eta\\, rather than \\n\eta\\. For
+unweighted Gaussian models all weights equal one.
+
+The function supports two input interfaces. In the original interface,
+the response is supplied through `y` and the predictors through `X`; the
+`data` argument is not required. Alternatively, `formula` and `data` can
+be supplied. In this case, the response, predictor data and intercept
+specification are derived from the formula.
+
+For Gaussian and binomial models, the formula determines whether an
+intercept is included. Both formulas with an intercept, such as
+`y ~ x1 + x2`, and formulas without an intercept, such as
+`y ~ x1 + x2 - 1`, are supported. An explicitly specified `intercept`
+argument must agree with the formula. Since its default is `TRUE`,
+formulas without an intercept require `intercept = FALSE` to be
+specified explicitly. The formula interface does not support interaction
+terms, inline transformations, or offsets. For survival models, the
+response can be specified using `survival::Surv(time, status)` or
+`cbind(time, status)`. Only right-censored `Surv` responses are
+supported.
+
+The `MAP.estimation()` function returns an object with S3 classes
+`c("bfi_local", "bfi")`. The inherited `"bfi"` class provides shared
+methods including
+[`summary()`](https://hassanpazira.github.io/BFI/reference/summary.bfi.md),
+[`print()`](https://rdrr.io/r/base/print.html),
+[`coef()`](https://rdrr.io/r/stats/coef.html), and
+[`vcov()`](https://rdrr.io/r/stats/vcov.html).
 
 For the case where `family = "survival"` and `basehaz = "poly"`, we
 assume that in all centers the \\q\_\ell\\'s are equal. However, the
@@ -564,7 +623,7 @@ following components:
 
 - `maxit`::
 
-  is the maximum number of iterations. Default is 150;
+  is the maximum number of iterations. Default is 100;
 
 - `factr`::
 
@@ -619,8 +678,9 @@ multicenter data sets*, *Statistics in Medicine*, 43(12): 2421-2438.
 \<https://doi.org/10.1002/sim.10072\>
 
 Byrd R.H., Lu P., Nocedal J. and Zhu C. (1995). *A limited memory
-algorithm for bound constrained optimization*. SIAM Journal on
-Scientific Computing, 16, 1190-1208. \<https://doi.org/10.1137/0916069\>
+algorithm for bound constrained optimization*. *SIAM Journal on
+Scientific Computing*, 16, 1190–1208.
+[doi:10.1137/0916069](https://doi.org/10.1137/0916069)
 
 ## Author
 
@@ -666,6 +726,7 @@ library(BFI)
 #-----------------------------------------------
 # MAP estimations for theta and curvature matrix
 #-----------------------------------------------
+
 # MAP estimates with 'intercept'
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = "gaussian")
 (fit <- MAP.estimation(y, X, family = "gaussian", Lambda))
@@ -673,10 +734,10 @@ Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = "gaussian")
 #> Local MAP estimates (family: gaussian)
 #> 
 #> (Intercept)           X1           X2           X3       sigma2  
-#>       1.341        2.236        2.071        2.164        1.055  
+#>       1.341        2.236        2.071        2.164        1.086  
 #> 
 class(fit)
-#> [1] "bfi"
+#> [1] "bfi_local" "bfi"      
 summary(fit, cur_mat = TRUE)
 #> 
 #> Summary of the local model:
@@ -688,23 +749,60 @@ summary(fit, cur_mat = TRUE)
 #> Coefficients:
 #> 
 #>             Estimate Std.Dev CI 2.5% CI 97.5%
-#> (Intercept)   1.3413  0.1983  0.9526   1.7299
-#> X1            2.2364  0.2269  1.7916   2.6812
-#> X2            2.0710  0.1477  1.7816   2.3604
-#> X3            2.1640  0.2153  1.7420   2.5860
+#> (Intercept)   1.3411  0.2012  0.9468   1.7355
+#> X1            2.2361  0.2303  1.7848   2.6874
+#> X2            2.0709  0.1498  1.7772   2.3645
+#> X3            2.1638  0.2185  1.7357   2.5920
 #> 
-#> Dispersion parameter (sigma2):  1.055 
-#>             log Lik Posterior:  -35.28 
+#> Dispersion parameter (sigma2):  1.086 
+#>             log Lik Posterior:  -17.11 
 #>                   Convergence:  0 
 #> 
 #> Minus the Curvature Matrix: 
 #> 
 #>             (Intercept)      X1      X2      X3  sigma2
-#> (Intercept)     28.5476  1.9316 -7.7386  6.2805  0.1341
-#> X1               1.9316 20.4369 -2.2127  4.5673  0.2236
-#> X2              -7.7386 -2.2127 49.3207  3.1359  0.2071
-#> X3               6.2805  4.5673  3.1359 24.3658  0.2164
-#> sigma2           0.1341  0.2236  0.2071  0.2164 16.0546
+#> (Intercept)     27.7319  1.8762 -7.5167  6.1004  0.1341
+#> X1               1.8762 19.8538 -2.1493  4.4364  0.2236
+#> X2              -7.5167 -2.1493 47.9093  3.0460  0.2071
+#> X3               6.1004  4.4364  3.0460 23.6700  0.2164
+#> sigma2           0.1341  0.2236  0.2071  0.2164 16.0822
+
+# The equivalent formula/data interface
+local_data <- data.frame(y = y, X = X)
+names(local_data)[-1] <- names(X) # withou this line use data.frame(y = y, X)
+f <- y ~ X1 + X2 + X3
+Lambda_formula <- inv.prior.cov(formula = f, data = local_data,
+                                lambda = c(0.1, 1), family = "gaussian")
+fit_formula <- MAP.estimation(formula = f, data = local_data,
+                              family = "gaussian", Lambda = Lambda_formula)
+summary(fit_formula, cur_mat = TRUE)
+#> 
+#> Summary of the local model:
+#> 
+#>    Formula: y ~ X1 + X2 + X3 
+#>     Family: ‘gaussian’ 
+#>       Link: ‘identity’
+#> 
+#> Coefficients:
+#> 
+#>             Estimate Std.Dev CI 2.5% CI 97.5%
+#> (Intercept)   1.3411  0.2012  0.9468   1.7355
+#> X1            2.2361  0.2303  1.7848   2.6874
+#> X2            2.0709  0.1498  1.7772   2.3645
+#> X3            2.1638  0.2185  1.7357   2.5920
+#> 
+#> Dispersion parameter (sigma2):  1.086 
+#>             log Lik Posterior:  -17.11 
+#>                   Convergence:  0 
+#> 
+#> Minus the Curvature Matrix: 
+#> 
+#>             (Intercept)      X1      X2      X3  sigma2
+#> (Intercept)     27.7319  1.8762 -7.5167  6.1004  0.1341
+#> X1               1.8762 19.8538 -2.1493  4.4364  0.2236
+#> X2              -7.5167 -2.1493 47.9093  3.0460  0.2071
+#> X3               6.1004  4.4364  3.0460 23.6700  0.2164
+#> sigma2           0.1341  0.2236  0.2071  0.2164 16.0822
 
 # MAP estimates without 'intercept'
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = 'gaussian',
@@ -714,7 +812,7 @@ Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = 'gaussian',
 #> Local MAP estimates (family: gaussian)
 #> 
 #>     X1      X2      X3  sigma2  
-#>  2.242   1.833   2.525   2.496  
+#>  2.241   1.833   2.525   2.545  
 #> 
 summary(fit1, cur_mat = TRUE)
 #> 
@@ -727,22 +825,57 @@ summary(fit1, cur_mat = TRUE)
 #> Coefficients:
 #> 
 #>    Estimate Std.Dev CI 2.5% CI 97.5%
-#> X1   2.2416  0.3479  1.5598   2.9235
-#> X2   1.8327  0.2206  1.4004   2.2650
-#> X3   2.5252  0.3193  1.8994   3.1510
+#> X1   2.2412  0.3513  1.5528   2.9296
+#> X2   1.8326  0.2227  1.3961   2.2691
+#> X3   2.5249  0.3224  1.8930   3.1567
 #> 
-#> Dispersion parameter (sigma2):  2.496 
-#>             log Lik Posterior:  -63.91 
+#> Dispersion parameter (sigma2):  2.545 
+#>             log Lik Posterior:  -31.12 
 #>                   Convergence:  0 
 #> 
 #> Minus the Curvature Matrix: 
 #> 
 #>             X1      X2      X3  sigma2
-#> X1      8.6921 -0.9348  1.9296  0.2242
-#> X2     -0.9348 20.8951  1.3249  0.1833
-#> X3      1.9296  1.3249 10.3520  0.2525
-#> sigma2  0.2242  0.1833  0.2525 17.4961
+#> X1      8.5260 -0.9168  1.8923  0.2241
+#> X2     -0.9168 20.4932  1.2993  0.1832
+#> X3      1.8923  1.2993 10.1539  0.2525
+#> sigma2  0.2241  0.1832  0.2525 16.9342
 
+# Equivalent formula/data interface without intercept
+f_no_intercept <- y ~ X1 + X2 + X3 - 1
+
+Lambda_formula <- inv.prior.cov(formula = f_no_intercept, data = local_data,
+                                lambda = c(0.1, 1), family = "gaussian",
+                                intercept = FALSE)
+fit1_formula <- MAP.estimation(formula = f_no_intercept, data = local_data,
+                              family = "gaussian", Lambda = Lambda_formula,
+                              intercept = FALSE)
+summary(fit1_formula, cur_mat = TRUE)
+#> 
+#> Summary of the local model:
+#> 
+#>    Formula: y ~ X1 + X2 + X3 - 1 
+#>     Family: ‘gaussian’ 
+#>       Link: ‘identity’
+#> 
+#> Coefficients:
+#> 
+#>    Estimate Std.Dev CI 2.5% CI 97.5%
+#> X1   2.2412  0.3513  1.5528   2.9296
+#> X2   1.8326  0.2227  1.3961   2.2691
+#> X3   2.5249  0.3224  1.8930   3.1567
+#> 
+#> Dispersion parameter (sigma2):  2.545 
+#>             log Lik Posterior:  -31.12 
+#>                   Convergence:  0 
+#> 
+#> Minus the Curvature Matrix: 
+#> 
+#>             X1      X2      X3  sigma2
+#> X1      8.5260 -0.9168  1.8923  0.2241
+#> X2     -0.9168 20.4932  1.2993  0.1832
+#> X3      1.8923  1.2993 10.1539  0.2525
+#> sigma2  0.2241  0.1832  0.2525 16.9342
 
 
 ###-----------------###

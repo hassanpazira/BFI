@@ -11,7 +11,7 @@ the package, the user can fit models specifying Gaussian, Binomial
 |----------|--------------------|
 | Package: | BFI                |
 | Type:    | Package            |
-| Version: | 3.2.0              |
+| Version: | 3.3.0              |
 | License: | MIT + file LICENSE |
 
 `MAP.estimation` and `bfi` are the main functions. All other functions
@@ -31,8 +31,8 @@ Maintainer: Hassan Pazira \<h.pazira@arq.org\>
 
 ## References
 
-Pazira H. and Jonker M.A. (2026). *BFI: An R Package for Bayesian
-Federated Inference*. \<https://arxiv.org/abs/2609.27977\>
+Pazira H. (2027). *BFI: An R Package for Bayesian Federated Inference*.
+\<https://arxiv.org/abs/2609.27977\>
 
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A.
 (2026). *Bayesian federated inference for survival models*, *Journal of

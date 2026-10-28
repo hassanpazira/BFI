@@ -1,4 +1,4 @@
-# Internal BFI Functions
+# Internal BFI functions
 
 Internal BFI functions.
 

@@ -1,4 +1,4 @@
-# Methods for objects of class `"bfi"`
+# Methods for local and federated BFI objects
 
 Print, coefficient and variance methods for objects returned by
 [`MAP.estimation`](https://hassanpazira.github.io/BFI/reference/MAP.estimation.md)
@@ -25,7 +25,8 @@ vcov(object, ...)
 
 - x, object:
 
-  An object of class `"bfi"`.
+  An object inheriting from `"bfi"`, including `"bfi_local"` and
+  `"bfi_federated"` objects.
 
 - digits:
 
@@ -49,6 +50,11 @@ models, the inverse curvature matrix is defined on the
 and columns are transformed to the original \\\sigma^2\\ scale using the
 multivariate delta method.
 
+For weighted models, the returned covariance matrix is a curvature-based
+approximation conditional on the weights used in estimation. It does not
+automatically account for uncertainty associated with estimated
+propensity scores.
+
 ## See also
 
 [`summary.bfi`](https://hassanpazira.github.io/BFI/reference/summary.bfi.md)
@@ -65,14 +71,14 @@ fit
 #> Local MAP estimates (family: gaussian)
 #> 
 #> (Intercept)           x1       sigma2  
-#>   -0.129876     0.003659     0.871924  
+#>   -0.129876     0.003659     0.872124  
 #> 
 coef(fit)
 #>  (Intercept)           x1       sigma2 
-#> -0.129875691  0.003659374  0.871924188 
+#> -0.129875687  0.003659374  0.872123970 
 vcov(fit)
 #>               (Intercept)            x1        sigma2
-#> (Intercept)  1.743912e-02 -2.687922e-04  7.963622e-07
-#> x1          -2.687922e-04  1.962599e-02 -3.798895e-08
-#> sigma2       7.963622e-07 -3.798895e-08  3.039947e-02
+#> (Intercept)  1.744312e-02 -2.688538e-04  7.966818e-07
+#> x1          -2.688538e-04  1.963049e-02 -3.800053e-08
+#> sigma2       7.966818e-07 -3.800053e-08  3.041351e-02
 ```

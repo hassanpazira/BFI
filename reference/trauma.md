@@ -26,5 +26,5 @@ multicenter data sets*, *Statistics in Medicine*, 43(12): 2421-2438.
 \<https://doi.org/10.1002/sim.10072\>
 
 Draaisma J.M.Th, de Haan A.F.J., Goris R.J.A. (1989). *Preventable
-Trauma Deaths in the Netherlands - A prospective Multicentre Study*, The
-journal of Trauma, Vol. 29(11), 1552-1557.
+Trauma Deaths in the Netherlands - A prospective Multicentre Study*,
+*The Journal of Trauma*, 29(11), 1552–1557.
