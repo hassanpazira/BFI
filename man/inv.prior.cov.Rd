@@ -5,7 +5,7 @@
 \code{inv.prior.cov} constructs a diagonal inverse covariance matrix for the Gaussian prior distribution based on the design matrix of covariates. This construction accounts for the number of regression parameters, especially when dealing with categorical covariates. For a linear model, it also includes an additional row and column to represent the variance of the measurement error. In the case of a survival model, it considers the parameters of the baseline hazard function as well.
 }
 \usage{
-inv.prior.cov(X,
+inv.prior.cov(X = NULL,
               lambda = 1,
               L = 2,
               family = c("gaussian", "binomial", "survival"),
@@ -17,13 +17,15 @@ inv.prior.cov(X,
               center_spec = NULL,
               basehaz = c("weibul", "exp", "gomp", "poly", "pwexp", "unspecified"),
               max_order = 2,
-              n_intervals = 4)
+              n_intervals = 4,
+              formula = NULL,
+              data = NULL)
 }
 
 \arguments{
 \item{X}{design matrix of dimension \eqn{n \times p}, where \eqn{n} is the number of samples observed, and \eqn{p} is the number of predictors/variables so excluding the intercept.}
 
-\item{lambda}{the vector used as the diagonal of the (inverse covariance) matrix that will be created by \code{inv.prior.cov()}. The length of the vector depends on the number of columns of \code{X}, type of the covariates (continuous/dichotomous or categorical), \code{family}, whether an \code{intercept} is included in the model, and whether \code{stratified} analysis is desired. When \code{stratified = FALSE}, \code{lambda} could be a single positive number (if all values in the vector are equal), a vector of two elements (the first is used for regression parameters including ``intercept'' and the second for the residual standard deviation ``sigma'' in the gaussian family or for the baseline hazard parameters in the survival case), or a vector of length equal to the number of model parameters. However, the length of \code{lambda} is different when \code{stratified = TRUE}, see \sQuote{Details} for more information. Default is \code{lambda = 1}, which means all model parameters are set to one.}
+\item{lambda}{the vector used as the diagonal of the (inverse covariance) matrix that will be created by \code{inv.prior.cov()}. The length of the vector depends on the number of columns of \code{X}, type of the covariates (continuous/dichotomous or categorical), \code{family}, whether an \code{intercept} is included in the model, and whether \code{stratified} analysis is desired. When \code{stratified = FALSE}, \code{lambda} could be a single positive number (if all values in the vector are equal), a vector of two elements (the first is used for regression parameters including ``intercept'' and the second for the log residual variance \eqn{\eta = \log(\sigma^2)} in the gaussian family or for the baseline hazard parameters in the survival case), or a vector of length equal to the number of model parameters. However, the length of \code{lambda} is different when \code{stratified = TRUE}, see \sQuote{Details} for more information. Default is \code{lambda = 1}, which means all model parameters are set to one.}
 
 \item{L}{the number of centers. This argument is used only when \code{stratified = TRUE}. Default is \code{L = 2}. See \sQuote{Details} and \sQuote{Examples}.}
 
@@ -50,20 +52,57 @@ The used data type in the argument \code{center_spec} must be categorical. Defau
 
 \item{n_intervals}{an integer representing the number of intervals in the piecewise exponential baseline hazard function. This argument is only used when \code{family = "survival"} and \code{basehaz = "pwexp"}. Default is 4.}
 
+\item{formula}{An optional object of class \code{"formula"}
+specifying a symbolic description of the predictors used
+to construct the prior precision matrix. One-sided and
+two-sided formulas are accepted; the response, if specified,
+is not evaluated. See \sQuote{Details} for the supported
+formula specification and its limitations.}
+
+\item{data}{A data frame containing the predictor variables
+specified in \code{formula}. This argument is required
+when \code{formula} is supplied. The response variable
+does not need to be present in \code{data}.}
+
 }
 
 \details{
 \code{inv.prior.cov} creates a diagonal matrix with the vector \code{lambda} as its diagonal. The argument \code{stratified = TRUE} should only be used to construct a matrix for the prior density in case of stratification in the fictive combined data. Never be used for the construction of the matrix for analysis in the centers.
 
+For the Gaussian family, the prior precision matrix is defined
+for the regression coefficients and the log residual variance,
+\eqn{\eta = \log(\sigma^2)}. A zero-mean Gaussian prior is
+assigned to \eqn{\eta}, rather than directly to \eqn{\sigma^2}
+or the residual standard deviation. For non-stratified Gaussian
+models, the corresponding prior precision is the last diagonal
+element of \code{Lambda}. For stratified Gaussian models with
+center-specific variances, the corresponding precision parameters
+refer to the center-specific log residual variances.
+
+The prior precision matrix can be constructed using either
+the original \code{X} interface or the optional
+\code{formula}/\code{data} interface.
+
+For Gaussian and binomial models, the intercept specification
+can also be determined by the formula. Both intercept and
+no-intercept formulas are supported.
+For no-intercept Gaussian and binomial formula simply use a no-intercept formula,
+such as \code{y ~ x - 1} or use the original \code{X} interface with \code{intercept = FALSE}.
+If \code{intercept} is explicitly supplied, it must agree with the formula.
+Since its default is \code{TRUE}, no-intercept formulas, such as
+\code{y ~ x - 1}, require \code{intercept = FALSE}
+to be specified explicitly.
+Interactions, inline transformations, and offsets are not supported by the formula interface.
+
 When \code{stratified = FALSE}, the length of the vector \code{lambda} depends on the covariate matrix \code{X}, \code{family}, \code{basehaz}, and whether an ``intercept'' is included in the model. For example, if the design matrix \code{X} has \code{p} columns with continuous or dichotomous covariates, \code{family = gaussian}, and \code{intercept = TRUE}, then \code{lambda} should have \eqn{p+2} elements. In this case, if in \code{X} there is a categorical covariate with \eqn{q>2} categories, then the length of \code{lambda} increases with \eqn{q-2}.
 
-All values of \code{lambda} should be positive as they represent the inverse of the variance of the Gaussian prior. This argument is considered as the inverse of the variance of the prior distribution for: \eqn{(\beta_0, \boldsymbol{\beta})} if \code{family = "binomial"} and \code{intercept = TRUE}; \eqn{(\beta_0, \boldsymbol{\beta},\sigma)} if \code{family = "gaussian"} and \code{intercept = TRUE}; and \eqn{( \boldsymbol{\beta},\boldsymbol{\omega})} if \code{family = "survival"}.
+All values of \code{lambda} should be positive as they represent the inverse of the variance of the Gaussian prior. This argument is considered as the inverse of the variance of the prior distribution for: \eqn{(\beta_0, \boldsymbol{\beta})} if \code{family = "binomial"} and \code{intercept = TRUE}; \eqn{(\beta_0, \boldsymbol{\beta}, \eta )} if \code{family = "gaussian"} and \code{intercept = TRUE}; and \eqn{( \boldsymbol{\beta},\boldsymbol{\omega})} if \code{family = "survival"}.
 
 If all values in the vector \code{lambda} equal, one value is enough to be given as entry.
 If \code{lambda} is a scalar, the function \code{inv.prior.cov} sets each value at the diagonal equal to \code{lambda}.
 %In the linear regression model the last parameter is assumed to be the inverse of the variance of the prior distribution for the measurement error.
 When \code{lambda} is two dimensional: if \code{family = "binomial"}, the first and second values are used for the inverse of the variance of the prior distribution for the intercept (\eqn{\beta_0}) and regression parameters (\eqn{\boldsymbol{\beta}}), respectively;
-If \code{family = "gaussian"}, the first and second values are used for the inverse of the variance of the prior distribution for the regression parameters including the intercept (\eqn{\beta_0, \boldsymbol{\beta}}) and variance of the measurement error (\eqn{ \sigma}), respectively;
+If \code{family = "gaussian"}, the first and second values are used for the inverse of the variance of the prior distribution for the regression parameters including the intercept (\eqn{\beta_0, \boldsymbol{\beta}}) and log residual variance (\eqn{\eta = \log(\sigma^2)}), respectively;
 If \code{family = "survival"}, the first and second values are used for the inverse of the variance of the prior distribution for the regression parameters (\eqn{\boldsymbol{\beta}}) and baseline hazard parameters (\eqn{ \omega}), respectively.
 But if \code{stratified = TRUE} the length of the vector \code{lambda} must be equal to the number of parameters in the combined model.
 
@@ -120,9 +159,17 @@ X$x3 <- as.factor(X$x3)
 inv.prior.cov(X, lambda = 0.05, family = 'binomial')
 # returns a 5-by-5 matrix
 
+# Formula interface without a response variable
+inv.prior.cov(formula = ~ x1 + x2 + x3, data = X, lambda = 0.05,
+              family = "binomial")
+
 # y ~ Binomial without 'intercept'
 inv.prior.cov(X, lambda = 0.05, family = "binomial", intercept = FALSE)
 # a 4-by-4 matrix
+
+# Formula interface without an intercept
+inv.prior.cov(formula = ~ x1 + x2 + x3 - 1, data = X, lambda = 0.05,
+              family = "binomial", intercept = FALSE)
 
 # y ~ Gaussian with 'intercept'
 inv.prior.cov(X, lambda = 0.05, family = 'gaussian')

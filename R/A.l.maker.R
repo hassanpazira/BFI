@@ -14,9 +14,15 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
     beta_hat <- theta_hat
     power <- matrix(0, len_thet, len_thet)
     for (j in seq_len(nl)) {
-      power <- power + t(X[j, , drop = FALSE]) %*% X[j, , drop = FALSE] * wli[j] *
-        exp(as.numeric(X[j, ] %*% beta_hat)) /
-        (1 + exp(as.numeric(X[j, ] %*% beta_hat)))^2
+      # power <- power + t(X[j, , drop = FALSE]) %*% X[j, , drop = FALSE] * wli[j] *
+      #   exp(as.numeric(X[j, ] %*% beta_hat)) /
+      #   (1 + exp(as.numeric(X[j, ] %*% beta_hat)))^2
+      eta_j <- as.numeric(X[j, ] %*% beta_hat)
+      mu_j <- stats::plogis(eta_j)
+      power <- power +
+        t(X[j, , drop = FALSE]) %*%
+        X[j, , drop = FALSE] *
+        wli[j] * mu_j * (1 - mu_j)
     }
     A_l <- power + Lambda
     colnames(A_l) <- colnames(X)
@@ -36,8 +42,8 @@ A.l.maker <- function(y, X, Lambda, family, theta_hat, q_l, tps, basehaz, wli) {
     }
     A_l <- matrix(0, len_thet, len_thet)
     A_l[-len_thet, -len_thet] <- power / sigma2_e_hat + Lambda[-(p + 1), -(p + 1)]
-    A_l[len_thet, len_thet] <- (Lambda[len_thet, len_thet] * sigma2_e_hat +
-                                  power2 / sigma2_e_hat)/2
+    A_l[len_thet, len_thet] <- Lambda[len_thet, len_thet] +
+                                  power2 / (2 * sigma2_e_hat)
     A_l[seq_len(len_thet - 1), len_thet] <- A_l[len_thet, seq_len(len_thet - 1)] <-
       power3 / sigma2_e_hat
     colnames(A_l) <- rownames(A_l) <- c(colnames(X), "sigma2")

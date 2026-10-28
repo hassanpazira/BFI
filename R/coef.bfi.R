@@ -5,7 +5,7 @@
 #' @importFrom stats coef
 #' @export
 coef.bfi <- function(object, ...) {
-  if (class(object)[1] != "bfi") {
+  if (!inherits(object, "bfi")) {
     stop("coef method is not available for objects with other classes.")
   }
   th <- object$theta_hat

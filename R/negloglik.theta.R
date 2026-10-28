@@ -11,12 +11,16 @@ negloglik.theta <- function(beta_omega, y, X, Lambda, family,
   Gamma <- Lambda[1:p,1:p]
   # if (!(family == "survival" & basehaz == "unspecified")) Gamma_omeg <- Lambda[-(1:p),-(1:p)]
   if (family == "binomial") {
-    power <- 0
-    for (j in seq_len(nl)) {
-      power <- power + wli[j] * (y[j] * as.numeric(X[j, ] %*% beta) -
-        log(1 + exp(as.numeric(X[j, ] %*% beta))))
-    }
-    negloglik <- -power + (t(beta) %*% Gamma %*% beta) / 2
+    # power <- 0
+    # for (j in seq_len(nl)) {
+    #   power <- power + wli[j] * (y[j] * as.numeric(X[j, ] %*% beta) -
+    #     log(1 + exp(as.numeric(X[j, ] %*% beta))))
+    # }
+    # negloglik <- -power + (t(beta) %*% Gamma %*% beta) / 2
+    eta <- as.numeric(X %*% beta)
+    log1pexp <- pmax(eta, 0) + log1p(exp(-abs(eta)))
+    negloglik <- sum(wli * (log1pexp - y * eta)) +
+      as.numeric(t(beta) %*% Gamma %*% beta) / 2
   }
 
   if (family == "gaussian") {
@@ -26,8 +30,8 @@ negloglik.theta <- function(beta_omega, y, X, Lambda, family,
     for (j in seq_len(nl)) {
       power <- power + wli[j] * (y[j] - as.numeric(X[j, ] %*% beta))^2
     }
-    negloglik <- power / exp(log_sig2) + nl * log(exp(log_sig2)) +
-      exp(log_sig2) * as.numeric(Gamma_omeg) + t(beta) %*% Gamma %*% beta
+    negloglik <- (power / exp(log_sig2) + sum(wli) * log_sig2 +
+      (log_sig2)^2 * as.numeric(Gamma_omeg) + t(beta) %*% Gamma %*% beta)/2
   }
   if (family == "survival") {
     if (colnames(y)[1]=="time" & colnames(y)[2]=="status") {

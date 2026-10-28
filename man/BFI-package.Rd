@@ -9,7 +9,7 @@ The Bayesian Federated Inference method combines inference results from differen
 \tabular{ll}{
 Package: \tab BFI\cr
 Type: \tab Package\cr
-Version: \tab 3.2.0\cr
+Version: \tab 3.3.0\cr
 License: \tab MIT + file LICENSE
 }
 
@@ -22,8 +22,7 @@ Hassan Pazira, Emanuele Massa, Marianne A. Jonker\cr
 Maintainer: \packageMaintainer{BFI}
 }
 \references{
-Pazira H. and Jonker M.A. (2026).
-\emph{BFI: An R Package for Bayesian Federated Inference}.
+Pazira H. (2027). \emph{BFI: An R Package for Bayesian Federated Inference}.
 <https://arxiv.org/abs/2609.27977>
 
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).

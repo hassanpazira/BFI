@@ -10,8 +10,7 @@ bibentry(
   bibtype = "Misc",
   title = "BFI: An R Package for Bayesian Federated Inference",
   author = c(
-    person(given = "Hassan", family = "Pazira"),
-    person(given = c("Marianne", "A."), family = "Jonker")
+    person(given = "Hassan", family = "Pazira")
   ),
   year = "2026",
   note = "arXiv:2609.27977"

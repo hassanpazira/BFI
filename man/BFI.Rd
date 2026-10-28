@@ -75,7 +75,8 @@ This argument is used if \code{center_zero_sample = TRUE}.}
 
 \value{
 
-\code{bfi} returns a list containing the following components:
+\code{bfi()} returns an object of class \code{c("bfi_federated", "bfi")} (a list) containing
+the following components:
 
 \item{theta_hat}{the vector of estimates obtained by combining the inference results from the \eqn{L} centers with the \code{'BFI'} methodology. If an intercept was fitted in every center and \code{stratified = FALSE}, there is only one general ``intercept'' in this vector, while if \code{stratified = TRUE} and \code{strat_par = 1}, there are \eqn{L} different intercepts in the model, for each center one. If \code{treatment} is not '\code{NULL}', when \code{treat_round = 'first'}, \code{theta_hat} gives \eqn{\hat{\boldsymbol{\gamma}}_{BFI}}, and when \code{treat_round = 'second'}, \code{theta_hat} is the treatment effect \eqn{\hat \zeta_{BFI}};}
 
@@ -105,6 +106,22 @@ The inference result from each center must be obtained using the \code{MAP.estim
 The models in the different centers should contain the same model parameters.
 The names of the parameters in each local \code{theta_hat} vector and the corresponding row and column names of each local \code{A_hat} matrix must refer to the same set of parameters across centers.
 The order of these parameters may differ between centers; in that case, \code{bfi()} aligns the local parameter vectors, curvature matrices, and corresponding prior precision matrices by parameter name before combining the local inference results.
+
+For Gaussian models, local residual-variance estimates are
+internally transformed to the log-variance scale,
+\eqn{\eta = \log(\sigma^2)}, before federated aggregation.
+This ensures that local parameter estimates and curvature
+matrices are expressed on the same parameter scale.
+
+After aggregation, the estimated residual variances are
+back-transformed to the original \eqn{\sigma^2} scale for
+reporting in \code{theta_hat} and \code{coef()}.
+The aggregated curvature matrix \code{A_hat} and the
+corresponding elements of \code{sd} remain on the
+\eqn{\log(\sigma^2)} scale.
+
+This parameterization is also used for stratified Gaussian
+models with center-specific residual variances.
 
 Note that the order of the elements in the lists \code{theta_hats}, \code{A_hats} and \code{Lambda}, must be the same with respect to the centers, so that in every list the element at the \eqn{\ell^{\th}} position is from the center \eqn{\ell}. This should also be the case for the vector \code{center_spec}.
 

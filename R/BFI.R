@@ -305,6 +305,34 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
     )
   }
   # }
+  if (family == "gaussian") {
+    for (k in seq_along(Lambda_all)) {
+      M <- Lambda_all[[k]]
+
+      sigma_idx <- grep("^sigma2($|_)", rownames(M))
+
+      if (length(sigma_idx) == 0L) {
+        if (k <= L || !stratified) {
+          sigma_idx <- nrow(M)
+        } else {
+          stop(
+            "The combined Gaussian Lambda must have parameter names ",
+            "identifying sigma2 or sigma2_loc parameters."
+          )
+        }
+      }
+
+      beta_idx <- setdiff(seq_len(nrow(M)), sigma_idx)
+
+      if (any(M[beta_idx, sigma_idx, drop = FALSE] != 0) ||
+          any(M[sigma_idx, beta_idx, drop = FALSE] != 0)) {
+        stop(
+          "Gaussian Lambda_all[[", k, "]] contains unsupported ",
+          "cross-precision terms between beta and log(sigma2)."
+        )
+      }
+    }
+  }
   if (family == "survival" & basehaz == "poly") {
     if (length(q_ls) != 1) {
       if (length(q_ls) != L) stop("Length of 'q_ls' should be ", sQuote(L),".")
@@ -516,6 +544,26 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
         stop("All elements of 'strat_par' should be chosen from the integers: ", seq_len(n_par - p))
       }
     }
+  }
+  # Gaussian aggregation must use the same parameterization
+  # as the local curvature matrices: eta = log(sigma2).
+  if (family == "gaussian") {
+    theta_hats <- lapply(seq_along(theta_hats), function(l) {
+      th <- theta_hats[[l]]
+      idx <- which(names(th) == "sigma2")
+
+      if (length(idx) != 1L ||
+          !is.finite(th[idx]) ||
+          th[idx] <= 0) {
+        stop(
+          "Gaussian center ", l,
+          " must provide one positive, finite 'sigma2'."
+        )
+      }
+
+      th[idx] <- log(th[idx])
+      th
+    })
   }
   last_Lam_dim <- dim(Lambda_all[[L + 1]])[1]
   if (stratified == FALSE) {
@@ -854,10 +902,29 @@ bfi <- function(theta_hats = NULL, A_hats, Lambda,
     ATE <- NULL
     # sample_var <- NULL
   }
+  # Back-transform only the reported Gaussian estimates.
+  # A_bfi and sd_bfi remain on the eta = log(sigma2) scale.
+  if (family == "gaussian") {
+    if (is.matrix(theta_hat_bfi)) {
+      idx <- grep("^sigma2($|_)", colnames(theta_hat_bfi))
+
+      if (length(idx) > 0L) {
+        theta_hat_bfi[, idx] <-
+          exp(theta_hat_bfi[, idx])
+      }
+    } else {
+      idx <- grep("^sigma2($|_)", names(theta_hat_bfi))
+
+      if (length(idx) > 0L) {
+        theta_hat_bfi[idx] <-
+          exp(theta_hat_bfi[idx])
+      }
+    }
+  }
   if (family != "survival") basehaz <- NULL
   output <- list(theta_hat = theta_hat_bfi, A_hat = A_bfi, sd = sd_bfi, family = family,
                  basehaz = basehaz, stratified = stratified, strat_par = old_strat_par,
                  Ave_Treat = ATE) #S_var = sample_var
-  class(output) <- "bfi"
+  class(output) <- c("bfi_federated", "bfi")
   return(output)
 }

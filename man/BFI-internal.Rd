@@ -1,5 +1,5 @@
 \name{BFI-internal}
-\title{Internal BFI Functions}
+\title{Internal BFI functions}
 \alias{A.l.maker}
 \alias{negloglik.theta}
 \alias{model.maker}

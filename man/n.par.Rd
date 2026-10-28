@@ -1,6 +1,6 @@
 \name{n.par}
 \alias{n.par}
-\title{The Number of Predictors, Coefficients, and Observations}
+\title{Number of predictors, coefficients, and observations}
 \description{
 \code{n.par} returns the number of regression parameters, covariates and observations present in X based on the selected family.
 }

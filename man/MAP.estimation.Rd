@@ -1,12 +1,12 @@
 \name{MAP.estimation}
 \alias{MAP.estimation}
-\title{Maximum A Posteriori estimation}
+\title{Maximum a posteriori estimation}
 \description{
 \code{MAP.estimation} function is used (in local centers) to compute Maximum A Posterior (MAP) estimators of the parameters for Generalized Linear Models (GLM) and Survival models.
 }
 \usage{
-MAP.estimation(y,
-               X,
+MAP.estimation(y= NULL,
+               X= NULL,
                family = c("gaussian", "binomial", "survival"),
                Lambda,
                intercept = TRUE,
@@ -25,7 +25,9 @@ MAP.estimation(y,
                zero_sample_cov,
                refer_cat,
                zero_cat,
-               control = list())
+               control = list(),
+               formula = NULL,
+               data = NULL)
 }
 \arguments{
 
@@ -37,7 +39,12 @@ MAP.estimation(y,
 
 \item{Lambda}{the inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution for the model parameters. The dimension of the matrix depends on the number of columns of \code{X}, type of the covariates (continuous / dichotomous or categorical), \code{family}, and whether an \code{intercept} is included (if applicable). However, \code{Lambda} can be easily created by \code{inv.prior.cov()}. See \code{\link{inv.prior.cov}} for more information.}
 
-\item{intercept}{logical flag for fitting an intercept. If \code{intercept=TRUE} (the default), the intercept is fitted, i.e., it is included in the model, and if \code{intercept = FALSE} it is set to zero, i.e., it's not in the model. This argument is not used if \code{family = "survival"}.}
+\item{intercept}{logical flag for fitting an intercept. If \code{intercept=TRUE} (the default), the intercept is fitted, i.e., it is included in the model, and if \code{intercept = FALSE} it is set to zero, i.e., it's not in the model. This argument is not used if \code{family = "survival"}.
+When the formula interface is used for Gaussian or
+binomial models, the \code{intercept} argument must
+agree with the formula. Since the default is
+\code{TRUE}, formulas without an intercept require
+\code{intercept = FALSE} to be specified explicitly.}
 
 \item{basehaz}{a character string representing one of the available baseline hazard functions; \code{exponential} (\dQuote{\code{exp}}), \code{Weibull} (\dQuote{\code{weibul}}, the default), \code{Gompertz} (\dQuote{\code{gomp}}), \code{exponentiated polynomial} (\dQuote{\code{poly}}), \code{piecewise constant exponential} (\dQuote{\code{pwexp}}), and \code{unspecified baseline hazard} (\dQuote{\code{unspecified}}). Can be abbreviated. It is used only when \code{family = "survival"}. If local sample size is large and the shape of the baseline hazard function is completely unknown, the ``exponentiated polynomial'' and ``piecewise exponential'' hazard functions would be preferred above the lower dimensional alternatives. However, if the local samples size is low, one should be careful using the ``piecewise exponential'' hazard function with many intervals. If \code{basehaz = "unspecified"}, it means that a (semi-parametric) Cox model is considered, and the parameters (regression coefficients) are estimated using the partial log-likelihood. If \code{treatment} is not \code{NULL}, then \code{basehaz} must be set to \code{"unspecified"}, as the regression coefficients are estimated using the weighted partial log-likelihood.}
 
@@ -70,11 +77,24 @@ MAP.estimation(y,
 \item{zero_cat}{a character string representing the category with no samples/observations. It is used when \code{center_zero_sample = TRUE}.}
 
 \item{control}{a list of control parameters. See \sQuote{Details}.}
+
+\item{formula}{An optional object of class \code{"formula"}
+specifying a symbolic description of the model to be fitted.
+It is an optional two-sided formula specifying the
+response and predictors. It must be used together with
+\code{data}, instead of \code{y} and \code{X}.
+Additive formulas using existing column names are supported.}
+
+\item{data}{A local data frame containing the response
+and predictor variables specified in \code{formula}.
+This argument is required only when \code{formula} is supplied and is not required when the
+original \code{y}/\code{X} interface is used.}
+
 }
 
 \value{
 
-\code{MAP.estimation} returns a list containing the following components:
+\code{MAP.estimation} returns an object of class \code{c("bfi_local", "bfi")} (a list) containing the following components:
 
 \item{theta_hat}{the vector corresponding to the maximum a posteriori (MAP) estimates of the parameters. For the \code{gaussian} family, the dispersion parameter is estimated on the \eqn{\log(\sigma^2)} scale and the last element of this vector is back-transformed to \eqn{\sigma^2}. When \code{treatment} is not NULL and \code{treat_round = 'first'}, this is the MAP estimates of only regression coefficients (\eqn{\boldsymbol{\gamma}_\ell}) except the treatment effect \eqn{\zeta_\ell}. While \code{treatment} is not NULL and \code{treat_round = 'second'}, this is \eqn{\hat{\zeta}_\ell}, the weighted MAP estimate of the treatment effect \eqn{ \zeta_\ell} in center \eqn{\ell};}
 
@@ -172,7 +192,49 @@ For the \code{gaussian} family the dispersion parameter is estimated on the
 \eqn{\log(\sigma^2)} scale, and the corresponding row and column of the
 curvature matrix refer to that scale.
 
-The \code{MAP.estimation} function returns an object of class `\code{bfi}`. Therefore, \code{summary()} can be used for the object returned by \code{MAP.estimation()}.
+For Gaussian models, the regression coefficients and the log
+residual variance, \eqn{\eta = \log(\sigma^2)}, are estimated
+jointly. When the prior precision matrix is constructed by
+\code{inv.prior.cov()}, independent zero-mean Gaussian priors
+are specified for the regression coefficients and \eqn{\eta}.
+The reported estimate of the residual variance is
+\eqn{\sigma^2 = \exp(\eta)}. The corresponding elements of
+\code{A_hat} and \code{sd} remain on the \eqn{\eta} scale.
+
+For Gaussian models in the second treatment-estimation round,
+inverse probability of treatment weights enter a weighted
+pseudo-likelihood. Each observation's contribution to the
+Gaussian log-likelihood is multiplied by its weight.
+Consequently, the log-variance contribution is proportional
+to \eqn{(\sum_i w_i)\eta}, rather than \eqn{n\eta}.
+For unweighted Gaussian models all weights equal one.
+
+The function supports two input interfaces. In the original
+interface, the response is supplied through \code{y} and
+the predictors through \code{X}; the \code{data} argument
+is not required. Alternatively, \code{formula} and \code{data}
+can be supplied. In this case, the response, predictor data
+and intercept specification are derived from the formula.
+
+For Gaussian and binomial models, the formula determines
+whether an intercept is included. Both formulas with an
+intercept, such as \code{y ~ x1 + x2}, and formulas without
+an intercept, such as \code{y ~ x1 + x2 - 1}, are supported.
+An explicitly specified \code{intercept} argument must
+agree with the formula. Since its default is \code{TRUE}, formulas
+without an intercept require \code{intercept = FALSE}
+to be specified explicitly.
+The formula interface does not support interaction terms,
+inline transformations, or offsets.
+For survival models, the response can be specified using
+\code{survival::Surv(time, status)} or
+\code{cbind(time, status)}. Only right-censored \code{Surv} responses are supported.
+
+The \code{MAP.estimation()} function returns an object
+with S3 classes \code{c("bfi_local", "bfi")}.
+The inherited \code{"bfi"} class provides shared methods
+including \code{summary()}, \code{print()}, \code{coef()},
+and \code{vcov()}.
 
 For the case where \code{family = "survival"} and \code{basehaz = "poly"}, we assume that in all centers the \eqn{q_\ell}'s are equal.
 However, the order of the estimated polynomials may vary across the centers so that each center can have different number of parameters, say \eqn{q_\ell}+1.
@@ -199,7 +261,7 @@ In case of convergence issue, it may be necessary to investigate and adjust opti
 
 \describe{
 
-\item{\code{maxit}:}{is the maximum number of iterations. Default is 150;}
+\item{\code{maxit}:}{is the maximum number of iterations. Default is 100;}
 
 \item{\code{factr}:}{controls the convergence of the \code{'L-BFGS-B'} method. Convergence occurs when the reduction in the objective is within this factor of the machine tolerance. Default for \code{factr} is 1e7, which gives a tolerance of about 1e-9. The exact tolerance can be checked by multiplying this value by \code{.Machine$double.eps};}
 
@@ -224,9 +286,11 @@ Jonker M.A., Pazira H. and Coolen A.C.C. (2025). \emph{Bayesian Federated Infere
 
 Jonker M.A., Pazira H. and Coolen A.C.C. (2024). \emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets}, \emph{Statistics in Medicine}, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
 
-%van den Heuvel Z.D., Pazira H. and Jonker M.A. (2025c). \emph{Bayesian Federated Causal Inference from observational data}, \emph{arXiv}. <https://arxiv.org/abs/???>
+Byrd R.H., Lu P., Nocedal J. and Zhu C. (1995).
+\emph{A limited memory algorithm for bound constrained optimization}.
+\emph{SIAM Journal on Scientific Computing}, 16, 1190--1208.
+\doi{10.1137/0916069}
 
-Byrd R.H., Lu P., Nocedal J. and Zhu C. (1995). \emph{A limited memory algorithm for bound constrained optimization}. {SIAM Journal on Scientific Computing}, 16, 1190-1208. <https://doi.org/10.1137/0916069>
 }
 
 \author{
@@ -267,11 +331,22 @@ library(BFI)
 #-----------------------------------------------
 # MAP estimations for theta and curvature matrix
 #-----------------------------------------------
+
 # MAP estimates with 'intercept'
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = "gaussian")
 (fit <- MAP.estimation(y, X, family = "gaussian", Lambda))
 class(fit)
 summary(fit, cur_mat = TRUE)
+
+# The equivalent formula/data interface
+local_data <- data.frame(y = y, X = X)
+names(local_data)[-1] <- names(X) # withou this line use data.frame(y = y, X)
+f <- y ~ X1 + X2 + X3
+Lambda_formula <- inv.prior.cov(formula = f, data = local_data,
+                                lambda = c(0.1, 1), family = "gaussian")
+fit_formula <- MAP.estimation(formula = f, data = local_data,
+                              family = "gaussian", Lambda = Lambda_formula)
+summary(fit_formula, cur_mat = TRUE)
 
 # MAP estimates without 'intercept'
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = 'gaussian',
@@ -279,6 +354,16 @@ Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = 'gaussian',
 (fit1 <- MAP.estimation(y, X, family = 'gaussian', Lambda, intercept = FALSE))
 summary(fit1, cur_mat = TRUE)
 
+# Equivalent formula/data interface without intercept
+f_no_intercept <- y ~ X1 + X2 + X3 - 1
+
+Lambda_formula <- inv.prior.cov(formula = f_no_intercept, data = local_data,
+                                lambda = c(0.1, 1), family = "gaussian",
+                                intercept = FALSE)
+fit1_formula <- MAP.estimation(formula = f_no_intercept, data = local_data,
+                              family = "gaussian", Lambda = Lambda_formula,
+                              intercept = FALSE)
+summary(fit1_formula, cur_mat = TRUE)
 
 
 ###-----------------###

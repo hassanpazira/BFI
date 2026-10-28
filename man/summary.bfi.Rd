@@ -1,8 +1,8 @@
 \name{summary.bfi}
 \alias{summary}
 \alias{summary.bfi}
-
-\title{Summarizing BFI Fits}
+\alias{print.summary.bfi}
+\title{Summarizing BFI fits}
 
 \description{Summary method for an object with class 'bfi' created by the \code{MAP.estimation} and \code{bfi} functions.}
 
@@ -11,30 +11,51 @@
         cur_mat = FALSE,
         digits = max(3, getOption("digits") - 3),
         ...)
+
+\method{print}{summary.bfi}(x,
+        digits = x$summary_digits,
+        cur_mat = x$summary_cur_mat,
+        ...)
 }
 
 \arguments{
-\item{object}{fitted \code{bfi} object.}
+\item{object}{A fitted object of class \code{"bfi"}.}
 
-\item{cur_mat}{logical; if \code{TRUE}, minus the curvature matrix around the estimated parameters is returned and printed. Default is \code{FALSE}.}
+\item{x}{An object of class \code{"summary.bfi"} returned by \code{summary.bfi()}.}
 
-\item{digits}{significant digits in printout.}
+\item{cur_mat}{Logical; if \code{TRUE}, the minus curvature matrix is also printed when the summary object is displayed.
+The matrix remains available in \code{A_hat} regardless of this option.
+Default is \code{FALSE} for \code{summary.bfi()}.}
 
-\item{...}{additional arguments affecting the summary produced.}
+\item{digits}{Number of digits used to format the printed results.}
+
+\item{...}{Additional arguments, currently unused.}
 }
 
 \details{
-\code{summary.bfi()} gives information about the MAP estimates of parameters of the model. It can be used for the \code{bfi} objects built by the \code{MAP.estimation} and \code{bfi} functions.
+\code{summary.bfi()} prepares a structured summary of results
+returned by \code{MAP.estimation()} or \code{bfi()}.
 
-The output of the summary method shows the details of the model, i.e. formula, family and link function used to specify the generalized linear model, followed by information about the estimates, standard deviations and credible intervals.
-Information about the log-likelihood posterior and convergence status are also provided.
+The resulting object can be stored without producing printed output.
+When displayed, \code{print.summary.bfi()} prints the model family,
+link function or baseline hazard, parameter estimates, posterior
+standard deviations, and 95\% credible intervals.
 
-By default, \code{summary.bfi} function does not return (minus) the curvature matrix, but the user can use \code{cur_mat = TRUE} to print it.
+For local models, the log-posterior value and convergence status
+are also displayed.
+
+The minus curvature matrix is retained in \code{A_hat}.
+When \code{cur_mat = TRUE} is supplied to \code{summary.bfi()},
+this matrix is also printed when the summary object is displayed.
+
+The print method returns the summary object invisibly.
 }
 
 \value{
 
-\code{summary.bfi} returns an object of class \code{summary.bfi}, a list with the following components:
+\code{summary.bfi} returns an object of class \code{"summary.bfi"}, containing the components described below.
+\code{print.summary.bfi()} displays the summary and returns
+the supplied object invisibly.
 
 \item{theta_hat}{the component from \code{object}. The last element of this vector is the estimate of the dispersion parameter (sigma2) if \code{family = "gaussian"}. See the \code{\link{MAP.estimation}} and \code{\link{bfi}} functions.}
 
@@ -69,6 +90,16 @@ By default, \code{summary.bfi} function does not return (minus) the curvature ma
 \item{dispersion}{the estimated residual variance \code{sigma2} for Gaussian models with a common residual variance. For Gaussian models with center-specific residual variances, this component is \code{NULL}. For the \code{binomial} family, the dispersion parameter is fixed at \code{1}. For the \code{survival} family, this component is \code{NULL}.}
 
 \item{CI}{a 95\code{\%} credible interval for the parameters. For center-specific residual variances the interval is computed on the \eqn{\log(\sigma^2)} scale and back-transformed, so it is always positive and not symmetric around the estimate. The standard deviation printed for these parameters is obtained by the delta method on the \eqn{\sigma^2} scale.}
+
+\item{coef_table}{A matrix containing the reported parameter
+estimates, posterior standard deviations, and 95\% credible
+interval limits.}
+
+\item{summary_digits}{The number of digits selected for
+printing the summary.}
+
+\item{summary_cur_mat}{A logical value indicating whether the
+curvature matrix should be displayed when the summary is printed.}
 
 }
 

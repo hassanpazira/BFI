@@ -19,6 +19,7 @@ reference:
   - summary.bfi
   - hazards.fun
   - coef.bfi
+  - confint.bfi
 
 - title: Supporting functions
   contents:

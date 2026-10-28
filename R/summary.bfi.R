@@ -1,10 +1,11 @@
 ## This file created by Hassan Pazira at 16-12-2022
 
 #' @export
+#' @noRd
 
 summary.bfi <- function(object, cur_mat = FALSE,
                         digits = max(3, getOption("digits") - 3), ...) {
-  if (class(object)[1] != "bfi") {
+  if (!inherits(object, "bfi")) {
     stop("summary method is not available for objects with other classes.")
   }
   if (object$family == c("binomial")) {
@@ -66,84 +67,9 @@ summary.bfi <- function(object, cur_mat = FALSE,
   coef_sd_ci <- cbind(coef_sd, ci)
   colnames(coef_sd_ci) <- c("Estimate", "Std.Dev", "CI 2.5%", "CI 97.5%")
 
-  if (is.null(object$stratified)) # It means the object is from MAP.estimation()
-    cat("\nSummary of the local model:\n\n")
-  else
-    cat("\nSummary of the BFI model:\n\n")
   if (is.null(object$stratified)) {
-    cat("   Formula: ")
-    if (object$family != "survival") cat(object$formula, "\n")
-    if (object$family == "survival") {
-      if (is.character(object$formula)) {
-        cat(object$formula,"\n")
-      }
-    }
-  }
-  cat("    Family:", sQuote(object$family), "\n")
-  if (object$family != "survival") cat("      Link:", sQuote(linkf))
-  else cat("  Baseline:", sQuote(object$basehaz))
-  cat("\n\nCoefficients:\n\n")
-  print(round(coef_sd_ci, digits = digits))
-  if (object$family == "gaussian" && any(grepl("^sigma2", names(object$estimate)))) {
-    cat("\nFor the residual variances, the standard deviation is obtained by the",
-        "\ndelta method and the credible interval is computed on the log scale",
-        "\nand back-transformed, so the interval is not symmetric.\n")
-  }
-  #printCoefmat(coef_sd_ci, digits=digits)
-  if (object$family == c("gaussian")) {
-    if (is.null(object$stratified) | (!is.null(object$stratified) & (!c(2) %in% object$strat_par))) {
-      cat("\nDispersion parameter (sigma2): ",
-          format(object$theta_hat[length(object$theta_hat)],
-                 digits = digits
-          ), "\n")
-    }
-  }
-  if (object$family == c("binomial")) {
-    # cat("\nDispersion parameter (sigma2) for",object$family, "family taken to be 1 \n")
-    cat("\nDispersion parameter (sigma2): ", 1, "\n")
-  }
-  if (is.null(object$stratified)) { # It means the object is from MAP.estimation()
-    if (object$family == c("survival")) {
-      cat("\nlog Lik Posterior: ", format(-object$value, digits = digits), "\n")
-      cat("      Convergence: ", format(object$convergence, digits = digits), "\n")
-    } else {
-      cat("            log Lik Posterior: ", format(-object$value, digits = digits), "\n")
-      cat("                  Convergence: ", format(object$convergence, digits = digits), "\n")
-    }
     object$logLikPost <- -object$value
     object$value <- NULL
-  } else {
-    if (object$family %in% c("binomial","gaussian")) {
-      if (!is.null(object$Ave_Treat)) {
-        cat("\nAverage Treatment Effect (ATE): ", "\n")
-        cat("\n         IPTW: ", format(object$Ave_Treat$IPTW, digits = digits), "\n")
-        cat("        wIPTW: ", format(object$Ave_Treat$wIPTW, digits = digits), "\n")
-      }
-      # if (!is.null(object$S_var)) {
-      #   cat("\nSample Variance: ", "\n")
-      #   cat("\n    Treatment: ", format(object$S_var$treatment, digits = digits), "\n")
-      #   cat("      Control: ", format(object$S_var$control, digits = digits), "\n")
-      # }
-    }
-    # if (object$family %in% c("survival")) {
-    #   if (object$basehaz != c("unspecified")) {
-    #     if (!is.null(object$Ave_Treat)) {
-    #       cat("\nAverage Treatment Effect (ATE): ", "\n")
-    #       cat("\n         IPTW: ", format(object$Ave_Treat$IPTW, digits = digits), "\n")
-    #       cat("        wIPTW: ", format(object$Ave_Treat$wIPTW, digits = digits), "\n")
-    #     }
-    #     # if (!is.null(object$S_var)) {
-    #     #   cat("\nSample Variance: ", "\n")
-    #     #   cat("\n    Treatment: ", format(object$S_var$treatment, digits = digits), "\n")
-    #     #   cat("      Control: ", format(object$S_var$control, digits = digits), "\n")
-    #     # }
-    #   }
-    # }
-  }
-  if (cur_mat) {
-    # cat("---\n\n")
-    cat("\nMinus the Curvature Matrix: \n\n")
-    print(round(object$A_hat, digits = digits))
   }
   object$link <- linkf
   if (object$family == "gaussian") {
@@ -158,8 +84,14 @@ summary.bfi <- function(object, cur_mat = FALSE,
   } else {
     object$dispersion <- NULL
   }
-  object$sd <- sd_print #!
+
+  object$sd <- sd_print
   object$CI <- ci
+  object$coef_table <- coef_sd_ci
+  object$summary_digits <- digits
+  object$summary_cur_mat <- cur_mat
+
   class(object) <- "summary.bfi"
-  invisible(object)
+  object
+
 }

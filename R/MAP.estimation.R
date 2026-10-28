@@ -4,16 +4,53 @@
 #' @importFrom stats update.formula
 
 
-MAP.estimation <- function(y, X, family = c("gaussian", "binomial", "survival"),
+MAP.estimation <- function(y = NULL, X = NULL,
+                           family = c("gaussian", "binomial", "survival"),
                            Lambda, intercept = TRUE,
                            basehaz = c("weibul","exp","gomp","poly","pwexp","unspecified"),
                            treatment = NULL, treat_round = NULL, refer_treat, gamma_bfi = NULL,
                            RCT_propens = NULL, initial = NULL, alpha = 0.1, max_order = 2,
                            n_intervals = 4, min_max_times, center_zero_sample = FALSE,
-                           zero_sample_cov, refer_cat, zero_cat, control = list()) {
+                           zero_sample_cov, refer_cat, zero_cat, control = list(),
+                           formula = NULL, data = NULL) {
   # Lambda is the 'inverse' covariance matrix (could be a matrix or list of matrices)!
-  if (is.null(control$maxit)) control$maxit <- 100
   family <- match.arg(family)
+  # Optional formula/data interface.
+  # Convert formula inputs to the existing y/X representation.
+  if (is.null(formula) && inherits(y, "formula") && is.null(X)) {
+    formula <- y
+    y <- NULL
+  }
+  # Preserve the original user-supplied formula for reporting.
+  user_formula <- if (!is.null(formula)) {
+    paste(deparse(formula, width.cutoff = 500L), collapse = " ")
+  } else {
+    NULL
+  }
+  if (!is.null(formula)) {
+    if (!is.null(y) || !is.null(X)) {
+      stop("Use either 'formula' and 'data' or 'y' and 'X', not both.")
+    }
+    formula_inputs <- .bfi_formula_inputs(
+      formula = formula,
+      data = data,
+      family = family,
+      response = TRUE,
+      treatment = treatment
+    )
+    if (family != "survival") {
+      if (!identical(intercept, formula_inputs$intercept)) {
+        stop("'intercept' conflicts with the formula. ",
+             "For a no-intercept formula, set intercept = FALSE.")
+      }
+      intercept <- formula_inputs$intercept
+    }
+    y <- formula_inputs$y
+    X <- formula_inputs$X
+  } else if (is.null(y) || is.null(X)) {
+    stop("Supply both 'y' and 'X', or supply 'formula' and 'data'.")
+  }
+  if (is.null(control$maxit)) control$maxit <- 100
   # if (is.matrix(X))
   #   warning(
   #     "Note: if in 'X' there is a 'categorical' covariate with more than 2 levels, \n",
@@ -220,8 +257,9 @@ MAP.estimation <- function(y, X, family = c("gaussian", "binomial", "survival"),
         if (!identical(names(gamma_bfi), colnames(X_no_treat)))
           stop("names(gamma_bfi) and X[, -which(colnames(X) == treatment)] differ in elements, order, or both.")
         beta_bfi <- gamma_bfi
-        eli <- exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi))))/
-            (1 + exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi)))))
+        # eli <- exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi))))/
+        #     (1 + exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi)))))
+        eli <- stats::plogis(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi))))
       }
       if (!is.null(RCT_propens)) {
         if (length(RCT_propens) != nrow(X))
@@ -269,6 +307,18 @@ MAP.estimation <- function(y, X, family = c("gaussian", "binomial", "survival"),
           " intercept (if intercept=T) or without intercept (if intercept=F),",
           "and '1' is for error variance."
         ))
+      }
+      cross_beta_eta <- c(
+        Lambda[seq_len(p), p + 1L],
+        Lambda[p + 1L, seq_len(p)]
+      )
+
+      if (any(cross_beta_eta != 0)) {
+        stop(
+          "For Gaussian models, Lambda must be block-diagonal ",
+          "between beta and log(sigma2). ",
+          "Cross-precision terms are not supported."
+        )
       }
     }
 
@@ -432,13 +482,19 @@ MAP.estimation <- function(y, X, family = c("gaussian", "binomial", "survival"),
             stop("names(gamma_bfi) and X[, -which(colnames(X) == treatment)] differ in elements, order, or both.")
         }
         beta_bfi <- gamma_bfi
+        # if ("(Intercept)" %in% names(gamma_bfi)) {
+        #   eli <- exp(as.numeric(as.matrix(cbind(1, X_no_treat)) %*% as.numeric(t(beta_bfi))))/
+        #     (1 + exp(as.numeric(as.matrix(cbind(1, X_no_treat)) %*% as.numeric(t(beta_bfi)))))
+        # } else {
+        #   eli <- exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi))))/
+        #     (1 + exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi)))))
+        # }
         if ("(Intercept)" %in% names(gamma_bfi)) {
-          eli <- exp(as.numeric(as.matrix(cbind(1, X_no_treat)) %*% as.numeric(t(beta_bfi))))/
-            (1 + exp(as.numeric(as.matrix(cbind(1, X_no_treat)) %*% as.numeric(t(beta_bfi)))))
+          eta_ps <- as.numeric(cbind(1, X_no_treat) %*% as.numeric(beta_bfi))
         } else {
-          eli <- exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi))))/
-            (1 + exp(as.numeric(as.matrix(X_no_treat) %*% as.numeric(t(beta_bfi)))))
+          eta_ps <- as.numeric(as.matrix(X_no_treat) %*% as.numeric(beta_bfi))
         }
+        eli <- stats::plogis(eta_ps)
       }
       if (!is.null(RCT_propens)) {
         if (length(RCT_propens) != nrow(X))
@@ -1005,6 +1061,10 @@ MAP.estimation <- function(y, X, family = c("gaussian", "binomial", "survival"),
       )
     }
   }
-  class(output) <- "bfi"
+  # Display the original formula instead of the internal response name "y".
+  if (!is.null(user_formula)) {
+    output$formula <- user_formula
+  }
+  class(output) <- c("bfi_local", "bfi")
   return(output)
 }

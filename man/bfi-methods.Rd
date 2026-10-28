@@ -5,7 +5,7 @@
 \alias{bfi-methods}
 \alias{print.bfi}
 \alias{vcov.bfi}
-\title{Methods for objects of class \code{"bfi"}}
+\title{Methods for local and federated BFI objects}
 \usage{
 \method{coef}{bfi}(object, ...)
 
@@ -16,7 +16,8 @@
 \arguments{
 \item{...}{Further arguments (currently ignored).}
 
-\item{x, object}{An object of class \code{"bfi"}.}
+\item{x, object}{An object inheriting from \code{"bfi"},
+including \code{"bfi_local"} and \code{"bfi_federated"} objects.}
 
 \item{digits}{Number of significant digits used for printing.}
 }
@@ -36,6 +37,11 @@ Print, coefficient and variance methods for objects returned by
   is defined on the \eqn{\log(\sigma^2)} scale for residual-variance
   parameters; these rows and columns are transformed to the original
   \eqn{\sigma^2} scale using the multivariate delta method.
+
+For weighted models, the returned covariance matrix is a
+curvature-based approximation conditional on the weights
+used in estimation. It does not automatically account for
+uncertainty associated with estimated propensity scores.
 }
 \examples{
 X <- data.frame(x1 = rnorm(50))

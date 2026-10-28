@@ -5,7 +5,7 @@
 #' @importFrom stats vcov
 #' @export
 vcov.bfi <- function(object, ...) {
-  if (class(object)[1] != "bfi") {
+  if (!inherits(object, "bfi")) {
     stop("vcov method is not available for objects with other classes.")
   }
 

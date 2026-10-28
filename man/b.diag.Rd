@@ -1,6 +1,6 @@
 \name{b.diag}
 \alias{b.diag}
-\title{Create a Block Diagonal Matrix}
+\title{Create a block diagonal matrix}
 \description{
 Construct a block diagonal matrix using multiple given block matrices.
 }

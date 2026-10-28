@@ -9,5 +9,5 @@ test_that(desc = "Test MAP.estimation", {
   y <- rnorm(n, mu, sd = sqrt(theta[5]))
   Lambda <- inv.prior.cov(X, lambda = 0.05, family = 'gaussian')
   fit <- MAP.estimation(y, X, family = 'gaussian', Lambda)
-  expect_identical(class(fit), "bfi")
+  expect_identical(class(fit), c("bfi_local", "bfi"))
 })

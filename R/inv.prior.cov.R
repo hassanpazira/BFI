@@ -2,13 +2,40 @@
 
 #' @export
 
-inv.prior.cov <- function(X, lambda = 1, L = 2L,
+inv.prior.cov <- function(X = NULL, lambda = 1, L = 2L,
                           family = c("gaussian", "binomial", "survival"),
                           treatment = NULL, treat_round = NULL, intercept = TRUE,
                           stratified = FALSE, strat_par = NULL, center_spec = NULL,
                           basehaz = c("weibul", "exp", "gomp", "poly", "pwexp", "unspecified"),
-                          max_order = 2, n_intervals = 4) {
+                          max_order = 2, n_intervals = 4,
+                          formula = NULL, data = NULL) {
   family <- match.arg(family)
+  if (is.null(formula) && inherits(X, "formula")) {
+    formula <- X
+    X <- NULL
+  }
+  if (!is.null(formula)) {
+    if (!is.null(X)) {
+      stop("Use either 'formula' and 'data' or 'X', not both.")
+    }
+    formula_inputs <- .bfi_formula_inputs(
+      formula = formula,
+      data = data,
+      family = family,
+      response = FALSE,
+      treatment = treatment
+    )
+    if (family != "survival") {
+      if (!identical(intercept, formula_inputs$intercept)) {
+        stop("'intercept' conflicts with the formula. ",
+             "For a no-intercept formula, set intercept = FALSE.")
+      }
+      intercept <- formula_inputs$intercept
+    }
+    X <- formula_inputs$X
+  } else if (is.null(X)) {
+    stop("Supply 'X', or supply 'formula' and 'data'.")
+  }
   if (any(lambda <= 0)) stop("'lambda' element(s) should be positive (> 0)")
   if (is.null(family)) stop("'family' not recognized")
   if (is.matrix(X)) {
@@ -60,14 +87,12 @@ inv.prior.cov <- function(X, lambda = 1, L = 2L,
   design_matrix <- paste(colnames(X), collapse = " + ")
   formula <- as.formula(paste(" ", design_matrix, sep = " ~ "))
   X <- model.maker(formula, as.data.frame(X), family)$X
-  if ((!is.null(treatment)) ) {
-    if (treat_round=="second") {
-      if (intercept == TRUE) {
-        colnames(X) <- c("(Intercept)", treatment)
-      } else {
-        colnames(X) <- c(treatment)
-      }
+  if (!is.null(treatment) && treat_round == "second") {
+    if (ncol(X) != 2L) {
+      stop("Expected an intercept and one treatment column.")
     }
+
+    colnames(X) <- c("(Intercept)", treatment)
   }
   if (family == "gaussian") {
     name_Lambda <- c(colnames(X), "sigma2")

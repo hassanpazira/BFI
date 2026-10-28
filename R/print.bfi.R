@@ -1,12 +1,13 @@
 ## This file created by Hassan Pazira at 19-09-2026
 
 
-#' Methods for objects of class \code{"bfi"}
+#' Methods for local and federated BFI objects
 #'
 #' Print, coefficient and variance methods for objects returned by
 #' \code{\link{MAP.estimation}} and \code{\link{bfi}}.
 #'
-#' @param x,object An object of class \code{"bfi"}.
+#' @param x,object An object inheriting from \code{"bfi"},
+#'   including \code{"bfi_local"} and \code{"bfi_federated"} objects.
 #' @param digits Number of significant digits used for printing.
 #' @param ... Further arguments (currently ignored).
 #'
@@ -16,6 +17,11 @@
 #'   is defined on the \eqn{\log(\sigma^2)} scale for residual-variance
 #'   parameters; these rows and columns are transformed to the original
 #'   \eqn{\sigma^2} scale using the multivariate delta method.
+#'
+#' For weighted models, the returned covariance matrix is a
+#' curvature-based approximation conditional on the weights
+#' used in estimation. It does not automatically account for
+#' uncertainty associated with estimated propensity scores.
 #'
 #' @return \code{print()} returns \code{x} invisibly. \code{coef()} returns a
 #'   named numeric vector of the MAP or BFI estimates. \code{vcov()} returns
@@ -36,7 +42,7 @@
 #' @rdname bfi-methods
 #' @export
 print.bfi <- function(x, digits = max(3L, getOption("digits") - 3L), ...) {
-  if (class(x)[1] != "bfi") {
+  if (!inherits(x, "bfi")) {
     stop("print method is not available for objects with other classes.")
   }
   type <- if (is.null(x$stratified)) "Local MAP estimates" else "BFI estimates"

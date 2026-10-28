@@ -1,8 +1,8 @@
 Package: BFI
 Type: Package
 Title: Bayesian Federated Inference
-Version: 3.2.0
-Date: 2026-09-25
+Version: 3.3.0
+Date: 2026-10-25
 Authors@R: c(person(given = "Hassan", family = "Pazira", email = "h.pazira@arq.org", 
     role = c("aut", "cre"), comment = c(ORCID = "0000-0002-4266-6877")),
     person(given = "Emanuele", family = "Massa", role = "aut",
@@ -23,7 +23,8 @@ Suggests:
     roxygen2,
     devtools,
     spelling,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    survival
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
