@@ -2,7 +2,7 @@
 \alias{summary}
 \alias{summary.bfi}
 \alias{print.summary.bfi}
-\title{Summarizing BFI fits}
+\title{Summary of BFI fits}
 
 \description{Summary method for an object with class 'bfi' created by the \code{MAP.estimation} and \code{bfi} functions.}
 

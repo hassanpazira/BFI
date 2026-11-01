@@ -1,6 +1,6 @@
 \name{inv.prior.cov}
 \alias{inv.prior.cov}
-\title{Creates an inverse covariance matrix for a Gaussian prior}
+\title{Inverse covariance matrix for a Gaussian prior}
 \description{
 \code{inv.prior.cov} constructs a diagonal inverse covariance matrix for the Gaussian prior distribution based on the design matrix of covariates. This construction accounts for the number of regression parameters, especially when dealing with categorical covariates. For a linear model, it also includes an additional row and column to represent the variance of the measurement error. In the case of a survival model, it considers the parameters of the baseline hazard function as well.
 }

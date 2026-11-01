@@ -1,6 +1,6 @@
 \name{hazards.fun}
 \alias{hazards.fun}
-\title{Compute the estimated (baseline/cumulative) hazard and (baseline) survival functions}
+\title{Estimated (baseline/cumulative) hazard and (baseline) survival functions}
 \description{
 For a given vector of times, \code{hazards.fun} computes the estimated baseline hazard, cumulative baseline hazard, hazard, baseline survival, and survival functions. It can be used for prediction on a new sample.
 }

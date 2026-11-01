@@ -1,6 +1,6 @@
 \name{surv.simulate}
 \alias{surv.simulate}
-\title{Generate survival data with predefined censoring rates for proportional hazards models}
+\title{Survival data simulation with predefined censoring rates}
 \description{
 \code{surv.simulate} simulates one or multiple (right-censored) survival datasets for proportional hazards models by simultaneously incorporating a baseline hazard function from three different survival distributions (exponential, Weibull and Gompertz), a random censoring time generated from a uniform distribution with an known/unknown upper limit, and a set of baseline covariates.
 When the upper limit of the uniform censoring time distribution is unknown, \code{surv.simulate} can be used separately to obtain the upper limit with a predefined censoring rate.
