@@ -1,4 +1,4 @@
-# Summarizing BFI fits
+# Summary of BFI fits
 
 Summary method for an object with class 'bfi' created by the
 `MAP.estimation` and `bfi` functions.

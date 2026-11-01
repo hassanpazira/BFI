@@ -1,4 +1,4 @@
-# Creates an inverse covariance matrix for a Gaussian prior
+# Inverse covariance matrix for a Gaussian prior
 
 `inv.prior.cov` constructs a diagonal inverse covariance matrix for the
 Gaussian prior distribution based on the design matrix of covariates.

@@ -1,4 +1,4 @@
-# Compute the estimated (baseline/cumulative) hazard and (baseline) survival functions
+# Estimated (baseline/cumulative) hazard and (baseline) survival functions
 
 For a given vector of times, `hazards.fun` computes the estimated
 baseline hazard, cumulative baseline hazard, hazard, baseline survival,

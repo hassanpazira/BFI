@@ -2,6 +2,8 @@
 
 ## BFI v3.3.0
 
+CRAN release: 2026-10-28
+
 - Added an optional formula/data interface to MAP.estimation() and
   inv.prior.cov(), while retaining the original y/X interface. The
   statistical estimation and federated aggregation procedures remain

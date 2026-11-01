@@ -272,13 +272,13 @@ to: <h.pazira@arq.org>.
 - [`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md) :
   Bayesian Federated Inference
 - [`inv.prior.cov()`](https://hassanpazira.github.io/BFI/reference/inv.prior.cov.md)
-  : Creates an inverse covariance matrix for a Gaussian prior
+  : Inverse covariance matrix for a Gaussian prior
 - [`summary(`*`<bfi>`*`)`](https://hassanpazira.github.io/BFI/reference/summary.bfi.md)
   [`print(`*`<summary.bfi>`*`)`](https://hassanpazira.github.io/BFI/reference/summary.bfi.md)
-  : Summarizing BFI fits
+  : Summary of BFI fits
 - [`hazards.fun()`](https://hassanpazira.github.io/BFI/reference/hazards.fun.md)
-  : Compute the estimated (baseline/cumulative) hazard and (baseline)
-  survival functions
+  : Estimated (baseline/cumulative) hazard and (baseline) survival
+  functions
 - [`coef(`*`<bfi>`*`)`](https://hassanpazira.github.io/BFI/reference/bfi-methods.md)
   [`print(`*`<bfi>`*`)`](https://hassanpazira.github.io/BFI/reference/bfi-methods.md)
   [`vcov(`*`<bfi>`*`)`](https://hassanpazira.github.io/BFI/reference/bfi-methods.md)
@@ -289,10 +289,9 @@ to: <h.pazira@arq.org>.
 ## Supporting functions
 
 - [`surv.simulate()`](https://hassanpazira.github.io/BFI/reference/surv.simulate.md)
-  : Generate survival data with predefined censoring rates for
-  proportional hazards models
+  : Survival data simulation with predefined censoring rates
 - [`b.diag()`](https://hassanpazira.github.io/BFI/reference/b.diag.md) :
-  Create a block diagonal matrix
+  Block diagonal matrix
 - [`n.par()`](https://hassanpazira.github.io/BFI/reference/n.par.md) :
   Number of predictors, coefficients, and observations
 

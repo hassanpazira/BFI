@@ -1,4 +1,4 @@
-# Create a block diagonal matrix
+# Block diagonal matrix
 
 Construct a block diagonal matrix using multiple given block matrices.
 
@@ -26,7 +26,7 @@ Avoid combining matrices and lists for the `...` argument.
 
 If a *sparse* matrix needed, run the following:
 
-[`library(Matrix); Matrix(b_diag, sparse = TRUE)`](https://Matrix.R-forge.R-project.org)
+[`library(Matrix); Matrix(b_diag, sparse = TRUE)`](https://codeberg.org/jaganmn/Matrix)
 
 where `b_diag` is the matrix returned by `b.diag()`.
 

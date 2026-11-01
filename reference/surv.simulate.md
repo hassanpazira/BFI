@@ -1,4 +1,4 @@
-# Generate survival data with predefined censoring rates for proportional hazards models
+# Survival data simulation with predefined censoring rates
 
 `surv.simulate` simulates one or multiple (right-censored) survival
 datasets for proportional hazards models by simultaneously incorporating
