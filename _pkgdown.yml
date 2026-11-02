@@ -57,3 +57,10 @@ navbar:
   - icon: fa-github fa-lg
     aria-label: GitHub
     href: https://github.com/hassanpazira/BFI
+
+authors:
+  footer:
+    roles: [cre]
+    text: "Developed by"
+
+
