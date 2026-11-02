@@ -23,7 +23,7 @@ Before we go on, we first install and load the `BFI` package:
 ``` r
 
 # Install and load the BFI package from CRAN:
-install.packages("BFI")
+# install.packages("BFI")
 library(BFI)
 ```
 
@@ -82,16 +82,21 @@ study. For more information about this data set use
 ?trauma
 ```
 
-We will analyze the data with a `logistic` regression model. First we
-standardize the covariates. This is not necessary for the analysis, but
-is done for the interpretability of the accuracy of the estimates.
+We will analyze the data with a `logistic` regression model. We apply
+fixed, prespecified scaling to the continuous predictors. This avoids
+calculating scaling parameters from the combined data, which would not
+generally be available in a real federated setting. The transformations
+correspond to effects per 10 years of age, 10 ISS points, and 5 GCS
+points.
 
 ``` r
 
-trauma$age <- scale(trauma$age)
-trauma$ISS <- scale(trauma$ISS) 
-trauma$GCS <- scale(trauma$GCS) 
-trauma$hospital <- as.factor(trauma$hospital)
+# Fixed, prespecified scaling.
+# No pooled means or standard deviations are required.
+trauma$age <- trauma$age / 10
+trauma$ISS <- trauma$ISS / 10
+trauma$GCS <- trauma$GCS / 5
+trauma$hospital <- factor(trauma$hospital)
 ```
 
 By using the following code we can see there are three hospitals
@@ -104,123 +109,133 @@ length(levels(trauma$hospital))
 
     ## [1] 3
 
-### MAP estimations
+### MAP estimations at the local centers
 
-Therefore, the `MAP.estimation` function should be applied to these 3
-local data sets separately to obtain the MAP estimations. Note that, in
-practice, we do not have access to the combined data, and each center
-should perform the analysis independently and send the output to the
-central server, as follows:
+Each participating center fits the agreed model using its own data. In
+this example, three centers are represented by separate subsets of the
+trauma dataset. In an actual federated analysis, each center would
+execute the local code at its own institution.
+
+The model family, predictor definitions, parameter names, and prior
+specification must be agreed upon before local estimation.
 
 ``` r
 
-# Center 1:
-# X1 <- data.frame(sex=trauma$sex[trauma$hospital==1],
-#                  age=trauma$age[trauma$hospital==1],
-#                  ISS=trauma$ISS[trauma$hospital==1],
-#                  GCS=trauma$GCS[trauma$hospital==1])
-X1 <- subset(trauma, hospital == 1, select = c(sex, age, ISS, GCS))
+## Center 1:
+data1 <- subset(trauma, hospital == 1)
+X1 <- data1[, c("sex", "age", "ISS", "GCS")]
 Lambda1 <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
-fit1 <- MAP.estimation(y=trauma$mortality[trauma$hospital==1], X=X1, family="binomial", Lambda=Lambda1)
+fit1 <- MAP.estimation(formula = mortality ~ sex + age + ISS + GCS,
+                       data = data1, family="binomial", Lambda=Lambda1, 
+                       control = list(maxit = 1000))
 summary(fit1)
 ```
 
     ## 
     ## Summary of the local model:
     ## 
-    ##    Formula: y ~ sex + age + ISS + GCS 
+    ##    Formula: mortality ~ sex + age + ISS + GCS 
     ##     Family: 'binomial' 
     ##       Link: 'Logit'
     ## 
     ## Coefficients:
     ## 
     ##             Estimate Std.Dev  CI 2.5% CI 97.5%
-    ## (Intercept)  -2.1226  0.8074  -3.7050  -0.5402
-    ## sex          -5.2795  2.6305 -10.4351  -0.1239
-    ## age           1.8864  0.7210   0.4732   3.2996
-    ## ISS           2.3741  0.9250   0.5611   4.1872
-    ## GCS          -2.4522  0.8295  -4.0781  -0.8264
+    ## (Intercept)  -5.6186  2.7222 -10.9540  -0.2831
+    ## sex          -5.1018  2.5423 -10.0847  -0.1190
+    ## age           0.8850  0.3343   0.2298   1.5401
+    ## ISS           1.5738  0.6047   0.3887   2.7590
+    ## GCS          -2.4937  0.8329  -4.1262  -0.8613
     ## 
     ## Dispersion parameter (sigma2):  1 
-    ##             log Lik Posterior:  -10.74 
+    ##             log Lik Posterior:  -10.86 
     ##                   Convergence:  0
 
 ``` r
 
-# Center 2:
-# X2 <- data.frame(sex=trauma$sex[trauma$hospital==2],
-#                  age=trauma$age[trauma$hospital==2],
-#                  ISS=trauma$ISS[trauma$hospital==2],
-#                  GCS=trauma$GCS[trauma$hospital==2])
-X2 <- subset(trauma, hospital == 2, select = c(sex, age, ISS, GCS))
+stopifnot(fit1$convergence == 0)
+```
+
+The output `fit1` from the local centers should be sent to the central
+server for further analysis. To send the list from R to the central
+server (which also uses R), you can save them in a format that R can
+easily read, such as an RDS file.
+
+``` r
+
+# Save only the required statistical summaries
+saveRDS(fit1, file="center1.rds")
+```
+
+``` r
+
+## Center 2:
+data2 <- subset(trauma, hospital == 2)
+X2 <- data2[, c("sex", "age", "ISS", "GCS")]
 Lambda2 <- inv.prior.cov(X2, lambda=0.01, L=3, family="binomial")
-fit2 <- MAP.estimation(y=trauma$mortality[trauma$hospital==2], X=X2, family="binomial", Lambda=Lambda2)
+fit2 <- MAP.estimation(formula = mortality ~ sex + age + ISS + GCS,
+                       data = data2, family="binomial", Lambda=Lambda2, 
+                       control = list(maxit = 1000))
 summary(fit2)
 ```
 
     ## 
     ## Summary of the local model:
     ## 
-    ##    Formula: y ~ sex + age + ISS + GCS 
+    ##    Formula: mortality ~ sex + age + ISS + GCS 
     ##     Family: 'binomial' 
     ##       Link: 'Logit'
     ## 
     ## Coefficients:
     ## 
     ##             Estimate Std.Dev CI 2.5% CI 97.5%
-    ## (Intercept)  -0.7854  0.3789 -1.5280  -0.0427
-    ## sex          -0.7850  0.6999 -2.1568   0.5868
-    ## age           1.9601  0.4662  1.0465   2.8738
-    ## ISS           0.5216  0.3673 -0.1983   1.2415
-    ## GCS          -1.8737  0.4115 -2.6803  -1.0672
+    ## (Intercept)  -1.4468  1.3298 -4.0532   1.1596
+    ## sex          -0.7884  0.6999 -2.1601   0.5833
+    ## age           0.9494  0.2259  0.5066   1.3922
+    ## ISS           0.3574  0.2527 -0.1379   0.8527
+    ## GCS          -1.9243  0.4221 -2.7516  -1.0969
     ## 
     ## Dispersion parameter (sigma2):  1 
-    ##             log Lik Posterior:  -36.87 
+    ##             log Lik Posterior:  -36.86 
     ##                   Convergence:  0
 
 ``` r
 
-# Center 3:
-# X3 <- data.frame(sex=trauma$sex[trauma$hospital==3],
-#                  age=trauma$age[trauma$hospital==3],
-#                  ISS=trauma$ISS[trauma$hospital==3],
-#                  GCS=trauma$GCS[trauma$hospital==3])
-X3 <- subset(trauma, hospital == 3, select = c(sex, age, ISS, GCS))
+saveRDS(fit2, file = "center2.rds")
+
+## Center 3:
+data3 <- subset(trauma, hospital == 3)
+X3 <- data3[, c("sex", "age", "ISS", "GCS")]
 Lambda3 <- inv.prior.cov(X3, lambda=0.01, L=3, family="binomial")
-fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3)
+fit3 <- MAP.estimation(formula = mortality ~ sex + age + ISS + GCS,
+                       data = data3, family="binomial", Lambda=Lambda3, 
+                       control = list(maxit = 1000))
 summary(fit3)
 ```
 
     ## 
     ## Summary of the local model:
     ## 
-    ##    Formula: y ~ sex + age + ISS + GCS 
+    ##    Formula: mortality ~ sex + age + ISS + GCS 
     ##     Family: 'binomial' 
     ##       Link: 'Logit'
     ## 
     ## Coefficients:
     ## 
     ##             Estimate Std.Dev CI 2.5% CI 97.5%
-    ## (Intercept)  -2.3144  0.4020 -3.1024  -1.5264
-    ## sex           0.1580  0.5714 -0.9619   1.2780
-    ## age           1.3031  0.2955  0.7239   1.8824
-    ## ISS           0.2967  0.2638 -0.2203   0.8138
-    ## GCS          -2.4221  0.4130 -3.2316  -1.6125
+    ## (Intercept)  -0.1529  1.0466 -2.2043   1.8985
+    ## sex           0.1600  0.5718 -0.9607   1.2807
+    ## age           0.6317  0.1433  0.3509   0.9126
+    ## ISS           0.2053  0.1822 -0.1518   0.5623
+    ## GCS          -2.4847  0.4235 -3.3147  -1.6548
     ## 
     ## Dispersion parameter (sigma2):  1 
-    ##             log Lik Posterior:  -50.63 
+    ##             log Lik Posterior:  -50.6 
     ##                   Convergence:  0
-
-It can be seen that all algorithms have converged (`Convergence: 0`). If
-`Convergence: 1` occurs, you can increase the number of iteration in the
-optimization process of [`optim()`](https://rdrr.io/r/stats/optim.html)
-by adding `control = list(maxit=500)` to the function `MAP.estimation`,
-as shown below:
 
 ``` r
 
-# Example for Center 3:
-fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3, control = list(maxit=500))
+saveRDS(fit3, file = "center3.rds")
 ```
 
 To see more information about the data set, such as the number of
@@ -262,33 +277,18 @@ fit3$n
 Additionally, before conducting the analysis, we can use the `n.par`
 function to retrieve this information.
 
-The outputs `fit1`,`fit2`, and `fit3` from the local centers should be
-sent to the central server for further analysis. To send these lists
-from R to the central server (which also uses R), you can save them in a
-format that R can easily read, such as an RDS file.
-
-``` r
-
-# Save fit1 as an RDS file
-saveRDS(fit1, file="fit1.rds")
-
-# Save fit2 as an RDS file
-saveRDS(fit2, file="fit2.rds")
-
-# Save fit3 as an RDS file
-saveRDS(fit3, file="fit3.rds")
-```
-
 ### BFI estimations
 
-Now, the received files can be loaded in R using the following lines:
+Now, the received RDS files can be loaded in R using the following
+lines. They are assumed to be stored in the current working directory,
+so they can be loaded using relative file paths.
 
 ``` r
 
-# Load the RDS files
-fit1 <- readRDS("fit1.rds") # use the relative path to the file
-fit2 <- readRDS("fit2.rds") # use the relative path to the file
-fit3 <- readRDS("fit3.rds") # use the relative path to the file
+# Central server: read the received files
+center1 <- readRDS("center1.rds")
+center2 <- readRDS("center2.rds")
+center3 <- readRDS("center3.rds")
 ```
 
 On the central server, the
@@ -297,10 +297,10 @@ can be used to obtain the BFI estimations:
 
 ``` r
 
-theta_hats <- list(fit1$theta_hat, fit2$theta_hat, fit3$theta_hat)
-A_hats     <- list(fit1$A_hat, fit2$A_hat, fit3$A_hat)
-Lambda_com <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
-Lambdas    <- list(Lambda1, Lambda2, Lambda3, Lambda_com)
+theta_hats <- list(center1$theta_hat, center2$theta_hat, center3$theta_hat)
+A_hats     <- list(center1$A_hat, center2$A_hat, center3$A_hat)
+Lambda_com <- center1$Lambda
+Lambdas    <- list(center1$Lambda, center2$Lambda, center3$Lambda, Lambda_com)
 BFI_fits   <- bfi(theta_hats, A_hats, Lambdas, family="binomial")
 summary(BFI_fits, cur_mat=TRUE)
 ```
@@ -314,22 +314,22 @@ summary(BFI_fits, cur_mat=TRUE)
     ## Coefficients:
     ## 
     ##             Estimate Std.Dev CI 2.5% CI 97.5%
-    ## (Intercept)  -1.4434  0.2465 -1.9265  -0.9602
-    ## sex          -0.2473  0.4187 -1.0680   0.5733
-    ## age           1.2189  0.2190  0.7897   1.6481
-    ## ISS           0.4939  0.1945  0.1127   0.8751
-    ## GCS          -1.7375  0.2491 -2.2258  -1.2492
+    ## (Intercept)  -1.0767  0.7422 -2.5313   0.3779
+    ## sex          -0.2485  0.4185 -1.0687   0.5717
+    ## age           0.5915  0.1059  0.3840   0.7991
+    ## ISS           0.3430  0.1344  0.0797   0.6064
+    ## GCS          -1.7831  0.2556 -2.2840  -1.2822
     ## 
     ## Dispersion parameter (sigma2):  1 
     ## 
     ## Minus the Curvature Matrix: 
     ## 
-    ##             (Intercept)     sex     age      ISS      GCS
-    ## (Intercept)     30.4330  7.7926  0.7578   8.3797 -16.6608
-    ## sex              7.7926  7.8026  1.3061   1.8414  -4.6925
-    ## age              0.7578  1.3061 31.5230  -4.8356  15.7494
-    ## ISS              8.3797  1.8414 -4.8356  30.7881 -11.7189
-    ## GCS            -16.6608 -4.6925 15.7494 -11.7189  34.4508
+    ##             (Intercept)     sex      age      ISS      GCS
+    ## (Intercept)     30.4742  7.8008 109.8935 120.0781  46.6773
+    ## sex              7.8008  7.8108  30.4465  30.3379  11.5360
+    ## age            109.8935 30.4465 531.2711 418.2228 201.0404
+    ## ISS            120.0781 30.3379 418.2228 532.7746 173.8729
+    ## GCS             46.6773 11.5360 201.0404 173.8729  95.6265
 
 ### Comparison
 
@@ -358,24 +358,24 @@ summary(fit_comb, cur_mat=TRUE)
     ## Coefficients:
     ## 
     ##             Estimate Std.Dev CI 2.5% CI 97.5%
-    ## (Intercept)  -1.6255  0.2398 -2.0955  -1.1556
-    ## sex          -0.3357  0.3990 -1.1178   0.4463
-    ## age           1.3703  0.2056  0.9673   1.7733
-    ## ISS           0.5498  0.1862  0.1848   0.9149
-    ## GCS          -1.9981  0.2379 -2.4645  -1.5318
+    ## (Intercept)  -1.0955  0.7088 -2.4846   0.2936
+    ## sex          -0.3357  0.3990 -1.1178   0.4464
+    ## age           0.6635  0.0996  0.4684   0.8586
+    ## ISS           0.3801  0.1288  0.1277   0.6326
+    ## GCS          -2.0485  0.2439 -2.5265  -1.5705
     ## 
     ## Dispersion parameter (sigma2):  1 
-    ##             log Lik Posterior:  -109.4 
+    ##             log Lik Posterior:  -109.3 
     ##                   Convergence:  0 
     ## 
     ## Minus the Curvature Matrix: 
     ## 
-    ##             (Intercept)     sex     age      ISS      GCS
-    ## (Intercept)     33.5675  8.4942  2.3840   8.3535 -18.2832
-    ## sex              8.4942  8.5042  1.8643   1.4055  -4.5326
-    ## age              2.3840  1.8643 37.1516  -6.1748  18.0223
-    ## ISS              8.3535  1.4055 -6.1748  33.4408 -12.8543
-    ## GCS            -18.2832 -4.5326 18.0223 -12.8543  38.5342
+    ##             (Intercept)     sex      age      ISS      GCS
+    ## (Intercept)     33.5583  8.4925 124.1472 130.9550  51.5212
+    ## sex              8.4925  8.5025  34.0277  32.1266  13.1350
+    ## age            124.1472 34.0277 617.1691 464.4325 229.6154
+    ## ISS            130.9550 32.1266 464.4325 576.5327 189.4027
+    ## GCS             51.5212 13.1350 229.6154 189.4027 106.3280
 
 Now, we can see the difference between the BFI and combined estimates:
 
@@ -385,10 +385,12 @@ Now, we can see the difference between the BFI and combined estimates:
 (fit_comb$theta_hat - BFI_fits$theta_hat)^2
 ```
 
-    ##      (Intercept)        sex        age         ISS        GCS
-    ## [1,]  0.03319286 0.00781985 0.02292217 0.003132086 0.06791077
+    ##       (Intercept)         sex         age         ISS        GCS
+    ## [1,] 0.0003533092 0.007600807 0.005180229 0.001375924 0.07042184
 
-which are close to zero, as expected!
+The differences illustrate the agreement between BFI and pooled-data MAP
+estimates in this example. Exact equality is not guaranteed because BFI
+relies on a quadratic approximation.
 
 For more details see the following references.
 

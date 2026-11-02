@@ -2,11 +2,11 @@
 
 ## Introduction
 
-`BFI` is an **R** package that performs **Bayesian Federated Inference**
-(**BFI**) for *linear*, *logistic*, and *survival* regression models.
-Since there is no **Python** package for carrying out the *BFI* method
-so far, this vignette describes the usage of the R package `BFI` in the
-Python environment.
+The `BFI` R package provides **Bayesian Federated Inference** (**BFI**)
+for *Gaussian*, *logistic*, and *survival* regression models. Since
+there is no **Python** package for carrying out the *BFI* method so far,
+this vignette describes the usage of the R package `BFI` in the Python
+environment.
 
 To move to the Python environment, we need to prepare our operating
 system. Although, we explain in the following how to prepare it in
@@ -14,6 +14,12 @@ different systems (‘*macOS*’, ‘*Ubuntu*’ and ‘*Windows*’), we recomm
 using ‘*Google Colab*’ to write and execute (the following) Python code,
 as it can be done in any system through a browser without any
 preparations.
+
+We illustrate a file-based workflow involving two local centers and a
+coordinating center. Each local center fits the agreed model and saves
+its estimation results in an RDS file. The coordinating center reads
+these files and performs the BFI aggregation without accessing
+individual-level observations.
 
 ## Google Colab
 
@@ -158,9 +164,6 @@ pip3 install pandas
 # Installing the 'numpy' module
 pip3 install numpy
 
-# Installing the 'pickle' module
-pip3 install pickle
-
 # Installing the 'rpy2' module
 pip3 install rpy2
 ```
@@ -190,9 +193,6 @@ sudo pip3 install pandas
 # Installing the 'numpy' module
 sudo pip3 install numpy
 
-# Installing the 'pickle' module
-sudo pip3 install pickle
-
 # Installing the 'rpy2' module
 sudo pip3 install rpy2
 ```
@@ -207,9 +207,6 @@ sudo apt-get install python3-pandas
 # Installing the 'numpy' module
 sudo apt-get install python3-numpy
 
-# Installing the 'pickle' module
-sudo apt-get install python3-pickle
-
 # Installing the 'rpy2' module
 sudo apt-get install python3-rpy2
 ```
@@ -220,7 +217,6 @@ of your Python packages:
 ``` r
 pip3 show pandas
 pip3 show numpy
-pip3 show pickle
 pip3 show rpy2
 ```
 
@@ -256,12 +252,14 @@ pip3 install pandas
 # Installing the 'numpy' module
 pip3 install numpy
 
-# Installing the 'pickle' module
-pip3 install pickle
-
 # Installing the 'rpy2' module
 pip3 install rpy2
 ```
+
+**Note for Windows users:** On some systems, `rpy2` may encounter
+difficulties loading R shared libraries, such as `stats.dll`. If this
+occurs, check that `R_HOME` points to the correct R installation.
+Additional DLL path configuration may be required.
 
 Now, you can start coding in Python using Python’s command-line
 interpreter or IDLE application. Go to `Start` and enter `python` in the
@@ -297,9 +295,6 @@ import pandas as pd
 # import 'numpy' package
 import numpy as np                
 
-# import 'pickle' package
-import pickle
-
 # import 'rpy2' package
 import rpy2                  
 ```
@@ -308,12 +303,10 @@ and using the following code imports the required functions such as
 `importr()` and [`data()`](https://rdrr.io/r/utils/data.html):
 
 ``` python
+import rpy2.robjects as ro
 from rpy2.robjects.packages import importr, data
 from rpy2.robjects.vectors import StrVector
 from rpy2.robjects import numpy2ri, pandas2ri
-# activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects
-numpy2ri.activate()   
-pandas2ri.activate()
 ```
 
 ### Installing `R` packages from CRAN and GitHub
@@ -333,7 +326,7 @@ Then install the R packages `stats` and `BFI` from CRAN by typing
 
 ``` python
 utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
-package_names = ('stats', 'BFI')
+package_names = ('BFI',)
 utils.install_packages(StrVector(package_names))
 ```
 
@@ -382,8 +375,10 @@ X1 = np.random.normal(size=(n1, p))
 X1.shape   # dimension of X1
 X1 = pd.DataFrame(X1, columns=['X1', 'X2', 'X3'])
 mu1 = theta[0] + np.dot(X1, np.delete(theta, [0, 4]))  # for gaussian: \eta = \mu 
-X1 = pandas2ri.py2rpy(X1)   # == base.as_data_frame(X1)
 y1 = np.random.normal(loc=mu1, scale=np.sqrt(theta[4]))
+with (ro.default_converter + pandas2ri.converter).context():
+    X1 = ro.conversion.py2rpy(X1)
+y1 = ro.FloatVector(y1.tolist())
 ```
 
 Then generate randomly 50 samples from Gaussian distribution with 3
@@ -395,8 +390,10 @@ n2 = 50   # sample size of center 2
 X2 = np.random.normal(size=(n2, p))
 X2 = pd.DataFrame(X2, columns=['X1', 'X2', 'X3'])
 mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
-X2 = pandas2ri.py2rpy(X2)
 y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
+with (ro.default_converter + pandas2ri.converter).context():
+    X2 = ro.conversion.py2rpy(X2)
+y2 = ro.FloatVector(y2.tolist())
 ```
 
 ### MAP Estimates at the Local Centers
@@ -406,12 +403,13 @@ parameters for center 1:
 
 ``` python
 # Creating an inverse covariance matrix for a Gaussian prior for center 1
-Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
-fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
+Lambda1 = BFI.inv_prior_cov(X=X1, family="gaussian", **{"lambda": 0.01})
+fit1 = BFI.MAP_estimation(y=y1, X=X1, family="gaussian", Lambda=Lambda1)
 print(fit1)
 theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
 A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
-summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
+summary_1 = ro.r["summary"](fit1, cur_mat = True)
+ro.r["print"](summary_1)
 ```
 
 Obtaining the MAP estimators of the parameters for center 2 using the
@@ -419,82 +417,91 @@ following:
 
 ``` python
 # Creating an inverse covariance matrix for Gaussian prior for center 2
-Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
+Lambda2 = BFI.inv_prior_cov(X=X2, family="gaussian", **{"lambda": 0.01})
 # MAP estimates
-fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
+fit2 = BFI.MAP_estimation(y=y2, X=X2, family="gaussian", Lambda=Lambda2)
 theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
 A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
-summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
+summary_2 = ro.r["summary"](fit2, cur_mat = True)
+ro.r["print"](summary_2)
 ```
 
 ### Sending the Required Files to Central Server
 
-The required outputs for using the central server are `fit1` for center
-1 and `fit2` for center 2. To send these outputs to the central server,
-you can save the list to a file in a common format (such as RDS, JSON,
-or CSV). This will allow the central server to open the file in either R
-or Python environments.
+The local estimation results are saved as RDS files, which preserve the
+R objects and can be read by a coordinating center using either R or
+Python through rpy2.
+
+Each center saves its own local estimation results. The resulting files
+are then transferred to the coordinating center using an approved
+transfer mechanism.
+
+**At center 1:**
+
+``` python
+# Save the local estimation results at center 1
+base.saveRDS(fit1, file="fit1.rds")
+```
+
+**At center 2:**
+
+``` python
+# Save the local estimation results at center 2
+base.saveRDS(fit2, file="fit2.rds")
+```
 
 #### Central server with R
 
-If the central server is using R, follow the instructions below. If it
-is using Python, go to the next subsection: [Central server with
-Python](#server_python). We will show how to do this for `fit1` at
-center 1. The process is the same for center 2. Since `fit1` is an R
-object and the central server is using R, you can save it as an RDS
-file, which is a file format native to R for single R objects.
+If the central server uses R, the received RDS files can be loaded
+directly. If it uses Python, see the next subsection: [Central server
+with Python](#server_python).
 
-``` python
-import rpy2.robjects as ro
+The received files are assumed to be available in the current working
+directory.
 
-# Save fit1 as an RDS file
-ro.r('saveRDS(fit1, file="fit1.rds")')
+``` r
+
+# Load the received local estimation results
+fit1 <- readRDS("fit1.rds")
+fit2 <- readRDS("fit2.rds")
 ```
 
-This file, `fit1.rds` should be sent to the central server, where it can
-be loaded as follows:
+The loaded objects contain the information required for central BFI
+aggregation, including the local parameter estimates, curvature
+matrices, and prior precision matrices.
 
-``` python
-# Load the saved RDS file
-fit1 <- readRDS("fit1.rds") # use the relative path to the file
-```
+``` r
 
-Now, the variable `fit1` is a list in R containing all information
-needed for further analysis:
-
-``` python
 theta_hat1 <- fit1$theta_hat
 A_hat1 <- fit1$A_hat
+
+theta_hat2 <- fit2$theta_hat
+A_hat2 <- fit2$A_hat
 ```
 
-To see how to proceed and use
-[`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md) in R,
-see, for example,
-[here](https://hassanpazira.github.io/BFI/reference/BFI.html).
+To perform the central aggregation in R using
+[`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md), see the
+[BFI reference
+documentation](https://hassanpazira.github.io/BFI/reference/BFI.html).
 
 #### Central server with Python
 
 If the central server is using Python, follow the instructions below. We
 will show how to do this for `fit1` at center 1. The process is the same
-for center 2. Since `fit1` needs to be shared with the central server
-which is using Python, you can serialize it using the `pickle` module,
-which is a common way to save Python objects. At the center 1, use the
-following to create `fit1.pkl`:
+for center 2.
+
+The local BFI results are saved as RDS files, which can also be read in
+Python using `rpy2`. The received files are assumed to be available in
+the current working directory.
 
 ``` python
-# Save fit1 as a pickle file
-with open('fit1.pkl', 'wb') as f:
-    pickle.dump(fit1, f)
+# Load the received RDS files
+fit1 = base.readRDS("fit1.rds")
+fit2 = base.readRDS("fit2.rds")
 ```
 
-Now, the file `fit1.pkl` should be sent to the central server, where it
-can be loaded as follows:
-
-``` python
-# Load the pickle file
-with open('fit1.pkl', 'rb') as f:  # use the relative path to the file
-    fit1 = pickle.load(f)
-```
+The loaded objects contain the local estimation results required for
+central BFI aggregation.
 
 The variable `fit1` contains all information needed for further analysis
 in the central server. To see how to proceed and obtain the BFI
@@ -505,13 +512,9 @@ estimates on the central server, follow the next section.
 On the central server, first load the files saved to a proper address:
 
 ``` python
-# Load the file form center 1
-with open('fit1.pkl', 'rb') as f: # use the relative path to the file
-    fit1 = pickle.load(f)
-
-# Load the file form center 2, using the relative path to the file
-with open('fit2.pkl', 'rb') as f:
-    fit2 = pickle.load(f)
+# Read the two received files
+fit1 = base.readRDS("fit1.rds")
+fit2 = base.readRDS("fit2.rds")
 ```
 
 Now, The main function
@@ -525,12 +528,15 @@ theta_hat2 = fit2.rx2("theta_hat")
 A_hat2 = fit2.rx2("A_hat")
 theta_hats = base.list(theta_hat1, theta_hat2)
 A_hats = base.list(A_hat1, A_hat2)
-Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
-Lambda2 = pd.DataFrame(Lambda2, index=fit2.rx2("names"), columns=fit2.rx2("names"))
-Lambdas = base.list(Lambda1, Lambda2)
-fit_bfi = BFI.bfi(theta_hats, A_hats, Lambdas)
+Lambda1 = fit1.rx2("Lambda")
+Lambda2 = fit2.rx2("Lambda")
+check_prior = ro.r("function(x, y) stopifnot(isTRUE(all.equal(x, y)))")
+check_prior(Lambda1, Lambda2)
+fit_bfi = BFI.bfi(theta_hats=theta_hats, A_hats=A_hats, 
+                  Lambda=Lambda1, family="gaussian")
 print(fit_bfi)
-summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
+summary_bfi = ro.r["summary"](fit_bfi, cur_mat=True)
+ro.r["print"](summary_bfi)
 ```
 
 ## Datasets included in the `BFI` package
@@ -554,13 +560,6 @@ print("Dimension of the 'trauma' data: \n", base.dim(trauma))
 print("Colnames of the 'trauma' data: \n", base.colnames(trauma))
 ```
 
-At the end, use the following to deactivate automatic conversion:
-
-``` python
-numpy2ri.deactivate()
-pandas2ri.deactivate()
-```
-
 ## All code together
 
 If you need all the code at once to copy and paste them for example into
@@ -573,18 +572,13 @@ import pandas as pd
 # import 'numpy' package
 import numpy as np                
 
-# import 'pickle' package
-import pickle
-
 # import 'rpy2' package
 import rpy2                  
 
+import rpy2.robjects as ro
 from rpy2.robjects.packages import importr, data
 from rpy2.robjects.vectors import StrVector
 from rpy2.robjects import numpy2ri, pandas2ri
-# activation of the automatic conversion of 'numpy' and 'pandas' objects into rpy2 objects
-numpy2ri.activate()   
-pandas2ri.activate()
 
 # import R's "utils" package
 utils = importr('utils')
@@ -593,7 +587,7 @@ utils = importr('utils')
 base = importr('base')
 
 utils.chooseCRANmirror(ind=1)  # which selects the first mirror in the list
-package_names = ('stats', 'BFI')
+package_names = ('BFI',)
 utils.install_packages(StrVector(package_names))
 
 # loading the installed packages
@@ -612,60 +606,66 @@ X1 = np.random.normal(size=(n1, p))
 X1.shape   # dimension of X1
 X1 = pd.DataFrame(X1, columns=['X1', 'X2', 'X3'])
 mu1 = theta[0] + np.dot(X1, np.delete(theta, [0, 4]))  # for gaussian: \eta = \mu 
-X1 = pandas2ri.py2rpy(X1)   # == base.as_data_frame(X1)
 y1 = np.random.normal(loc=mu1, scale=np.sqrt(theta[4]))
+with (ro.default_converter + pandas2ri.converter).context():
+    X1 = ro.conversion.py2rpy(X1)
+y1 = ro.FloatVector(y1.tolist())
 
 # Data Simulation for center 2
 n2 = 50   # sample size of center 2
 X2 = np.random.normal(size=(n2, p))
 X2 = pd.DataFrame(X2, columns=['X1', 'X2', 'X3'])
 mu2 = theta[0] + np.dot(X2, np.delete(theta, [0, 4]))
-X2 = pandas2ri.py2rpy(X2)
 y2 = np.random.normal(loc=mu2, scale=np.sqrt(theta[4]))
+with (ro.default_converter + pandas2ri.converter).context():
+    X2 = ro.conversion.py2rpy(X2)
+y2 = ro.FloatVector(y2.tolist())
 
 ## MAP estimates at center 1
 # Creating an inverse covariance matrix for a Gaussian prior for center 1
-Lambda1 = BFI.inv_prior_cov(X1, 0.01, 'gaussian')
-fit1 = BFI.MAP_estimation(y1, X1, 'gaussian', Lambda1)
+Lambda1 = BFI.inv_prior_cov(X=X1, family="gaussian", **{"lambda": 0.01})
+fit1 = BFI.MAP_estimation(y=y1, X=X1, family="gaussian", Lambda=Lambda1)
 print(fit1)
 theta_hat1 = fit1.rx2("theta_hat") # MAP estimates of the intercept and coefficients
 A_hat1 = fit1.rx2("A_hat")         # minus the curvature matrix
-summary_1 = BFI.summary_bfi(fit1, cur_mat = True)
-# Save fit1 as a pickle file for sending to the central server
-with open('fit1.pkl', 'wb') as f:
-    pickle.dump(fit1, f)
+summary_1 = ro.r["summary"](fit1, cur_mat = True)
+ro.r["print"](summary_1)
+base.saveRDS(fit1, file="fit1.rds")
 
 ## MAP estimates at center 2
 # Creating an inverse covariance matrix for Gaussian prior for center 2
-Lambda2 = BFI.inv_prior_cov(X2, 0.01, 'gaussian')
+Lambda2 = BFI.inv_prior_cov(X=X2, family="gaussian", **{"lambda": 0.01})
 # MAP estimates
-fit2 = BFI.MAP_estimation(y2, X2, 'gaussian', Lambda2)
+fit2 = BFI.MAP_estimation(y=y2, X=X2, family="gaussian", Lambda=Lambda2)
 theta_hat2 = fit2.rx2("theta_hat") # MAP estimates of the parameters
 A_hat2 = fit2.rx2("A_hat")         # minus the curvature matrix around 'theta_hat2'
-summary_2 = BFI.summary_bfi(fit2, cur_mat = True)
-# Save fit2 as a pickle file for sending to the central server
-with open('fit2.pkl', 'wb') as f:
-    pickle.dump(fit2, f)
+summary_2 = ro.r["summary"](fit2, cur_mat = True)
+ro.r["print"](summary_2)
+base.saveRDS(fit2, file="fit2.rds")
 
 ## BFI at central server
-# Load the pickle file using the relative path to the file
-with open('fit1.pkl', 'rb') as f:  # use the relative path to the file
-    fit1 = pickle.load(f)
+# Load the file using the relative path to the file
+fit1 = base.readRDS("fit1.rds")
+fit2 = base.readRDS("fit2.rds")
+
 theta_hat1 = fit1.rx2("theta_hat")
-A_hat1 = fit1.rx2("A_hat")
-# Load the pickle file using the relative path to the file
-with open('fit2.pkl', 'rb') as f:
-    fit2 = pickle.load(f)
 theta_hat2 = fit2.rx2("theta_hat")
+A_hat1 = fit1.rx2("A_hat")
 A_hat2 = fit2.rx2("A_hat")
+
 theta_hats = base.list(theta_hat1, theta_hat2)
 A_hats = base.list(A_hat1, A_hat2)
-Lambda1 = pd.DataFrame(Lambda1, index=fit1.rx2("names"), columns=fit1.rx2("names"))
-Lambda2 = pd.DataFrame(Lambda2, index=fit2.rx2("names"), columns=fit2.rx2("names"))
-Lambdas = base.list(Lambda1, Lambda2)
-fit_bfi = BFI.bfi(theta_hats, A_hats, Lambdas)
+
+Lambda1 = fit1.rx2("Lambda")
+Lambda2 = fit2.rx2("Lambda")
+
+check_prior = ro.r("function(x, y) stopifnot(isTRUE(all.equal(x, y)))")
+check_prior(Lambda1, Lambda2)
+
+fit_bfi = BFI.bfi(theta_hats=theta_hats, A_hats=A_hats, Lambda=Lambda1, family="gaussian")
 print(fit_bfi)
-summary_bfi = BFI.summary_bfi(fit_bfi, cur_mat = True)
+summary_bfi = ro.r["summary"](fit_bfi, cur_mat=True)
+ro.r["print"](summary_bfi)
 
 # To find a list of all datasets included in the package:
 print(utils.data(package = "BFI"))
