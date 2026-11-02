@@ -51,7 +51,7 @@ options(repos = c(CRAN = "https://cran.rstudio.com/"))
 
 ```{r , message=FALSE, results='hide'}
 # Install and load the BFI package from CRAN:
-install.packages("BFI")
+# install.packages("BFI")
 library(BFI)
 ```
 By using the following code, we can see that there are two available data sets in the package: `trauma` and `Nurses`.
@@ -79,12 +79,14 @@ For more information about this data set use
 ```
 
 We will analyze the data with a `logistic` regression model. 
-First we standardize the covariates. This is not necessary for the analysis, but is done for the interpretability of the accuracy of the estimates.
+We apply fixed, prespecified scaling to the continuous predictors. This avoids calculating scaling parameters from the combined data, which would not generally be available in a real federated setting. The transformations correspond to effects per 10 years of age, 10 ISS points, and 5 GCS points.
 ```{r}
-trauma$age <- scale(trauma$age)
-trauma$ISS <- scale(trauma$ISS) 
-trauma$GCS <- scale(trauma$GCS) 
-trauma$hospital <- as.factor(trauma$hospital)
+# Fixed, prespecified scaling.
+# No pooled means or standard deviations are required.
+trauma$age <- trauma$age / 10
+trauma$ISS <- trauma$ISS / 10
+trauma$GCS <- trauma$GCS / 5
+trauma$hospital <- factor(trauma$hospital)
 ```
 
 By using the following code we can see there are three hospitals involved in the study:
@@ -92,44 +94,49 @@ By using the following code we can see there are three hospitals involved in the
 length(levels(trauma$hospital))
 ```
 
-### MAP estimations
+### MAP estimations at the local centers
 
-Therefore, the `MAP.estimation` function should be applied to these 3 local data sets separately to obtain the MAP estimations. Note that, in practice, we do not have access to the combined data, and each center should perform the analysis independently and send the output to the central server, as follows:
+Each participating center fits the agreed model using its own data. In this example, three centers are represented by separate subsets of the trauma dataset. In an actual federated analysis, each center would execute the local code at its own institution.
+
+The model family, predictor definitions, parameter names, and prior specification must be agreed upon before local estimation.
 ```{r}
-# Center 1:
-# X1 <- data.frame(sex=trauma$sex[trauma$hospital==1],
-#                  age=trauma$age[trauma$hospital==1],
-#                  ISS=trauma$ISS[trauma$hospital==1],
-#                  GCS=trauma$GCS[trauma$hospital==1])
-X1 <- subset(trauma, hospital == 1, select = c(sex, age, ISS, GCS))
+## Center 1:
+data1 <- subset(trauma, hospital == 1)
+X1 <- data1[, c("sex", "age", "ISS", "GCS")]
 Lambda1 <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
-fit1 <- MAP.estimation(y=trauma$mortality[trauma$hospital==1], X=X1, family="binomial", Lambda=Lambda1)
+fit1 <- MAP.estimation(formula = mortality ~ sex + age + ISS + GCS,
+                       data = data1, family="binomial", Lambda=Lambda1, 
+                       control = list(maxit = 1000))
 summary(fit1)
-
-# Center 2:
-# X2 <- data.frame(sex=trauma$sex[trauma$hospital==2],
-#                  age=trauma$age[trauma$hospital==2],
-#                  ISS=trauma$ISS[trauma$hospital==2],
-#                  GCS=trauma$GCS[trauma$hospital==2])
-X2 <- subset(trauma, hospital == 2, select = c(sex, age, ISS, GCS))
-Lambda2 <- inv.prior.cov(X2, lambda=0.01, L=3, family="binomial")
-fit2 <- MAP.estimation(y=trauma$mortality[trauma$hospital==2], X=X2, family="binomial", Lambda=Lambda2)
-summary(fit2)
-
-# Center 3:
-# X3 <- data.frame(sex=trauma$sex[trauma$hospital==3],
-#                  age=trauma$age[trauma$hospital==3],
-#                  ISS=trauma$ISS[trauma$hospital==3],
-#                  GCS=trauma$GCS[trauma$hospital==3])
-X3 <- subset(trauma, hospital == 3, select = c(sex, age, ISS, GCS))
-Lambda3 <- inv.prior.cov(X3, lambda=0.01, L=3, family="binomial")
-fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3)
-summary(fit3)
+stopifnot(fit1$convergence == 0)
 ```
-It can be seen that all algorithms have converged (`Convergence: 0`). If `Convergence: 1` occurs, you can increase the number of iteration in the optimization process of `optim()` by adding `control = list(maxit=500)` to the function `MAP.estimation`, as shown below:
+The output `fit1` from the local centers should be sent to the central server for further analysis.
+To send the list from R to the central server (which also uses R), you can save them in a format that R can easily read, such as an RDS file.
 ```{r}
-# Example for Center 3:
-fit3 <- MAP.estimation(y=trauma$mortality[trauma$hospital==3], X=X3, family="binomial", Lambda=Lambda3, control = list(maxit=500))
+# Save only the required statistical summaries
+saveRDS(fit1, file="center1.rds")
+```
+
+```{r}
+## Center 2:
+data2 <- subset(trauma, hospital == 2)
+X2 <- data2[, c("sex", "age", "ISS", "GCS")]
+Lambda2 <- inv.prior.cov(X2, lambda=0.01, L=3, family="binomial")
+fit2 <- MAP.estimation(formula = mortality ~ sex + age + ISS + GCS,
+                       data = data2, family="binomial", Lambda=Lambda2, 
+                       control = list(maxit = 1000))
+summary(fit2)
+saveRDS(fit2, file = "center2.rds")
+
+## Center 3:
+data3 <- subset(trauma, hospital == 3)
+X3 <- data3[, c("sex", "age", "ISS", "GCS")]
+Lambda3 <- inv.prior.cov(X3, lambda=0.01, L=3, family="binomial")
+fit3 <- MAP.estimation(formula = mortality ~ sex + age + ISS + GCS,
+                       data = data3, family="binomial", Lambda=Lambda3, 
+                       control = list(maxit = 1000))
+summary(fit3)
+saveRDS(fit3, file = "center3.rds")
 ```
 
 To see more information about the data set, such as the number of observations and parameters, we can use the output of the `MAP.estimation` function as follows:
@@ -147,40 +154,25 @@ fit3$n
 ```
 Additionally, before conducting the analysis, we can use the `n.par` function to retrieve this information.
 
-The outputs `fit1`,`fit2`, and `fit3` from the local centers should be sent to the central server for further analysis.
-To send these lists from R to the central server (which also uses R), you can save them in a format that R can easily read, such as an RDS file.
-
-```{r, eval = FALSE}
-# Save fit1 as an RDS file
-saveRDS(fit1, file="fit1.rds")
-
-# Save fit2 as an RDS file
-saveRDS(fit2, file="fit2.rds")
-
-# Save fit3 as an RDS file
-saveRDS(fit3, file="fit3.rds")
-```
-
 
 ### BFI estimations
 
+Now, the received RDS files can be loaded in R using the following lines. They are assumed to be stored in the current working directory, so they can be loaded using relative file paths.
 
-Now, the received files can be loaded in R using the following lines:
-
-```{r, eval = FALSE}
-# Load the RDS files
-fit1 <- readRDS("fit1.rds") # use the relative path to the file
-fit2 <- readRDS("fit2.rds") # use the relative path to the file
-fit3 <- readRDS("fit3.rds") # use the relative path to the file
+```{r}
+# Central server: read the received files
+center1 <- readRDS("center1.rds")
+center2 <- readRDS("center2.rds")
+center3 <- readRDS("center3.rds")
 ```
 
 
 On the central server, the `bfi()` function can be used to obtain the BFI estimations:
 ```{r}
-theta_hats <- list(fit1$theta_hat, fit2$theta_hat, fit3$theta_hat)
-A_hats     <- list(fit1$A_hat, fit2$A_hat, fit3$A_hat)
-Lambda_com <- inv.prior.cov(X1, lambda=0.01, L=3, family="binomial")
-Lambdas    <- list(Lambda1, Lambda2, Lambda3, Lambda_com)
+theta_hats <- list(center1$theta_hat, center2$theta_hat, center3$theta_hat)
+A_hats     <- list(center1$A_hat, center2$A_hat, center3$A_hat)
+Lambda_com <- center1$Lambda
+Lambdas    <- list(center1$Lambda, center2$Lambda, center3$Lambda, Lambda_com)
 BFI_fits   <- bfi(theta_hats, A_hats, Lambdas, family="binomial")
 summary(BFI_fits, cur_mat=TRUE)
 ```
@@ -205,7 +197,7 @@ Now, we can see the difference between the BFI and combined estimates:
 # Squared Errors:
 (fit_comb$theta_hat - BFI_fits$theta_hat)^2
 ```
-which are close to zero, as expected!
+The differences illustrate the agreement between BFI and pooled-data MAP estimates in this example. Exact equality is not guaranteed because BFI relies on a quadratic approximation.
 
 For more details see the following references.
 
