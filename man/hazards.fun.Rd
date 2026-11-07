@@ -15,9 +15,13 @@ hazards.fun(time,
 }
 
 \arguments{
-\item{time}{the vector containing the time values for which the hazard rate is computed. If the argument \code{z} is not \code{NULL}, then the length of the argument \code{time} should be the number of columns of \code{z}, which is \eqn{p}.}
+\item{time}{A numeric vector of time points at which the hazard
+and survival functions are evaluated.
+If the argument \code{z} is not \code{NULL}, then the length of the argument \code{time} should be the number of columns of \code{z}, which is \eqn{p}.}
 
-\item{z}{a new observation vector of length \eqn{p}. If \code{z = NULL} (the default), then the relative risk (\eqn{\boldsymbol{z}^{\top} \boldsymbol{\beta}}) is considered a vector of 1 with length \eqn{n}.}
+\item{z}{Optional covariates for one new individual, supplied as
+a vector of length \eqn{p} or a one-row matrix or data frame
+with \eqn{p} columns. If \code{z = NULL} (the default), the relative risk (\eqn{\boldsymbol{z}^{\top} \boldsymbol{\beta}}) is considered a vector of 1 with length \eqn{n}.}
 
 \item{p}{the number of coefficients. It is taken equal to the number of elements of the argument \code{z}, if \code{z} is not \code{NULL}.}
 

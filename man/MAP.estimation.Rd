@@ -251,9 +251,10 @@ The inherited \code{"bfi"} class provides shared methods
 including \code{summary()}, \code{print()}, \code{coef()},
 and \code{vcov()}.
 
-For the case where \code{family = "survival"} and \code{basehaz = "poly"}, we assume that in all centers the \eqn{q_\ell}'s are equal.
-However, the order of the estimated polynomials may vary across the centers so that each center can have different number of parameters, say \eqn{q_\ell}+1.
-%Thus, in each location, the vector parameter is a (\eqn{ p+q_\ell} +1)-dimensional vector \eqn{\boldsymbol{\theta}_\ell^\top=(\boldsymbol{\beta}^\top, \boldsymbol{\omega}_\ell^\top)=(\beta_1, \ldots,\beta_p, \omega_{0}, \omega_{1}, \ldots, \omega_{q_\ell})}.
+For \code{family = "survival"} and \code{basehaz = "poly"},
+the estimated/selected polynomial order \eqn{q_\ell} may differ across
+centers. Consequently, the number of baseline hazard parameters,
+\eqn{q_\ell + 1}, may also differ across centers.
 After obtaining the estimates within the local centers (by using \code{MAP.estimation()}) and having all estimates in the central server, we choose the order of the polynomial approximation for the combined data to be the maximum of the orders of the local polynomial functions, i.e., \eqn{\max \{q_1, \ldots, q_L \}}, to approximate the global baseline hazard (exponentiated polynomial) function more accurately. This is because the higher-order polynomial approximation can capture more complex features and details in the combined data. Using the higher-order approximation ensures that we account for the higher-order moments and features present in the data while maintaining accuracy.
 As a result, all potential cases are stored in the \code{theta_A_poly} argument to be used in \code{bfi()} by the central server.
 For further information on the \code{survival} family, refer to the 'References' section.
@@ -446,7 +447,7 @@ max_times <- c(max(rexp(30)), max(rexp(50)), max(rexp(70)))
 min_max_times <- min(max(y$time), max_times)
 fit4 <- MAP.estimation(y, X, family = "survival", Lambda = Lambda,
                        basehaz = "pwexp", n_intervals = 3,
-                       min_max_times=max(y$time))
+                       min_max_times = min_max_times)
 summary(fit4, cur_mat = TRUE)
 
 

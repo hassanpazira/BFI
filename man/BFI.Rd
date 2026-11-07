@@ -31,7 +31,7 @@ bfi(theta_hats = NULL,
 
 \item{A_hats}{a list of \eqn{L} minus curvature matrices for \eqn{L} centers. These matrices must have equal dimensions. See \sQuote{Details}.}
 
-\item{Lambda}{a list of \eqn{L+1} matrices. The \eqn{k^{\th}} matrix is the chosen inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution in center \eqn{k}, where \eqn{k=1,2,\ldots,L}. The last matrix is the chosen variance-covariance matrix for the Gaussian prior of the (fictive) combined data set.
+\item{Lambda}{a list of \eqn{L+1} matrices. The \eqn{k^{\th}} matrix is the chosen inverse variance-covariance matrix of the Gaussian distribution that is used as prior distribution in center \eqn{k}, where \eqn{k=1,2,\ldots,L}. The last matrix is the chosen inverse variance-covariance (precision) matrix for the Gaussian prior of the (fictive) combined data set.
 If \code{stratified = FALSE}, all \eqn{L+1} matrices must have equal dimensions. While, if \code{stratified = TRUE}, the first \eqn{L} matrices must have equal dimensions and the last matrix should have a different (greater) dimension than the others. See \sQuote{Details}.}
 
 \item{family}{a character string representing the family name used for the local centers. Can be abbreviated.}
@@ -56,7 +56,7 @@ The used data type in the argument \code{center_spec} must be categorical. Defau
 
 \item{p}{an integer representing the number of covariates/coefficients. It can be found from the output of the \code{MAP.estimation} function, \code{MAP.estimation()$np}). This argument, \code{p}, is only used if \code{stratified = TRUE} and \code{family = "survival"}.}
 
-\item{q_ls}{a vector with \eqn{L} elements in which each element is the order (minus 1) of the exponentiated polynomial baseline hazard function for the corresponding center, i.e., each element is the value of \code{q_l} (the output of the \code{MAP.estimation} function, \code{MAP.estimation()$q_l}). This argument, \code{q_ls}, is only used if \code{family = "survival"}, \code{family = "survival"} and \code{basehaz = "poly"}. It can also be a scalar which represents the maximum value of the \code{q_l}'s across the centers.}
+\item{q_ls}{a vector with \eqn{L} elements in which each element is the order (minus 1) of the exponentiated polynomial baseline hazard function for the corresponding center, i.e., each element is the value of \code{q_l} (the output of the \code{MAP.estimation} function, \code{MAP.estimation()$q_l}). This argument, \code{q_ls}, is only used if \code{family = "survival"} and \code{basehaz = "poly"}. It can also be a scalar which represents the maximum value of the \code{q_l}'s across the centers.}
 
 \item{center_zero_sample}{logical flag indicating whether the center has a categorical covariate with no observations/individuals in one of the categories. It is used to address heterogeneity across centers due to center-specific covariates. Default is \code{center_zero_sample = FALSE}. For more details see \sQuote{References}.}
 

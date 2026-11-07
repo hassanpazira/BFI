@@ -24,3 +24,13 @@ curvature-based covariance matrix.
 For Gaussian residual variances, intervals are constructed on
 the log(sigma2) scale and back-transformed.
 }
+\examples{
+set.seed(123)
+X <- data.frame(x1 = rnorm(50))
+y <- 1 + 2 * X$x1 + rnorm(50)
+Lambda <- inv.prior.cov(X, lambda = 0.1, family = "gaussian")
+fit <- MAP.estimation(y, X, family = "gaussian", Lambda = Lambda)
+confint(fit)
+confint(fit, parm = "x1", level = 0.90)
+
+}

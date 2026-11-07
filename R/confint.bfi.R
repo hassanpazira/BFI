@@ -12,6 +12,15 @@
 #'
 #' @return A matrix of approximate posterior credible intervals.
 #'
+#' @examples
+#' set.seed(123)
+#' X <- data.frame(x1 = rnorm(50))
+#' y <- 1 + 2 * X$x1 + rnorm(50)
+#' Lambda <- inv.prior.cov(X, lambda = 0.1, family = "gaussian")
+#' fit <- MAP.estimation(y, X, family = "gaussian", Lambda = Lambda)
+#' confint(fit)
+#' confint(fit, parm = "x1", level = 0.90)
+#'
 #' @importFrom stats confint
 #' @export
 confint.bfi <- function(object, parm, level = 0.95, ...) {
