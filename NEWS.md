@@ -1,5 +1,5 @@
 
-# BFI v3.4.0 (development)
+# BFI v3.4.0
 
 * Extended the formula/data interface of `MAP.estimation()` and
   `inv.prior.cov()` to support interaction terms and inline
