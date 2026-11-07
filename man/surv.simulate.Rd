@@ -156,7 +156,7 @@ surv.simulate(Z = Z, beta = beta, a = exp(-1), b = exp(1),
 
 # Two simulated datasets from 'gomp' with unknown 'u2' and censoring rate of 0.3:
 surv.simulate(Z = Z[2:3], beta = beta, a = exp(1), b = exp(2), u1 = 0.1,
-              cen_rate = 0.3, gen_data_from = "gomp", Trace = TRUE)
+              cen_rate = 0.3, gen_data_from = "gomp", n.rep = 20, Trace = TRUE)
 
 }
 \keyword{datagen}
