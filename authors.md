@@ -13,13 +13,13 @@
 ## Citation
 
 Pazira H, Massa E, Jonker M (2026). *BFI: Bayesian Federated Inference*.
-R package version 3.3.0, <https://hassanpazira.github.io/BFI/>.
+R package version 3.4.0, <https://hassanpazira.github.io/BFI/>.
 
     @Manual{,
       title = {BFI: Bayesian Federated Inference},
       author = {Hassan Pazira and Emanuele Massa and Marianne A. Jonker},
       year = {2026},
-      note = {R package version 3.3.0},
+      note = {R package version 3.4.0},
       url = {https://hassanpazira.github.io/BFI/},
     }
 
