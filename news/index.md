@@ -1,6 +1,6 @@
 # Changelog
 
-## BFI v3.4.0 (development)
+## BFI v3.4.0
 
 - Extended the formula/data interface of
   [`MAP.estimation()`](https://hassanpazira.github.io/BFI/reference/MAP.estimation.md)
