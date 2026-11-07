@@ -48,12 +48,13 @@ bfi(theta_hats = NULL,
   a list of \\L+1\\ matrices. The \\k^{\th}\\ matrix is the chosen
   inverse variance-covariance matrix of the Gaussian distribution that
   is used as prior distribution in center \\k\\, where
-  \\k=1,2,\ldots,L\\. The last matrix is the chosen variance-covariance
-  matrix for the Gaussian prior of the (fictive) combined data set. If
-  `stratified = FALSE`, all \\L+1\\ matrices must have equal dimensions.
-  While, if `stratified = TRUE`, the first \\L\\ matrices must have
-  equal dimensions and the last matrix should have a different (greater)
-  dimension than the others. See ‘Details’.
+  \\k=1,2,\ldots,L\\. The last matrix is the chosen inverse
+  variance-covariance (precision) matrix for the Gaussian prior of the
+  (fictive) combined data set. If `stratified = FALSE`, all \\L+1\\
+  matrices must have equal dimensions. While, if `stratified = TRUE`,
+  the first \\L\\ matrices must have equal dimensions and the last
+  matrix should have a different (greater) dimension than the others.
+  See ‘Details’.
 
 - family:
 
@@ -155,9 +156,9 @@ bfi(theta_hats = NULL,
   (minus 1) of the exponentiated polynomial baseline hazard function for
   the corresponding center, i.e., each element is the value of `q_l`
   (the output of the `MAP.estimation` function, `MAP.estimation()$q_l`).
-  This argument, `q_ls`, is only used if `family = "survival"`,
-  `family = "survival"` and `basehaz = "poly"`. It can also be a scalar
-  which represents the maximum value of the `q_l`'s across the centers.
+  This argument, `q_ls`, is only used if `family = "survival"` and
+  `basehaz = "poly"`. It can also be a scalar which represents the
+  maximum value of the `q_l`'s across the centers.
 
 - center_zero_sample:
 

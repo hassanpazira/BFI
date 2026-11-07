@@ -402,9 +402,10 @@ with S3 classes <code>c("bfi_local", "bfi")</code>.
 The inherited <code>"bfi"</code> class provides shared methods
 including <code><a href="summary.bfi.html">summary()</a></code>, <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code>, <code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code>,
 and <code><a href="https://rdrr.io/r/stats/vcov.html" class="external-link">vcov()</a></code>.</p>
-<p>For the case where <code>family = "survival"</code> and <code>basehaz = "poly"</code>, we assume that in all centers the \(q_\ell\)'s are equal.
-However, the order of the estimated polynomials may vary across the centers so that each center can have different number of parameters, say \(q_\ell\)+1.
-<!-- %Thus, in each location, the vector parameter is a (\eqn{ p+q_\ell} +1)-dimensional vector \eqn{\boldsymbol{\theta}_\ell^\top=(\boldsymbol{\beta}^\top, \boldsymbol{\omega}_\ell^\top)=(\beta_1, \ldots,\beta_p, \omega_{0}, \omega_{1}, \ldots, \omega_{q_\ell})}. -->
+<p>For <code>family = "survival"</code> and <code>basehaz = "poly"</code>,
+the estimated/selected polynomial order \(q_\ell\) may differ across
+centers. Consequently, the number of baseline hazard parameters,
+\(q_\ell + 1\), may also differ across centers.
 After obtaining the estimates within the local centers (by using <code>MAP.estimation()</code>) and having all estimates in the central server, we choose the order of the polynomial approximation for the combined data to be the maximum of the orders of the local polynomial functions, i.e., \(\max \{q_1, \ldots, q_L \}\), to approximate the global baseline hazard (exponentiated polynomial) function more accurately. This is because the higher-order polynomial approximation can capture more complex features and details in the combined data. Using the higher-order approximation ensures that we account for the higher-order moments and features present in the data while maintaining accuracy.
 As a result, all potential cases are stored in the <code>theta_A_poly</code> argument to be used in <code><a href="BFI.html">bfi()</a></code> by the central server.
 For further information on the <code>survival</code> family, refer to the 'References' section.</p>
@@ -800,7 +801,7 @@ Maintainer: Hassan Pazira &lt;h.pazira@arq.org&gt;</p>
 <span class="r-in"><span><span class="va">min_max_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>, <span class="va">max_times</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">fit4</span> <span class="op">&lt;-</span> <span class="fu">MAP.estimation</span><span class="op">(</span><span class="va">y</span>, <span class="va">X</span>, family <span class="op">=</span> <span class="st">"survival"</span>, Lambda <span class="op">=</span> <span class="va">Lambda</span>,</span></span>
 <span class="r-in"><span>                       basehaz <span class="op">=</span> <span class="st">"pwexp"</span>, n_intervals <span class="op">=</span> <span class="fl">3</span>,</span></span>
-<span class="r-in"><span>                       min_max_times<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>                       min_max_times <span class="op">=</span> <span class="va">min_max_times</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  No. observations in the intervals :  26 16 8 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  </span>

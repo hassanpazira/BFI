@@ -559,22 +559,21 @@ methods including
 [`coef()`](https://rdrr.io/r/stats/coef.html), and
 [`vcov()`](https://rdrr.io/r/stats/vcov.html).
 
-For the case where `family = "survival"` and `basehaz = "poly"`, we
-assume that in all centers the \\q\_\ell\\'s are equal. However, the
-order of the estimated polynomials may vary across the centers so that
-each center can have different number of parameters, say \\q\_\ell\\+1.
-After obtaining the estimates within the local centers (by using
-`MAP.estimation()`) and having all estimates in the central server, we
-choose the order of the polynomial approximation for the combined data
-to be the maximum of the orders of the local polynomial functions, i.e.,
-\\\max \\q_1, \ldots, q_L \\\\, to approximate the global baseline
-hazard (exponentiated polynomial) function more accurately. This is
-because the higher-order polynomial approximation can capture more
-complex features and details in the combined data. Using the
-higher-order approximation ensures that we account for the higher-order
-moments and features present in the data while maintaining accuracy. As
-a result, all potential cases are stored in the `theta_A_poly` argument
-to be used in
+For `family = "survival"` and `basehaz = "poly"`, the estimated/selected
+polynomial order \\q\_\ell\\ may differ across centers. Consequently,
+the number of baseline hazard parameters, \\q\_\ell + 1\\, may also
+differ across centers. After obtaining the estimates within the local
+centers (by using `MAP.estimation()`) and having all estimates in the
+central server, we choose the order of the polynomial approximation for
+the combined data to be the maximum of the orders of the local
+polynomial functions, i.e., \\\max \\q_1, \ldots, q_L \\\\, to
+approximate the global baseline hazard (exponentiated polynomial)
+function more accurately. This is because the higher-order polynomial
+approximation can capture more complex features and details in the
+combined data. Using the higher-order approximation ensures that we
+account for the higher-order moments and features present in the data
+while maintaining accuracy. As a result, all potential cases are stored
+in the `theta_A_poly` argument to be used in
 [`bfi()`](https://hassanpazira.github.io/BFI/reference/BFI.md) by the
 central server. For further information on the `survival` family, refer
 to the 'References' section.
@@ -1039,7 +1038,7 @@ max_times <- c(max(rexp(30)), max(rexp(50)), max(rexp(70)))
 min_max_times <- min(max(y$time), max_times)
 fit4 <- MAP.estimation(y, X, family = "survival", Lambda = Lambda,
                        basehaz = "pwexp", n_intervals = 3,
-                       min_max_times=max(y$time))
+                       min_max_times = min_max_times)
 #> 
 #>  No. observations in the intervals :  26 16 8 
 #>  

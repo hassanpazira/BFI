@@ -37,7 +37,7 @@ Pazira H. (2026). *BFI: An R Package for Bayesian Federated Inference*.
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A.
 (2026). *Bayesian federated inference for survival models*, *Journal of
 Applied Statistics*, 53(2): 203-223.
-\<https://doi.org/10.1080/02664763.2025.2511932\>
+[doi:10.1080/02664763.2025.2511932](https://doi.org/10.1080/02664763.2025.2511932)
 
 Jonker M.A., Pazira H. and Coolen A.C.C. (2025). *Bayesian Federated
 Inference for regression models based on non-shared medical center
