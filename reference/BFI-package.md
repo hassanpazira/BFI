@@ -11,7 +11,7 @@ the package, the user can fit models specifying Gaussian, Binomial
 |----------|--------------------|
 | Package: | BFI                |
 | Type:    | Package            |
-| Version: | 3.3.0              |
+| Version: | 3.4.0              |
 | License: | MIT + file LICENSE |
 
 `MAP.estimation` and `bfi` are the main functions. All other functions

@@ -367,75 +367,74 @@ surv.simulate(Z = Z, beta = beta, a = exp(-1), b = exp(1),
 
 # Two simulated datasets from 'gomp' with unknown 'u2' and censoring rate of 0.3:
 surv.simulate(Z = Z[2:3], beta = beta, a = exp(1), b = exp(2), u1 = 0.1,
-              cen_rate = 0.3, gen_data_from = "gomp", Trace = TRUE)
-#> censoring proportion for silos are:  0.01 0.01   with u2 = 20 
-#> censoring proportion for silos are:  0.01 0.01   with u2 = 14.19 
-#> censoring proportion for silos are:  0.02 0.02   with u2 = 10.10383 
-#> censoring proportion for silos are:  0.03 0.02   with u2 = 7.28991 
-#> censoring proportion for silos are:  0.04 0.03   with u2 = 5.275091 
-#> censoring proportion for silos are:  0.05 0.04   with u2 = 3.895249 
-#> censoring proportion for silos are:  0.07 0.07   with u2 = 2.896867 
-#> censoring proportion for silos are:  0.09 0.06   with u2 = 2.225017 
-#> censoring proportion for silos are:  0.12 0.09   with u2 = 1.72242 
-#> censoring proportion for silos are:  0.15 0.12   with u2 = 1.39092 
-#> censoring proportion for silos are:  0.17 0.15   with u2 = 1.162114 
-#> censoring proportion for silos are:  0.17 0.18   with u2 = 0.9992837 
-#> censoring proportion for silos are:  0.18 0.2   with u2 = 0.8723362 
-#> censoring proportion for silos are:  0.2 0.21   with u2 = 0.7788285 
-#> censoring proportion for silos are:  0.21 0.24   with u2 = 0.7064274 
-#> censoring proportion for silos are:  0.22 0.24   with u2 = 0.6536355 
-#> censoring proportion for silos are:  0.23 0.25   with u2 = 0.6087609 
-#> censoring proportion for silos are:  0.24 0.25   with u2 = 0.5731016 
-#> censoring proportion for silos are:  0.26 0.26   with u2 = 0.5429697 
-#> censoring proportion for silos are:  0.26 0.27   with u2 = 0.5212091 
-#> censoring proportion for silos are:  0.26 0.28   with u2 = 0.5016437 
-#> censoring proportion for silos are:  0.26 0.27   with u2 = 0.4858998 
-#> censoring proportion for silos are:  0.27 0.28   with u2 = 0.4684635 
-#> censoring proportion for silos are:  0.29 0.29   with u2 = 0.4560853 
-#> censoring proportion for silos are:  0.28 0.28   with u2 = 0.4499632 
-#> censoring proportion for silos are:  0.27 0.28   with u2 = 0.4408082 
-#> censoring proportion for silos are:  0.28 0.3   with u2 = 0.4296693 
+              cen_rate = 0.3, gen_data_from = "gomp", n.rep = 20, Trace = TRUE)
+#> censoring proportion for silos are:  0 0   with u2 = 20 
+#> censoring proportion for silos are:  0 0.01   with u2 = 14.08846 
+#> censoring proportion for silos are:  0.03 0.03   with u2 = 9.978424 
+#> censoring proportion for silos are:  0.02 0.03   with u2 = 7.263141 
+#> censoring proportion for silos are:  0.05 0.02   with u2 = 5.236445 
+#> censoring proportion for silos are:  0.04 0.05   with u2 = 3.833682 
+#> censoring proportion for silos are:  0.1 0.06   with u2 = 2.863466 
+#> censoring proportion for silos are:  0.09 0.07   with u2 = 2.235706 
+#> censoring proportion for silos are:  0.13 0.1   with u2 = 1.742991 
+#> censoring proportion for silos are:  0.15 0.12   with u2 = 1.420537 
+#> censoring proportion for silos are:  0.17 0.16   with u2 = 1.185602 
+#> censoring proportion for silos are:  0.16 0.17   with u2 = 1.024178 
+#> censoring proportion for silos are:  0.19 0.17   with u2 = 0.8849293 
+#> censoring proportion for silos are:  0.24 0.25   with u2 = 0.7800992 
+#> censoring proportion for silos are:  0.19 0.23   with u2 = 0.7406442 
+#> censoring proportion for silos are:  0.18 0.22   with u2 = 0.6728467 
+#> censoring proportion for silos are:  0.22 0.25   with u2 = 0.6082793 
+#> censoring proportion for silos are:  0.24 0.28   with u2 = 0.5702619 
+#> censoring proportion for silos are:  0.24 0.26   with u2 = 0.5487674 
+#> censoring proportion for silos are:  0.29 0.28   with u2 = 0.5203792 
+#> censoring proportion for silos are:  0.27 0.29   with u2 = 0.5127737 
+#> censoring proportion for silos are:  0.24 0.27   with u2 = 0.5031099 
+#> censoring proportion for silos are:  0.26 0.3   with u2 = 0.4825017 
+#> censoring proportion for silos are:  0.26 0.27   with u2 = 0.4716454 
+#> censoring proportion for silos are:  0.28 0.3   with u2 = 0.4561356 
+#> censoring proportion for silos are:  0.29 0.3   with u2 = 0.4504339 
 #> 
-#>  Desired u2 is: 0.4296693 ( with u1 = 0.1 ) 
+#>  Desired u2 is: 0.4504339 ( with u1 = 0.1 ) 
 #>  
 #> $D
 #> $D[[1]]
 #>            time status       Z.Z_1      Z.Z_2      Z.Z_3       Z.Z_4
-#> 1  3.491216e-01      0 -0.23027404 -1.2690632 -0.2673166 -1.55025861
-#> 2  8.252691e-04      1 -0.32916907  1.6265643  0.2278069  0.91480231
-#> 3  8.251961e-06      1  0.49944094 -0.7696502  0.3879469 -0.02710971
-#> 4  3.457653e-01      1 -0.92867906  0.2380289 -1.2894161  0.70696930
-#> 5  1.383742e-01      1 -0.96832355  0.2955621 -0.4037798  0.42578390
-#> 6  3.500657e-02      1 -0.05840795  0.9128333 -0.4899637  0.34036840
-#> 7  3.473370e-04      1  1.07646211 -0.8527642  0.2666801  1.41542485
-#> 8  3.788401e-04      1  1.68615000 -0.5295145  1.3293412  0.59569653
-#> 9  1.746997e-02      1  1.93659046  1.7751477 -1.2878720  0.26822334
-#> 10 1.887190e-01      0  0.51202240 -1.6117240  0.9368176 -0.75419444
+#> 1  0.2106542723      0 -0.23027404 -1.2690632 -0.2673166 -1.55025861
+#> 2  0.0005944113      1 -0.32916907  1.6265643  0.2278069  0.91480231
+#> 3  0.1555604435      1  0.49944094 -0.7696502  0.3879469 -0.02710971
+#> 4  0.1050634112      0 -0.92867906  0.2380289 -1.2894161  0.70696930
+#> 5  0.2151302641      1 -0.96832355  0.2955621 -0.4037798  0.42578390
+#> 6  0.1164965380      1 -0.05840795  0.9128333 -0.4899637  0.34036840
+#> 7  0.0006227727      1  1.07646211 -0.8527642  0.2666801  1.41542485
+#> 8  0.0007358005      1  1.68615000 -0.5295145  1.3293412  0.59569653
+#> 9  0.0470138629      1  1.93659046  1.7751477 -1.2878720  0.26822334
+#> 10 0.2162779242      0  0.51202240 -1.6117240  0.9368176 -0.75419444
 #> 
 #> $D[[2]]
 #>            time status       Z.Z_1       Z.Z_2       Z.Z_3      Z.Z_4
-#> 1  1.908368e-01      1 -1.44153951  0.84543041  1.63435118 -1.3325912
-#> 2  5.553927e-03      1  0.42547690  0.91067540 -0.02140968  0.3038766
-#> 3  2.554467e-05      1  0.63158367  0.08532232  0.64390401  1.2853559
-#> 4  2.509140e-01      1 -0.15201586 -0.91096893  0.32015202 -0.1719336
-#> 5  7.807589e-02      1 -1.48957048  0.09515951  1.29546216 -0.1569018
-#> 6  8.807375e-03      1  0.50347542  0.65439581 -0.57036674  1.1085850
-#> 7  2.237849e-01      0  0.95250295 -0.71764421  0.51880688 -1.5608051
-#> 8  2.597067e-04      1  0.04937487  1.07616067  1.37303835  0.3469306
-#> 9  7.799071e-03      1  0.37153942 -0.04582918 -0.45533515  1.2241016
-#> 10 2.913660e-01      0 -0.90718225 -2.49706485  1.40629078 -0.8608085
-#> 11 2.111413e-05      1  2.53099268 -0.03519585  0.12720354  1.4766462
-#> 12 5.090627e-03      1  1.13004355  1.34211808  0.83315557 -0.4462548
-#> 13 4.275830e-01      0 -0.73382185  0.15624687 -1.35326133  0.2320178
+#> 1  2.586856e-01      1 -1.44153951  0.84543041  1.63435118 -1.3325912
+#> 2  5.462072e-03      1  0.42547690  0.91067540 -0.02140968  0.3038766
+#> 3  2.847686e-04      1  0.63158367  0.08532232  0.64390401  1.2853559
+#> 4  1.093975e-01      0 -0.15201586 -0.91096893  0.32015202 -0.1719336
+#> 5  3.618165e-02      1 -1.48957048  0.09515951  1.29546216 -0.1569018
+#> 6  9.393410e-04      1  0.50347542  0.65439581 -0.57036674  1.1085850
+#> 7  3.323682e-01      0  0.95250295 -0.71764421  0.51880688 -1.5608051
+#> 8  7.648833e-06      1  0.04937487  1.07616067  1.37303835  0.3469306
+#> 9  2.865230e-03      1  0.37153942 -0.04582918 -0.45533515  1.2241016
+#> 10 2.516929e-01      0 -0.90718225 -2.49706485  1.40629078 -0.8608085
+#> 11 2.300286e-05      1  2.53099268 -0.03519585  0.12720354  1.4766462
+#> 12 7.871671e-03      1  1.13004355  1.34211808  0.83315557 -0.4462548
+#> 13 1.321910e-01      0 -0.73382185  0.15624687 -1.35326133  0.2320178
 #> 
 #> 
 #> $censor_propor
-#> [1] 0.2000000 0.2307692
+#> [1] 0.3000000 0.3076923
 #> 
 #> $u1
 #> [1] 0.1
 #> 
 #> $u2
-#> [1] 0.4296693
+#> [1] 0.4504339
 #> 
 ```
