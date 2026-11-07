@@ -168,7 +168,10 @@ specifying a symbolic description of the model to be fitted.
 It is an optional two-sided formula specifying the
 response and predictors. It must be used together with
 <code>data</code>, instead of <code>y</code> and <code>X</code>.
-Additive formulas using existing column names are supported.</p></dd>
+Additive formulas using existing column names are supported.
+For Gaussian and binomial models with an intercept and
+without treatment analysis, interaction terms and inline
+transformations are also supported.</p></dd>
 
 
 <dt id="arg-data">data<a class="anchor" aria-label="anchor" href="#arg-data"></a></dt>
@@ -378,8 +381,19 @@ An explicitly specified <code>intercept</code> argument must
 agree with the formula. Since its default is <code>TRUE</code>, formulas
 without an intercept require <code>intercept = FALSE</code>
 to be specified explicitly.
-The formula interface does not support interaction terms,
-inline transformations, or offsets.
+For Gaussian and binomial models with an intercept and
+<code>treatment = NULL</code>, the formula interface supports
+interaction terms, such as <code>y ~ age * sex</code>, and inline
+transformations, such as <code>y ~ log(age) + sex</code>.
+These features are not supported for no-intercept formulas,
+survival models, or treatment analyses. Offsets are not
+supported.</p>
+<p>For federated analyses, centers must use compatible factor
+levels, contrasts, and transformation definitions to ensure
+consistent parameterization. Transformations that depend on
+center-specific sample statistics, such as
+<code>scale(age)</code>, should be avoided unless common
+transformation parameters are specified across centers.
 For survival models, the response can be specified using
 <code>survival::Surv(time, status)</code> or
 <code>cbind(time, status)</code>. Only right-censored <code>Surv</code> responses are supported.</p>

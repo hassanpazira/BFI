@@ -215,8 +215,16 @@ a no-intercept formula, such as `y ~ x - 1` or use the original `X`
 interface with `intercept = FALSE`. If `intercept` is explicitly
 supplied, it must agree with the formula. Since its default is `TRUE`,
 no-intercept formulas, such as `y ~ x - 1`, require `intercept = FALSE`
-to be specified explicitly. Interactions, inline transformations, and
-offsets are not supported by the formula interface.
+to be specified explicitly. For Gaussian and binomial models with an
+intercept and `treatment = NULL`, the formula interface supports
+interaction terms and inline transformations. For example, `~ age * sex`
+and `~ log(age) + sex` are supported. These features are not supported
+for no-intercept formulas, survival models, or treatment analyses.
+Offsets are not supported.
+
+In federated analyses, the same factor coding and transformation
+definitions must be used across centers to ensure consistent
+parameterization.
 
 When `stratified = FALSE`, the length of the vector `lambda` depends on
 the covariate matrix `X`, `family`, `basehaz`, and whether an

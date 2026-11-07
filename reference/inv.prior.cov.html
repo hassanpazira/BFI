@@ -160,7 +160,16 @@ If <code>intercept</code> is explicitly supplied, it must agree with the formula
 Since its default is <code>TRUE</code>, no-intercept formulas, such as
 <code>y ~ x - 1</code>, require <code>intercept = FALSE</code>
 to be specified explicitly.
-Interactions, inline transformations, and offsets are not supported by the formula interface.</p>
+For Gaussian and binomial models with an intercept and
+<code>treatment = NULL</code>, the formula interface supports
+interaction terms and inline transformations. For example,
+<code>~ age * sex</code> and <code>~ log(age) + sex</code> are supported.
+These features are not supported for no-intercept formulas,
+survival models, or treatment analyses. Offsets are not
+supported.</p>
+<p>In federated analyses, the same factor coding and
+transformation definitions must be used across centers
+to ensure consistent parameterization.</p>
 <p>When <code>stratified = FALSE</code>, the length of the vector <code>lambda</code> depends on the covariate matrix <code>X</code>, <code>family</code>, <code>basehaz</code>, and whether an “intercept” is included in the model. For example, if the design matrix <code>X</code> has <code>p</code> columns with continuous or dichotomous covariates, <code>family = gaussian</code>, and <code>intercept = TRUE</code>, then <code>lambda</code> should have \(p+2\) elements. In this case, if in <code>X</code> there is a categorical covariate with \(q&gt;2\) categories, then the length of <code>lambda</code> increases with \(q-2\).</p>
 <p>All values of <code>lambda</code> should be positive as they represent the inverse of the variance of the Gaussian prior. This argument is considered as the inverse of the variance of the prior distribution for: \((\beta_0, \boldsymbol{\beta})\) if <code>family = "binomial"</code> and <code>intercept = TRUE</code>; \((\beta_0, \boldsymbol{\beta}, \eta )\) if <code>family = "gaussian"</code> and <code>intercept = TRUE</code>; and \(( \boldsymbol{\beta},\boldsymbol{\omega})\) if <code>family = "survival"</code>.</p>
 <p>If all values in the vector <code>lambda</code> equal, one value is enough to be given as entry.

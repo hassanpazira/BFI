@@ -256,7 +256,9 @@ MAP.estimation(y= NULL,
   description of the model to be fitted. It is an optional two-sided
   formula specifying the response and predictors. It must be used
   together with `data`, instead of `y` and `X`. Additive formulas using
-  existing column names are supported.
+  existing column names are supported. For Gaussian and binomial models
+  with an intercept and without treatment analysis, interaction terms
+  and inline transformations are also supported.
 
 - data:
 
@@ -533,11 +535,21 @@ intercept is included. Both formulas with an intercept, such as
 `y ~ x1 + x2 - 1`, are supported. An explicitly specified `intercept`
 argument must agree with the formula. Since its default is `TRUE`,
 formulas without an intercept require `intercept = FALSE` to be
-specified explicitly. The formula interface does not support interaction
-terms, inline transformations, or offsets. For survival models, the
-response can be specified using `survival::Surv(time, status)` or
-`cbind(time, status)`. Only right-censored `Surv` responses are
+specified explicitly. For Gaussian and binomial models with an intercept
+and `treatment = NULL`, the formula interface supports interaction
+terms, such as `y ~ age * sex`, and inline transformations, such as
+`y ~ log(age) + sex`. These features are not supported for no-intercept
+formulas, survival models, or treatment analyses. Offsets are not
 supported.
+
+For federated analyses, centers must use compatible factor levels,
+contrasts, and transformation definitions to ensure consistent
+parameterization. Transformations that depend on center-specific sample
+statistics, such as `scale(age)`, should be avoided unless common
+transformation parameters are specified across centers. For survival
+models, the response can be specified using
+`survival::Surv(time, status)` or `cbind(time, status)`. Only
+right-censored `Surv` responses are supported.
 
 The `MAP.estimation()` function returns an object with S3 classes
 `c("bfi_local", "bfi")`. The inherited `"bfi"` class provides shared

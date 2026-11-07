@@ -1,5 +1,25 @@
 # Changelog
 
+## BFI v3.4.0 (development)
+
+- Extended the formula/data interface of
+  [`MAP.estimation()`](https://hassanpazira.github.io/BFI/reference/MAP.estimation.md)
+  and
+  [`inv.prior.cov()`](https://hassanpazira.github.io/BFI/reference/inv.prior.cov.md)
+  to support interaction terms and inline transformations for Gaussian
+  and binomial models with an intercept and without treatment analysis.
+
+- Improved handling of expanded model matrices and parameter names,
+  including non-syntactic column names.
+
+- Added tests for numerical equivalence between the expanded formula
+  interface and the original y/X interface, covering prior precision
+  matrices, MAP estimates, and curvature matrices.
+
+- Updated documentation to clarify supported formula specifications and
+  the need for consistent factor coding and transformations across
+  centers.
+
 ## BFI v3.3.0
 
 CRAN release: 2026-10-28

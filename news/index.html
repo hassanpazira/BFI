@@ -37,6 +37,13 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="3.4.0" id="bfi-v340-development">BFI v3.4.0 (development)<a class="anchor" aria-label="anchor" href="#bfi-v340-development"></a></h2>
+<ul><li><p>Extended the formula/data interface of <code><a href="../reference/MAP.estimation.html">MAP.estimation()</a></code> and <code><a href="../reference/inv.prior.cov.html">inv.prior.cov()</a></code> to support interaction terms and inline transformations for Gaussian and binomial models with an intercept and without treatment analysis.</p></li>
+<li><p>Improved handling of expanded model matrices and parameter names, including non-syntactic column names.</p></li>
+<li><p>Added tests for numerical equivalence between the expanded formula interface and the original y/X interface, covering prior precision matrices, MAP estimates, and curvature matrices.</p></li>
+<li><p>Updated documentation to clarify supported formula specifications and the need for consistent factor coding and transformations across centers.</p></li>
+</ul></div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.3.0" id="bfi-v330">BFI v3.3.0<a class="anchor" aria-label="anchor" href="#bfi-v330"></a></h2><p class="text-muted">CRAN release: 2026-10-28</p>
 <ul><li><p>Added an optional formula/data interface to MAP.estimation() and inv.prior.cov(), while retaining the original y/X interface. The statistical estimation and federated aggregation procedures remain unchanged.</p></li>
 <li><p>Updated S3 class handling to distinguish local and federated BFI objects while preserving compatibility with existing print(), summary(), coef(), and vcov() methods.</p></li>
