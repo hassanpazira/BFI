@@ -22,7 +22,7 @@ Hassan Pazira, Emanuele Massa, Marianne A. Jonker\cr
 Maintainer: \packageMaintainer{BFI}
 }
 \references{
-Pazira H. (2027). \emph{BFI: An R Package for Bayesian Federated Inference}.
+Pazira H. (2026). \emph{BFI: An R Package for Bayesian Federated Inference}.
 <https://arxiv.org/abs/2609.27977>
 
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).

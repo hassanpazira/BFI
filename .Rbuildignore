@@ -10,3 +10,5 @@
 ^CRAN-SUBMISSION$
 ^\._.*$
 ^BFI_[0-9.]+\.pdf$
+^doc$
+^Meta$

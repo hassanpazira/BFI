@@ -363,6 +363,14 @@ fit_formula <- MAP.estimation(formula = f, data = local_data,
                               family = "gaussian", Lambda = Lambda_formula)
 summary(fit_formula, cur_mat = TRUE)
 
+# Interaction, inline transformation and factor expression
+f_extended <- y ~ X1 * factor(X2 > 0) + I(X3^2)
+Lambda_extended <- inv.prior.cov(formula = f_extended, data = local_data,
+                                 lambda = c(0.1, 1), family = "gaussian")
+fit_extended <- MAP.estimation(formula = f_extended, data = local_data,
+                               family = "gaussian", Lambda = Lambda_extended)
+coef(fit_extended)
+
 # MAP estimates without 'intercept'
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = 'gaussian',
                         intercept = FALSE)
