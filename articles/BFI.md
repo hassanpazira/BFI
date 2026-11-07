@@ -392,6 +392,49 @@ The differences illustrate the agreement between BFI and pooled-data MAP
 estimates in this example. Exact equality is not guaranteed because BFI
 relies on a quadratic approximation.
 
+### Interactions and inline transformations
+
+Starting with BFI 3.4.0, the formula/data interface supports
+interactions, inline transformations, and factor expressions for
+Gaussian and binomial models with an intercept and without
+treatment-effect analysis.
+
+For example, the following logistic regression includes an interaction
+between age and sex and a quadratic term for GCS:
+
+``` r
+
+f_extended <- mortality ~ age * factor(sex) + I(GCS^2)
+
+Lambda_extended <- inv.prior.cov(
+  formula = f_extended,
+  data = data1,
+  lambda = 0.01,
+  family = "binomial"
+)
+
+fit_extended <- MAP.estimation(
+  formula = f_extended,
+  data = data1,
+  family = "binomial",
+  Lambda = Lambda_extended,
+  control = list(maxit = 1000)
+)
+
+stopifnot(fit_extended$convergence == 0)
+coef(fit_extended)
+```
+
+    ##      (Intercept)              age     factor(sex)1         I(GCS^2) 
+    ##      -0.48980554       0.62853118      -0.08158154      -0.53110875 
+    ## age:factor(sex)1 
+    ##      -0.26769237
+
+The same formula and prior specification should be used at each
+participating center. Predictor definitions, factor levels, contrasts,
+and transformations must be consistent across centers to ensure
+compatible parameter estimates and curvature matrices.
+
 For more details see the following references.
 
 ## References

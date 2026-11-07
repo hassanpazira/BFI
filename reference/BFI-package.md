@@ -31,7 +31,7 @@ Maintainer: Hassan Pazira \<h.pazira@arq.org\>
 
 ## References
 
-Pazira H. (2027). *BFI: An R Package for Bayesian Federated Inference*.
+Pazira H. (2026). *BFI: An R Package for Bayesian Federated Inference*.
 \<https://arxiv.org/abs/2609.27977\>
 
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A.

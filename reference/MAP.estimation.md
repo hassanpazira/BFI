@@ -816,6 +816,18 @@ summary(fit_formula, cur_mat = TRUE)
 #> X3               6.1004  4.4364  3.0460 23.6700  0.2164
 #> sigma2           0.1341  0.2236  0.2071  0.2164 16.0822
 
+# Interaction, inline transformation and factor expression
+f_extended <- y ~ X1 * factor(X2 > 0) + I(X3^2)
+Lambda_extended <- inv.prior.cov(formula = f_extended, data = local_data,
+                                 lambda = c(0.1, 1), family = "gaussian")
+fit_extended <- MAP.estimation(formula = f_extended, data = local_data,
+                               family = "gaussian", Lambda = Lambda_extended)
+coef(fit_extended)
+#>           (Intercept)                    X1    factor(X2 > 0)TRUE 
+#>            -0.1718740             1.8094003             4.5650320 
+#>               I(X3^2) X1:factor(X2 > 0)TRUE                sigma2 
+#>            -0.4975911             0.6925957             6.6798007 
+
 # MAP estimates without 'intercept'
 Lambda <- inv.prior.cov(X, lambda = c(0.1, 1), family = 'gaussian',
                         intercept = FALSE)

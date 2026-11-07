@@ -382,6 +382,44 @@ estimates:</p>
 <p>The differences illustrate the agreement between BFI and pooled-data
 MAP estimates in this example. Exact equality is not guaranteed because
 BFI relies on a quadratic approximation.</p>
+</div>
+<div class="section level3">
+<h3 id="interactions-and-inline-transformations">Interactions and inline transformations<a class="anchor" aria-label="anchor" href="#interactions-and-inline-transformations"></a>
+</h3>
+<p>Starting with BFI 3.4.0, the formula/data interface supports
+interactions, inline transformations, and factor expressions for
+Gaussian and binomial models with an intercept and without
+treatment-effect analysis.</p>
+<p>For example, the following logistic regression includes an
+interaction between age and sex and a quadratic term for GCS:</p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">f_extended</span> <span class="op">&lt;-</span> <span class="va">mortality</span> <span class="op">~</span> <span class="va">age</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I</a></span><span class="op">(</span><span class="va">GCS</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">Lambda_extended</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/inv.prior.cov.html">inv.prior.cov</a></span><span class="op">(</span></span>
+<span>  formula <span class="op">=</span> <span class="va">f_extended</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">data1</span>,</span>
+<span>  lambda <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span>  family <span class="op">=</span> <span class="st">"binomial"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_extended</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/MAP.estimation.html">MAP.estimation</a></span><span class="op">(</span></span>
+<span>  formula <span class="op">=</span> <span class="va">f_extended</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">data1</span>,</span>
+<span>  family <span class="op">=</span> <span class="st">"binomial"</span>,</span>
+<span>  Lambda <span class="op">=</span> <span class="va">Lambda_extended</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>maxit <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html" class="external-link">stopifnot</a></span><span class="op">(</span><span class="va">fit_extended</span><span class="op">$</span><span class="va">convergence</span> <span class="op">==</span> <span class="fl">0</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">fit_extended</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">##      (Intercept)              age     factor(sex)1         I(GCS^2) </span></span>
+<span><span class="co">##      -0.48980554       0.62853118      -0.08158154      -0.53110875 </span></span>
+<span><span class="co">## age:factor(sex)1 </span></span>
+<span><span class="co">##      -0.26769237</span></span></code></pre>
+<p>The same formula and prior specification should be used at each
+participating center. Predictor definitions, factor levels, contrasts,
+and transformations must be consistent across centers to ensure
+compatible parameter estimates and curvature matrices.</p>
 <p>For more details see the following references.</p>
 </div>
 </div>
