@@ -1,10 +1,30 @@
 
+# BFI v3.4.0 (development)
+
+* Extended the formula/data interface of `MAP.estimation()` and
+  `inv.prior.cov()` to support interaction terms and inline
+  transformations for Gaussian and binomial models with an
+  intercept and without treatment analysis.
+
+* Improved handling of expanded model matrices and parameter
+  names, including non-syntactic column names.
+
+* Added tests for numerical equivalence between the expanded
+  formula interface and the original y/X interface, covering
+  prior precision matrices, MAP estimates, and curvature matrices.
+
+* Updated documentation to clarify supported formula specifications
+  and the need for consistent factor coding and transformations
+  across centers.
+
+
 # BFI v3.3.0
 
 * Added an optional formula/data interface to MAP.estimation()
   and inv.prior.cov(), while retaining the original y/X interface.
   The statistical estimation and federated aggregation procedures
   remain unchanged.
+
 * Updated S3 class handling to distinguish local and federated
   BFI objects while preserving compatibility with existing
   print(), summary(), coef(), and vcov() methods.

@@ -197,7 +197,7 @@ test_that("treatment column is preserved for no-intercept formulas", {
 })
 
 
-test_that("unsupported formula specifications are rejected", {
+test_that("formula expansions and invalid specifications are handled", {
 
   set.seed(105)
 
@@ -207,24 +207,29 @@ test_that("unsupported formula specifications are rejected", {
     z = rnorm(100)
   )
 
-  expect_error(
-    inv.prior.cov(
-      formula = y ~ x * z,
-      data = d,
-      family = "gaussian"
-    ),
-    "Use additive formulas"
+  d$x_positive <- exp(d$x)
+
+  # Interaction is now supported.
+  L_interaction <- inv.prior.cov(
+    formula = y ~ x * z,
+    data = d,
+    family = "gaussian"
   )
 
-  expect_error(
-    inv.prior.cov(
-      formula = y ~ log(x),
-      data = d,
-      family = "gaussian"
-    ),
-    "Use additive formulas"
+  expect_equal(dim(L_interaction), c(5L, 5L))
+  expect_true(all(is.finite(L_interaction)))
+
+  # Transformation is now supported.
+  L_log <- inv.prior.cov(
+    formula = y ~ log(x_positive),
+    data = d,
+    family = "gaussian"
   )
 
+  expect_equal(dim(L_log), c(3L, 3L))
+  expect_true(all(is.finite(L_log)))
+
+  # Offsets remain unsupported.
   expect_error(
     inv.prior.cov(
       formula = y ~ x + offset(z),
@@ -234,6 +239,7 @@ test_that("unsupported formula specifications are rejected", {
     "Offset"
   )
 
+  # Formula interface requires data.
   expect_error(
     inv.prior.cov(
       formula = y ~ x,
@@ -242,6 +248,7 @@ test_that("unsupported formula specifications are rejected", {
     "data.frame"
   )
 
+  # MAP estimation requires a response.
   expect_error(
     MAP.estimation(
       formula = ~ x + z,
@@ -252,8 +259,6 @@ test_that("unsupported formula specifications are rejected", {
     "response is required"
   )
 })
-
-
 
 test_that("intercept must agree with the formula", {
 
@@ -490,4 +495,155 @@ test_that("survival formula produces time and status", {
     ),
     "Only right-censored"
   )
+})
+
+test_that("expanded formulas match the legacy y/X interface", {
+
+  set.seed(20261106)
+
+  n <- 200
+
+  d <- data.frame(
+    age = runif(n, 20, 75),
+    sex = factor(
+      sample(c("F", "M"), n, replace = TRUE),
+      levels = c("F", "M")
+    )
+  )
+
+  d$yg <- 2 + 0.03 * d$age +
+    0.5 * (d$sex == "M") + rnorm(n)
+
+  d$yb <- rbinom(
+    n, 1,
+    plogis(-2 + 0.03 * d$age +
+             0.5 * (d$sex == "M"))
+  )
+
+  for (fam in c("gaussian", "binomial")) {
+
+    response <- if (fam == "gaussian") "yg" else "yb"
+
+    for (rhs in c("log(age) + sex", "age * sex")) {
+
+      f <- as.formula(paste(response, "~", rhs))
+
+      mm <- stats::model.matrix(f, data = d)
+
+      X <- as.data.frame(mm[, -1, drop = FALSE])
+      names(X) <- make.names(
+        colnames(mm)[-1],
+        unique = TRUE
+      )
+
+      L_formula <- inv.prior.cov(
+        formula = f,
+        data = d,
+        lambda = 0.01,
+        family = fam
+      )
+
+      L_legacy <- inv.prior.cov(
+        X = X,
+        lambda = 0.01,
+        family = fam
+      )
+
+      fit_formula <- MAP.estimation(
+        formula = f,
+        data = d,
+        family = fam,
+        Lambda = L_formula
+      )
+
+      fit_legacy <- MAP.estimation(
+        y = d[[response]],
+        X = X,
+        family = fam,
+        Lambda = L_legacy
+      )
+
+      expected_names <- c(
+        "(Intercept)",
+        colnames(mm)[-1],
+        if (fam == "gaussian") "sigma2"
+      )
+
+      # Check parameter naming and order.
+      expect_identical(
+        names(coef(fit_formula)),
+        expected_names
+      )
+
+      expect_identical(
+        rownames(L_formula),
+        expected_names
+      )
+
+      # Check numerical equivalence.
+      expect_equal(
+        unname(L_formula),
+        unname(L_legacy)
+      )
+
+      expect_equal(
+        unname(coef(fit_formula)),
+        unname(coef(fit_legacy))
+      )
+
+      expect_equal(
+        unname(fit_formula$A_hat),
+        unname(fit_legacy$A_hat)
+      )
+
+      expect_equal(fit_formula$convergence, 0)
+      expect_equal(fit_legacy$convergence, 0)
+    }
+  }
+})
+
+test_that("expanded formulas handle non-syntactic column names", {
+
+  set.seed(20261107)
+
+  d <- data.frame(
+    age = runif(120, 20, 75),
+    sex = factor(
+      rep(c("F", "M"), 60),
+      levels = c("F", "M")
+    )
+  )
+
+  d$yg <- 2 + 0.03 * d$age +
+    0.5 * (d$sex == "M") + rnorm(120)
+
+  f <- yg ~ factor(age > 40) + sex
+
+  L <- inv.prior.cov(
+    formula = f,
+    data = d,
+    lambda = 0.01,
+    family = "gaussian"
+  )
+
+  fit <- MAP.estimation(
+    formula = f,
+    data = d,
+    family = "gaussian",
+    Lambda = L
+  )
+
+  expect_equal(fit$convergence, 0)
+
+  expect_identical(
+    names(coef(fit)),
+    c(
+      "(Intercept)",
+      "factor(age > 40)TRUE",
+      "sexM",
+      "sigma2"
+    )
+  )
+
+  expect_true(all(is.finite(coef(fit))))
 })

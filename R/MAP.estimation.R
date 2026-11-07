@@ -15,6 +15,7 @@ MAP.estimation <- function(y = NULL, X = NULL,
                            formula = NULL, data = NULL) {
   # Lambda is the 'inverse' covariance matrix (could be a matrix or list of matrices)!
   family <- match.arg(family)
+  expanded_formula <- FALSE
   # Optional formula/data interface.
   # Convert formula inputs to the existing y/X representation.
   if (is.null(formula) && inherits(y, "formula") && is.null(X)) {
@@ -38,6 +39,7 @@ MAP.estimation <- function(y = NULL, X = NULL,
       response = TRUE,
       treatment = treatment
     )
+    expanded_formula <- isTRUE(formula_inputs$expanded)
     if (family != "survival") {
       if (!identical(intercept, formula_inputs$intercept)) {
         stop("'intercept' conflicts with the formula. ",
@@ -113,9 +115,13 @@ MAP.estimation <- function(y = NULL, X = NULL,
         y <- as.factor(Z_only_treat)
       }
     }
-    design_matrix <- paste(colnames(X), collapse = " + ")
-    formula <- as.formula(paste("y", design_matrix, sep = " ~ "))
-    y_X_vars <- model.maker(formula, as.data.frame(X), family)
+    design_matrix <- paste(.bfi_quote_design_terms(colnames(X)), collapse = " + ")
+    if (expanded_formula) {
+      y_X_vars <- list(X = cbind("(Intercept)" = rep(1, n), as.matrix(X)), y = y)
+    } else {
+      formula <- as.formula(paste("y", design_matrix, sep = " ~ "))
+      y_X_vars <- model.maker(formula, as.data.frame(X), family)
+    }
     # formula1 <- noquote(paste("y", paste(colnames(y_X_vars$X)[-1],
     #                                      collapse=" + "), sep=" ~ "))
     if (is.null(treatment)) {

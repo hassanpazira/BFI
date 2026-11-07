@@ -28,11 +28,17 @@
     stop("At least one predictor is required.")
   }
 
-  if (any(!predictors %in% names(data))) {
+  has_intercept <- attr(trm, "intercept") == 1L
+  expand_terms <- any(!predictors %in% names(data))
+
+  if (expand_terms &&
+      (!(family %in% c("gaussian", "binomial")) ||
+       !is.null(treatment) ||
+       !has_intercept)) {
     stop(
-      "Use additive formulas with original column names. ",
-      "Interactions and transformations must be created ",
-      "as separate columns first."
+      "Interactions and transformations are currently ",
+      "supported only for Gaussian and binomial models ",
+      "with an intercept and without treatment analysis."
     )
   }
 
@@ -50,9 +56,31 @@
     drop.unused.levels = FALSE
   )
 
-  X <- mf[, predictors, drop = FALSE]
+  if (expand_terms) {
 
-  has_intercept <- attr(trm, "intercept") == 1L
+    mm <- stats::model.matrix(
+      frame_terms,
+      data = mf
+    )
+
+    mm <- mm[
+      ,
+      colnames(mm) != "(Intercept)",
+      drop = FALSE
+    ]
+
+    if (ncol(mm) == 0L) {
+      stop("The formula produces no predictor columns.")
+    }
+
+    X <- as.data.frame(mm, optional = TRUE)
+    names(X) <- colnames(mm)
+
+  } else {
+
+    X <- mf[, predictors, drop = FALSE]
+
+  }
 
   # Preserve the original predictor columns, including factors.
   # The existing BFI functions apply factor contrasts internally,
@@ -114,10 +142,23 @@
       )
     }
   }
-
   list(
     X = X,
     y = y,
-    intercept = has_intercept
+    intercept = has_intercept,
+    expanded = expand_terms
   )
+}
+
+.bfi_quote_design_terms <- function(x) {
+  if (anyNA(x) ||
+      any(!nzchar(x)) ||
+      any(grepl("`", x, fixed = TRUE))) {
+    stop("Invalid design-matrix column names.")
+  }
+  needs_quotes <- make.names(x) != x | x == "."
+  x[needs_quotes] <- paste0(
+    "`", x[needs_quotes], "`"
+  )
+  x
 }

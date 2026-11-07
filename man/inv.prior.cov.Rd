@@ -92,7 +92,17 @@ If \code{intercept} is explicitly supplied, it must agree with the formula.
 Since its default is \code{TRUE}, no-intercept formulas, such as
 \code{y ~ x - 1}, require \code{intercept = FALSE}
 to be specified explicitly.
-Interactions, inline transformations, and offsets are not supported by the formula interface.
+For Gaussian and binomial models with an intercept and
+\code{treatment = NULL}, the formula interface supports
+interaction terms and inline transformations. For example,
+\code{~ age * sex} and \code{~ log(age) + sex} are supported.
+These features are not supported for no-intercept formulas,
+survival models, or treatment analyses. Offsets are not
+supported.
+
+In federated analyses, the same factor coding and
+transformation definitions must be used across centers
+to ensure consistent parameterization.
 
 When \code{stratified = FALSE}, the length of the vector \code{lambda} depends on the covariate matrix \code{X}, \code{family}, \code{basehaz}, and whether an ``intercept'' is included in the model. For example, if the design matrix \code{X} has \code{p} columns with continuous or dichotomous covariates, \code{family = gaussian}, and \code{intercept = TRUE}, then \code{lambda} should have \eqn{p+2} elements. In this case, if in \code{X} there is a categorical covariate with \eqn{q>2} categories, then the length of \code{lambda} increases with \eqn{q-2}.
 

@@ -10,6 +10,7 @@ inv.prior.cov <- function(X = NULL, lambda = 1, L = 2L,
                           max_order = 2, n_intervals = 4,
                           formula = NULL, data = NULL) {
   family <- match.arg(family)
+  expanded_formula <- FALSE
   if (is.null(formula) && inherits(X, "formula")) {
     formula <- X
     X <- NULL
@@ -25,6 +26,7 @@ inv.prior.cov <- function(X = NULL, lambda = 1, L = 2L,
       response = FALSE,
       treatment = treatment
     )
+    expanded_formula <- isTRUE(formula_inputs$expanded)
     if (family != "survival") {
       if (!identical(intercept, formula_inputs$intercept)) {
         stop("'intercept' conflicts with the formula. ",
@@ -84,9 +86,13 @@ inv.prior.cov <- function(X = NULL, lambda = 1, L = 2L,
       X <- X[, -wich_treat, drop = FALSE]
     }
   }
-  design_matrix <- paste(colnames(X), collapse = " + ")
+  design_matrix <- paste(.bfi_quote_design_terms(colnames(X)), collapse = " + ")
   formula <- as.formula(paste(" ", design_matrix, sep = " ~ "))
-  X <- model.maker(formula, as.data.frame(X), family)$X
+  if (expanded_formula) {
+    X <- cbind("(Intercept)" = rep(1, NROW(X)), as.matrix(X))
+  } else {
+    X <- model.maker(formula, as.data.frame(X), family)$X
+  }
   if (!is.null(treatment) && treat_round == "second") {
     if (ncol(X) != 2L) {
       stop("Expected an intercept and one treatment column.")

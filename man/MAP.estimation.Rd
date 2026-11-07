@@ -83,7 +83,10 @@ specifying a symbolic description of the model to be fitted.
 It is an optional two-sided formula specifying the
 response and predictors. It must be used together with
 \code{data}, instead of \code{y} and \code{X}.
-Additive formulas using existing column names are supported.}
+Additive formulas using existing column names are supported.
+For Gaussian and binomial models with an intercept and
+without treatment analysis, interaction terms and inline
+transformations are also supported.}
 
 \item{data}{A local data frame containing the response
 and predictor variables specified in \code{formula}.
@@ -224,8 +227,20 @@ An explicitly specified \code{intercept} argument must
 agree with the formula. Since its default is \code{TRUE}, formulas
 without an intercept require \code{intercept = FALSE}
 to be specified explicitly.
-The formula interface does not support interaction terms,
-inline transformations, or offsets.
+For Gaussian and binomial models with an intercept and
+\code{treatment = NULL}, the formula interface supports
+interaction terms, such as \code{y ~ age * sex}, and inline
+transformations, such as \code{y ~ log(age) + sex}.
+These features are not supported for no-intercept formulas,
+survival models, or treatment analyses. Offsets are not
+supported.
+
+For federated analyses, centers must use compatible factor
+levels, contrasts, and transformation definitions to ensure
+consistent parameterization. Transformations that depend on
+center-specific sample statistics, such as
+\code{scale(age)}, should be avoided unless common
+transformation parameters are specified across centers.
 For survival models, the response can be specified using
 \code{survival::Surv(time, status)} or
 \code{cbind(time, status)}. Only right-censored \code{Surv} responses are supported.
