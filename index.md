@@ -85,7 +85,7 @@ library(BFI)
 
 ## Update
 
-The latest version of the `BFI`package is `3.3.0`. To check the current
+The latest version of the `BFI`package is `3.4.0`. To check the current
 version of `BFI` installed in your R library, use:
 
 ``` r
@@ -95,8 +95,8 @@ packageVersion("BFI")
 
 ### Reference Manual
 
-[Download the BFI 3.3.0 Reference Manual
-(PDF)](https://github.com/hassanpazira/BFI/raw/master/BFI_3.3.0.pdf)
+[Download the BFI Reference Manual
+(PDF)](https://cran.r-project.org/web/packages/BFI/BFI.pdf)
 
 ## Details
 
