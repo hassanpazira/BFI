@@ -76,7 +76,7 @@ packageVersion("BFI")
 
 ### Reference Manual
 
-[Download the BFI Reference Manual (PDF)](https://cran.r-project.org/web/packages/BFI/BFI.pdf)
+[Download the BFI Reference Manual (PDF)](https://CRAN.R-project.org/package=BFI)
 
 ## Details
 
