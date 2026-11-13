@@ -24,14 +24,19 @@
 
 CRAN release: 2026-10-28
 
-- Added an optional formula/data interface to MAP.estimation() and
-  inv.prior.cov(), while retaining the original y/X interface. The
-  statistical estimation and federated aggregation procedures remain
-  unchanged.
+- Added an optional formula/data interface to
+  [`MAP.estimation()`](https://hassanpazira.github.io/BFI/reference/MAP.estimation.md)
+  and
+  [`inv.prior.cov()`](https://hassanpazira.github.io/BFI/reference/inv.prior.cov.md),
+  while retaining the original y/X interface. The statistical estimation
+  and federated aggregation procedures remain unchanged.
 
 - Updated S3 class handling to distinguish local and federated BFI
-  objects while preserving compatibility with existing print(),
-  summary(), coef(), and vcov() methods.
+  objects while preserving compatibility with existing
+  [`print()`](https://rdrr.io/r/base/print.html),
+  [`summary()`](https://hassanpazira.github.io/BFI/reference/summary.bfi.md),
+  [`coef()`](https://rdrr.io/r/stats/coef.html), and
+  [`vcov()`](https://rdrr.io/r/stats/vcov.html) methods.
 
 - Corrected Gaussian regression inference by consistently using the
   log-residual-variance parameterization for local estimation, curvature
@@ -44,12 +49,14 @@ CRAN release: 2026-10-28
   including curvature and covariance calculations.
 
 - Improved numerical stability of binomial regression by using a stable
-  softplus expression for the negative log-likelihood and plogis() for
-  the curvature calculation.
+  softplus expression for the negative log-likelihood and
+  [`plogis()`](https://rdrr.io/r/stats/Logistic.html) for the curvature
+  calculation.
 
 - Corrected propensity-score calculations in second-round Gaussian and
-  binomial treatment-effect analyses by applying plogis() directly to
-  the linear predictor. Improved numerical stability of propensity-score
+  binomial treatment-effect analyses by applying
+  [`plogis()`](https://rdrr.io/r/stats/Logistic.html) directly to the
+  linear predictor. Improved numerical stability of propensity-score
   calculations in survival models.
 
 - Added validation to reject unsupported cross-precision terms between
