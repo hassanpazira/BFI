@@ -4,8 +4,8 @@
 > #### Bayesian Federated Inference
 
 <!-- badges: start -->
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/BFI)](https://cran.r-project.org/package=BFI)
-[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/BFI)](https://cran.r-project.org/package=BFI)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/BFI)](https://CRAN.R-project.org/package=BFI)
+[![CRAN total downloads](https://cranlogs.r-pkg.org/badges/grand-total/BFI)](https://CRAN.R-project.org/package=BFI)
 [![CRAN monthly downloads](https://cranlogs.r-pkg.org/badges/BFI)](https://CRAN.R-project.org/package=BFI)
 [![Project Status: Active - The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)]( https://opensource.org/license/mit)
