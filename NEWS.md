@@ -20,14 +20,14 @@
 
 # BFI v3.3.0
 
-* Added an optional formula/data interface to MAP.estimation()
-  and inv.prior.cov(), while retaining the original y/X interface.
+* Added an optional formula/data interface to `MAP.estimation()`
+  and `inv.prior.cov()`, while retaining the original y/X interface.
   The statistical estimation and federated aggregation procedures
   remain unchanged.
 
 * Updated S3 class handling to distinguish local and federated
   BFI objects while preserving compatibility with existing
-  print(), summary(), coef(), and vcov() methods.
+  `print()`, `summary()`, `coef()`, and `vcov()` methods.
 
 * Corrected Gaussian regression inference by consistently using
   the log-residual-variance parameterization for local estimation,
@@ -41,11 +41,11 @@
 
 * Improved numerical stability of binomial regression by using
   a stable softplus expression for the negative log-likelihood
-  and plogis() for the curvature calculation.
+  and `plogis()` for the curvature calculation.
 
 * Corrected propensity-score calculations in second-round
   Gaussian and binomial treatment-effect analyses by applying
-  plogis() directly to the linear predictor. Improved numerical
+  `plogis()` directly to the linear predictor. Improved numerical
   stability of propensity-score calculations in survival models.
 
 * Added validation to reject unsupported cross-precision terms

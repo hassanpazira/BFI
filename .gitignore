@@ -8,3 +8,6 @@ docs
 ._*
 /doc/
 /Meta/
+/vignettes/center1.rds
+/vignettes/center2.rds
+/vignettes/center3.rds

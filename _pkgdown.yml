@@ -64,3 +64,11 @@ authors:
     text: "Developed by"
 
 
+home:
+  sidebar:
+    structure: [cranlink, license, community, citation, authors, dev]
+    components:
+      cranlink:
+        title: Links
+        text: "[View on CRAN](https://CRAN.R-project.org/package=BFI)"
+
