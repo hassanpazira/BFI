@@ -35,8 +35,8 @@ First, you need to install R and RStudio:
 
 - Install [R](https://www.R-project.org/)
 - Install [RStudio
-  Desktop](https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads?ref=rstudio-legacy)
-  (once you have R installed)
+  Desktop](https://docs.posit.co/ide/user/download.html) (once you have
+  R installed)
 
 For more details about installing R and RStudio, see [RStudio User
 Guide](https://docs.posit.co/ide/user/). If you need help learning R,
