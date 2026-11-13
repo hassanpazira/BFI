@@ -32,7 +32,7 @@ Maintainer: Hassan Pazira \<h.pazira@arq.org\>
 ## References
 
 Pazira H. (2026). *BFI: An R Package for Bayesian Federated Inference*.
-\<https://arxiv.org/abs/2609.27977\>
+<https://arxiv.org/abs/2609.27977>
 
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A.
 (2026). *Bayesian federated inference for survival models*, *Journal of
@@ -42,9 +42,9 @@ Applied Statistics*, 53(2): 203-223.
 Jonker M.A., Pazira H. and Coolen A.C.C. (2025). *Bayesian Federated
 Inference for regression models based on non-shared medical center
 data*, *Research Synthesis Methods*, 16(2): 383-423.
-\<https://doi.org/10.1017/rsm.2025.6\>
+[doi:10.1017/rsm.2025.6](https://doi.org/10.1017/rsm.2025.6)
 
 Jonker M.A., Pazira H. and Coolen A.C.C. (2024). *Bayesian federated
 inference for estimating statistical models based on non-shared
 multicenter data sets*, *Statistics in Medicine*, 43(12): 2421-2438.
-\<https://doi.org/10.1002/sim.10072\>
+[doi:10.1002/sim.10072](https://doi.org/10.1002/sim.10072)

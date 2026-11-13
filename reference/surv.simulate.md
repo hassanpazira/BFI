@@ -191,7 +191,7 @@ The function will be updated for `gen_data_from = `“gomp”.
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A.
 (2026). *Bayesian federated inference for survival models*, *Journal of
 Applied Statistics*, 53(2): 203-223.
-\<https://doi.org/10.1080/02664763.2025.2511932\>
+[doi:10.1080/02664763.2025.2511932](https://doi.org/10.1080/02664763.2025.2511932)
 
 ## Author
 
