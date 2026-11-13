@@ -11,7 +11,9 @@ There are three types of hospitals: peripheral hospital without a neuro-surgical
 }
 \usage{data(trauma)}
 \references{
-Jonker M.A., Pazira H. and Coolen A.C.C. (2024). \emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets}, \emph{Statistics in Medicine}, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
+Jonker M.A., Pazira H. and Coolen A.C.C. (2024).
+\emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets},
+\emph{Statistics in Medicine}, 43(12): 2421-2438. \doi{10.1002/sim.10072}
 
 Draaisma J.M.Th, de Haan A.F.J., Goris R.J.A. (1989).
 \emph{Preventable Trauma Deaths in the Netherlands -

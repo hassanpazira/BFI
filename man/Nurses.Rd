@@ -15,7 +15,9 @@ The dataset in the package is obtained from the original dataset by leaving out 
 \source{\url{https://multilevel-analysis.sites.uu.nl/datasets/}}
 
 \references{
-Hox, J., Moerbeek, M., and van de Schoot, R. (2010). \emph{Multilevel Analysis: Techniques and Applications}, Second Edition (2nd ed.). \emph{Routledge}. <https://doi.org/10.4324/9780203852279>
+Hox, J., Moerbeek, M., and van de Schoot, R. (2010).
+\emph{Multilevel Analysis: Techniques and Applications}, Second Edition (2nd ed.).
+\emph{Routledge}. <https://doi.org/10.4324/9780203852279>
 }
 \keyword{datasets}
 

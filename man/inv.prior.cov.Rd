@@ -133,11 +133,15 @@ The output of \code{inv.prior.cov()} can be used in the main functions \code{MAP
 Pazira H., Massa E., Weijers J.A.M., Coolen A.C.C. and Jonker M.A. (2026).
 \emph{Bayesian federated inference for survival models},
 \emph{Journal of Applied Statistics}, 53(2): 203-223.
-<https://doi.org/10.1080/02664763.2025.2511932>
+\doi{10.1080/02664763.2025.2511932}
 
-Jonker M.A., Pazira H. and Coolen A.C.C. (2025). \emph{Bayesian Federated Inference for regression models based on non-shared medical center data}, \emph{Research Synthesis Methods}, 16(2): 383-423. <https://doi.org/10.1017/rsm.2025.6>
+Jonker M.A., Pazira H. and Coolen A.C.C. (2025).
+\emph{Bayesian Federated Inference for regression models based on non-shared medical center data},
+\emph{Research Synthesis Methods}, 16(2): 383-423. \doi{10.1017/rsm.2025.6}
 
-Jonker M.A., Pazira H. and Coolen A.C.C. (2024). \emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets}, \emph{Statistics in Medicine}, 43(12): 2421-2438. <https://doi.org/10.1002/sim.10072>
+Jonker M.A., Pazira H. and Coolen A.C.C. (2024).
+\emph{Bayesian federated inference for estimating statistical models based on non-shared multicenter data sets},
+\emph{Statistics in Medicine}, 43(12): 2421-2438. \doi{10.1002/sim.10072}
 }
 
 \author{Hassan Pazira\cr
